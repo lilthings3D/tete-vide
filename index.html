@@ -171,7 +171,15 @@
   .art-body p:first-of-type::first-letter{
     font-family:'Fraunces',serif;font-weight:600;float:left;font-size:4.4rem;line-height:0.78;
     padding:6px 12px 0 0;color:var(--orange-deep);
-}
+  }
+  .art-body em{color:var(--ink);}
+  .art-foot{max-width:680px;margin:60px auto 0;border-top:1.5px solid var(--ink);padding:26px 0 0;text-align:center;}
+  .art-foot .sig{font-family:'Fraunces',serif;font-style:italic;font-size:1.3rem;color:var(--orange-deep);}
+  .more-link{
+    display:block;max-width:680px;margin:50px auto 90px;text-align:center;
+    font-family:'Fraunces',serif;font-size:0.95rem;letter-spacing:1px;color:var(--ink-soft);
+    cursor:pointer;
+  }
   .more-link:hover{color:var(--orange-deep);}
 
   /* ============ RESPONSIVE ============ */
@@ -218,7 +226,7 @@
   <footer class="site">
     <div class="wrap">
       <div class="f-brand">Les vérités qui font bien</div>
-      <p>Mon carnet ouvert. J'y écrit pour essayer comprendre. Reviens quand tu veux.</p>
+      <p>Un carnet ouvert. On y écrit pour comprendre, pas pour avoir raison. Reviens quand tu veux — il y aura toujours quelque chose de neuf à retourner dans sa tête.</p>
       <div class="sig">— A.</div>
     </div>
   </footer>
@@ -289,11 +297,6 @@
       </div>
       <div class="art-rule"></div>
       <div class="art-body">${a.corps}</div>
-      <div class="tweet-box">
-        <div class="tw-label">✎ Pour donner envie de cliquer</div>
-        <div class="tw-text" id="twtext">${a.tweet}</div>
-        <button class="tw-copy" onclick="copyTweet(this)">Copier le tweet</button>
-      </div>
       <div class="art-foot"><div class="sig">A.</div></div>
       <div class="more-link" onclick="openArticle('${next.id}')">Lire ensuite : « ${next.titre} » →</div>
     `;
@@ -309,14 +312,6 @@
     document.getElementById("home").style.display="block";
     window.scrollTo(0,0);
     history.pushState({},"","#");
-  }
-
-  function copyTweet(btn){
-    const t=document.getElementById("twtext").textContent;
-    navigator.clipboard.writeText(t).then(()=>{
-      const old=btn.textContent;btn.textContent="Copié ✓";
-      setTimeout(()=>btn.textContent=old,1600);
-    }).catch(()=>{btn.textContent="Copie manuelle";});
   }
 
   window.addEventListener("popstate",()=>{
