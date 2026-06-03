@@ -17,6 +17,27 @@ const ARTICLES = [
 <p>Du coup, je ne sais plus trop quoi penser quand je croise quelqu'un de très sûr de lui. Une partie de moi l'envie, et une autre se demande depuis combien de temps il n'a pas mis les pieds en terrain inconnu. Et quand c'est moi qui me sens largué dans un truc nouveau, j'essaie de me rappeler que cette sensation pourrie, c'est aussi la seule preuve que je suis encore en train d'avancer.</p>`
   },
   {
+    id: "bon-sens-bonne-direction",
+    titre: "Toujours dans le bon sens, jamais dans la bonne direction",
+    sousTitre: "Sur un monde devenu trop complexe pour qu'on puisse bien y agir",
+    cat: "Vivre",
+    tweet: "Je sais ce qui est bon pour moi. Je sais ce qui abîme la planète. Et entre les deux, aucune direction qui fasse du bien aux deux à la fois. On avance dans le bon sens vers nulle part.",
+    minutes: 4,
+    corps: `<p>Il y a une phrase qui me revient souvent : je suis dans le bon sens, mais pas dans la bonne direction. Longtemps je l'ai prise pour une histoire de cap personnel. Je crois maintenant qu'elle dit autre chose, de plus lourd. Elle dit qu'on peut faire chaque geste correctement et n'aller, malgré tout, dans aucune direction qui soit bonne.</p>
+ 
+<p>Le bon sens, c'est l'échelle du geste. Manger sain, faire attention, trier, ne pas gaspiller, essayer de bien faire à ma petite place. À ce niveau-là, je sais à peu près ce qui est juste. Mais dès que je lève les yeux vers la direction d'ensemble, tout se brouille. Parce qu'il n'existe pas, ou plus, de chemin qui soit bon à la fois pour moi et pour le monde. C'est ça le piège, et il a trois mâchoires.</p>
+ 
+<p>La première : ce qui me fait du bien coûte au monde. Ma vie confortable, mes déplacements, mon chauffage, la moindre de mes commodités a un prix écologique que je connais. Je me suis même demandé, un soir, si mon existence même n'était pas un désastre écologique. Vivre bien et ne pas nuire semblent devenus incompatibles, et je suis sommé de choisir un camp dans ma propre vie.</p>
+ 
+<p>La deuxième : même si j'acceptais de me sacrifier, rien ne dit que ça servirait. Mon geste individuel est une goutte dans un système qui me dépasse de toutes parts. Je peux me priver, m'astreindre, culpabiliser — l'aiguille ne bouge pas. Alors le sacrifice lui-même perd son sens : il ne sauve pas le monde, il ne fait que m'abîmer, moi, en pure perte. Ni le confort ni le renoncement ne mènent quelque part.</p>
+ 
+<p>La troisième, la plus vertigineuse : dans un monde aussi complexe, je ne suis même plus sûr de savoir ce qui est bon. Chaque solution traîne ses effets pervers. Le geste écologique cache parfois une nuisance ailleurs, le produit vertueux a une face sombre qu'on découvre dix ans plus tard. Les spécialistes appellent ça des problèmes « pernicieux » : des problèmes où il n'existe aucune solution propre, seulement des arbitrages, et où vouloir résoudre une chose en aggrave une autre. Le bien lui-même est devenu illisible.</p>
+ 
+<p>Les trois mâchoires se referment ensemble. Mon bien contre celui de la planète. Mon effort qui ne pèse rien. Et l'impossibilité de savoir, au fond, où est le bien. Aucune des trois ne se résout sans buter sur les deux autres. C'est un nœud et on ne le dénoue pas en tirant sur un fil.</p>
+ 
+<p>Je n'ai pas de sortie à proposer, et je me méfie de ceux qui en vendent. Dire « fais ta part, ça suffit » serait mentir sur l'échelle du problème. Dire « tout est foutu, profite » serait mentir sur ce qui compte. En réalité, personne ne sait où va l'humanité — alors comment garder le cap ?</p>`
+  },
+  {
     id: "conseils-viennent-de-toi",
     titre: "Tu peux écouter tous les conseils du monde",
     sousTitre: "Pourquoi un bon conseil ne sert à rien tant qu'il vient de l'extérieur",
@@ -34,27 +55,6 @@ const ARTICLES = [
 <p>C'est pour ça qu'on peut voir un proche foncer droit dans le mur, lui dire exactement la chose juste, et le regarder continuer sa route. Ça rend dingue. Mais il n'a pas mal compris. C'est juste que comprendre dans sa tête et basculer dans tout son corps, ce sont deux choses qui n'ont rien à voir. La première ne déclenche pas la seconde. La bascule ne se commande pas du dehors.</p>
 
 <p>Alors à quoi servent les conseils, si on ne peut pas les implanter ? À planter des graines, justement. Pas à provoquer le changement, mais à le préparer. On te dit une phrase, elle ne te fait rien sur le moment, elle se range quelque part et elle dort. Parfois des années. Et un jour ta propre vie vient la cogner, et là tu te dis « Oh, je vois». Ce jour-là, le conseil ne vient plus de l'autre. Il est devenu le tien. Et c'est seulement là, une fois qu'il vient de toi, qu'il se met enfin à agir.</p>`
-  },
-  {
-    id: "bon-sens-bonne-direction",
-    titre: "Toujours dans le bon sens, jamais dans la bonne direction",
-    sousTitre: "Sur un monde devenu trop complexe pour qu'on puisse bien y agir",
-    cat: "Vivre",
-    tweet: "Je sais ce qui est bon pour moi. Je sais ce qui abîme la planète. Et entre les deux, aucune direction qui fasse du bien aux deux à la fois. On avance dans le bon sens vers nulle part.",
-    minutes: 4,
-    corps:`<p>Il y a une phrase qui me revient souvent : je suis dans le bon sens, mais pas dans la bonne direction. Longtemps je l'ai prise pour une histoire de cap personnel. Je crois maintenant qu'elle dit autre chose, de plus lourd. Elle dit qu'on peut faire chaque geste correctement et n'aller, malgré tout, dans aucune direction qui soit bonne.</p>
- 
-<p>Le bon sens, c'est l'échelle du geste. Manger sain, faire attention, trier, ne pas gaspiller, essayer de bien faire à ma petite place. À ce niveau-là, je sais à peu près ce qui est juste. Mais dès que je lève les yeux vers la direction d'ensemble, tout se brouille. Parce qu'il n'existe pas, ou plus, de chemin qui soit bon à la fois pour moi et pour le monde. C'est ça le piège, et il a trois mâchoires.</p>
- 
-<p>La première : ce qui me fait du bien coûte au monde. Ma vie confortable, mes déplacements, mon chauffage, la moindre de mes commodités a un prix écologique que je connais. Je me suis même demandé, un soir, si mon existence même n'était pas un désastre écologique. Vivre bien et ne pas nuire semblent devenus incompatibles, et je suis sommé de choisir un camp dans ma propre vie.</p>
- 
-<p>La deuxième : même si j'acceptais de me sacrifier, rien ne dit que ça servirait. Mon geste individuel est une goutte dans un système qui me dépasse de toutes parts. Je peux me priver, m'astreindre, culpabiliser — l'aiguille ne bouge pas. Alors le sacrifice lui-même perd son sens : il ne sauve pas le monde, il ne fait que m'abîmer, moi, en pure perte. Ni le confort ni le renoncement ne mènent quelque part.</p>
- 
-<p>La troisième, la plus vertigineuse : dans un monde aussi complexe, je ne suis même plus sûr de savoir ce qui est bon. Chaque solution traîne ses effets pervers. Le geste écologique cache parfois une nuisance ailleurs, le produit vertueux a une face sombre qu'on découvre dix ans plus tard. Les spécialistes appellent ça des problèmes « pernicieux » : des problèmes où il n'existe aucune solution propre, seulement des arbitrages, et où vouloir résoudre une chose en aggrave une autre. Le bien lui-même est devenu illisible.</p>
- 
-<p>Les trois mâchoires se referment ensemble. Mon bien contre celui de la planète. Mon effort qui ne pèse rien. Et l'impossibilité de savoir, au fond, où est le bien. Aucune des trois ne se résout sans buter sur les deux autres. C'est un nœud et on ne le dénoue pas en tirant sur un fil.</p>
- 
-<p>Je n'ai pas de sortie à proposer, et je me méfie de ceux qui en vendent. Dire « fais ta part, ça suffit » serait mentir sur l'échelle du problème. Dire « tout est foutu, profite » serait mentir sur ce qui compte. En réalité, personne ne sait où va l'humanité — alors comment garder le cap ?</p>`
   },
   {
     id: "etre-moi-etre-quelquun",
