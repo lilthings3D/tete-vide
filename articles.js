@@ -298,8 +298,7 @@ const ARTICLES = [
 <p>Et c'est contre-productif pour une raison bête : on peut pas tout prévoir. Le réel dévie toujours du plan. Plus le plan est rigide et détaillé, plus il casse au premier imprévu, et plus tu te retrouves démuni — justement parce que t'as misé sur le contrôle au lieu de miser sur ta capacité à t'adapter. Le besoin de tout maîtriser te fragilise au lieu de te protéger.</p>
 
 <p>Y a un truc paradoxal et hyper libérateur là-dedans. Renforcer sa confiance en soi, c'est pas planifier mieux. C'est planifier moins, et apprendre à se reposer sur l'idée qu'on saura faire le moment venu. Faire confiance à ton toi futur, c'est lui laisser de la marge. Et cette marge, loin d'être un risque, c'est souvent ce qui te rend vraiment capable de répondre au réel tel qu'il arrive — pas tel que tu l'avais imaginé.</p>`
-  }
-];
+  },
   {
     id: "boire-tout-le-temps",
     titre: "Avant on buvait pour fêter, maintenant on boit tout le temps",
