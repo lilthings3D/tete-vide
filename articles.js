@@ -80,15 +80,15 @@ const ARTICLES = [
     cat: "Soi",
     tweet: "On peut passer trente ans à vouloir être exceptionnel et découvrir que le soulagement est de l'autre côté : être comme tout le monde. Et que c'est super.",
     minutes: 3,
-    corps: `<p>Je me suis écrit une lettre, un jour. Je la recopie, à peine retouchée, parce que je crois qu'elle peut parler à d'autres.</p>
+    corps: `<p>Je me suis écrit une lettre, un soir. Je la recopie presque telle quelle, parce que je me dis qu'elle peut parler à quelqu'un d'autre que moi.</p>
 
 <p><em>Fiston, aime-toi s'il te plaît. J'ai l'impression que tu as basé une bonne partie de ton amour-propre sur l'image d'un toi « exceptionnel ». Mais c'est inatteignable, mon pote. Je suis comme tout le monde, et c'est super en fait. Ni mieux ni moins bien que quiconque. Alors ne te prends pas trop la tête. Avance. Fais ce qui doit être fait. Trouve un objectif. N'aie pas peur de l'avenir, car de toute façon il finira par arriver. Chaque jour est une opportunité.</em></p>
 
-<p>Quand je relis ça, je trouve que le cœur tient en une idée : conditionner son amour de soi à l'exception, c'est se condamner. Parce que l'exception, par définition, ne dure pas, ne se mesure pas, et recule à chaque fois qu'on l'atteint. C'est une cible qui s'éloigne quand on s'en approche.</p>
+<p>Quand je relis ça, tout tient pour moi dans une seule idée : conditionner l'amour qu'on se porte au fait d'être exceptionnel, c'est se condamner d'avance. Parce que l'exception, ça ne tient pas en place. Ça ne se mesure pas, ça ne dure pas, et le pire, c'est que ça recule à chaque fois qu'on croit l'atteindre. Tu cours après une ligne d'arrivée qui s'éloigne à mesure que tu avances. Tu peux pas gagner à ce jeu-là.</p>
 
-<p>Les psychologues parlent d'estime de soi conditionnelle : quand on ne s'autorise à se respecter qu'à condition de performer, de réussir, d'être supérieur. C'est un terrain miné, parce que la moindre baisse de régime devient une preuve qu'on ne vaut rien. À l'opposé, il y a l'idée de bienveillance envers soi — se traiter comme on traiterait un ami qui galère, sans complaisance mais sans haine.</p>
+<p>Les psys ont un nom pour ça : l'estime de soi conditionnelle. C'est quand tu ne t'autorises à te respecter qu'à condition de performer, de réussir, d'être au-dessus. Et c'est un piège, parce que le moindre jour sans, la moindre baisse de régime, devient aussitôt la preuve que tu vaux rien. À l'inverse, il y a un truc tout bête mais difficile : te parler comme tu parlerais à un pote qui galère. Sans te mentir, mais sans te démolir non plus.</p>
 
-<p>« Je suis comme tout le monde et c'est super. » Je pensais que ce serait une résignation. C'est en réalité le contraire : c'est ce qui permet enfin de poser le fardeau et d'avancer. Et l'avenir, de toute façon, arrivera. Autant l'accueillir sans le craindre.</p>`
+<p>« Je suis comme tout le monde et c'est super. » Au début je croyais que c'était une façon d'abandonner, de se résigner. C'est exactement l'inverse. C'est ce qui te permet enfin de poser le sac que tu trimballes et de marcher. L'avenir, de toute façon, il va arriver, que tu flippes ou pas. Alors autant le laisser venir sans le craindre. A.</p>`
   },
   {
     id: "colere-cest-la-peur",
