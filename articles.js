@@ -45,17 +45,16 @@ const ARTICLES = [
     cat: "Soi",
     tweet: "Et si la confiance en soi qu'on admire chez les autres n'était que le confort de ne jamais quitter ce qu'on maîtrise déjà ? Une idée qui dérange.",
     minutes: 4,
-    corps: `<p>On semble calme et sûr de soi quand on domine son environnement, peu importe où l'on place le curseur. Prends un homme qui ne s'intéresse qu'au football, qui ne connaît que ça et ne fait que ça : il aura l'air sûr de lui, parce qu'il évolue en permanence dans un terrain qu'il maîtrise. À l'inverse, dès qu'on le sort de là, l'assurance tombe.</p>
+  corps: `<p>Je crois qu'on a l'air calme et sûr de soi quand on domine son environnement. Prends le gars qui ne s'intéresse qu'au foot. Il ne connaît que ça, il ne parle que de ça, il ne fait que ça. Forcément il a l'air solide : il passe sa vie sur un terrain qu'il maîtrise par cœur. Mais sors-le de là, lance-lui un sujet qu'il ne connaît pas, et regarde l'assurance se dégonfler d'un coup. Elle n'était pas en lui. Elle était dans le terrain.</p>
 
-<p>Ça m'amène à une idée un peu désagréable : être sûr de soi, ce serait souvent rester planté dans ce qu'on connaît déjà. La confiance qu'on admire chez quelqu'un n'est parfois que le signe qu'il ne s'aventure jamais hors de sa zone. Il a l'air solide parce qu'il n'a jamais le sol qui se dérobe.</p>
+<p>Et ça m'amène à une idée un peu désagréable, mais que je trouve assez juste : être sûr de soi, ce serait souvent juste rester planté dans ce qu'on connaît déjà. Cette confiance qu'on admire chez quelqu'un, ce n'est parfois rien d'autre que le signe qu'il ne s'aventure jamais ailleurs. Il a l'air inébranlable parce qu'il s'arrange pour ne jamais être sur un sol qui bouge.</p>
 
-<p>Il y a un effet bien documenté en psychologie qui résonne ici : l'effet Dunning-Kruger. Plus on est incompétent dans un domaine, moins on dispose des outils pour mesurer son incompétence — donc plus on se sent sûr. À l'inverse, les vrais experts doutent davantage, parce qu'ils voient l'étendue de ce qu'ils ne maîtrisent pas. L'assurance et la compétence ne vont pas toujours dans le même sens.</p>
+<p>Il y a un truc en psycho qui colle bien là-dessus, l'effet Dunning-Kruger : plus tu es nul dans un domaine, moins tu as les outils pour voir à quel point tu es nul — donc plus tu te sens sûr de toi. Et c'est l'inverse pour les vrais bons : eux doutent, parce qu'ils voient l'immensité de ce qu'ils ne maîtrisent pas encore. Autrement dit, l'assurance et la compétence ne vont pas forcément ensemble. Parfois elles vont même dans le sens opposé.</p>
 
-<p>Je n'en tire pas qu'il faut se mépriser quand on doute. Plutôt l'inverse. Le doute, l'inconfort, la sensation de patauger, c'est souvent le signe qu'on est en train de quitter son terrain pour un autre. C'est le prix de l'apprentissage. Celui qui ne doute jamais a peut-être simplement arrêté de bouger.</p>
+<p>Attention, je ne dis pas qu'il faut se détester quand on doute. Au contraire. Le doute, le malaise, cette sensation horrible de patauger — c'est très souvent le signe qu'on est en train de quitter son terrain pour un autre, plus grand. C'est juste le prix de l'apprentissage. Celui qui ne doute jamais n'est peut-être pas plus fort que toi. Il a juste arrêté de bouger.</p>
 
-<p>Alors quand je croise quelqu'un de très sûr de lui, je ne sais plus très bien s'il faut l'envier. Et quand je me sens perdu dans quelque chose de nouveau, j'essaie de me rappeler que cette sensation désagréable est aussi la preuve que je ne stagne pas.</p>`
+<p>Du coup, je ne sais plus trop quoi penser quand je croise quelqu'un de très sûr de lui. Une partie de moi l'envie, et une autre se demande depuis combien de temps il n'a pas mis les pieds en terrain inconnu. Et quand c'est moi qui me sens largué dans un truc nouveau, j'essaie de me rappeler que cette sensation pourrie, c'est aussi la seule preuve que je suis encore en train d'avancer.</p>`
   },
-  {
     id: "etre-moi-etre-quelquun",
     titre: "J'essaie d'être quelqu'un, et c'est là mon erreur",
     sousTitre: "Sur la différence entre devenir soi et se fabriquer un personnage",
