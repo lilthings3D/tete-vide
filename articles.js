@@ -74,6 +74,36 @@ const ARTICLES = [
 <p>Et il y a un truc marrant là-dedans : on n'est jamais aussi unique que quand on arrête d'essayer de l'être. Le personnage qu'on se fabrique, il ressemble toujours à d'autres personnages — c'est du déjà-vu. Alors que toi, le vrai, t'as pas d'équivalent. À condition d'arrêter de te maquiller pour ressembler à l'idée que tu te fais de quelqu'un de bien.</p>`
   },
   {
+    id: "vis-rouillee-echelle",
+    titre: "La vis rouillée à trois mètres du sol",
+    sousTitre: "Sur ce qui devient soudain le plus important au monde",
+    cat: "Vivre",
+    tweet: "Une vis rouillée, sur une échelle, à trois mètres du sol. D'habitude tu ne la regardes même pas. À cet instant précis, c'est l'objet le plus important de ta vie.",
+    minutes: 3,
+    corps: `<p>Tu es en haut d'une échelle bancale, à trois mètres du sol, et soudain tout ton monde se résume à un seul truc : une vis rouillée, à moitié foutue, qui tient l'ensemble. Une vis que tu n'aurais jamais remarquée par terre. Là, c'est l'objet le plus important que tu possèdes. Tout repose dessus, littéralement.</p>
+
+<p>Ce qui me fascine là-dedans, c'est à quel point l'importance d'une chose n'a rien à voir avec la chose elle-même. La vis n'a pas changé. C'est ta position qui a changé. Tu es passé d'un endroit où elle ne comptait pas à un endroit où elle compte plus que tout. La valeur, ce n'est pas dans l'objet, c'est dans la situation.</p>
+
+<p>Et je crois que c'est vrai pour presque tout. Les choses ne valent pas en elles-mêmes ; elles valent par rapport à ce qu'elles tiennent. Un verre d'eau ne vaut rien jusqu'au moment où tu meurs de soif. Une personne ne te manque pas jusqu'au jour où elle n'est plus là. On passe notre temps à mépriser des vis rouillées, en attendant le jour où on se retrouvera en équilibre dessus.</p>
+
+<p>Alors peut-être que la sagesse, ce serait de regarder les vis avant d'être à trois mètres du sol. De donner aux choses leur juste poids pendant qu'on a encore les deux pieds par terre, au lieu d'attendre le vertige pour comprendre ce qui nous tenait.</p>`
+  },
+  {
+    id: "vivre-vieux-grand-mere",
+    titre: "À quoi ça sert de vivre vieux ?",
+    sousTitre: "Une question posée en sortant de chez ma grand-mère",
+    cat: "Vivre",
+    tweet: "Je sors de chez ma grand-mère. Elle dit qu'elle ne vit plus vraiment, qu'elle en a assez. Et je me retrouve sans réponse : à quoi ça sert, au juste, de vivre vieux ?",
+    minutes: 4,
+    corps: `<p>Je viens de voir ma grand-mère, et c'est terrible. Pas terrible parce qu'elle souffrirait atrocement, ni parce qu'elle voudrait mourir — ce n'est pas ça. Terrible parce qu'elle dit, simplement, qu'elle ne vit plus vraiment. Qu'elle en a assez. Et moi je ressors de là avec une question que je n'arrive plus à fermer : à quoi ça sert, au juste, de vivre vieux ?</p>
+
+<p>On nous répète qu'il faut préserver la vie, l'allonger, la défendre coûte que coûte. C'est devenu une évidence qu'on ne discute même plus. Mais quand la personne concernée, elle, te dit qu'elle ne vit plus — qu'est-ce qu'on préserve, exactement ? La durée ? Le nombre d'années ? J'ai du mal à comprendre à quel moment c'est la quantité de vie qu'on protège, et à quel moment c'est autre chose.</p>
+
+<p>Je ne dis pas ça pour trancher. Je n'ai pas de réponse, et je me méfie des gens qui en ont une toute prête sur ce sujet. Les philosophes parlent depuis longtemps de la différence entre vivre et exister — entre le simple fait de respirer et le fait d'avoir une vie qui a encore un goût, une direction, des gens. Quand le deuxième s'efface, est-ce qu'on tient encore à la personne, ou juste à l'idée qu'on se fait d'elle ?</p>
+
+<p>Ce que je retiens, c'est surtout que cette question, on préfère ne pas la regarder. On vénère la longévité sans jamais demander : longévité de quoi ? Ma grand-mère, elle, l'a posée à ma place, sans drame, presque en passant. Et je crois que c'est ça qui m'a remué. Pas la peur de la mort. La question, beaucoup plus dérangeante, de ce qui fait qu'une vie reste une vie.</p>`
+  },
+  {
     id: "exceptionnel-comme-tout-le-monde",
     titre: "Aime-toi, fiston",
     sousTitre: "Lettre à un moi qui voulait être exceptionnel",
@@ -185,6 +215,111 @@ const ARTICLES = [
 <p>Et y a une part de fantasme bien confortable là-dedans. Tant que j'ai rien choisi, je peux continuer à me croire potentiellement tout : futur écrivain, futur voyageur, futur n'importe quoi. Choisir, c'est accepter de devenir une chose précise, donc finie, donc qui peut rater. Le possible, ça me protège de l'épreuve du réel. C'est douillet, et c'est stérile.</p>
 
 <p>Le remède, c'est pas de trouver la porte parfaite — elle existe pas. C'est d'accepter qu'avancer dans une direction imparfaite vaut mieux que rester immobile devant la perfection imaginaire. Une décision moyenne suivie d'action bat une décision idéale qui vient jamais. Le mouvement, même approximatif, c'est ce qui transforme le possible en réel. Le reste, c'est juste du sur-place déguisé en patience.</p>`
+  },
+  {
+    id: "conscience-universelle",
+    titre: "Et si tu étais l'humanité entière ?",
+    sousTitre: "Sur une statistique entendue à la radio",
+    cat: "Penser",
+    tweet: "« 8% des jeunes ont des idées suicidaires. » Et si cette statistique ne parlait pas de millions de gens, mais d'une seule personne — toi — dont 8% des pensées sont sombres ? Une conscience unique, qui se croit multiple.",
+    minutes: 4,
+    corps: `<p>J'ai entendu une statistique à la radio : huit pour cent des jeunes auraient des idées suicidaires. Et au lieu de l'entendre comme tout le monde, mon cerveau l'a retournée d'une façon bizarre. Et si ces huit pour cent ne décrivaient pas huit jeunes sur cent, mais une seule personne dont huit pour cent des pensées sont sombres ?</p>
+
+<p>Voilà l'idée que je voudrais creuser, peut-être sous forme d'histoire. Imagine une conscience unique. Une seule. Et toute l'humanité ne serait que les facettes de cette conscience, dispersées dans des milliards de corps. Quand on dit « huit pour cent des gens », on parlerait en réalité de huit pour cent de toi. La statistique ne s'adresserait qu'à une personne, et cette personne, ce serait toi. Tout entier.</p>
+
+<p>Ce n'est pas une idée neuve, au fond — des mystiques, des philosophes, certaines traditions parlent depuis longtemps d'une conscience unique qui se prend pour plusieurs. L'idée que la séparation entre les êtres serait une illusion, et que ce qui se vit là-bas, chez l'autre, se vit en réalité en toi. Mais ce qui m'intéresse, c'est de le raconter. Un personnage qui serait l'humanité. Un type, un seul, qui contiendrait toutes les voix.</p>
+
+<p>Parce que si c'était vrai, ça changerait tout dans la façon de regarder l'autre. Le mec en face de toi ne serait pas un étranger, ce serait une autre partie de toi en train de vivre un autre morceau de l'expérience. Faire le mal à quelqu'un, ce serait se le faire à soi. Sa douleur serait la tienne, en différé. Je trouve que c'est une fiction qui mérite d'être écrite — ne serait-ce que pour voir l'effet que ça fait de regarder le monde comme ça, ne serait-ce que cinq minutes.</p>`
+  },
+  {
+    id: "tous-artisans",
+    titre: "Et si tout le monde devenait artisan ?",
+    sousTitre: "Sur une idée qui se mord la queue",
+    cat: "Société",
+    tweet: "Et si les jeunes faisaient d'abord un métier manuel, puis basculaient vers le cérébral ? L'idée me plaît. Sauf qu'elle se mord la queue : si tout le monde est artisan, l'artisanat ne sert plus personne.",
+    minutes: 4,
+    corps: `<p>J'ai une idée qui me trotte dans la tête, et je n'arrive pas à savoir si elle est bonne ou si elle se sabote toute seule. L'idée, c'est que les jeunes, disons de quinze à trente ans, fassent d'abord un métier manuel. Qu'ils apprennent à fabriquer, réparer, construire avec leurs mains. Et qu'ensuite, plus tard, ils basculent vers un métier plus cérébral, les sciences, la réflexion, ce genre de choses.</p>
+
+<p>Ça me semble juste, intuitivement. Commencer par le concret, par le corps, par le réel qui résiste sous les doigts, avant de passer à l'abstrait. On comprend mieux le monde quand on l'a touché. Et il y a quelque chose de sain à ne pas séparer les gens en deux castes — ceux qui pensent et ceux qui font — mais à faire passer tout le monde par les deux.</p>
+
+<p>Sauf que là, l'idée se mord la queue. Si tous les jeunes sont artisans en même temps, on se retrouve avec une armée d'artisans qui fabriquent des choses dont plus personne n'a besoin, parce que tout le monde sait déjà les faire. L'artisanat tire sa valeur de sa rareté, du fait que certains savent et d'autres pas. Le généraliser, c'est le vider de son sens. Je tombe sur le même mur à chaque fois.</p>
+
+<p>Alors je reste avec ça : une intuition que je trouve belle, et une logique qui la défait. Peut-être que la solution n'est pas que tout le monde fasse pareil au même moment, mais qu'on cesse de mépriser la main au profit de la tête. Peut-être que le problème n'est pas dans le métier, mais dans la hiérarchie qu'on plaque dessus. Je ne sais pas. C'est une de ces idées que je préfère laisser ouverte plutôt que de la forcer à une conclusion.</p>`
+  },
+  {
+    id: "se-disputer-avant-de-partir",
+    titre: "On se dispute juste avant de se quitter",
+    sousTitre: "Sur une manière discrète de rendre la séparation supportable",
+    cat: "Émotions",
+    tweet: "J'ai remarqué un truc : juste avant qu'on se quitte — déménagement, nouveau boulot, ou pire — on a tendance à se disputer, à s'éloigner. Comme si on rendait le départ plus facile en se fâchant d'abord.",
+    minutes: 3,
+    corps: `<p>J'ai remarqué un truc, et plus j'y pense, plus il me semble vrai. Juste avant qu'une personne parte — un déménagement, un changement de boulot, ou la pire des séparations, quand quelqu'un meurt — on a souvent tendance à se disputer avec elle. À s'éloigner. À se parler moins, ou plus du tout.</p>
+
+<p>Et je ne crois pas que ce soit un hasard. Je crois qu'on s'éloigne pour que la séparation se passe le plus tranquillement possible. Comme si, en se fâchant d'abord, on préparait le terrain. On crée de la distance volontairement, pour que le moment où l'autre disparaît pour de bon ne nous arrache pas tout d'un coup. On se quitte un peu avant de se quitter vraiment.</p>
+
+<p>Les gens qui étudient le deuil et l'attachement décrivent quelque chose qui ressemble à ça : une façon de se détacher par anticipation, de commencer à faire le vide avant que le vide nous soit imposé. Ce n'est pas forcément conscient. Ça passe par une dispute idiote, un agacement qui sort de nulle part, une froideur qu'on ne s'explique pas. On croit en vouloir à l'autre. En vrai, on se protège.</p>
+
+<p>Ce qui me touche, c'est que c'est une forme d'amour à l'envers. On s'éloigne parce qu'on tient trop. La dispute n'est pas le signe qu'on s'en fiche, c'est le signe inverse — qu'on n'est pas prêt à perdre, et qu'on cherche maladroitement à amortir le choc. Savoir ça, ça donne envie de faire le contraire : se rapprocher exprès, juste avant. Quitte à ce que ça fasse plus mal après.</p>`
+  },
+  {
+    id: "agrandir-son-cercle",
+    titre: "Pourquoi c'est plus dur d'agrandir un grand cercle",
+    sousTitre: "Sur l'effort qu'il faut pour étendre son territoire",
+    cat: "Penser",
+    tweet: "Agrandir un cercle de 1 à 2, c'est facile. De 11 à 12, c'est énorme. La surface grandit bien plus vite que le rayon. C'est pareil pour une carrière, un réseau, une vie : chaque pas en avant coûte plus que le précédent.",
+    minutes: 3,
+    corps: `<p>Voilà une idée que je trouve utile pour comprendre plein de choses. Imagine que tu cherches à dominer ton environnement, à étendre ton territoire — au boulot, par exemple. Tu commences à t'entendre avec un collègue, puis un autre, et petit à petit tu agrandis ton cercle. Sauf que ce cercle, plus il est grand, plus il devient difficile à agrandir encore.</p>
+
+<p>C'est une histoire de géométrie, en fait. La surface d'un cercle ne grandit pas à la même vitesse que son rayon. Passer de un à deux, c'est un petit effort. Passer de onze à douze, c'est énorme, parce qu'à ce niveau-là chaque petit pas de rayon ajoute une bande de surface gigantesque. Plus tu es déjà grand, plus le moindre agrandissement te coûte cher.</p>
+
+<p>Et je trouve que ça décrit bien la vie. Au début, tout progresse vite : tes premiers amis, tes premières compétences, tes premiers clients. Chaque pas se voit. Puis ça ralentit. Pas parce que tu fais moins d'efforts, mais parce que le même effort produit, en proportion, beaucoup moins. Tu rames autant pour avancer de moins en moins. C'est démoralisant si tu ne comprends pas ce qui se passe.</p>
+
+<p>Mais une fois que tu l'as compris, ça déculpabilise. Si tu as l'impression de stagner alors que tu travailles plus que jamais, ce n'est peut-être pas que tu es nul. C'est peut-être juste que tu es déjà loin du centre, et qu'à cette distance, agrandir le cercle d'un cran demande un travail qui ne se voit pas. Le ralentissement n'est pas un échec. C'est le prix de la taille.</p>`
+  },
+  {
+    id: "creer-ses-demons",
+    titre: "Si je crée mes démons, je peux créer qui les combat",
+    sousTitre: "Sur l'idée qu'on fabrique ses propres obstacles",
+    cat: "Soi",
+    tweet: "Si nous créons nos propres démons, alors j'ai créé ma pauvreté. Et si je l'ai créée, je peux aussi créer la personne capable de se battre contre. C'est vertigineux, mais c'est presque une bonne nouvelle.",
+    minutes: 3,
+    corps: `<p>Il y a cette phrase qui traîne, l'idée qu'on crée ses propres démons. D'habitude on la dit pour s'accuser : c'est ta faute, tu t'es mis tout seul dans cette galère. Mais je l'ai prise par l'autre bout, et là elle devient presque réjouissante. Si j'ai créé ma pauvreté, alors je dois pouvoir créer aussi la personne qui va se battre contre.</p>
+
+<p>Parce que c'est ça que la phrase oublie de dire. Si tu es l'auteur de tes obstacles, tu es aussi l'auteur de ce qui les affronte. Le même pouvoir qui a fabriqué le problème peut fabriquer la réponse. Ce n'est pas seulement « tu es responsable de tes malheurs » — c'est « tu es responsable, donc tu peux ». La responsabilité, qui ressemble d'abord à une condamnation, est en fait la seule porte de sortie.</p>
+
+<p>Je sais que c'est en partie une illusion. On ne crée pas vraiment sa pauvreté tout seul ; il y a le monde, les circonstances, l'injustice, le hasard. Personne ne choisit entièrement son point de départ. Mais à l'intérieur de ce qui dépend de moi, l'idée tient. Plutôt que d'attendre un sauveur, je peux décider de devenir, peu à peu, celui qui sauve. Fabriquer le personnage qui me sortira de là.</p>
+
+<p>C'est vertigineux parce que ça enlève l'excuse. Tant que les démons venaient de l'extérieur, je pouvais attendre qu'ils s'en aillent tout seuls. S'ils viennent de moi, l'attente n'a plus de sens — il faut créer le combattant. Et bizarrement, ça me donne plus d'énergie que de réconfort. C'est moins doux, mais c'est plus vrai.</p>`
+  },
+  {
+    id: "penser-a-sa-retraite",
+    titre: "Comment penser à sa retraite quand on se croit condamné ?",
+    sousTitre: "Sur l'impossibilité d'épargner pour un futur auquel on ne croit pas",
+    cat: "Monde moderne",
+    tweet: "Comment veux-tu épargner pour ta retraite quand tu es persuadé de mourir jeune, ou que le monde va s'effondrer avant ? Si le futur n'existe pas dans ta tête, planifier devient absurde. Et on est nombreux dans ce cas.",
+    minutes: 3,
+    corps: `<p>On me parle de retraite, d'épargne, de plans sur trente ans, et je n'arrive pas à m'y projeter. Pas par paresse ni par insouciance. C'est plus profond : comment veux-tu penser à ta retraite quand, au fond, tu es à moitié persuadé de mourir jeune, ou que le monde va s'effondrer avant que tu y arrives ? Si la retraite n'existera plus, à quoi bon préparer pour elle ?</p>
+
+<p>Je crois que c'est une chose que les générations d'avant ont du mal à comprendre. Pour planifier, il faut d'abord croire qu'il y aura un futur stable où récolter ce qu'on a semé. Cette croyance, beaucoup l'avaient sans même y penser. Aujourd'hui, entre le climat, l'instabilité, le sentiment diffus que tout peut basculer, ce socle s'est fissuré. Et quand le socle se fissure, toute la logique de l'épargne devient bancale.</p>
+
+<p>Ce n'est pas qu'on soit incapables de différer une récompense. C'est qu'on n'arrive plus à croire à la récompense elle-même. Pourquoi sacrifier le présent pour un futur qu'on imagine annulé ? La fameuse capacité à attendre, à investir dans le long terme, repose sur une confiance dans le lendemain qui, pour toute une partie d'entre nous, s'est éteinte.</p>
+
+<p>Je n'ai pas la solution. Mais je me dis qu'au lieu de répéter aux jeunes qu'ils sont imprévoyants, il faudrait peut-être entendre ce que cette imprévoyance raconte : une perte de foi dans l'avenir. On ne répare pas ça avec un tableau Excel. On le répare en redonnant aux gens des raisons de croire qu'il y aura un après — et ça, c'est un chantier autrement plus grand qu'un plan d'épargne.</p>`
+  },
+  {
+    id: "pas-assez-intelligents-pour-le-mal",
+    titre: "Personne ne fait le mal pour le mal",
+    sousTitre: "Sur le fait qu'on ne mesure pas la portée de nos actes",
+    cat: "Penser",
+    tweet: "Je ne crois pas que les gens fassent le mal pour le plaisir de faire le mal. Je crois plutôt qu'on n'est pas assez intelligents pour saisir l'étendue réelle de nos actions. Le mal serait moins une intention qu'un aveuglement.",
+    minutes: 3,
+    corps: `<p>Je ne crois pas que les gens fassent le mal pour faire le mal. L'image du méchant qui se réjouit de nuire, je n'y crois pas vraiment. Je pense plutôt qu'on n'est tout simplement pas assez intelligents pour saisir l'étendue de nos actions — où elles vont, qui elles touchent, ce qu'elles déclenchent trois maillons plus loin.</p>
+
+<p>Ça change pas mal de choses, cette façon de voir. Si le mal venait d'une volonté pure de nuire, il faudrait des monstres. Mais des monstres, il n'y en a presque pas. Ce qu'il y a, à la pelle, ce sont des gens qui agissent dans leur petit périmètre, sans voir les ondes que ça propage. Le mal, alors, ce n'est pas une intention. C'est un défaut de vision. On est myopes face aux conséquences.</p>
+
+<p>Des penseurs ont décrit quelque chose de cet ordre — l'idée que le pire ne vient pas toujours de la cruauté, mais de l'irréflexion, de l'absence de recul, de gens ordinaires qui ne pensent pas jusqu'au bout de ce qu'ils font. Ce n'est pas rassurant, parce que ça veut dire que n'importe qui peut y participer. Mais c'est plus juste, je crois, que l'histoire commode des bons contre les méchants.</p>
+
+<p>Et si c'est vrai, la conclusion est intéressante : la lutte contre le mal serait moins une affaire de morale que de lucidité. Moins « sois quelqu'un de bien » que « regarde plus loin que le bout de ton geste ». Faire l'effort, à chaque fois, d'imaginer où va ce qu'on fait. C'est épuisant, et on n'y arrivera jamais complètement. Mais c'est peut-être la seule vraie façon de faire un peu moins de dégâts.</p>`
   },
   {
     id: "esperer-apocalypse",
