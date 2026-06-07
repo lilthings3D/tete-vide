@@ -2,20 +2,21 @@ const ARTICLES = [
   {
     id: "sur-de-soi-stagner",
     titre: "Être sûr de soi, c'est peut-être juste stagner",
-    sousTitre: "Sur le calme trompeur de ceux qui ne sortent jamais de leur terrain",
+    sousTitre: "Sur le calme trompeur de ceux qu'on croisent dans leur zone de confort",
     cat: "Soi",
-    tweet: "Et si la confiance en soi qu'on admire chez les autres n'était que le confort de ne jamais quitter ce qu'on maîtrise déjà ? Une idée qui dérange.",
-    minutes: 4,
-    corps: `<p>Je crois qu'on a l'air calme et sûr de soi quand on domine son environnement. Prends le gars qui ne s'intéresse qu'au foot. Il ne connaît que ça, il ne parle que de ça, il ne fait que ça. Forcément il a l'air solide : il passe sa vie sur un terrain qu'il maîtrise par cœur. Mais sors-le de là, lance-lui un sujet qu'il ne connaît pas, et regarde l'assurance se dégonfler d'un coup. Elle n'était pas en lui. Elle était dans le terrain.</p>
+    tweet: "Et si la confiance en soi qu'on admire chez les autres n'était que le confort de ne jamais quitter ce qu'on maîtrise déjà ?",
+    minutes: 2,
+  corps: `<p>Imagine que tu es au bar, tu regardes un match de foot tranquillement, et les types à côté de toi ont une conversation super poussée sur la technique et la tactique de chaque équipe. Ils connaissent le nom des joueurs, et presque leur régime alimentaire. Toi, tu es juste venu boire une bière, mais une petite voix dans ta tête commence à s'éveiller : tu n'es pas au niveau, tu n'es peut-être même pas légitime pour regarder un match de foot, et tu devrais sans doute rentrer chez toi et te taper des vidéos YouTube pour comprendre les tactiques et apprendre le nom des joueurs par cœur — le minimum pour avoir le droit d'apprécier un match. Alors qu'on s'en fiche complètement. Ces mecs-là ne connaissent sans doute rien à ton domaine à toi, et c'est pas un jugement : on a une capacité limitée, cérébrale et temporelle, on ne peut pas tout connaître. Mais toi, sur le moment, tu t'imagines que tu n'es pas à la hauteur.</p>
 
-<p>Et ça m'amène à une idée un peu désagréable, mais que je trouve assez juste : être sûr de soi, ce serait souvent juste rester planté dans ce qu'on connaît déjà. Cette confiance qu'on admire chez quelqu'un, ce n'est parfois rien d'autre que le signe qu'il ne s'aventure jamais ailleurs. Il a l'air inébranlable parce qu'il s'arrange pour ne jamais être sur un sol qui bouge.</p>
+<p>Et c'est ça qui me fascine. Ces gars assis à côté, avec leur aura de mecs qui maîtrisent, qui balancent leurs analyses comme des vérités, tu les regardes et tu te sens petit. Sauf que tu les regardes briller sur leur terrain à eux. Ils brillent ici, et seulement ici. Mets-les sur ton terrain à toi, lance-leur un sujet que tu connais par cœur, et regarde l'assurance se dégonfler d'un coup. Ce qui ressemblait à de la force, c'était juste le confort d'un sol qu'ils connaissent et que tu ne connais pas.</p>
 
-<p>Il y a un truc en psycho qui colle bien là-dessus, l'effet Dunning-Kruger : plus tu es nul dans un domaine, moins tu as les outils pour voir à quel point tu es nul — donc plus tu te sens sûr de toi. Et c'est l'inverse pour les vrais bons : eux doutent, parce qu'ils voient l'immensité de ce qu'ils ne maîtrisent pas encore. Autrement dit, l'assurance et la compétence ne vont pas forcément ensemble. Parfois elles vont même dans le sens opposé.</p>
+<p>Et c'est là que je vois un vrai piège, pas pour toi au bar, mais pour eux. Briller dans un seul truc sans jamais en sortir, ça finit toujours pareil : on stagne. T'as beau être le roi de ton petit terrain, si tu poses jamais les pieds ailleurs, t'arrêtes d'avancer sans même t'en rendre compte. Cette aura de mec sûr de lui, c'est souvent juste le panneau « je bouge plus ». Il a l'air inébranlable, mais c'est parce qu'il a arrêté de se mettre en danger. Solide et immobile, c'est le même truc vu sous deux angles.</p>
 
-<p>Attention, je ne dis pas qu'il faut se détester quand on doute. Au contraire. Le doute, le malaise, cette sensation horrible de patauger — c'est très souvent le signe qu'on est en train de quitter son terrain pour un autre, plus grand. C'est juste le prix de l'apprentissage. Celui qui ne doute jamais n'est peut-être pas plus fort que toi. Il a juste arrêté de bouger.</p>
+<p>Et puis faut se rappeler un détail qui change tout : vouloir être le meilleur, c'est perdu d'avance. Quel que soit ton domaine, y aura toujours un type quelque part — un Coréen qui fait que ça depuis ses cinq ans — pour te mettre une raclée quoi que tu fasses. Si ton plan c'est d'arriver au sommet, t'as déjà perdu. Y aura toujours plus fort. Alors autant viser autre chose : pas être le meilleur, juste continuer à bouger.</p>
 
-<p>Du coup, je ne sais plus trop quoi penser quand je croise quelqu'un de très sûr de lui. Une partie de moi l'envie, et une autre se demande depuis combien de temps il n'a pas mis les pieds en terrain inconnu. Et quand c'est moi qui me sens largué dans un truc nouveau, j'essaie de me rappeler que cette sensation pourrie, c'est aussi la seule preuve que je suis encore en train d'avancer.</p>`,
-    brouillon: true
+<p>Parce que le vrai poison dans cette histoire, c'est la comparaison. Tu te mesures à quelqu'un sur son terrain, tu te trouves nul, et t'oublies que tu compares ta polyvalence à sa spécialité. C'est truqué dès le départ. Lui brille que là ; toi tu te balades sur dix terrains où t'es moyen — mais au moins tu bouges. Ce malaise de te sentir largué dans un truc nouveau, c'est pas la preuve que t'es nul. C'est la preuve que t'as pas arrêté d'explorer.</p>
+
+<p>Du coup, je sais plus trop quoi penser quand je croise quelqu'un de super sûr de lui. Une partie de moi l'envie, et une autre se demande depuis combien de temps il a pas mis les pieds en terrain inconnu. Et quand c'est moi qui patauge dans un truc que je découvre, j'essaie de me rappeler que cette sensation pourrie vaut mille fois mieux que le confort tranquille du mec qui brille dans sa case, en train, doucement, de prendre la poussière.</p>`,  brouillon: true
   },
   {
     id: "bon-sens-bonne-direction",
