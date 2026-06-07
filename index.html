@@ -222,6 +222,49 @@
     color:var(--ink-soft);margin:0 0 24px;line-height:1.5;font-size:0.98rem;
   }
 
+  /* ---- NOTE ---- */
+  .note-section{
+    max-width:680px;margin:60px auto 0;padding:36px 0 0;
+    border-top:1.5px solid var(--ink);font-family:'Spectral',serif;
+  }
+  .note-section h2{
+    font-family:'Fraunces',serif;font-weight:300;font-size:1.7rem;
+    color:var(--orange-deep);margin:0 0 6px;
+  }
+  .note-section .c-intro{color:var(--ink-soft);margin:0 0 24px;line-height:1.5;font-size:0.98rem;}
+  .note-result{display:flex;align-items:baseline;gap:14px;margin-bottom:6px;}
+  .note-moy{font-family:'Fraunces',serif;font-size:2.6rem;font-weight:600;color:var(--orange-deep);line-height:1;}
+  .note-label{font-style:italic;font-size:1.15rem;color:var(--ink);}
+  .note-count{font-size:0.78rem;letter-spacing:1px;text-transform:uppercase;color:var(--ink-soft);margin-left:auto;}
+  .note-scale{display:flex;justify-content:space-between;font-size:0.72rem;letter-spacing:0.5px;text-transform:uppercase;color:var(--ink-soft);margin:14px 0 8px;}
+  .note-buttons{display:flex;gap:8px;}
+  .note-btn{
+    flex:1;padding:12px 0;font-family:'Fraunces',serif;font-size:1.05rem;
+    border:1.2px solid var(--rule-strong);border-radius:4px;background:transparent;
+    color:var(--ink-soft);cursor:pointer;transition:all .18s ease;
+  }
+  .note-btn:hover{background:var(--orange-deep);color:#fff;border-color:var(--orange-deep);transform:translateY(-2px);}
+  .note-err{color:var(--ink-soft);font-style:italic;}
+
+  /* ---- COMMENTAIRES ---- */
+  .comm-form{display:flex;flex-direction:column;gap:12px;margin-bottom:30px;}
+  .comm-form input,.comm-form textarea{
+    padding:11px 13px;border:1px solid var(--rule-strong);border-radius:8px;
+    background:#fffdf8;font-family:'Spectral',serif;font-size:1rem;color:var(--ink);resize:vertical;
+  }
+  .comm-form input:focus,.comm-form textarea:focus{outline:none;border-color:var(--orange);}
+  .comm-form button{
+    align-self:flex-start;background:var(--orange-deep);color:#fff;border:none;
+    padding:11px 28px;border-radius:8px;font-family:'Fraunces',serif;font-size:0.98rem;cursor:pointer;transition:background .2s;
+  }
+  .comm-form button:hover{background:#8f3f12;}
+  .comm-item{padding:16px 0;border-bottom:1px solid var(--rule);}
+  .comm-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;}
+  .comm-pseudo{font-family:'Fraunces',serif;font-weight:600;color:var(--orange-deep);font-size:1.02rem;}
+  .comm-date{font-size:0.74rem;letter-spacing:0.5px;text-transform:uppercase;color:var(--ink-soft);}
+  .comm-msg{color:var(--ink);line-height:1.6;font-size:1rem;white-space:pre-wrap;}
+  .comm-vide{color:var(--ink-soft);font-style:italic;}
+
   /* ============ CONTACT ============ */
   .contact{
     max-width:600px;margin:80px auto 0;padding:40px 32px;
@@ -396,27 +439,96 @@
     });
   }
 
-  function chargerGiscus(terme){
-    const container=document.getElementById("giscus-container");
-    if(!container)return;
-    container.innerHTML="";
-    const s=document.createElement("script");
-    s.src="https://giscus.app/client.js";
-    s.setAttribute("data-repo","lilThings3D/tete-vide");
-    s.setAttribute("data-repo-id","R_kgDOSwNDcw");
-    s.setAttribute("data-category","Announcements");
-    s.setAttribute("data-category-id","DIC_kwDOSwNDc84C-rcL");
-    s.setAttribute("data-mapping","specific");
-    s.setAttribute("data-term",terme);
-    s.setAttribute("data-strict","0");
-    s.setAttribute("data-reactions-enabled","1");
-    s.setAttribute("data-emit-metadata","0");
-    s.setAttribute("data-input-position","top");
-    s.setAttribute("data-theme","light");
-    s.setAttribute("data-lang","fr");
-    s.setAttribute("crossorigin","anonymous");
-    s.async=true;
-    container.appendChild(s);
+  // ===== SUPABASE =====
+  const SUPA_URL = "https://xvevjmzxnvqjmojwsxww.supabase.co";
+  const SUPA_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh2ZXZqbXp4bnZxam1vandzeHd3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA3OTEzNDgsImV4cCI6MjA5NjM2NzM0OH0.Cn7VrL42KmM8PCTDAKvr22oQPQ09AACOTC95xWnjMrE";
+  const SUPA_HEADERS = {
+    "apikey": SUPA_KEY,
+    "Authorization": "Bearer " + SUPA_KEY,
+    "Content-Type": "application/json"
+  };
+
+  const ECHELLE = ["s'écroule","vacille","tient debout","solide","inébranlable"];
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, c =>
+      ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  // ---- NOTES ----
+  async function chargerNote(articleId){
+    const box = document.getElementById("note-box");
+    if(!box) return;
+    try{
+      const r = await fetch(`${SUPA_URL}/rest/v1/notes?article_id=eq.${encodeURIComponent(articleId)}&select=valeur`, {headers: SUPA_HEADERS});
+      const data = await r.json();
+      const n = data.length;
+      const moy = n ? data.reduce((s,x)=>s+x.valeur,0)/n : 0;
+      renderNote(articleId, moy, n);
+    }catch(e){ box.innerHTML = "<p class='note-err'>Impossible de charger la note.</p>"; }
+  }
+
+  function renderNote(articleId, moy, n){
+    const box = document.getElementById("note-box");
+    if(!box) return;
+    const label = n ? ECHELLE[Math.round(moy)-1] || "—" : "pas encore noté";
+    let boutons = "";
+    for(let i=1;i<=5;i++){
+      boutons += `<button class="note-btn" onclick="voter('${articleId}',${i})" title="${ECHELLE[i-1]}">${i}</button>`;
+    }
+    box.innerHTML = `
+      <div class="note-result">
+        <span class="note-moy">${n ? moy.toFixed(1) : "—"}</span>
+        <span class="note-label">${label}</span>
+        <span class="note-count">${n} vote${n>1?"s":""}</span>
+      </div>
+      <div class="note-scale"><span>s'écroule</span><span>tient debout</span><span>inébranlable</span></div>
+      <div class="note-buttons">${boutons}</div>
+    `;
+  }
+
+  async function voter(articleId, valeur){
+    try{
+      await fetch(`${SUPA_URL}/rest/v1/notes`, {
+        method:"POST", headers: SUPA_HEADERS,
+        body: JSON.stringify({article_id: articleId, valeur: valeur})
+      });
+      chargerNote(articleId);
+    }catch(e){ alert("Erreur lors du vote, réessaie."); }
+  }
+
+  // ---- COMMENTAIRES ----
+  async function chargerCommentaires(articleId){
+    const liste = document.getElementById("comm-liste");
+    if(!liste) return;
+    try{
+      const r = await fetch(`${SUPA_URL}/rest/v1/commentaires?article_id=eq.${encodeURIComponent(articleId)}&select=*&order=created_at.desc`, {headers: SUPA_HEADERS});
+      const data = await r.json();
+      if(!data.length){ liste.innerHTML = "<p class='comm-vide'>Aucune réaction pour l'instant. Sois le premier.</p>"; return; }
+      liste.innerHTML = data.map(c=>{
+        const d = new Date(c.created_at).toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"});
+        return `<div class="comm-item">
+          <div class="comm-head"><span class="comm-pseudo">${escapeHtml(c.pseudo)}</span><span class="comm-date">${d}</span></div>
+          <div class="comm-msg">${escapeHtml(c.message)}</div>
+        </div>`;
+      }).join("");
+    }catch(e){ liste.innerHTML = "<p class='comm-vide'>Impossible de charger les réactions.</p>"; }
+  }
+
+  async function envoyerCommentaire(articleId){
+    const pseudoEl = document.getElementById("comm-pseudo");
+    const msgEl = document.getElementById("comm-message");
+    const pseudo = pseudoEl.value.trim();
+    const message = msgEl.value.trim();
+    if(!pseudo || !message){ alert("Mets un pseudo et un message."); return; }
+    try{
+      await fetch(`${SUPA_URL}/rest/v1/commentaires`, {
+        method:"POST", headers: SUPA_HEADERS,
+        body: JSON.stringify({article_id: articleId, pseudo: pseudo, message: message})
+      });
+      pseudoEl.value=""; msgEl.value="";
+      chargerCommentaires(articleId);
+    }catch(e){ alert("Erreur lors de l'envoi, réessaie."); }
   }
 
   function openArticle(id){
@@ -435,10 +547,35 @@
       <div class="art-body">${a.corps}</div>
       <div class="art-foot"><div class="sig">A.</div></div>
 
+      <section class="note-section">
+        <h2>Est-ce que ça tient debout ?</h2>
+        <p class="c-intro">Note ce texte, de « s'écroule » à « inébranlable ».</p>
+        <div id="note-box"></div>
+      </section>
+
       <section class="comments">
         <h2>Réactions</h2>
-        <p class="c-intro">Connecte-toi en un clic avec un compte GitHub pour réagir.</p>
-        <div id="giscus-container"></div>
+        <p class="c-intro">Laisse un pseudo et ton commentaire. Pas besoin de compte.</p>
+        <div class="comm-form">
+          <input type="text" id="comm-pseudo" placeholder="Ton pseudo" maxlength="40">
+          <textarea id="comm-message" rows="3" placeholder="Ton commentaire" maxlength="2000"></textarea>
+          <button onclick="envoyerCommentaire('${a.id}')">Publier</button>
+        </div>
+        <div id="comm-liste"></div>
+      </section>
+
+      <section class="contact">
+        <h2>Me contacter</h2>
+        <p class="ct-intro">Une réaction plus longue, un désaccord, une vérité à ajouter ? Écris-moi.</p>
+        <form action="https://formspree.io/f/maqzejgy" method="POST">
+          <label>Ton nom (optionnel)</label>
+          <input type="text" name="nom">
+          <label>Ton email (pour que je puisse te répondre)</label>
+          <input type="email" name="email" required>
+          <label>Ton message</label>
+          <textarea name="message" rows="5" required></textarea>
+          <button type="submit">Envoyer</button>
+        </form>
       </section>
 
       <div class="more-link" onclick="openArticle('${next.id}')">Lire ensuite : « ${next.titre} » →</div>
@@ -448,7 +585,8 @@
     document.getElementById("article").classList.add("on");
     window.scrollTo(0,0);
     history.pushState({id},"","#"+a.id);
-    chargerGiscus(a.id);
+    chargerNote(a.id);
+    chargerCommentaires(a.id);
   }
 
   function goHome(){
