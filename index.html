@@ -383,5 +383,68 @@
   const initialHash=location.hash.replace("#","");
   if(initialHash && ARTICLES.find(a=>a.id===initialHash)){openArticle(initialHash);}
 </script>
+  <!-- ===== SECTION CONTACT ===== -->
+<section id="contact" style="
+  max-width: 600px;
+  margin: 80px auto 60px;
+  padding: 40px 32px;
+  background: #fdf6ec;
+  border: 1px solid #e8ddc9;
+  border-radius: 12px;
+  font-family: 'Spectral', serif;
+">
+  <h2 style="
+    font-family: 'Fraunces', serif;
+    font-size: 1.9rem;
+    color: #c75b1e;
+    margin: 0 0 8px;
+  ">Me contacter</h2>
+
+  <p style="color: #6b5d4a; margin: 0 0 28px; line-height: 1.5;">
+    Une réaction, un désaccord, une vérité à ajouter ? Écris-moi.
+  </p>
+
+  <form action="https://formspree.io/f/maqzejgy" method="POST">
+    <label style="display:block; margin-bottom:6px; color:#4a4031; font-size:0.95rem;">
+      Ton nom (optionnel)
+    </label>
+    <input type="text" name="nom" style="
+      width:100%; padding:12px; margin-bottom:18px;
+      border:1px solid #d8c9ad; border-radius:8px;
+      background:#fffdf8; font-family:'Spectral',serif; font-size:1rem;
+      box-sizing:border-box;
+    ">
+
+    <label style="display:block; margin-bottom:6px; color:#4a4031; font-size:0.95rem;">
+      Ton email (pour que je puisse te répondre)
+    </label>
+    <input type="email" name="email" required style="
+      width:100%; padding:12px; margin-bottom:18px;
+      border:1px solid #d8c9ad; border-radius:8px;
+      background:#fffdf8; font-family:'Spectral',serif; font-size:1rem;
+      box-sizing:border-box;
+    ">
+
+    <label style="display:block; margin-bottom:6px; color:#4a4031; font-size:0.95rem;">
+      Ton message
+    </label>
+    <textarea name="message" rows="5" required style="
+      width:100%; padding:12px; margin-bottom:22px;
+      border:1px solid #d8c9ad; border-radius:8px;
+      background:#fffdf8; font-family:'Spectral',serif; font-size:1rem;
+      resize:vertical; box-sizing:border-box;
+    "></textarea>
+
+    <button type="submit" style="
+      background:#c75b1e; color:#fff; border:none;
+      padding:13px 32px; border-radius:8px;
+      font-family:'Fraunces',serif; font-size:1rem;
+      cursor:pointer; transition:background 0.2s;
+    " onmouseover="this.style.background='#a8480f'"
+      onmouseout="this.style.background='#c75b1e'">
+      Envoyer
+    </button>
+  </form>
+</section>
 </body>
 </html>
