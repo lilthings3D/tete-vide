@@ -51,17 +51,16 @@ const ARTICLES = [
 <p>Et il y a un truc marrant là-dedans : on n'est jamais aussi unique que quand on arrête d'essayer de l'être. Le personnage qu'on se fabrique, il ressemble toujours à quelqu'un qui nous inspire, mais du coup c'est du déjà-vu. Alors que toi, le vrai toi, n'as pas d'équivalent. À condition d'arrêter de te maquiller pour ressembler à l'idée que tu te fais de quelqu'un de bien.</p>`,
     brouillon: false
   },
-  {
+{
     id: "vis-rouillee-echelle",
     titre: "La vis rouillée à six mètres du sol",
     sousTitre: "Sur ce qui devient soudain le plus important au monde",
     cat: "Vivre",
     tweet: "Une vis rouillée, sur une échelle, à six mètres du sol. D'habitude tu ne la regardes même pas. À cet instant précis, c'est l'objet le plus important de ta vie.",
     minutes: 2,
-    corps: <p> Petit exercice de pensée. Tu es en haut d'une échelle bancale, à six mètres du sol, en train d'essayer fixer un panneau. Tu poses une belle vis toute neuve au bout de ta visseuse en tenant le panneau à bout de bras, quand soudain ta belle vis tombe. C'était la dernière. Ton monde s'écroule. Tu es ici en équilibre et tu n'as pas de solution, tu dois redescendre, rejouer ce p'tit jeu d'équilibriste qui a mis ta vie en danger déjà une fois. Pas le choix, tu vas devoir redescendre, récuperer un nouvelle vis, puis remonter cett échelle brinquebalante. Le vent souffle, l'échelle tremble. Tu fais l'inventaire désespéré de tes poches vides. Une, puis deux, puis, oh, tu sens quelque chose. Serait-ce ?.. Oui ! C'est bien ça ! Une vis ! Tu glisses ta main dans la poche et... c'est une vieille vis, toute rouillée, un peu tordue, mais dans cette situation c'est ton bien le plus précieux.</p>
-  
-<p>L'importance d'une chose n'a rien à voir avec la chose elle-même. La vis n'a pas changé. C'est le contexte qui donne son importance aux choses. Je pense que c'est vrai pour presque tout. Les choses ne valent pas en elles-mêmes ; elles valent par rapport à un contexte. Un verre d'eau ne vaut rien jusqu'au moment où tu meurs de soif. Une personne ne te manque pas jusqu'au jour où elle n'est plus là. Peut-être devrions-nous chercher la vraie valeur d'une chose — quoi que ça veuille dire — plutôt que ce que ça peut t'apporter, que ce soit plus de confort ou plus de prestige. Mieux vaudrait-il voir le potentiel en chaque chose ? Peut-être que la sagesse serait de regarder la vis rouillée avant d'être à trois mètres du sol. De donner aux choses leur juste valeur pendant qu'on a encore les deux pieds par terre.</p>`  
-  brouillon: false
+    corps: `<p>Petit exercice de pensée. Tu es en haut d'une échelle bancale, à six mètres du sol, en train d'essayer de fixer un panneau. Tu poses une belle vis toute neuve au bout de ta visseuse en tenant le panneau à bout de bras, quand soudain ta belle vis tombe. C'était la dernière. Ton monde s'écroule. Tu es ici en équilibre et tu n'as pas de solution, tu dois redescendre, rejouer ce p'tit jeu d'équilibriste qui a mis ta vie en danger déjà une fois. Pas le choix, tu vas devoir redescendre, récupérer une nouvelle vis, puis remonter cette échelle brinquebalante. Le vent souffle, l'échelle tremble. Tu fais l'inventaire désespéré de tes poches vides. Une, puis deux, puis, oh, tu sens quelque chose. Serait-ce ?.. Oui ! C'est bien ça ! Une vis ! Tu glisses ta main dans la poche et... c'est une vieille vis, toute rouillée, un peu tordue, mais dans cette situation c'est ton bien le plus précieux.</p>
+<p>L'importance d'une chose n'a rien à voir avec la chose elle-même. La vis n'a pas changé. C'est le contexte qui donne son importance aux choses. Je pense que c'est vrai pour presque tout. Les choses ne valent pas en elles-mêmes ; elles valent par rapport à un contexte. Un verre d'eau ne vaut rien jusqu'au moment où tu meurs de soif. Une personne ne te manque pas jusqu'au jour où elle n'est plus là. Peut-être devrions-nous chercher la vraie valeur d'une chose — quoi que ça veuille dire — plutôt que ce que ça peut t'apporter, que ce soit plus de confort ou plus de prestige. Mieux vaudrait-il voir le potentiel en chaque chose ? Peut-être que la sagesse serait de regarder la vis rouillée avant d'être à trois mètres du sol. De donner aux choses leur juste valeur pendant qu'on a encore les deux pieds par terre.</p>`,
+    brouillon: false
   },
   {
     id: "vivre-vieux-grand-mere",
