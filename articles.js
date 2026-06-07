@@ -13,6 +13,7 @@ const ARTICLES = [
 <p>Pour moi, cette sensation de stabilité, de maîtrise d'un sujet, ne devrait pas être un indicateur de force ou de puissance. Un homme que tu croises toujours dans cet état de maîtrise de son monde ne sort en fait jamais de sa zone de confort, et donc finit par stagner. Tu te mesures à quelqu'un sur son terrain, tu te trouves nul, et t'oublies que tu compares ta polyvalence à sa spécialité. Lui ne brille que là ; toi tu te balades sur dix terrains où t'es moyen — mais au moins tu bouges. Ce malaise de te sentir largué dans un truc nouveau, c'est pas la preuve que t'es nul, c'est la preuve que t'as pas arrêté d'explorer.</p>
 
 <p>Du coup, je sais plus trop quoi penser quand je croise quelqu'un de super sûr de lui. Une partie de moi l'envie, et une autre se demande depuis combien de temps il a pas mis les pieds dehors. Et quand c'est moi qui patauge dans un truc que je découvre, j'essaie de me rappeler que cette sensation m'indique que je suis en train d'évoluer.</p>`,
+     brouillon: false
   },
   {
     id: "bon-sens-bonne-direction",
