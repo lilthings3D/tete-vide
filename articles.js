@@ -69,14 +69,14 @@ const ARTICLES = [
     cat: "Vivre",
     tweet: "Je sors de chez ma grand-mère. Elle dit qu'elle ne vit plus vraiment, qu'elle en a assez. Et je me retrouve sans réponse : à quoi ça sert, au juste, de vivre vieux ?",
     minutes: 4,
-    corps: `<p>Je viens de voir ma grand-mère, et c'est terrible. Pas terrible parce qu'elle souffrirait atrocement, ni parce qu'elle voudrait mourir — ce n'est pas ça. Terrible parce qu'elle dit, simplement, qu'elle ne vit plus vraiment. Qu'elle en a assez. Et moi je ressors de là avec une question que je n'arrive plus à fermer : à quoi ça sert, au juste, de vivre vieux ?</p>
+    corps: `<p>e sors de chez ma grand-mère, elle vient de me dire qu'elle est fatiguée de vivre, même pas en dépression, elle en a juste assez. Elle perd peu à peu ses mots, elle a perdu toutes les personnes qu'elle connaissait, ne peut plus rien faire, même regarder la télé c'est une épreuve. Elle n'arrive presque plus à marcher ni à réfléchir. Elle en a marre, et logiquement je me demande : pourquoi vivre si vieux ?</p>
+    
+<p>L'idée générale veut que la vie soit précieuse, qu'il faut la préserver, l'allonger, la défendre coûte que coûte. On ne discute même plus à ce sujet, ne pas tuer c'est la norme. Mais quand la personne concernée, elle, te dit qu'elle ne vit plus — qu'est-ce qu'on préserve, exactement ? La durée ? Le nombre d'années ? J'ai du mal à comprendre à quel moment c'est la quantité de vie qu'on protège, et à quel moment c'est autre chose.</p>
 
-<p>On nous répète qu'il faut préserver la vie, l'allonger, la défendre coûte que coûte. C'est devenu une évidence qu'on ne discute même plus. Mais quand la personne concernée, elle, te dit qu'elle ne vit plus — qu'est-ce qu'on préserve, exactement ? La durée ? Le nombre d'années ? J'ai du mal à comprendre à quel moment c'est la quantité de vie qu'on protège, et à quel moment c'est autre chose.</p>
+<p>Je trouve que parfois c'est extrêmement égoïste de garder une personne en vie. Il y a une différence entre vivre et exister — entre le simple fait de respirer et le fait d'avoir une vie qui a encore un goût, une direction. Huit milliards d'individus sur terre, est-ce que la vie humaine a toujours autant de valeur ? Pour moi « tu ne tueras point » vient d'une époque où la vie était bien plus rare, précieuse, difficile à maintenir ; ce n'est plus le cas aujourd'hui.</p>
 
-<p>Je ne dis pas ça pour trancher. Je n'ai pas de réponse, et je me méfie des gens qui en ont une toute prête sur ce sujet. Les philosophes parlent depuis longtemps de la différence entre vivre et exister — entre le simple fait de respirer et le fait d'avoir une vie qui a encore un goût, une direction, des gens. Quand le deuxième s'efface, est-ce qu'on tient encore à la personne, ou juste à l'idée qu'on se fait d'elle ?</p>
-
-<p>Ce que je retiens, c'est surtout que cette question, on préfère ne pas la regarder. On vénère la longévité sans jamais demander : longévité de quoi ? Ma grand-mère, elle, l'a posée à ma place, sans drame, presque en passant. Et je crois que c'est ça qui m'a remué. Pas la peur de la mort. La question, beaucoup plus dérangeante, de ce qui fait qu'une vie reste une vie.</p>`,
-    brouillon: true
+<p>Je dis pas ça pour trancher. Je n'ai pas de réponse, et je me méfie des gens qui en ont une toute prête sur ce sujet. Ce que je retiens, c'est surtout que cette question, on préfère ne pas la regarder. On vénère la longévité sans jamais demander : longévité de quoi ? Et je crois que c'est ça qui m'a remué, ce qui fait qu'une vie reste une vie.</p>`,
+    brouillon: false
   },
   {
     id: "exceptionnel-comme-tout-le-monde",
