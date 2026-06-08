@@ -78,6 +78,24 @@ const ARTICLES = [
 <p>Je dis pas ça pour trancher. Je n'ai pas de réponse, et je me méfie des gens qui en ont une toute prête sur ce sujet. Ce que je retiens, c'est surtout que cette question, on préfère ne pas la regarder. On vénère la longévité sans jamais demander : longévité de quoi ? Et je crois que c'est ça qui m'a remué, ce qui fait qu'une vie reste une vie.</p>`,
     brouillon: false
   },
+    {
+    id: "colere-cest-la-peur",
+    titre: "Quand tu es en colère, c'est que tu as peur",
+    sousTitre: "Sur ce qui se cache vraiment sous l'agacement quotidien",
+    cat: "Émotions",
+    tweet: "Et si la colère n'était jamais la vraie émotion, mais toujours la couverture d'une peur ? Une grille de lecture qui change la façon de se regarder s'énerver.",
+    minutes: 2,
+    corps: `<p>Quand tu es en colère, c'est que tu as peur. Au début c'était juste une intuition, mais plus j'avance plus j'ai l'impression de tenir un truc. À chaque fois que je m'énerve, si je creuse un peu, il y a une peur cachée juste en dessous.</p>
+
+<p>C'est utile la colère, elle fait rapidement comprendre à ton interlocuteur qu'il dépasse les bornes. Tu es face à un employé de la poste, ça fait 3 jours que tu sais que tu dois venir ici, et que tu rumines sur les employés qui sont ultra lents, qui le font exprès, et tu es arrivé ici prêt à exploser ; il met sa vie pour faire trois conneries, tu commences à bouillir, il commence à discuter avec son voisin alors que la queue s'allonge ? Cette fois c'est trop ! Mais il se passe quoi à l'intérieur ?</p>
+
+<p>Si tu réfléchis quelques secondes, tu vas t'apercevoir que quelque chose se cache dessous. Soit tu as un rendez-vous derrière, tu as peur de le rater, soit tu es garé n'importe comment et tu as peur de prendre une amende, ou simplement tu trouves que c'est un manque de respect envers TOI, tu as peur que ton image s'effrite face à cette personne qui semble chier sur les clients, alors qu'il a sans doute juste marre des gens qui comprennent rien et qu'il fait juste une mini pause comme absolument toute personne qui travaille. Le déguisement le plus rapide qu'on ait sous la main pour cacher qu'on a peur, c'est la colère.</p>
+
+<p>J'ai repéré un truc chez moi, et je suis sûr de pas être le seul à le faire. Des fois, sans m'en rendre compte, je mets l'autre dans une situation où il va forcément faire une erreur — juste pour pouvoir m'énerver contre lui, et du coup me sentir au-dessus. Je fais ça tout le temps en voiture. C'est quasi automatique. Et quand je regarde honnêtement ce qu'il y a derrière, c'est pas de la force. C'est la peur de pas valoir grand-chose, que j'essaie de compenser en rabaissant quelqu'un d'autre. La colère n'est presque jamais le vrai problème. C'est juste la couche du dessus.</p>
+
+<p>Et ça change tout. La prochaine fois que ça monte, au lieu de foncer dedans ou de te forcer à ravaler, tu peux te poser une seule question : de quoi j'ai peur, là, maintenant ? La plupart du temps une réponse arrive, et rien que de l'avoir nommée, ça dégonfle le truc. Parce qu'on ne raisonne pas avec sa colère. Mais on peut écouter la peur qui se cache en dessous.</p>`,
+    brouillon: false
+  },
   {
     id: "exceptionnel-comme-tout-le-monde",
     titre: "Aime-toi, fiston",
@@ -94,24 +112,6 @@ const ARTICLES = [
 <p>Les psys ont un nom pour ça : l'estime de soi conditionnelle. C'est quand tu ne t'autorises à te respecter qu'à condition de performer, de réussir, d'être au-dessus. Et c'est un piège, parce que le moindre jour sans, la moindre baisse de régime, devient aussitôt la preuve que tu vaux rien. À l'inverse, il y a un truc tout bête mais difficile : te parler comme tu parlerais à un pote qui galère. Sans te mentir, mais sans te démolir non plus.</p>
 
 <p>« Je suis comme tout le monde et c'est super. » Au début je croyais que c'était une façon d'abandonner, de se résigner. C'est exactement l'inverse. C'est ce qui te permet enfin de poser le sac que tu trimballes et de marcher. L'avenir, de toute façon, il va arriver, que tu flippes ou pas. Alors autant le laisser venir sans le craindre. A.</p>`,
-    brouillon: true
-  },
-  {
-    id: "colere-cest-la-peur",
-    titre: "Quand tu es en colère, c'est que tu as peur",
-    sousTitre: "Sur ce qui se cache vraiment sous l'agacement quotidien",
-    cat: "Émotions",
-    tweet: "Et si la colère n'était jamais la vraie émotion, mais toujours la couverture d'une peur ? Une grille de lecture qui change la façon de se regarder s'énerver.",
-    minutes: 4,
-    corps: `<p>Quand tu es en colère, c'est que tu as peur. Je me suis noté ça comme un principe, un peu au hasard, et depuis je n'arrête pas de le vérifier. À chaque fois que je m'énerve, si je creuse deux secondes, il y a une trouille planquée juste en dessous.</p>
-
-<p>Le truc, c'est que la colère, c'est hyper pratique. Elle te met en position haute. T'as l'air fort, t'es plein d'énergie, c'est toi qui domines la scène. La peur, elle, fait exactement l'inverse : elle te met en position basse, vulnérable, à découvert. Et comme personne n'a envie de se sentir vulnérable, on enfile la colère par-dessus. C'est le déguisement le plus rapide qu'on ait sous la main pour cacher qu'on a peur.</p>
-
-<p>J'ai repéré un truc chez moi, et je suis sûr de pas être le seul à le faire. Des fois, sans m'en rendre compte, je mets l'autre dans une situation où il va forcément faire une erreur — juste pour pouvoir m'énerver contre lui, et du coup me sentir au-dessus. Je fais ça tout le temps en voiture. C'est quasi automatique. Et quand je regarde honnêtement ce qu'il y a derrière, c'est pas de la force. C'est la peur de pas valoir grand-chose, que j'essaie de compenser en rabaissant quelqu'un d'autre.</p>
-
-<p>Y a des thérapeutes qui appellent ça une émotion secondaire : une réaction qui en planque une autre, plus dure à regarder en face — la peur, la honte, le sentiment d'être menacé ou laissé de côté. La colère est presque jamais le vrai problème. C'est juste la couche du dessus.</p>
-
-<p>Et ça change tout, concrètement. La prochaine fois que ça monte, au lieu de foncer dedans ou de te forcer à ravaler, tu peux te poser une seule question : de quoi j'ai peur, là, maintenant ? La plupart du temps une réponse arrive, et rien que de l'avoir nommée, ça dégonfle le truc. Parce qu'on ne raisonne pas avec sa colère. Mais on peut écouter la peur qui se cache en dessous.</p>`,
     brouillon: true
   },
   {
