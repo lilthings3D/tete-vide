@@ -41,25 +41,28 @@
   .wrap{max-width:720px;margin:0 auto;padding:0 28px;position:relative;z-index:2;}
 
   /* ============ HEADER ============ */
-  header.site{ padding:38px 0 0; }
+  header.site{padding:30px 0 0;}
   .topbar{
     display:flex;justify-content:space-between;align-items:baseline;
-    border-bottom:1.5px solid var(--ink);padding-bottom:14px;
+    border-bottom:1.5px solid var(--ink);padding-bottom:12px;
     max-width:1180px;margin:0 auto;padding-left:28px;padding-right:28px;
   }
-  .brand-link{
-    font-family:'Fraunces',serif;font-weight:400;font-size:0.9rem;
-    font-style:italic;letter-spacing:0.3px;
-    text-decoration:none;color:var(--ink-soft);
-    transition:color .2s;
+  .brand{
+    font-family:'Fraunces',serif;font-weight:600;font-size:1.15rem;
+    letter-spacing:0.5px;text-decoration:none;color:var(--ink);
   }
-  .brand-link:hover{color:var(--forest);}
-  .brand-link .arr{margin-right:6px;font-style:normal;}
-  .section-name{
-    font-family:'Fraunces',serif;font-weight:600;font-size:1.05rem;
-    letter-spacing:0.5px;color:var(--ink);
+  .brand b{color:var(--forest-mid);}
+  .sitenav{display:flex;align-items:baseline;gap:0;}
+  .sitenav-link{
+    font-family:'Fraunces',serif;font-size:0.9rem;font-weight:500;
+    letter-spacing:0.3px;color:var(--ink-soft);text-decoration:none;
+    padding:0 18px 4px;border-bottom:2px solid transparent;
+    transition:color .2s, border-color .2s;
   }
-  .section-name b{color:var(--forest-mid);}
+  .sitenav-link:hover{color:var(--forest-mid);border-bottom-color:var(--forest-mid);}
+  .sitenav-link.current{color:var(--ink);border-bottom-color:var(--ink);}
+  .topdate{font-size:0.8rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-soft);}
+  @media(max-width:600px){.sitenav-link{padding:0 10px 4px;font-size:0.82rem;}.topdate{display:none;}}
 
   /* ============ MASTHEAD ============ */
   .masthead{
@@ -240,8 +243,12 @@
 <div id="home">
   <header class="site">
     <div class="topbar">
-      <a class="brand-link" href="index.html"><span class="arr">←</span> Les vérités qui font bien</a>
-      <span class="section-name">His<b>toires</b></span>
+      <a class="brand" href="index.html">Tête <b>vide</b></a>
+      <nav class="sitenav">
+        <a class="sitenav-link" href="index.html">Textes</a>
+        <a class="sitenav-link current" href="histoires.html">Histoires</a>
+      </nav>
+      <div class="topdate" id="today"></div>
     </div>
   </header>
 
@@ -274,6 +281,10 @@
 
 <script src="histoires.js"></script>
 <script>
+  const months=["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
+  const now=new Date();
+  document.getElementById("today").textContent = now.getDate()+" "+months[now.getMonth()]+" "+now.getFullYear();
+
   function renderList() {
     const list = document.getElementById("stories-list");
     if (!HISTOIRES || HISTOIRES.length === 0) {

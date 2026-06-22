@@ -52,6 +52,16 @@
   }
   .brand b{color:var(--orange-deep);}
   .topdate{font-size:0.8rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-soft);}
+  .sitenav{display:flex;align-items:baseline;gap:0;}
+  .sitenav-link{
+    font-family:'Fraunces',serif;font-size:0.9rem;font-weight:500;
+    letter-spacing:0.3px;color:var(--ink-soft);text-decoration:none;
+    padding:0 18px 4px;border-bottom:2px solid transparent;
+    transition:color .2s, border-color .2s;
+  }
+  .sitenav-link:hover{color:var(--orange-deep);border-bottom-color:var(--orange-deep);}
+  .sitenav-link.current{color:var(--ink);border-bottom-color:var(--ink);}
+  @media(max-width:600px){.sitenav-link{padding:0 10px 4px;font-size:0.82rem;}}
 
   /* ============ MASTHEAD ============ */
   .masthead{
@@ -80,16 +90,24 @@
 
   /* ============ FILTER ============ */
   .filters{
-    display:flex;flex-wrap:wrap;gap:9px;justify-content:center;
-    padding:22px 0 0;
+    display:flex;flex-wrap:wrap;gap:0;justify-content:center;
+    padding:18px 0 0;border-bottom:1px solid var(--rule);margin-bottom:0;
   }
   .chip{
-    font-family:'Fraunces',serif;font-size:0.8rem;letter-spacing:0.5px;
-    padding:6px 15px;border:1.2px solid var(--rule-strong);border-radius:2px;
-    background:transparent;cursor:pointer;color:var(--ink-soft);transition:all .22s ease;
+    font-family:'Fraunces',serif;font-size:0.76rem;letter-spacing:2.5px;
+    text-transform:uppercase;
+    padding:10px 18px;border:none;border-radius:0;
+    background:transparent;cursor:pointer;color:var(--ink-soft);
+    transition:color .2s;position:relative;
   }
-  .chip:hover{border-color:var(--orange);color:var(--orange-deep);}
-  .chip.active{background:var(--ink);color:var(--cream);border-color:var(--ink);}
+  .chip::after{
+    content:'';position:absolute;bottom:0;left:18px;right:18px;
+    height:2px;background:transparent;transition:background .2s;
+  }
+  .chip:hover{color:var(--orange-deep);}
+  .chip:hover::after{background:var(--orange-deep);}
+  .chip.active{color:var(--ink);}
+  .chip.active::after{background:var(--ink);}
 
   /* ============ FEATURE (LA UNE) ============ */
   .feature-zone{padding:40px 0 30px;border-bottom:1.5px solid var(--rule-strong);margin-bottom:36px;}
@@ -240,24 +258,26 @@
   .note-buttons{display:flex;gap:8px;}
   .note-btn{
     flex:1;padding:12px 0;font-family:'Fraunces',serif;font-size:1.05rem;
-    border:1.2px solid var(--rule-strong);border-radius:4px;background:transparent;
+    border:1px solid var(--rule-strong);border-radius:0;background:transparent;
     color:var(--ink-soft);cursor:pointer;transition:all .18s ease;
   }
-  .note-btn:hover{background:var(--orange-deep);color:#fff;border-color:var(--orange-deep);transform:translateY(-2px);}
+  .note-btn:hover{background:var(--orange-deep);color:var(--cream);border-color:var(--orange-deep);}
   .note-err{color:var(--ink-soft);font-style:italic;}
 
   /* ---- COMMENTAIRES ---- */
   .comm-form{display:flex;flex-direction:column;gap:12px;margin-bottom:30px;}
   .comm-form input,.comm-form textarea{
-    padding:11px 13px;border:1px solid var(--rule-strong);border-radius:8px;
-    background:#fffdf8;font-family:'Spectral',serif;font-size:1rem;color:var(--ink);resize:vertical;
+    padding:10px 0;border:none;border-bottom:1px solid var(--rule-strong);border-radius:0;
+    background:transparent;font-family:'Spectral',serif;font-size:1rem;color:var(--ink);resize:none;
   }
-  .comm-form input:focus,.comm-form textarea:focus{outline:none;border-color:var(--orange);}
+  .comm-form input:focus,.comm-form textarea:focus{outline:none;border-bottom-color:var(--orange-deep);}
   .comm-form button{
-    align-self:flex-start;background:var(--orange-deep);color:#fff;border:none;
-    padding:11px 28px;border-radius:8px;font-family:'Fraunces',serif;font-size:0.98rem;cursor:pointer;transition:background .2s;
+    align-self:flex-start;background:transparent;color:var(--orange-deep);
+    border:1.5px solid var(--orange-deep);border-radius:0;
+    padding:9px 24px;font-family:'Fraunces',serif;font-size:0.82rem;
+    letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:background .2s,color .2s;
   }
-  .comm-form button:hover{background:#8f3f12;}
+  .comm-form button:hover{background:var(--orange-deep);color:var(--cream);}
   .comm-item{padding:16px 0;border-bottom:1px solid var(--rule);}
   .comm-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;}
   .comm-pseudo{font-family:'Fraunces',serif;font-weight:600;color:var(--orange-deep);font-size:1.02rem;}
@@ -267,8 +287,8 @@
 
   /* ============ CONTACT ============ */
   .contact{
-    max-width:600px;margin:80px auto 0;padding:40px 32px;
-    background:var(--paper);border:1px solid var(--rule);border-radius:12px;
+    max-width:600px;margin:80px auto 0;padding:40px 0 0;
+    border-top:1.5px solid var(--ink);
     font-family:'Spectral',serif;
   }
   .contact h2{
@@ -276,21 +296,23 @@
     color:var(--orange-deep);margin:0 0 8px;
   }
   .contact .ct-intro{color:var(--ink-soft);margin:0 0 28px;line-height:1.5;}
-  .contact label{display:block;margin-bottom:6px;color:var(--ink);font-size:0.95rem;}
+  .contact label{display:block;margin-bottom:6px;color:var(--ink-soft);font-size:0.82rem;letter-spacing:1px;text-transform:uppercase;}
   .contact input,.contact textarea{
-    width:100%;padding:12px;margin-bottom:18px;
-    border:1px solid var(--rule-strong);border-radius:8px;
-    background:#fffdf8;font-family:'Spectral',serif;font-size:1rem;
+    width:100%;padding:10px 0;margin-bottom:22px;
+    border:none;border-bottom:1px solid var(--rule-strong);border-radius:0;
+    background:transparent;font-family:'Spectral',serif;font-size:1rem;
     box-sizing:border-box;color:var(--ink);
   }
-  .contact textarea{margin-bottom:22px;resize:vertical;}
-  .contact input:focus,.contact textarea:focus{outline:none;border-color:var(--orange);}
+  .contact textarea{margin-bottom:26px;resize:none;}
+  .contact input:focus,.contact textarea:focus{outline:none;border-bottom-color:var(--orange-deep);}
   .contact button{
-    background:var(--orange-deep);color:#fff;border:none;
-    padding:13px 32px;border-radius:8px;
-    font-family:'Fraunces',serif;font-size:1rem;cursor:pointer;transition:background .2s;
+    background:transparent;color:var(--orange-deep);
+    border:1.5px solid var(--orange-deep);border-radius:0;
+    padding:11px 32px;
+    font-family:'Fraunces',serif;font-size:0.88rem;letter-spacing:1px;text-transform:uppercase;
+    cursor:pointer;transition:background .2s, color .2s;
   }
-  .contact button:hover{background:#8f3f12;}
+  .contact button:hover{background:var(--orange-deep);color:var(--cream);}
 
   /* ============ RESPONSIVE ============ */
   @media(max-width:900px){
@@ -320,10 +342,11 @@
     <div class="wrap">
       <div class="topbar">
         <a class="brand" onclick="goHome()">Tête <b>vide</b></a>
-        <nav style="display:flex;align-items:center;gap:24px;">
-          <a href="histoires.html" style="font-family:'Fraunces',serif;font-style:italic;font-size:0.9rem;color:var(--ink-soft);text-decoration:none;letter-spacing:0.3px;transition:color .2s;" onmouseover="this.style.color='#1A3D2E'" onmouseout="this.style.color='var(--ink-soft)'">Histoires</a>
-          <div class="topdate" id="today"></div>
+        <nav class="sitenav">
+          <a class="sitenav-link current" href="#" onclick="goHome();return false;">Textes</a>
+          <a class="sitenav-link" href="histoires.html">Histoires</a>
         </nav>
+        <div class="topdate" id="today"></div>
       </div>
     </div>
   </header>
