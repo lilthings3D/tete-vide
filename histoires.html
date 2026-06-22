@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Histoires — Tête vide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream: #f7efe1;
+    --cream-deep: #f0e4cf;
+    --paper: #fbf6ec;
+    --ink: #2e2218;
+    --ink-soft: #5b4a39;
+    --forest: #1A3D2E;
+    --forest-mid: #2D6A4F;
+    --forest-light: #7AB89A;
+    --forest-pale: #C8DDD5;
+    --rule: #e0cfb0;
+    --shadow: rgba(20,60,40,0.10);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Spectral',Georgia,serif;
+    font-size:18px;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  /* grain — identique au blog principal */
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:0.5;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+    mix-blend-mode:multiply;
+  }
+  .wrap{max-width:720px;margin:0 auto;padding:0 28px;position:relative;z-index:2;}
+
+  /* ============ HEADER ============ */
+  header.site{ padding:38px 0 0; }
+  .topbar{
+    display:flex;justify-content:space-between;align-items:baseline;
+    border-bottom:1.5px solid var(--ink);padding-bottom:14px;
+    max-width:1180px;margin:0 auto;padding-left:28px;padding-right:28px;
+  }
+  .brand-link{
+    font-family:'Fraunces',serif;font-weight:400;font-size:0.9rem;
+    font-style:italic;letter-spacing:0.3px;
+    text-decoration:none;color:var(--ink-soft);
+    transition:color .2s;
+  }
+  .brand-link:hover{color:var(--forest);}
+  .brand-link .arr{margin-right:6px;font-style:normal;}
+  .section-name{
+    font-family:'Fraunces',serif;font-weight:600;font-size:1.05rem;
+    letter-spacing:0.5px;color:var(--ink);
+  }
+  .section-name b{color:var(--forest-mid);}
+
+  /* ============ MASTHEAD ============ */
+  .masthead{
+    text-align:center;padding:80px 0 50px;position:relative;
+  }
+  .masthead .kicker{
+    font-size:0.78rem;letter-spacing:4px;text-transform:uppercase;
+    color:var(--forest-mid);margin-bottom:22px;
+  }
+  .masthead h1{
+    font-family:'Fraunces',serif;font-weight:300;font-style:italic;
+    font-size:clamp(2.8rem,8vw,5.5rem);line-height:0.95;
+    letter-spacing:-1px;
+  }
+  .masthead h1 .accent{font-style:normal;font-weight:600;color:var(--forest-mid);display:block;}
+  .masthead .tagline{
+    max-width:480px;margin:26px auto 0;font-size:1.05rem;
+    color:var(--ink-soft);font-style:italic;
+  }
+  .rule-deco{
+    display:flex;align-items:center;justify-content:center;gap:16px;
+    margin:44px 0 0;color:var(--forest-light);
+  }
+  .rule-deco span{height:1px;width:70px;background:var(--forest-pale);}
+  .rule-deco .dot{font-size:0.65rem;}
+
+  /* ============ LISTE D'HISTOIRES ============ */
+  .stories-list{
+    padding:64px 0 100px;
+  }
+  .story-card{
+    cursor:pointer;
+    border-top:1px solid var(--rule);
+    padding:42px 0;
+    display:flex;flex-direction:column;gap:14px;
+    opacity:0;transform:translateY(20px);
+    animation:rise .7s cubic-bezier(.2,.7,.3,1) forwards;
+    transition:border-color .25s;
+  }
+  .story-card:hover{ border-top-color:var(--forest-mid); }
+  @keyframes rise{to{opacity:1;transform:none;}}
+  .s-title{
+    font-family:'Fraunces',serif;font-weight:300;font-style:italic;
+    font-size:clamp(1.7rem,3.5vw,2.4rem);line-height:1.1;
+    letter-spacing:-0.3px;color:var(--ink);
+    transition:color .2s;
+  }
+  .story-card:hover .s-title{color:var(--forest-mid);}
+  .s-sub{
+    font-style:italic;color:var(--ink-soft);font-size:0.97rem;
+  }
+  .s-excerpt{
+    color:var(--ink-soft);font-size:0.95rem;line-height:1.65;
+    max-width:560px;
+  }
+  .s-meta{
+    display:flex;align-items:center;gap:14px;margin-top:6px;
+    font-size:0.78rem;letter-spacing:1px;text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+  .s-meta .arrow{
+    color:var(--forest-mid);font-size:1rem;
+    transition:transform .25s;font-style:normal;
+  }
+  .story-card:hover .s-meta .arrow{transform:translateX(6px);}
+
+  /* ============ FOOTER ============ */
+  footer.site{
+    border-top:1.5px solid var(--ink);padding:46px 0 70px;text-align:center;
+    max-width:100%;
+  }
+  footer .f-brand{
+    font-family:'Fraunces',serif;font-style:italic;
+    font-size:1.5rem;color:var(--forest-mid);
+  }
+  footer p{
+    color:var(--ink-soft);font-size:0.9rem;margin-top:12px;
+    max-width:420px;margin-left:auto;margin-right:auto;
+  }
+  footer .sig{margin-top:24px;font-family:'Fraunces',serif;font-size:1rem;letter-spacing:3px;}
+
+  /* ============ VUE HISTOIRE ============ */
+  .story-view{display:none;position:relative;z-index:2;}
+  .story-view.on{display:block;animation:fadein .5s ease;}
+  @keyframes fadein{from{opacity:0;}to{opacity:1;}}
+
+  .back{
+    display:inline-flex;align-items:center;gap:9px;cursor:pointer;
+    margin:30px 0 0;font-family:'Fraunces',serif;font-size:0.9rem;
+    font-style:italic;letter-spacing:0.3px;color:var(--ink-soft);
+    background:none;border:none;transition:color .2s;
+  }
+  .back:hover{color:var(--forest-mid);}
+  .back .ar{font-size:1.1rem;font-style:normal;}
+
+  .story-head{
+    max-width:640px;margin:64px auto 0;text-align:center;
+  }
+  .story-head h1{
+    font-family:'Fraunces',serif;font-weight:300;font-style:italic;
+    font-size:clamp(2.2rem,5.5vw,3.6rem);
+    line-height:1.05;letter-spacing:-0.5px;margin:14px 0 18px;
+  }
+  .story-head .s-sub-large{
+    font-style:italic;font-size:1.1rem;color:var(--ink-soft);
+  }
+  .story-head .s-meta-large{
+    margin-top:22px;font-size:0.78rem;letter-spacing:1.5px;
+    text-transform:uppercase;color:var(--ink-soft);
+    display:flex;gap:16px;justify-content:center;align-items:center;
+  }
+  .story-head .s-meta-large .d{color:var(--forest-light);}
+
+  /* Séparateur */
+  .story-rule{
+    display:flex;align-items:center;justify-content:center;gap:14px;
+    margin:44px auto 0;max-width:640px;color:var(--forest-light);
+  }
+  .story-rule span{height:1px;flex:1;background:var(--forest-pale);}
+  .story-rule .dot{font-size:0.6rem;}
+
+  /* Corps du récit */
+  .story-body{max-width:600px;margin:48px auto 0;}
+  .story-body p{
+    margin-bottom:1.55em;font-size:1.18rem;line-height:1.82;
+  }
+  /* Drop cap */
+  .story-body p:first-of-type::first-letter{
+    font-family:'Fraunces',serif;font-weight:600;float:left;
+    font-size:4.6rem;line-height:0.76;padding:8px 14px 0 0;
+    color:var(--forest-mid);
+  }
+  .story-body em{color:var(--ink);}
+
+  /* Pied de récit */
+  .story-foot{
+    max-width:600px;margin:72px auto 0;
+    display:flex;flex-direction:column;align-items:center;gap:18px;
+    padding-bottom:100px;
+  }
+  .fin-mark{
+    display:flex;align-items:center;gap:16px;width:100%;
+  }
+  .fin-mark hr{flex:1;border:none;border-top:1px solid var(--forest-pale);}
+  .fin-mark span{
+    font-family:'Fraunces',serif;font-style:italic;
+    font-size:0.85rem;color:var(--forest-light);letter-spacing:1px;
+  }
+  .story-foot .sig{
+    font-family:'Fraunces',serif;font-style:italic;
+    font-size:1.2rem;color:var(--forest-mid);margin-top:10px;
+  }
+  .next-story{
+    margin-top:16px;font-family:'Fraunces',serif;font-style:italic;
+    font-size:0.92rem;color:var(--ink-soft);cursor:pointer;
+    background:none;border:none;transition:color .2s;letter-spacing:0.3px;
+  }
+  .next-story:hover{color:var(--forest-mid);}
+
+  /* État vide */
+  .empty{
+    text-align:center;padding:80px 0;
+    font-family:'Fraunces',serif;font-style:italic;
+    font-size:1.2rem;color:var(--ink-soft);
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media(max-width:600px){
+    body{font-size:17px;}
+    .wrap,.topbar{padding-left:20px;padding-right:20px;}
+    .masthead{padding:52px 0 36px;}
+    .story-body p:first-of-type::first-letter{font-size:3.5rem;}
+  }
+</style>
+</head>
+<body>
+
+<div id="home">
+  <header class="site">
+    <div class="topbar">
+      <a class="brand-link" href="index.html"><span class="arr">←</span> Les vérités qui font bien</a>
+      <span class="section-name">His<b>toires</b></span>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <section class="masthead">
+      <div class="kicker">Fiction & récits</div>
+      <h1>Ce que<span class="accent">les mots vrais</span>ne disent pas</h1>
+      <p class="tagline">Des histoires que j'avais besoin d'écrire. Pas pour expliquer — pour ressentir.</p>
+      <div class="rule-deco"><span></span><span class="dot">◆</span><span></span></div>
+    </section>
+
+    <main class="stories-list" id="stories-list"></main>
+  </div>
+
+  <footer class="site">
+    <div class="wrap">
+      <div class="f-brand">Histoires</div>
+      <p>Des récits courts. Des instants qui auraient pu arriver, ou qui sont arrivés sans que je sache encore comment les dire autrement.</p>
+      <div class="sig">— A.</div>
+    </div>
+  </footer>
+</div>
+
+<div class="story-view" id="story-view">
+  <div class="wrap">
+    <button class="back" id="back-btn"><span class="ar">←</span> Toutes les histoires</button>
+    <div id="story-content"></div>
+  </div>
+</div>
+
+<script src="histoires.js"></script>
+<script>
+  function renderList() {
+    const list = document.getElementById("stories-list");
+    if (!HISTOIRES || HISTOIRES.length === 0) {
+      list.innerHTML = '<p class="empty">Les histoires arrivent. Patience.</p>';
+      return;
+    }
+    list.innerHTML = "";
+    HISTOIRES.forEach((h, i) => {
+      const firstP = h.corps.match(/<p>(.*?)<\/p>/s);
+      const excerpt = firstP
+        ? firstP[1].replace(/<[^>]+>/g, "").slice(0, 160) + "…"
+        : "";
+      const card = document.createElement("article");
+      card.className = "story-card";
+      card.style.animationDelay = (i * 0.08) + "s";
+      card.innerHTML = `
+        <h2 class="s-title">${h.titre}</h2>
+        <div class="s-sub">${h.sousTitre}</div>
+        <div class="s-excerpt">${excerpt}</div>
+        <div class="s-meta">
+          <span>${h.minutes} min de lecture</span>
+          <span class="arrow">→</span>
+        </div>`;
+      card.onclick = () => openStory(h.id);
+      list.appendChild(card);
+    });
+  }
+
+  function openStory(id) {
+    const h = HISTOIRES.find(x => x.id === id);
+    if (!h) return;
+    const others = HISTOIRES.filter(x => x.id !== id);
+    const nextBtn = others.length > 0
+      ? `<button class="next-story" onclick="openStory('${others[0].id}')">Lire ensuite : « ${others[0].titre} » →</button>`
+      : "";
+
+    document.getElementById("story-content").innerHTML = `
+      <div class="story-head">
+        <h1>${h.titre}</h1>
+        <div class="s-sub-large">${h.sousTitre}</div>
+        <div class="s-meta-large">
+          <span>Par A.</span><span class="d">◆</span><span>${h.minutes} min</span>
+        </div>
+      </div>
+      <div class="story-rule"><span></span><span class="dot">◆</span><span></span></div>
+      <div class="story-body">${h.corps}</div>
+      <div class="story-foot">
+        <div class="fin-mark"><hr><span>fin</span><hr></div>
+        <div class="sig">A.</div>
+        ${nextBtn}
+      </div>`;
+
+    document.getElementById("home").style.display = "none";
+    document.getElementById("story-view").classList.add("on");
+    window.scrollTo(0, 0);
+    history.pushState({ id }, "", "#" + h.id);
+  }
+
+  function goHome() {
+    document.getElementById("story-view").classList.remove("on");
+    document.getElementById("home").style.display = "block";
+    window.scrollTo(0, 0);
+    history.pushState({}, "", "#");
+  }
+
+  document.getElementById("back-btn").onclick = goHome;
+
+  window.addEventListener("popstate", () => {
+    const h = location.hash.replace("#", "");
+    if (h && HISTOIRES.find(x => x.id === h)) { openStory(h); }
+    else { goHome(); }
+  });
+
+  renderList();
+  const hash = location.hash.replace("#", "");
+  if (hash && HISTOIRES.find(x => x.id === hash)) openStory(hash);
+</script>
+</body>
+</html>
