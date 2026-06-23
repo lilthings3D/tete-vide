@@ -19,7 +19,6 @@
   body{background:var(--cream);color:var(--ink);font-family:'Spectral',Georgia,serif;font-size:18px;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
   body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:0.5;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");mix-blend-mode:multiply;}
   .wrap{max-width:1180px;margin:0 auto;padding:0 28px;position:relative;z-index:2;}
-
   header.site{padding:30px 0 0;}
   .topbar{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1.5px solid var(--ink);padding-bottom:12px;}
   .brand{font-family:'Fraunces',serif;font-weight:600;font-size:1.15rem;letter-spacing:0.5px;text-decoration:none;color:var(--ink);}
@@ -32,19 +31,13 @@
   .topdate{font-size:0.8rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-soft);}
   @media(max-width:780px){.sitenav-link{padding:0 8px 4px;font-size:0.8rem;}}
   @media(max-width:600px){.wrap{padding:0 20px;}.topdate{display:none;}}
-
-  /* MASTHEAD */
   .masthead{text-align:center;padding:60px 0 30px;border-bottom:3px double var(--ink);}
   .masthead .kicker{font-size:0.78rem;letter-spacing:5px;text-transform:uppercase;color:var(--green-mid);margin-bottom:16px;}
   .masthead h1{font-family:'Fraunces',serif;font-weight:300;font-style:italic;font-size:clamp(2.8rem,7vw,5rem);line-height:0.95;letter-spacing:-1px;}
   .masthead h1 b{font-style:normal;font-weight:600;color:var(--green);}
   .masthead .tagline{max-width:480px;margin:18px auto 0;font-size:1rem;color:var(--ink-soft);font-style:italic;}
-
-  /* SECTION LABEL */
   .sec-label{display:flex;align-items:center;gap:16px;margin:54px 0 32px;font-family:'Fraunces',serif;font-size:0.76rem;letter-spacing:3px;text-transform:uppercase;color:var(--green);font-weight:600;}
   .sec-label::after{content:"";flex:1;height:1px;background:var(--rule-strong);}
-
-  /* SAISONS */
   .saisons{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1.5px solid var(--ink);}
   .saison{padding:28px 24px 32px;border-right:1px solid var(--rule);}
   .saison:last-child{border-right:none;}
@@ -54,21 +47,40 @@
   .saison li::before{content:"—";color:var(--green-light);flex-shrink:0;}
   .saison li strong{color:var(--ink);font-weight:600;}
   .saison li span{font-size:0.82rem;font-style:italic;}
-  @media(max-width:780px){.saisons{grid-template-columns:repeat(2,1fr);}.saison:nth-child(2){border-right:none;}.saison:nth-child(1),.saison:nth-child(2){border-bottom:1px solid var(--rule);}  }
+  @media(max-width:780px){.saisons{grid-template-columns:repeat(2,1fr);}.saison:nth-child(2){border-right:none;}.saison:nth-child(1),.saison:nth-child(2){border-bottom:1px solid var(--rule);}}
   @media(max-width:500px){.saisons{grid-template-columns:1fr;}.saison{border-right:none;border-bottom:1px solid var(--rule);}.saison:last-child{border-bottom:none;}}
-
-  /* FAITS */
-  .faits{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1.5px solid var(--ink);margin-bottom:100px;}
-  .fait{padding:30px 26px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);opacity:0;animation:rise .6s cubic-bezier(.2,.7,.3,1) forwards;}
+  .faits{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1.5px solid var(--ink);}
+  .fait{padding:30px 26px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);opacity:0;animation:rise .6s cubic-bezier(.2,.7,.3,1) forwards;transform:translateY(14px);}
   .fait:nth-child(3n){border-right:none;}
   @keyframes rise{to{opacity:1;transform:none;}}
-  .fait{transform:translateY(14px);}
   .fait-num{font-family:'Fraunces',serif;font-size:2.4rem;font-weight:300;color:var(--green-light);line-height:1;margin-bottom:12px;}
   .fait-titre{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:600;color:var(--ink);margin-bottom:8px;line-height:1.2;}
   .fait-texte{font-size:0.92rem;color:var(--ink-soft);line-height:1.65;}
   @media(max-width:780px){.faits{grid-template-columns:repeat(2,1fr);}.fait:nth-child(3n){border-right:1px solid var(--rule);}.fait:nth-child(2n){border-right:none;}}
   @media(max-width:500px){.faits{grid-template-columns:1fr;}.fait{border-right:none !important;}}
-
+  .vocab{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1.5px solid var(--ink);}
+  .vocab-card{padding:26px 24px 30px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);}
+  .vocab-card:nth-child(3n){border-right:none;}
+  .vocab-term{font-family:'Fraunces',serif;font-size:1.05rem;font-weight:600;color:var(--green);margin-bottom:6px;}
+  .vocab-latin{font-size:0.8rem;font-style:italic;color:var(--green-mid);margin-bottom:10px;}
+  .vocab-def{font-size:0.9rem;color:var(--ink-soft);line-height:1.62;}
+  @media(max-width:780px){.vocab{grid-template-columns:repeat(2,1fr);}.vocab-card:nth-child(3n){border-right:1px solid var(--rule);}.vocab-card:nth-child(2n){border-right:none;}}
+  @media(max-width:500px){.vocab{grid-template-columns:1fr;}.vocab-card{border-right:none !important;}}
+  .tips{border-top:1.5px solid var(--ink);}
+  .tip{display:flex;gap:28px;align-items:baseline;padding:22px 0;border-bottom:1px solid var(--rule);}
+  .tip:last-child{border-bottom:none;}
+  .tip-num{font-family:'Fraunces',serif;font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--green-light);flex-shrink:0;width:24px;}
+  .tip-body{flex:1;}
+  .tip-titre{font-family:'Fraunces',serif;font-size:1rem;font-weight:600;color:var(--ink);margin-bottom:4px;}
+  .tip-texte{font-size:0.92rem;color:var(--ink-soft);line-height:1.62;}
+  .bio{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border-top:1.5px solid var(--ink);margin-bottom:100px;}
+  .bio-card{padding:34px 30px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);}
+  .bio-card:nth-child(2n){border-right:none;}
+  .bio-kicker{font-size:0.7rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--green-mid);font-family:'Fraunces',serif;font-weight:600;margin-bottom:10px;}
+  .bio-titre{font-family:'Fraunces',serif;font-size:1.15rem;font-weight:600;color:var(--ink);margin-bottom:10px;line-height:1.2;}
+  .bio-texte{font-size:0.92rem;color:var(--ink-soft);line-height:1.65;}
+  .bio-texte em{color:var(--ink);font-style:normal;font-weight:600;}
+  @media(max-width:640px){.bio{grid-template-columns:1fr;}.bio-card{border-right:none !important;}}
   footer.site{border-top:3px double var(--ink);padding:46px 0 70px;text-align:center;}
   footer .f-brand{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;color:var(--green);}
   footer p{color:var(--ink-soft);font-size:0.9rem;margin-top:12px;max-width:460px;margin-left:auto;margin-right:auto;}
@@ -76,7 +88,6 @@
 </style>
 </head>
 <body>
-
 <header class="site">
   <div class="wrap">
     <div class="topbar">
@@ -92,54 +103,55 @@
     </div>
   </div>
 </header>
-
 <div class="wrap">
   <section class="masthead">
     <div class="kicker">Botanique de poche</div>
     <h1>Mauvaises<b>herbes</b></h1>
     <p class="tagline">Pour pas se planter, selon la saison.</p>
   </section>
-
-  <!-- SAISONS -->
   <div class="sec-label">Quoi planter en ce moment</div>
   <div class="saisons" id="saisons-grid"></div>
-
-  <!-- FAITS -->
-  <div class="sec-label" style="margin-top:56px;">Funs facts</div>
+  <div class="sec-label" style="margin-top:56px;">Fun facts</div>
   <div class="faits">
-    <div class="fait" style="animation-delay:.05s">
-      <div class="fait-num">01</div>
-      <div class="fait-titre">Les arbres se parlent</div>
-      <div class="fait-texte">Sous une forêt, les racines s'interconnectent via des champignons. Les arbres s'échangent du sucre, des nutriments, des signaux d'alerte. On appelle ça le Wood Wide Web.</div>
-    </div>
-    <div class="fait" style="animation-delay:.1s">
-      <div class="fait-num">02</div>
-      <div class="fait-titre">Le bambou explose de croissance</div>
-      <div class="fait-texte">Certaines espèces de bambou peuvent pousser de 90 cm en une seule journée. C'est mesurable à l'œil nu si tu restes suffisamment longtemps.</div>
-    </div>
-    <div class="fait" style="animation-delay:.15s">
-      <div class="fait-num">03</div>
-      <div class="fait-titre">La Welwitschia : deux feuilles, 2 000 ans</div>
-      <div class="fait-texte">Cette plante du désert namibien ne pousse que deux feuilles dans toute sa vie. Elle peut vivre deux millénaires en les conservant. Économie radicale.</div>
-    </div>
-    <div class="fait" style="animation-delay:.2s">
-      <div class="fait-num">04</div>
-      <div class="fait-titre">Le pissenlit est entièrement comestible</div>
-      <div class="fait-texte">Racine, tige, feuille, fleur. Tout se mange. C'est aussi une plante médicinale utilisée depuis des siècles pour le foie et la digestion. Et tout le monde le détruit.</div>
-    </div>
-    <div class="fait" style="animation-delay:.25s">
-      <div class="fait-num">05</div>
-      <div class="fait-titre">Les plantes se souviennent</div>
-      <div class="fait-texte">La Mimosa pudica, quand on la touche, se referme. Mais si on la touche répétitivement sans danger, elle finit par ne plus réagir. Elle a appris. Sans neurones.</div>
-    </div>
-    <div class="fait" style="animation-delay:.3s">
-      <div class="fait-num">06</div>
-      <div class="fait-titre">Le baobab est un château d'eau</div>
-      <div class="fait-texte">Un seul baobab peut stocker jusqu'à 120 000 litres d'eau dans son tronc. Dans les régions sèches d'Afrique, il est parfois percé pour en tirer de l'eau potable.</div>
-    </div>
+    <div class="fait" style="animation-delay:.05s"><div class="fait-num">01</div><div class="fait-titre">Les arbres se parlent</div><div class="fait-texte">Sous une forêt, les racines s'interconnectent via des champignons. Les arbres s'échangent du sucre, des nutriments, des signaux d'alerte. On appelle ça le Wood Wide Web.</div></div>
+    <div class="fait" style="animation-delay:.1s"><div class="fait-num">02</div><div class="fait-titre">Le bambou explose de croissance</div><div class="fait-texte">Certaines espèces de bambou peuvent pousser de 90 cm en une seule journée. C'est mesurable à l'œil nu si tu restes suffisamment longtemps.</div></div>
+    <div class="fait" style="animation-delay:.15s"><div class="fait-num">03</div><div class="fait-titre">La Welwitschia : deux feuilles, 2 000 ans</div><div class="fait-texte">Cette plante du désert namibien ne pousse que deux feuilles dans toute sa vie. Elle peut vivre deux millénaires en les conservant. Économie radicale.</div></div>
+    <div class="fait" style="animation-delay:.2s"><div class="fait-num">04</div><div class="fait-titre">Le pissenlit est entièrement comestible</div><div class="fait-texte">Racine, tige, feuille, fleur. Tout se mange. C'est aussi une plante médicinale utilisée depuis des siècles pour le foie et la digestion. Et tout le monde le détruit.</div></div>
+    <div class="fait" style="animation-delay:.25s"><div class="fait-num">05</div><div class="fait-titre">Les plantes se souviennent</div><div class="fait-texte">La Mimosa pudica, quand on la touche, se referme. Mais si on la touche répétitivement sans danger, elle finit par ne plus réagir. Elle a appris. Sans neurones.</div></div>
+    <div class="fait" style="animation-delay:.3s"><div class="fait-num">06</div><div class="fait-titre">Le baobab est un château d'eau</div><div class="fait-texte">Un seul baobab peut stocker jusqu'à 120 000 litres d'eau dans son tronc. Dans les régions sèches d'Afrique, il est parfois percé pour en tirer de l'eau potable.</div></div>
+  </div>
+  <div class="sec-label" style="margin-top:56px;">Le vocabulaire qu'on n'apprend nulle part</div>
+  <div class="vocab">
+    <div class="vocab-card"><div class="vocab-term">Drageon</div><div class="vocab-latin">du latin "draco" — le dragon</div><div class="vocab-def">Pousse qui surgit directement depuis les racines d'un arbre ou arbuste. Il vit aux dépens de la plante mère. Utile pour multiplier le lilas ou le framboisier — envahissant sinon. À arracher profond, sinon il repousse.</div></div>
+    <div class="vocab-card"><div class="vocab-term">Rejet</div><div class="vocab-latin">pousse basale</div><div class="vocab-def">Nouvelle tige qui naît à la base du tronc ou de la souche, souvent après une taille sévère ou un stress. Plus proche de la tige principale que le drageon. Classique chez les rosiers, les bananiers, les bambous.</div></div>
+    <div class="vocab-card"><div class="vocab-term">Stolon</div><div class="vocab-latin">aussi appelé "coulant"</div><div class="vocab-def">Tige rampante qui s'allonge horizontalement, touche le sol et crée de nouvelles plantules à intervalles réguliers. Le fraisier en vit. Une seule plante peut coloniser un mètre carré en une saison.</div></div>
+    <div class="vocab-card"><div class="vocab-term">Gourmand</div><div class="vocab-latin">ennemi numéro un des tomates</div><div class="vocab-def">Pousse secondaire qui naît à l'aisselle d'une feuille, entre la tige principale et le pétiole. Il capte de l'énergie sans jamais produire de fruits. Sur les tomates, à supprimer chaque semaine. À pincer avec les doigts, jamais aux ciseaux.</div></div>
+    <div class="vocab-card"><div class="vocab-term">Marcottage</div><div class="vocab-latin">multiplication végétative</div><div class="vocab-def">Technique qui force une branche à s'enraciner avant de la séparer de la plante mère. On entaille légèrement, on humidifie, on entoure de mousse ou de terre. Quand les racines apparaissent, on coupe. Résultat garanti, zéro risque de perte.</div></div>
+    <div class="vocab-card"><div class="vocab-term">Bouturage</div><div class="vocab-latin">la multiplication low-cost</div><div class="vocab-def">On coupe un bout de tige saine avec deux ou trois nœuds, on supprime les feuilles basses, on plante dans un substrat léger. La menthe, le géranium, le basilic, le romarin adorent ça. Plus aléatoire que le marcottage, mais sans effort.</div></div>
+    <div class="vocab-card"><div class="vocab-term">Paillis</div><div class="vocab-latin">mulch en anglais</div><div class="vocab-def">Couche de matière organique ou minérale posée sur le sol autour des plantes : paille, copeaux de bois, feuilles mortes, compost, graviers. Retient l'humidité, régule la température du sol, étouffe les mauvaises herbes et nourrit les vers de terre.</div></div>
+    <div class="vocab-card"><div class="vocab-term">Tallage</div><div class="vocab-latin">des graminées et céréales</div><div class="vocab-def">Capacité d'une plante à produire plusieurs tiges à partir d'un seul pied. Les graminées et les céréales tallent naturellement. Le blé, par exemple, compte sur ce mécanisme pour démultiplier ses épis sans qu'on ne plante rien de plus.</div></div>
+    <div class="vocab-card"><div class="vocab-term">Étiolement</div><div class="vocab-latin">le manque de lumière visible</div><div class="vocab-def">Quand une plante manque de lumière, ses tiges s'allongent exagérément, pâlissent et perdent leurs feuilles inférieures. Elle "cherche" la lumière. C'est réversible si on agit tôt — mais une plante étiolée longtemps ne récupère jamais vraiment.</div></div>
+  </div>
+  <div class="sec-label" style="margin-top:56px;">Ce qu'on apprend à ses dépens</div>
+  <div class="tips">
+    <div class="tip"><div class="tip-num">01</div><div class="tip-body"><div class="tip-titre">Arroser le matin, jamais le soir</div><div class="tip-texte">L'eau stagnante sur les feuilles la nuit est un buffet pour les champignons et la moisissure. Le matin, la chaleur du jour assèche rapidement. Et les racines ont toute la journée pour boire.</div></div></div>
+    <div class="tip"><div class="tip-num">02</div><div class="tip-body"><div class="tip-titre">Un sol vivant sent la forêt après la pluie</div><div class="tip-texte">Cette odeur, c'est la géosmine — un composé produit par les bactéries du sol en bonne santé. Si ta terre est inodore ou sent le renfermé, elle est appauvrie. Ajoute du compost, pas des engrais chimiques.</div></div></div>
+    <div class="tip"><div class="tip-num">03</div><div class="tip-body"><div class="tip-titre">Les mauvaises herbes sont des indicateurs</div><div class="tip-texte">L'ortie pousse sur les sols riches en azote. Le pissenlit indique un sol tassé et compacté. La prêle signale un sol humide et acide. Avant d'arracher, observe : elles te disent ce que ton sol a besoin qu'on lui fasse.</div></div></div>
+    <div class="tip"><div class="tip-num">04</div><div class="tip-body"><div class="tip-titre">Pincer le basilic avant qu'il monte</div><div class="tip-texte">Dès que les premières fleurs apparaissent, supprime-les. Quand le basilic monte en graines, les feuilles perdent leur huile essentielle et leur goût. Un basilic pincé régulièrement double de volume et reste aromatique toute la saison.</div></div></div>
+    <div class="tip"><div class="tip-num">05</div><div class="tip-body"><div class="tip-titre">Les compagnons de culture, ça marche vraiment</div><div class="tip-texte">Tomates + basilic : le basilic repousse les pucerons. Carottes + poireaux : leurs odeurs respectives éloignent chacune les parasites de l'autre. Roses + ail : l'ail protège contre les champignons.</div></div></div>
+    <div class="tip"><div class="tip-num">06</div><div class="tip-body"><div class="tip-titre">Un pot sans trou, c'est une plante qui pourrit</div><div class="tip-texte">Sans drainage, l'eau stagne au fond, asphyxie les racines et crée un environnement anaérobie parfait pour les bactéries pathogènes. Toujours un trou. Toujours une soucoupe qu'on vide après l'arrosage.</div></div></div>
+    <div class="tip"><div class="tip-num">07</div><div class="tip-body"><div class="tip-titre">Tailler en biseau, toujours au-dessus d'un nœud</div><div class="tip-texte">Une coupe droite retient l'eau et favorise les champignons. En biseau, l'eau glisse. Et couper juste au-dessus d'un nœud indique à la plante où faire repartir sa croissance.</div></div></div>
+  </div>
+  <div class="sec-label" style="margin-top:56px;">Biologie végétale</div>
+  <div class="bio">
+    <div class="bio-card"><div class="bio-kicker">Nutrition</div><div class="bio-titre">La photosynthèse, vraiment</div><div class="bio-texte">Les plantes mangent de la lumière. Elles combinent le CO₂ de l'air et l'eau du sol pour fabriquer du glucose. Le bois d'un arbre centenaire, c'est <em>de l'air solidifié</em>. Seulement 5 % de sa masse vient du sol. Le reste, c'est du carbone capturé depuis l'atmosphère.</div></div>
+    <div class="bio-card"><div class="bio-kicker">Respiration</div><div class="bio-titre">Les stomates : les poumons de la feuille</div><div class="bio-texte">Sous chaque feuille, des milliers de minuscules pores — les stomates — s'ouvrent et se ferment selon la lumière, la chaleur et le taux d'humidité. Par forte chaleur, ils se ferment pour <em>limiter la perte d'eau</em>. La plante arrête alors de grandir.</div></div>
+    <div class="bio-card"><div class="bio-kicker">Transport</div><div class="bio-titre">Deux sèves, deux circuits</div><div class="bio-texte">La <em>sève brute</em> monte des racines vers les feuilles : eau et minéraux puisés dans le sol. La <em>sève élaborée</em> descend des feuilles vers le reste : le glucose fabriqué par la photosynthèse. Deux tissus distincts — le xylème et le phloème — courent en parallèle dans chaque tige.</div></div>
+    <div class="bio-card"><div class="bio-kicker">Orientation</div><div class="bio-titre">Géotropisme et phototropisme</div><div class="bio-texte">Les racines poussent vers le bas même dans le noir absolu — elles perçoivent la gravité (<em>géotropisme positif</em>). Les tiges poussent vers la lumière (<em>phototropisme positif</em>). La plante sait où elle est dans l'espace sans système nerveux, grâce à des signaux chimiques et mécaniques.</div></div>
+    <div class="bio-card"><div class="bio-kicker">Hormones</div><div class="bio-titre">L'auxine : l'hormone qui courbe</div><div class="bio-texte">L'auxine est une hormone de croissance produite aux sommets des tiges. Elle migre vers le côté le plus ombragé, où elle accélère l'allongement des cellules. Résultat : la tige se courbe vers la lumière. <em>Ce n'est pas de la magie</em>, c'est de la chimie.</div></div>
+    <div class="bio-card"><div class="bio-kicker">Défense</div><div class="bio-titre">Les plantes se défendent en silence</div><div class="bio-texte">Attaquées par des insectes, certaines plantes émettent des composés volatils qui <em>attirent les prédateurs naturels</em> de leurs agresseurs. D'autres renforcent leurs feuilles en tannins. Et certaines envoient des signaux chimiques aux plantes voisines — qui se défendent en prévention.</div></div>
   </div>
 </div>
-
 <footer class="site">
   <div class="wrap">
     <div class="f-brand">Plantes</div>
@@ -147,76 +159,28 @@
     <div class="sig">— A.</div>
   </div>
 </footer>
-
 <script>
   const months=["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
   const now=new Date();
   document.getElementById("today").textContent=now.getDate()+" "+months[now.getMonth()]+" "+now.getFullYear();
-
-  const SAISONS = {
-    "Printemps": {
-      mois: [2,3,4],
-      plantes: [
-        { nom: "Radis", note: "30 jours de sol à assiette" },
-        { nom: "Fraises", note: "pleine sun, sol bien drainé" },
-        { nom: "Laitue", note: "idéale en pot, pousse vite" },
-        { nom: "Petits pois", note: "à tuteurer dès 10 cm" },
-        { nom: "Basilic", note: "après les dernières gelées" },
-      ]
-    },
-    "Été": {
-      mois: [5,6,7],
-      plantes: [
-        { nom: "Tomates", note: "arroser à la base, jamais les feuilles" },
-        { nom: "Concombres", note: "chaleur et eau, beaucoup des deux" },
-        { nom: "Courgettes", note: "une plante suffit, crois-moi" },
-        { nom: "Tournesols", note: "suivent le soleil, eux au moins" },
-        { nom: "Basilic", note: "pincer les fleurs pour garder les feuilles" },
-      ]
-    },
-    "Automne": {
-      mois: [8,9,10],
-      plantes: [
-        { nom: "Ail", note: "planter en octobre pour récolter en juin" },
-        { nom: "Épinards", note: "résiste au froid, récolte en novembre" },
-        { nom: "Courges", note: "semer en été, récolter maintenant" },
-        { nom: "Choux", note: "carottes et persil les adorent à côté" },
-        { nom: "Mâche", note: "la plus facile, oublie-la et elle pousse" },
-      ]
-    },
-    "Hiver": {
-      mois: [11,0,1],
-      plantes: [
-        { nom: "Mâche", note: "résiste jusqu'à −10°C" },
-        { nom: "Persil", note: "sous abri ou en pot intérieur" },
-        { nom: "Cresson", note: "besoin d'eau, pot dans une soucoupe" },
-        { nom: "Ciboulette", note: "en intérieur, fenêtre au sud" },
-        { nom: "Microgreens", note: "graines germées, prêtes en 7 jours" },
-      ]
-    }
+  const SAISONS={
+    "Printemps":{mois:[2,3,4],plantes:[{nom:"Radis",note:"30 jours de sol à assiette"},{nom:"Fraises",note:"pleine sun, sol bien drainé"},{nom:"Laitue",note:"idéale en pot, pousse vite"},{nom:"Petits pois",note:"à tuteurer dès 10 cm"},{nom:"Basilic",note:"après les dernières gelées"}]},
+    "Été":{mois:[5,6,7],plantes:[{nom:"Tomates",note:"arroser à la base, jamais les feuilles"},{nom:"Concombres",note:"chaleur et eau, beaucoup des deux"},{nom:"Courgettes",note:"une plante suffit, crois-moi"},{nom:"Tournesols",note:"suivent le soleil, eux au moins"},{nom:"Basilic",note:"pincer les fleurs pour garder les feuilles"}]},
+    "Automne":{mois:[8,9,10],plantes:[{nom:"Ail",note:"planter en octobre pour récolter en juin"},{nom:"Épinards",note:"résiste au froid, récolte en novembre"},{nom:"Courges",note:"semer en été, récolter maintenant"},{nom:"Choux",note:"carottes et persil les adorent à côté"},{nom:"Mâche",note:"la plus facile, oublie-la et elle pousse"}]},
+    "Hiver":{mois:[11,0,1],plantes:[{nom:"Mâche",note:"résiste jusqu'à −10°C"},{nom:"Persil",note:"sous abri ou en pot intérieur"},{nom:"Cresson",note:"besoin d'eau, pot dans une soucoupe"},{nom:"Ciboulette",note:"en intérieur, fenêtre au sud"},{nom:"Microgreens",note:"graines germées, prêtes en 7 jours"}]}
   };
-
-  const currentMonth = now.getMonth();
-  const grid = document.getElementById("saisons-grid");
-  const order = ["Printemps","Été","Automne","Hiver"];
-
-  // Find current season
-  let currentSaison = "";
-  for(const [name, data] of Object.entries(SAISONS)){
-    if(data.mois.includes(currentMonth)) currentSaison = name;
-  }
-
-  order.forEach(name => {
-    const data = SAISONS[name];
-    const isCurrent = name === currentSaison;
-    const div = document.createElement("div");
-    div.className = "saison";
-    if(isCurrent) div.style.background = "var(--green-pale)";
-    div.innerHTML = `
-      <div class="saison-nom">${name}${isCurrent ? " — maintenant" : ""}</div>
-      <ul>
-        ${data.plantes.map(p => `<li><strong>${p.nom}</strong> <span>${p.note}</span></li>`).join("")}
-      </ul>`;
+  const currentMonth=now.getMonth();
+  const grid=document.getElementById("saisons-grid");
+  const order=["Printemps","Été","Automne","Hiver"];
+  let currentSaison="";
+  for(const [name,data] of Object.entries(SAISONS)){if(data.mois.includes(currentMonth))currentSaison=name;}
+  order.forEach(name=>{
+    const data=SAISONS[name];
+    const isCurrent=name===currentSaison;
+    const div=document.createElement("div");
+    div.className="saison";
+    if(isCurrent)div.style.background="var(--green-pale)";
+    div.innerHTML=`<div class="saison-nom">${name}${isCurrent?" — maintenant":""}</div><ul>${data.plantes.map(p=>`<li><strong>${p.nom}</strong> <span>${p.note}</span></li>`).join("")}</ul>`;
     grid.appendChild(div);
   });
 </script>
