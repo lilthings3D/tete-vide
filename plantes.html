@@ -31,24 +31,72 @@
   .topdate{font-size:0.8rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-soft);}
   @media(max-width:780px){.sitenav-link{padding:0 8px 4px;font-size:0.8rem;}}
   @media(max-width:600px){.wrap{padding:0 20px;}.topdate{display:none;}}
+
   .masthead{text-align:center;padding:60px 0 30px;border-bottom:3px double var(--ink);}
   .masthead .kicker{font-size:0.78rem;letter-spacing:5px;text-transform:uppercase;color:var(--green-mid);margin-bottom:16px;}
   .masthead h1{font-family:'Fraunces',serif;font-weight:300;font-style:italic;font-size:clamp(2.8rem,7vw,5rem);line-height:0.95;letter-spacing:-1px;}
   .masthead h1 b{font-style:normal;font-weight:600;color:var(--green);}
   .masthead .tagline{max-width:480px;margin:18px auto 0;font-size:1rem;color:var(--ink-soft);font-style:italic;}
+
   .sec-label{display:flex;align-items:center;gap:16px;margin:54px 0 32px;font-family:'Fraunces',serif;font-size:0.76rem;letter-spacing:3px;text-transform:uppercase;color:var(--green);font-weight:600;}
   .sec-label::after{content:"";flex:1;height:1px;background:var(--rule-strong);}
-  .saisons{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1.5px solid var(--ink);}
-  .saison{padding:28px 24px 32px;border-right:1px solid var(--rule);}
-  .saison:last-child{border-right:none;}
-  .saison-nom{font-family:'Fraunces',serif;font-weight:600;font-size:0.72rem;letter-spacing:3px;text-transform:uppercase;color:var(--green-mid);margin-bottom:20px;}
-  .saison ul{list-style:none;display:flex;flex-direction:column;gap:10px;}
-  .saison li{display:flex;align-items:baseline;gap:10px;font-size:0.98rem;color:var(--ink-soft);}
-  .saison li::before{content:"—";color:var(--green-light);flex-shrink:0;}
-  .saison li strong{color:var(--ink);font-weight:600;}
-  .saison li span{font-size:0.82rem;font-style:italic;}
-  @media(max-width:780px){.saisons{grid-template-columns:repeat(2,1fr);}.saison:nth-child(2){border-right:none;}.saison:nth-child(1),.saison:nth-child(2){border-bottom:1px solid var(--rule);}}
-  @media(max-width:500px){.saisons{grid-template-columns:1fr;}.saison{border-right:none;border-bottom:1px solid var(--rule);}.saison:last-child{border-bottom:none;}}
+
+  /* CALENDRIER */
+  .cal-months{display:grid;grid-template-columns:repeat(6,1fr);border:1.5px solid var(--ink);}
+  .cal-btn{padding:16px 4px;font-family:'Fraunces',serif;font-size:0.72rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-soft);cursor:pointer;text-align:center;border:none;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);background:none;transition:background .2s,color .2s;}
+  .cal-btn:nth-child(6),.cal-btn:nth-child(12){border-right:none;}
+  .cal-btn:nth-child(7),.cal-btn:nth-child(8),.cal-btn:nth-child(9),.cal-btn:nth-child(10),.cal-btn:nth-child(11),.cal-btn:nth-child(12){border-bottom:none;}
+  .cal-btn:hover{background:var(--green-pale);color:var(--green);}
+  .cal-btn.active{background:var(--green-pale);color:var(--green);}
+  .cal-btn.now{font-weight:700;color:var(--ink);}
+  .cal-btn.now.active{color:var(--green);}
+  @media(max-width:600px){.cal-months{grid-template-columns:repeat(4,1fr);}.cal-btn:nth-child(4),.cal-btn:nth-child(8),.cal-btn:nth-child(12){border-right:none;}.cal-btn:nth-child(6){border-right:1px solid var(--rule);}.cal-btn:nth-child(9),.cal-btn:nth-child(10),.cal-btn:nth-child(11),.cal-btn:nth-child(12){border-bottom:none;}.cal-btn:nth-child(7),.cal-btn:nth-child(8){border-bottom:1px solid var(--rule);}}
+
+  .cal-panel{border:1.5px solid var(--ink);border-top:none;padding:32px 28px;display:none;}
+  .cal-panel.on{display:block;}
+  .cal-panel-head{display:flex;align-items:baseline;gap:16px;margin-bottom:28px;}
+  .cal-panel-title{font-family:'Fraunces',serif;font-size:1.6rem;font-weight:300;font-style:italic;color:var(--ink);}
+  .cal-panel-close{font-family:'Fraunces',serif;font-size:0.78rem;letter-spacing:1px;color:var(--ink-soft);cursor:pointer;margin-left:auto;border:none;background:none;transition:color .2s;}
+  .cal-panel-close:hover{color:var(--green);}
+  .cal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px 36px;}
+  @media(max-width:780px){.cal-grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:500px){.cal-grid{grid-template-columns:1fr;}}
+  .cal-cat-title{font-family:'Fraunces',serif;font-size:0.68rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--green-mid);font-weight:600;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--green-pale);}
+  .cal-cat ul{list-style:none;display:flex;flex-direction:column;gap:5px;}
+  .cal-cat li{font-size:0.88rem;color:var(--ink-soft);line-height:1.45;padding-left:14px;position:relative;}
+  .cal-cat li::before{content:"—";position:absolute;left:0;color:var(--green-light);}
+
+  /* RECHERCHE PLANTE */
+  .plant-search-wrap{position:relative;margin-bottom:0;}
+  .plant-search-input{width:100%;padding:16px 18px;font-family:'Spectral',Georgia,serif;font-size:1rem;border:1.5px solid var(--ink);background:var(--cream);color:var(--ink);outline:none;transition:border-color .2s;}
+  .plant-search-input:focus{border-color:var(--green);}
+  .plant-search-input::placeholder{color:var(--green-light);font-style:italic;}
+  .plant-results{position:absolute;top:100%;left:0;right:0;background:var(--paper);border:1.5px solid var(--ink);border-top:none;max-height:220px;overflow-y:auto;z-index:20;display:none;}
+  .plant-results.on{display:block;}
+  .plant-result-item{padding:11px 18px;cursor:pointer;font-size:0.92rem;color:var(--ink-soft);border-bottom:1px solid var(--rule);display:flex;justify-content:space-between;align-items:baseline;}
+  .plant-result-item:last-child{border-bottom:none;}
+  .plant-result-item:hover{background:var(--green-pale);color:var(--green);}
+  .plant-result-latin{font-size:0.78rem;font-style:italic;color:var(--green-light);}
+
+  .plant-card{border:1.5px solid var(--ink);border-top:none;padding:32px 28px;display:none;}
+  .plant-card.on{display:block;}
+  .plant-card-head{margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--rule);}
+  .plant-nom{font-family:'Fraunces',serif;font-size:2rem;font-weight:300;font-style:italic;color:var(--ink);line-height:1;}
+  .plant-latin{font-size:0.85rem;font-style:italic;color:var(--green-mid);margin-top:6px;margin-bottom:14px;}
+  .plant-tags{display:flex;gap:8px;flex-wrap:wrap;}
+  .plant-tag{font-family:'Fraunces',serif;font-size:0.66rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--green-mid);border:1px solid var(--green-light);padding:3px 10px;}
+  .plant-tag.diff-1{color:#5A9B52;border-color:#A8CFA4;}
+  .plant-tag.diff-2{color:#B8860B;border-color:#D4A843;}
+  .plant-tag.diff-3{color:#9B3535;border-color:#C47070;}
+  .plant-body{display:grid;grid-template-columns:1fr 1fr;gap:20px 40px;margin-bottom:22px;}
+  @media(max-width:640px){.plant-body{grid-template-columns:1fr;}}
+  .plant-row{display:flex;flex-direction:column;gap:3px;}
+  .plant-label{font-family:'Fraunces',serif;font-size:0.66rem;letter-spacing:2px;text-transform:uppercase;color:var(--green-light);}
+  .plant-val{font-size:0.92rem;color:var(--ink-soft);line-height:1.4;}
+  .plant-conseil{border-top:1px solid var(--green-pale);padding-top:18px;font-size:0.92rem;color:var(--ink-soft);font-style:italic;line-height:1.65;}
+  .plant-conseil strong{color:var(--ink);font-style:normal;}
+
+  /* FAITS */
   .faits{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1.5px solid var(--ink);}
   .fait{padding:30px 26px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);opacity:0;animation:rise .6s cubic-bezier(.2,.7,.3,1) forwards;transform:translateY(14px);}
   .fait:nth-child(3n){border-right:none;}
@@ -58,6 +106,8 @@
   .fait-texte{font-size:0.92rem;color:var(--ink-soft);line-height:1.65;}
   @media(max-width:780px){.faits{grid-template-columns:repeat(2,1fr);}.fait:nth-child(3n){border-right:1px solid var(--rule);}.fait:nth-child(2n){border-right:none;}}
   @media(max-width:500px){.faits{grid-template-columns:1fr;}.fait{border-right:none !important;}}
+
+  /* VOCAB */
   .vocab{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1.5px solid var(--ink);}
   .vocab-card{padding:26px 24px 30px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);}
   .vocab-card:nth-child(3n){border-right:none;}
@@ -66,6 +116,8 @@
   .vocab-def{font-size:0.9rem;color:var(--ink-soft);line-height:1.62;}
   @media(max-width:780px){.vocab{grid-template-columns:repeat(2,1fr);}.vocab-card:nth-child(3n){border-right:1px solid var(--rule);}.vocab-card:nth-child(2n){border-right:none;}}
   @media(max-width:500px){.vocab{grid-template-columns:1fr;}.vocab-card{border-right:none !important;}}
+
+  /* TIPS */
   .tips{border-top:1.5px solid var(--ink);}
   .tip{display:flex;gap:28px;align-items:baseline;padding:22px 0;border-bottom:1px solid var(--rule);}
   .tip:last-child{border-bottom:none;}
@@ -73,6 +125,8 @@
   .tip-body{flex:1;}
   .tip-titre{font-family:'Fraunces',serif;font-size:1rem;font-weight:600;color:var(--ink);margin-bottom:4px;}
   .tip-texte{font-size:0.92rem;color:var(--ink-soft);line-height:1.62;}
+
+  /* BIO */
   .bio{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border-top:1.5px solid var(--ink);margin-bottom:100px;}
   .bio-card{padding:34px 30px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);}
   .bio-card:nth-child(2n){border-right:none;}
@@ -81,6 +135,7 @@
   .bio-texte{font-size:0.92rem;color:var(--ink-soft);line-height:1.65;}
   .bio-texte em{color:var(--ink);font-style:normal;font-weight:600;}
   @media(max-width:640px){.bio{grid-template-columns:1fr;}.bio-card{border-right:none !important;}}
+
   footer.site{border-top:3px double var(--ink);padding:46px 0 70px;text-align:center;}
   footer .f-brand{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;color:var(--green);}
   footer p{color:var(--ink-soft);font-size:0.9rem;margin-top:12px;max-width:460px;margin-left:auto;margin-right:auto;}
@@ -103,55 +158,82 @@
     </div>
   </div>
 </header>
+
 <div class="wrap">
   <section class="masthead">
     <div class="kicker">Botanique de poche</div>
     <h1>Mauvaises <b>herbes</b></h1>
     <p class="tagline">Pour pas se planter, selon la saison.</p>
   </section>
-  <div class="sec-label">Quoi planter en ce moment</div>
-  <div class="saisons" id="saisons-grid"></div>
+
+  <!-- CALENDRIER -->
+  <div class="sec-label">Calendrier du jardinier</div>
+  <div class="cal-months" id="cal-months"></div>
+  <div class="cal-panel" id="cal-panel">
+    <div class="cal-panel-head">
+      <div class="cal-panel-title" id="cal-panel-title"></div>
+      <button class="cal-panel-close" id="cal-close">fermer ×</button>
+    </div>
+    <div class="cal-grid" id="cal-grid"></div>
+  </div>
+
+  <!-- RECHERCHE PLANTE -->
+  <div class="sec-label" style="margin-top:56px;">Cherche ta plante</div>
+  <div class="plant-search-wrap">
+    <input class="plant-search-input" id="plant-input" type="text" placeholder="Tomate, basilic, lavande…" autocomplete="off">
+    <div class="plant-results" id="plant-results"></div>
+  </div>
+  <div class="plant-card" id="plant-card"></div>
+
+  <!-- FAITS -->
   <div class="sec-label" style="margin-top:56px;">Fun facts</div>
   <div class="faits">
-    <div class="fait" style="animation-delay:.05s"><div class="fait-num">01</div><div class="fait-titre">Les arbres se parlent</div><div class="fait-texte">Sous une forêt, les racines s'interconnectent via des champignons. Les arbres s'échangent du sucre, des nutriments, des signaux d'alerte. On appelle ça le Wood Wide Web.</div></div>
-    <div class="fait" style="animation-delay:.1s"><div class="fait-num">02</div><div class="fait-titre">Le bambou explose de croissance</div><div class="fait-texte">Certaines espèces de bambou peuvent pousser de 90 cm en une seule journée. C'est mesurable à l'œil nu si tu restes suffisamment longtemps.</div></div>
-    <div class="fait" style="animation-delay:.15s"><div class="fait-num">03</div><div class="fait-titre">La Welwitschia : deux feuilles, 2 000 ans</div><div class="fait-texte">Cette plante du désert namibien ne pousse que deux feuilles dans toute sa vie. Elle peut vivre deux millénaires en les conservant. Économie radicale.</div></div>
-    <div class="fait" style="animation-delay:.2s"><div class="fait-num">04</div><div class="fait-titre">Le pissenlit est entièrement comestible</div><div class="fait-texte">Racine, tige, feuille, fleur. Tout se mange. C'est aussi une plante médicinale utilisée depuis des siècles pour le foie et la digestion. Et tout le monde le détruit.</div></div>
+    <div class="fait" style="animation-delay:.05s"><div class="fait-num">01</div><div class="fait-titre">Les arbres se parlent</div><div class="fait-texte">Sous une forêt, les racines s’interconnectent via des champignons. Les arbres s’échangent du sucre, des nutriments, des signaux d’alerte. On appelle ça le Wood Wide Web.</div></div>
+    <div class="fait" style="animation-delay:.1s"><div class="fait-num">02</div><div class="fait-titre">Le bambou explose de croissance</div><div class="fait-texte">Certaines espèces de bambou peuvent pousser de 90 cm en une seule journée. C’est mesurable à l’œil nu si tu restes suffisamment longtemps.</div></div>
+    <div class="fait" style="animation-delay:.15s"><div class="fait-num">03</div><div class="fait-titre">La Welwitschia : deux feuilles, 2 000 ans</div><div class="fait-texte">Cette plante du désert namibien ne pousse que deux feuilles dans toute sa vie. Elle peut vivre deux millénaires en les conservant. Économie radicale.</div></div>
+    <div class="fait" style="animation-delay:.2s"><div class="fait-num">04</div><div class="fait-titre">Le pissenlit est entièrement comestible</div><div class="fait-texte">Racine, tige, feuille, fleur. Tout se mange. C’est aussi une plante médicinale utilisée depuis des siècles pour le foie et la digestion. Et tout le monde le détruit.</div></div>
     <div class="fait" style="animation-delay:.25s"><div class="fait-num">05</div><div class="fait-titre">Les plantes se souviennent</div><div class="fait-texte">La Mimosa pudica, quand on la touche, se referme. Mais si on la touche répétitivement sans danger, elle finit par ne plus réagir. Elle a appris. Sans neurones.</div></div>
-    <div class="fait" style="animation-delay:.3s"><div class="fait-num">06</div><div class="fait-titre">Le baobab est un château d'eau</div><div class="fait-texte">Un seul baobab peut stocker jusqu'à 120 000 litres d'eau dans son tronc. Dans les régions sèches d'Afrique, il est parfois percé pour en tirer de l'eau potable.</div></div>
+    <div class="fait" style="animation-delay:.3s"><div class="fait-num">06</div><div class="fait-titre">Le baobab est un château d’eau</div><div class="fait-texte">Un seul baobab peut stocker jusqu’à 120 000 litres d’eau dans son tronc. Dans les régions sèches d’Afrique, il est parfois percé pour en tirer de l’eau potable.</div></div>
   </div>
-  <div class="sec-label" style="margin-top:56px;">Le vocabulaire qu'on n'apprend nulle part</div>
+
+  <!-- VOCABULAIRE -->
+  <div class="sec-label" style="margin-top:56px;">Le vocabulaire qu’on n’apprend nulle part</div>
   <div class="vocab">
-    <div class="vocab-card"><div class="vocab-term">Drageon</div><div class="vocab-latin">du latin "draco" — le dragon</div><div class="vocab-def">Pousse qui surgit directement depuis les racines d'un arbre ou arbuste. Il vit aux dépens de la plante mère. Utile pour multiplier le lilas ou le framboisier — envahissant sinon. À arracher profond, sinon il repousse.</div></div>
+    <div class="vocab-card"><div class="vocab-term">Drageon</div><div class="vocab-latin">du latin « draco » — le dragon</div><div class="vocab-def">Pousse qui surgit directement depuis les racines d’un arbre ou arbuste. Il vit aux dépens de la plante mère. Utile pour multiplier le lilas ou le framboisier — envahissant sinon. À arracher profond, sinon il repousse.</div></div>
     <div class="vocab-card"><div class="vocab-term">Rejet</div><div class="vocab-latin">pousse basale</div><div class="vocab-def">Nouvelle tige qui naît à la base du tronc ou de la souche, souvent après une taille sévère ou un stress. Plus proche de la tige principale que le drageon. Classique chez les rosiers, les bananiers, les bambous.</div></div>
-    <div class="vocab-card"><div class="vocab-term">Stolon</div><div class="vocab-latin">aussi appelé "coulant"</div><div class="vocab-def">Tige rampante qui s'allonge horizontalement, touche le sol et crée de nouvelles plantules à intervalles réguliers. Le fraisier en vit. Une seule plante peut coloniser un mètre carré en une saison.</div></div>
-    <div class="vocab-card"><div class="vocab-term">Gourmand</div><div class="vocab-latin">ennemi numéro un des tomates</div><div class="vocab-def">Pousse secondaire qui naît à l'aisselle d'une feuille, entre la tige principale et le pétiole. Il capte de l'énergie sans jamais produire de fruits. Sur les tomates, à supprimer chaque semaine. À pincer avec les doigts, jamais aux ciseaux.</div></div>
-    <div class="vocab-card"><div class="vocab-term">Marcottage</div><div class="vocab-latin">multiplication végétative</div><div class="vocab-def">Technique qui force une branche à s'enraciner avant de la séparer de la plante mère. On entaille légèrement, on humidifie, on entoure de mousse ou de terre. Quand les racines apparaissent, on coupe. Résultat garanti, zéro risque de perte.</div></div>
-    <div class="vocab-card"><div class="vocab-term">Bouturage</div><div class="vocab-latin">la multiplication low-cost</div><div class="vocab-def">On coupe un bout de tige saine avec deux ou trois nœuds, on supprime les feuilles basses, on plante dans un substrat léger. La menthe, le géranium, le basilic, le romarin adorent ça. Plus aléatoire que le marcottage, mais sans effort.</div></div>
-    <div class="vocab-card"><div class="vocab-term">Paillis</div><div class="vocab-latin">mulch en anglais</div><div class="vocab-def">Couche de matière organique ou minérale posée sur le sol autour des plantes : paille, copeaux de bois, feuilles mortes, compost, graviers. Retient l'humidité, régule la température du sol, étouffe les mauvaises herbes et nourrit les vers de terre.</div></div>
-    <div class="vocab-card"><div class="vocab-term">Tallage</div><div class="vocab-latin">des graminées et céréales</div><div class="vocab-def">Capacité d'une plante à produire plusieurs tiges à partir d'un seul pied. Les graminées et les céréales tallent naturellement. Le blé, par exemple, compte sur ce mécanisme pour démultiplier ses épis sans qu'on ne plante rien de plus.</div></div>
-    <div class="vocab-card"><div class="vocab-term">Étiolement</div><div class="vocab-latin">le manque de lumière visible</div><div class="vocab-def">Quand une plante manque de lumière, ses tiges s'allongent exagérément, pâlissent et perdent leurs feuilles inférieures. Elle "cherche" la lumière. C'est réversible si on agit tôt — mais une plante étiolée longtemps ne récupère jamais vraiment.</div></div>
+    <div class="vocab-card"><div class="vocab-term">Stolon</div><div class="vocab-latin">aussi appelé « coulant »</div><div class="vocab-def">Tige rampante qui s’allonge horizontalement, touche le sol et crée de nouvelles plantules à intervalles réguliers. Le fraisier en vit. Une seule plante peut coloniser un mètre carré en une saison.</div></div>
+    <div class="vocab-card"><div class="vocab-term">Gourmand</div><div class="vocab-latin">ennemi numéro un des tomates</div><div class="vocab-def">Pousse secondaire qui naît à l’aisselle d’une feuille, entre la tige principale et le pétiole. Il capte de l’énergie sans jamais produire de fruits. Sur les tomates, à supprimer chaque semaine.</div></div>
+    <div class="vocab-card"><div class="vocab-term">Marcottage</div><div class="vocab-latin">multiplication végétative</div><div class="vocab-def">Technique qui force une branche à s’enraciner avant de la séparer de la plante mère. On entaille légèrement, on humidifie, on entoure de mousse ou de terre. Résultat garanti, zéro risque de perte.</div></div>
+    <div class="vocab-card"><div class="vocab-term">Bouturage</div><div class="vocab-latin">la multiplication low-cost</div><div class="vocab-def">On coupe un bout de tige saine avec deux ou trois nœuds, on supprime les feuilles basses, on plante dans un substrat léger. La menthe, le géranium, le basilic, le romarin adorent ça.</div></div>
+    <div class="vocab-card"><div class="vocab-term">Paillis</div><div class="vocab-latin">mulch en anglais</div><div class="vocab-def">Couche de matière organique ou minérale posée sur le sol autour des plantes : paille, copeaux de bois, feuilles mortes, compost, graviers. Retient l’humidité, régule la température, étouffe les mauvaises herbes.</div></div>
+    <div class="vocab-card"><div class="vocab-term">Tallage</div><div class="vocab-latin">des graminées et céréales</div><div class="vocab-def">Capacité d’une plante à produire plusieurs tiges à partir d’un seul pied. Les graminées tallent naturellement. Le blé compte sur ce mécanisme pour démultiplier ses épis.</div></div>
+    <div class="vocab-card"><div class="vocab-term">Étiolement</div><div class="vocab-latin">le manque de lumière visible</div><div class="vocab-def">Quand une plante manque de lumière, ses tiges s’allongent exagérément et pâlissent. Elle « cherche » la lumière. C’est réversible si on agit tôt — mais une plante étiolée longtemps ne récupère jamais vraiment.</div></div>
   </div>
-  <div class="sec-label" style="margin-top:56px;">Ce qu'on apprend à ses dépens</div>
+
+  <!-- TIPS -->
+  <div class="sec-label" style="margin-top:56px;">Ce qu’on apprend à ses dépens</div>
   <div class="tips">
-    <div class="tip"><div class="tip-num">01</div><div class="tip-body"><div class="tip-titre">Arroser le matin, jamais le soir</div><div class="tip-texte">L'eau stagnante sur les feuilles la nuit est un buffet pour les champignons et la moisissure. Le matin, la chaleur du jour assèche rapidement. Et les racines ont toute la journée pour boire.</div></div></div>
-    <div class="tip"><div class="tip-num">02</div><div class="tip-body"><div class="tip-titre">Un sol vivant sent la forêt après la pluie</div><div class="tip-texte">Cette odeur, c'est la géosmine — un composé produit par les bactéries du sol en bonne santé. Si ta terre est inodore ou sent le renfermé, elle est appauvrie. Ajoute du compost, pas des engrais chimiques.</div></div></div>
-    <div class="tip"><div class="tip-num">03</div><div class="tip-body"><div class="tip-titre">Les mauvaises herbes sont des indicateurs</div><div class="tip-texte">L'ortie pousse sur les sols riches en azote. Le pissenlit indique un sol tassé et compacté. La prêle signale un sol humide et acide. Avant d'arracher, observe : elles te disent ce que ton sol a besoin qu'on lui fasse.</div></div></div>
-    <div class="tip"><div class="tip-num">04</div><div class="tip-body"><div class="tip-titre">Pincer le basilic avant qu'il monte</div><div class="tip-texte">Dès que les premières fleurs apparaissent, supprime-les. Quand le basilic monte en graines, les feuilles perdent leur huile essentielle et leur goût. Un basilic pincé régulièrement double de volume et reste aromatique toute la saison.</div></div></div>
-    <div class="tip"><div class="tip-num">05</div><div class="tip-body"><div class="tip-titre">Les compagnons de culture, ça marche vraiment</div><div class="tip-texte">Tomates + basilic : le basilic repousse les pucerons. Carottes + poireaux : leurs odeurs respectives éloignent chacune les parasites de l'autre. Roses + ail : l'ail protège contre les champignons.</div></div></div>
-    <div class="tip"><div class="tip-num">06</div><div class="tip-body"><div class="tip-titre">Un pot sans trou, c'est une plante qui pourrit</div><div class="tip-texte">Sans drainage, l'eau stagne au fond, asphyxie les racines et crée un environnement anaérobie parfait pour les bactéries pathogènes. Toujours un trou. Toujours une soucoupe qu'on vide après l'arrosage.</div></div></div>
-    <div class="tip"><div class="tip-num">07</div><div class="tip-body"><div class="tip-titre">Tailler en biseau, toujours au-dessus d'un nœud</div><div class="tip-texte">Une coupe droite retient l'eau et favorise les champignons. En biseau, l'eau glisse. Et couper juste au-dessus d'un nœud indique à la plante où faire repartir sa croissance.</div></div></div>
+    <div class="tip"><div class="tip-num">01</div><div class="tip-body"><div class="tip-titre">Arroser le matin, jamais le soir</div><div class="tip-texte">L’eau stagnante sur les feuilles la nuit est un buffet pour les champignons. Le matin, la chaleur du jour assèche rapidement. Et les racines ont toute la journée pour boire.</div></div></div>
+    <div class="tip"><div class="tip-num">02</div><div class="tip-body"><div class="tip-titre">Un sol vivant sent la forêt après la pluie</div><div class="tip-texte">Cette odeur, c’est la géosmine — un composé produit par les bactéries du sol en bonne santé. Si ta terre est inodore, elle est appauvrie. Ajoute du compost, pas des engrais chimiques.</div></div></div>
+    <div class="tip"><div class="tip-num">03</div><div class="tip-body"><div class="tip-titre">Les mauvaises herbes sont des indicateurs</div><div class="tip-texte">L’ortie pousse sur les sols riches en azote. Le pissenlit indique un sol tassé. La prêle signale un sol humide et acide. Avant d’arracher, observe : elles te disent ce que ton sol a besoin.</div></div></div>
+    <div class="tip"><div class="tip-num">04</div><div class="tip-body"><div class="tip-titre">Pincer le basilic avant qu’il monte</div><div class="tip-texte">Dès que les premières fleurs apparaissent, supprime-les. Quand le basilic monte en graines, les feuilles perdent leur huile essentielle. Un basilic pincé régulièrement double de volume.</div></div></div>
+    <div class="tip"><div class="tip-num">05</div><div class="tip-body"><div class="tip-titre">Les compagnons de culture, ça marche vraiment</div><div class="tip-texte">Tomates + basilic : le basilic repousse les pucerons. Carottes + poireaux : leurs odeurs respectives éloignent chacune les parasites de l’autre. Roses + ail : l’ail protège contre les champignons.</div></div></div>
+    <div class="tip"><div class="tip-num">06</div><div class="tip-body"><div class="tip-titre">Un pot sans trou, c’est une plante qui pourrit</div><div class="tip-texte">Sans drainage, l’eau stagne au fond et asphyxie les racines. Toujours un trou. Toujours une soucoupe qu’on vide après l’arrosage.</div></div></div>
+    <div class="tip"><div class="tip-num">07</div><div class="tip-body"><div class="tip-titre">Tailler en biseau, toujours au-dessus d’un nœud</div><div class="tip-texte">Une coupe droite retient l’eau et favorise les champignons. En biseau, l’eau glisse. Et couper juste au-dessus d’un nœud indique à la plante où faire repartir sa croissance.</div></div></div>
   </div>
+
+  <!-- BIO -->
   <div class="sec-label" style="margin-top:56px;">Biologie végétale</div>
   <div class="bio">
-    <div class="bio-card"><div class="bio-kicker">Nutrition</div><div class="bio-titre">La photosynthèse, vraiment</div><div class="bio-texte">Les plantes mangent de la lumière. Elles combinent le CO₂ de l'air et l'eau du sol pour fabriquer du glucose. Le bois d'un arbre centenaire, c'est <em>de l'air solidifié</em>. Seulement 5 % de sa masse vient du sol. Le reste, c'est du carbone capturé depuis l'atmosphère.</div></div>
-    <div class="bio-card"><div class="bio-kicker">Respiration</div><div class="bio-titre">Les stomates : les poumons de la feuille</div><div class="bio-texte">Sous chaque feuille, des milliers de minuscules pores — les stomates — s'ouvrent et se ferment selon la lumière, la chaleur et le taux d'humidité. Par forte chaleur, ils se ferment pour <em>limiter la perte d'eau</em>. La plante arrête alors de grandir.</div></div>
-    <div class="bio-card"><div class="bio-kicker">Transport</div><div class="bio-titre">Deux sèves, deux circuits</div><div class="bio-texte">La <em>sève brute</em> monte des racines vers les feuilles : eau et minéraux puisés dans le sol. La <em>sève élaborée</em> descend des feuilles vers le reste : le glucose fabriqué par la photosynthèse. Deux tissus distincts — le xylème et le phloème — courent en parallèle dans chaque tige.</div></div>
-    <div class="bio-card"><div class="bio-kicker">Orientation</div><div class="bio-titre">Géotropisme et phototropisme</div><div class="bio-texte">Les racines poussent vers le bas même dans le noir absolu — elles perçoivent la gravité (<em>géotropisme positif</em>). Les tiges poussent vers la lumière (<em>phototropisme positif</em>). La plante sait où elle est dans l'espace sans système nerveux, grâce à des signaux chimiques et mécaniques.</div></div>
-    <div class="bio-card"><div class="bio-kicker">Hormones</div><div class="bio-titre">L'auxine : l'hormone qui courbe</div><div class="bio-texte">L'auxine est une hormone de croissance produite aux sommets des tiges. Elle migre vers le côté le plus ombragé, où elle accélère l'allongement des cellules. Résultat : la tige se courbe vers la lumière. <em>Ce n'est pas de la magie</em>, c'est de la chimie.</div></div>
-    <div class="bio-card"><div class="bio-kicker">Défense</div><div class="bio-titre">Les plantes se défendent en silence</div><div class="bio-texte">Attaquées par des insectes, certaines plantes émettent des composés volatils qui <em>attirent les prédateurs naturels</em> de leurs agresseurs. D'autres renforcent leurs feuilles en tannins. Et certaines envoient des signaux chimiques aux plantes voisines — qui se défendent en prévention.</div></div>
+    <div class="bio-card"><div class="bio-kicker">Nutrition</div><div class="bio-titre">La photosynthèse, vraiment</div><div class="bio-texte">Les plantes mangent de la lumière. Elles combinent le CO₂ de l’air et l’eau du sol pour fabriquer du glucose. Le bois d’un arbre centenaire, c’est <em>de l’air solidifié</em>. Seulement 5 % de sa masse vient du sol.</div></div>
+    <div class="bio-card"><div class="bio-kicker">Respiration</div><div class="bio-titre">Les stomates : les poumons de la feuille</div><div class="bio-texte">Sous chaque feuille, des milliers de pores — les stomates — s’ouvrent et se ferment selon la chaleur. Par forte chaleur, ils se ferment pour <em>limiter la perte d’eau</em>. La plante arrête alors de grandir.</div></div>
+    <div class="bio-card"><div class="bio-kicker">Transport</div><div class="bio-titre">Deux sèves, deux circuits</div><div class="bio-texte">La <em>sève brute</em> monte des racines vers les feuilles : eau et minéraux. La <em>sève élaborée</em> descend des feuilles vers le reste : le glucose fabriqué. Deux tissus distincts — le xylème et le phloème.</div></div>
+    <div class="bio-card"><div class="bio-kicker">Orientation</div><div class="bio-titre">Géotropisme et phototropisme</div><div class="bio-texte">Les racines poussent vers le bas même dans le noir (<em>géotropisme positif</em>). Les tiges poussent vers la lumière (<em>phototropisme positif</em>). La plante sait où elle est sans système nerveux.</div></div>
+    <div class="bio-card"><div class="bio-kicker">Hormones</div><div class="bio-titre">L’auxine : l’hormone qui courbe</div><div class="bio-texte">L’auxine migre vers le côté le plus ombragé de la tige, où elle accélère l’allongement des cellules. Résultat : la tige se courbe vers la lumière. <em>Ce n’est pas de la magie</em>, c’est de la chimie.</div></div>
+    <div class="bio-card"><div class="bio-kicker">Défense</div><div class="bio-titre">Les plantes se défendent en silence</div><div class="bio-texte">Attaquées par des insectes, certaines plantes émettent des composés volatils qui <em>attirent les prédateurs naturels</em> de leurs agresseurs. D’autres envoient des signaux chimiques aux plantes voisines qui se défendent en prévention.</div></div>
   </div>
 </div>
+
 <footer class="site">
   <div class="wrap">
     <div class="f-brand">Plantes</div>
@@ -159,30 +241,153 @@
     <div class="sig">— A.</div>
   </div>
 </footer>
+
 <script>
-  const months=["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
-  const now=new Date();
-  document.getElementById("today").textContent=now.getDate()+" "+months[now.getMonth()]+" "+now.getFullYear();
-  const SAISONS={
-    "Printemps":{mois:[2,3,4],plantes:[{nom:"Radis",note:"30 jours de sol à assiette"},{nom:"Fraises",note:"pleine sun, sol bien drainé"},{nom:"Laitue",note:"idéale en pot, pousse vite"},{nom:"Petits pois",note:"à tuteurer dès 10 cm"},{nom:"Basilic",note:"après les dernières gelées"}]},
-    "Été":{mois:[5,6,7],plantes:[{nom:"Tomates",note:"arroser à la base, jamais les feuilles"},{nom:"Concombres",note:"chaleur et eau, beaucoup des deux"},{nom:"Courgettes",note:"une plante suffit, crois-moi"},{nom:"Tournesols",note:"suivent le soleil, eux au moins"},{nom:"Basilic",note:"pincer les fleurs pour garder les feuilles"}]},
-    "Automne":{mois:[8,9,10],plantes:[{nom:"Ail",note:"planter en octobre pour récolter en juin"},{nom:"Épinards",note:"résiste au froid, récolte en novembre"},{nom:"Courges",note:"semer en été, récolter maintenant"},{nom:"Choux",note:"carottes et persil les adorent à côté"},{nom:"Mâche",note:"la plus facile, oublie-la et elle pousse"}]},
-    "Hiver":{mois:[11,0,1],plantes:[{nom:"Mâche",note:"résiste jusqu'à −10°C"},{nom:"Persil",note:"sous abri ou en pot intérieur"},{nom:"Cresson",note:"besoin d'eau, pot dans une soucoupe"},{nom:"Ciboulette",note:"en intérieur, fenêtre au sud"},{nom:"Microgreens",note:"graines germées, prêtes en 7 jours"}]}
-  };
-  const currentMonth=now.getMonth();
-  const grid=document.getElementById("saisons-grid");
-  const order=["Printemps","Été","Automne","Hiver"];
-  let currentSaison="";
-  for(const [name,data] of Object.entries(SAISONS)){if(data.mois.includes(currentMonth))currentSaison=name;}
-  order.forEach(name=>{
-    const data=SAISONS[name];
-    const isCurrent=name===currentSaison;
+const months=["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
+const now=new Date();
+document.getElementById("today").textContent=now.getDate()+" "+months[now.getMonth()]+" "+now.getFullYear();
+
+/* ---- CALENDRIER ---- */
+const MOIS_COURTS=["Jan","Fév","Mar","Avr","Mai","Juin","Juil","Août","Sep","Oct","Nov","Déc"];
+const MOIS_LONGS=["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"];
+
+const CALENDRIER=[
+  {semer:["Tomates (serre chauffée, 18°C min)","Poivrons et aubergines (serre)","Céleri (serre)"],planter:["Arbres à racines nues si sol non gelé","Ail si pas encore fait"],bouturer:["Rosiers (boutures ligneuses)"],recolter:["Mâche","Poireaux","Choux de Bruxelles","Épinards","Topinambours"],entretien:["Tailler les arbres fruitiers à pépins","Pailler les plantes fragiles","Vérifier les légumes en cave","Commander les semences"]},
+  {semer:["Tomates (serre)","Poivrons","Aubergines","Laitues sous châssis","Oignons","Céleri"],planter:["Échalotes","Ail"],bouturer:["Pélargoniums","Fuchsias"],recolter:["Mâche","Poireaux","Épinards d’hiver"],entretien:["Tailler les rosiers","Bouillie bordelaise sur les fruitiers","Démarrer le compost","Nettoyer les outils"]},
+  {semer:["Carottes","Radis","Petits pois","Épinards","Laitues","Courgettes (sous abri)","Betteraves","Choux"],planter:["Pommes de terre (début)","Oignons blancs","Échalotes"],bouturer:["Pélargoniums","Menthe","Sauge"],recolter:["Mâche","Épinards d’hiver","Poireaux tardifs","Oseille"],entretien:["Biner et désherber","Préparer le sol","Pailler les fraisiers","Poser des filets anti-limaces"]},
+  {semer:["Tomates (extérieur sous abri)","Courgettes","Concombres","Haricots (fin avril)","Basilic","Aneth","Ciboulette"],planter:["Pommes de terre","Laitues repiquées","Oignons","Échalotes"],bouturer:["Basilic (dans l’eau)","Géraniums","Menthe"],recolter:["Asperges","Radis","Oseille","Épinards","Laitues d’hiver"],entretien:["Tuteurer les petits pois","Arroser régulièrement","Éliminer les mauvaises herbes"]},
+  {semer:["Haricots verts","Courgettes","Courges","Concombres","Tournesols","Basilic","Aneth"],planter:["Tomates (après Saints de glace, 11-13 mai)","Poivrons","Aubergines","Basilic","Courgettes"],bouturer:["Tomates (gourmands enracinés dans l’eau)","Pélargoniums","Fuchsias"],recolter:["Asperges","Radis","Fraises (début)","Laitues","Petits pois","Oseille"],entretien:["Saints de glace 11-13 mai — attention aux gelées tardives","Supprimer les gourmands des tomates","Tuteurer les plants","Arroser en profondeur"]},
+  {semer:["Haricots (succession)","Carottes (succession)","Betteraves","Radis d’hiver","Mâche (fin juin)"],planter:["Poireaux d’automne","Choux d’hiver","Céleris"],bouturer:["Lavande","Romarin","Thym","Fuchsias"],recolter:["Fraises","Petits pois","Cerises","Courgettes (début)","Salades","Ail (fin)"],entretien:["Arroser en profondeur le matin","Pailler pour conserver l’humidité","Supprimer fleurs de basilic"]},
+  {semer:["Mâche","Épinards (fin juillet)","Radis d’hiver","Navets","Carottes d’automne","Laitues d’automne"],planter:["Poireaux d’automne","Choux d’hiver","Fraisiers remontants"],bouturer:["Lavande (meilleure période)","Romarin","Sauge","Thym"],recolter:["Tomates","Courgettes","Concombres","Haricots","Myrtilles","Fraises","Ail","Oignons","Abricots"],entretien:["Arrosage régulier le matin","Désherber","Pincer les tomates en fin de tiges"]},
+  {semer:["Épinards","Mâche","Navets","Radis","Laitues d’automne","Roquette"],planter:["Fraisiers","Choux d’hiver tardifs"],bouturer:["Lavande (encore possible)","Buis","Conifères"],recolter:["Tomates","Poivrons","Aubergines","Concombres","Courgettes","Melons","Framboises","Pêches"],entretien:["Arroser en profondeur","Continuer à supprimer les gourmands","Ramasser les fruits blets rapidement"]},
+  {semer:["Épinards","Mâche","Roquette","Laitues d’hiver","Ail (fin septembre)"],planter:["Bulbes de printemps (tulipes, narcisses)","Ail","Fraisiers"],bouturer:["Arbustes (groseilliers, cassissiers)","Rosiers"],recolter:["Courges","Tomates (dernières)","Poivrons","Raisin","Figues","Noix","Poires"],entretien:["Ramasser les fruits tombés","Préparer le compost automnal","Pailler les artichauts"]},
+  {semer:["Épinards","Mâche","Laitues (sous châssis)"],planter:["Ail (période idéale)","Bulbes de printemps","Arbres et arbustes à racines nues"],bouturer:["Rosiers (boutures ligneuses)","Groseilliers","Cassissiers"],recolter:["Courges (avant les gelées)","Coings","Noix","Châtaignes","Poireaux","Choux"],entretien:["Ramasser les feuilles mortes pour le paillis","Rentrer les plantes frileuses","Vider et ranger les arrosoirs","Couvrir les fraisiers"]},
+  {semer:["Laitues (sous serre chauffée uniquement)"],planter:["Arbres à racines nues","Bulbes de printemps (dernière chance)","Ail"],bouturer:["Rosiers (boutures ligneuses)","Arbustes à feuilles caduques"],recolter:["Poireaux","Choux de Bruxelles","Topinambours","Navets","Mâche","Endives"],entretien:["Pailler les plantes fragiles","Tailler les haies (hors gel)","Rentrer les potées","Nettoyer les outils"]},
+  {semer:["Tomates en serre chauffée (jardiniers avancés)"],planter:["Arbres et arbustes si sol non gelé"],bouturer:["Peu d’activité — repos végétatif"],recolter:["Mâche","Poireaux","Choux de Bruxelles","Épinards","Endives","Topinambours"],entretien:["Protéger les plantes du gel","Tailler les arbres fruitiers","Planifier la saison suivante","Commander les semences"]}
+];
+
+const CAT_LABELS={semer:"Semer",planter:"Planter",bouturer:"Bouturer",recolter:"Récolter",entretien:"Entretien"};
+const CAT_ORDER=["semer","planter","bouturer","recolter","entretien"];
+
+const calContainer=document.getElementById("cal-months");
+const calPanel=document.getElementById("cal-panel");
+const calPanelTitle=document.getElementById("cal-panel-title");
+const calGrid=document.getElementById("cal-grid");
+const currentMonth=now.getMonth();
+let activeMonth=-1;
+
+MOIS_COURTS.forEach((m,i)=>{
+  const btn=document.createElement("button");
+  btn.className="cal-btn"+(i===currentMonth?" now":"");
+  btn.textContent=m;
+  btn.onclick=()=>toggleMonth(i,btn);
+  calContainer.appendChild(btn);
+});
+
+function toggleMonth(i,btn){
+  if(activeMonth===i){
+    activeMonth=-1;
+    calPanel.classList.remove("on");
+    document.querySelectorAll(".cal-btn").forEach(b=>b.classList.remove("active"));
+    return;
+  }
+  activeMonth=i;
+  document.querySelectorAll(".cal-btn").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+  const data=CALENDRIER[i];
+  calPanelTitle.textContent=MOIS_LONGS[i];
+  calGrid.innerHTML="";
+  CAT_ORDER.forEach(cat=>{
+    if(!data[cat]||!data[cat].length)return;
     const div=document.createElement("div");
-    div.className="saison";
-    if(isCurrent)div.style.background="var(--green-pale)";
-    div.innerHTML=`<div class="saison-nom">${name}${isCurrent?" — maintenant":""}</div><ul>${data.plantes.map(p=>`<li><strong>${p.nom}</strong> <span>${p.note}</span></li>`).join("")}</ul>`;
-    grid.appendChild(div);
+    div.className="cal-cat";
+    div.innerHTML=`<div class="cal-cat-title">${CAT_LABELS[cat]}</div><ul>${data[cat].map(x=>`<li>${x}</li>`).join("")}</ul>`;
+    calGrid.appendChild(div);
   });
+  calPanel.classList.add("on");
+  calPanel.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+
+document.getElementById("cal-close").onclick=()=>{
+  activeMonth=-1;
+  calPanel.classList.remove("on");
+  document.querySelectorAll(".cal-btn").forEach(b=>b.classList.remove("active"));
+};
+
+// Auto-ouvrir le mois en cours
+document.querySelectorAll(".cal-btn")[currentMonth].click();
+
+/* ---- PLANTES ---- */
+const PLANTES_DB=[
+  {nom:"Tomate",latin:"Solanum lycopersicum",type:"Légume-fruit",diff:2,diffLabel:"Intermédiaire",semis:"Fév–avr (intérieur, 18°C min)  •  Avr–mai (extérieur sous abri)",plantation:"Après les Saints de glace (11-13 mai)",recolte:"Juillet à octobre",exposition:"Plein soleil (8h min)",arrosage:"Régulier, à la base uniquement, jamais les feuilles",multiplication:"Semis • Bouturage de gourmand (enraciné dans l’eau)",conseil:"Supprimer les gourmands chaque semaine — la pousse entre tige et pétiole. Tuteurer dès 30 cm. Une plante taille système à 3 tiges produit plus que deux laissées en buisson."},
+  {nom:"Basilic",latin:"Ocimum basilicum",type:"Aromatique",diff:1,diffLabel:"Facile",semis:"Avr–mai (intérieur ou extérieur chaud)",plantation:"Mai (après les gelées, 15°C sol min)",recolte:"Juin à septembre",exposition:"Plein soleil, à l’abri du vent",arrosage:"Régulier, sol frais mais drainant",multiplication:"Semis • Bouturage dans l’eau (tige 10 cm, racines en 7 jours)",conseil:"Pincer systématiquement les fleurs dès qu’elles apparaissent. Le basilic qui monte en graine perd tout son goût. Cueille toujours en laissant 2 paires de feuilles."},
+  {nom:"Menthe",latin:"Mentha sp.",type:"Aromatique",diff:1,diffLabel:"Facile",semis:"Mars–mai",plantation:"Printemps ou automne",recolte:"Mai à octobre",exposition:"Mi-ombre acceptée",arrosage:"Régulier, aime l’humidité",multiplication:"Division de touffe • Bouturage (tige dans l’eau) • Stolons",conseil:"Planter en pot enterré ou dans un seau percé — la menthe colonise tout par ses stolons souterrains. Ne pas l’associer à d’autres herbes aromates."},
+  {nom:"Lavande",latin:"Lavandula angustifolia",type:"Aromatique",diff:1,diffLabel:"Facile",semis:"Mars–avr (semis lent, 3-4 semaines)",plantation:"Printemps ou automne",recolte:"Juin–août (avant ouverture complète des fleurs)",exposition:"Plein soleil, sol pauvre et très drainé",arrosage:"Rare — résiste à la sécheresse",multiplication:"Bouturage semi-ligneux (juillet–août, meilleure période)",conseil:"Tailler après floraison en laissant du vert. Ne jamais couper dans le vieux bois — elle ne repousse pas. Une lavande bien taillée vit 10 ans."},
+  {nom:"Rosier",latin:"Rosa sp.",type:"Arbustive",diff:2,diffLabel:"Intermédiaire",semis:"Non recommandé (semis de grène lent et aléatoire)",plantation:"Oct–nov ou mars–avr (racines nues ou en pot)",recolte:"Mai–oct (fleurs)",exposition:"Plein soleil (min 6h)",arrosage:"À la base, jamais sur les feuilles",multiplication:"Bouturage ligneux (octobre) • Marcottage",conseil:"Tailler les rosiers remontants en mars (couper au-dessus d’un œil extérieur). Ne jamais mouiller les feuilles : elles développent facilement l’oïdium et la rouille."},
+  {nom:"Fraisier",latin:"Fragaria × ananassa",type:"Fruit",diff:1,diffLabel:"Facile",semis:"Fév–mars (long, privilégier les plants)",plantation:"Août–sept (meilleure période) ou mars–avr",recolte:"Mai–juin (saison) • Juil–oct (remontants)",exposition:"Plein soleil",arrosage:"Régulier, à la base, éviter feuilles et fruits",multiplication:"Stolons (replanter les plantules au bout des coulants)",conseil:"Pailler sous les fruits pour les garder propres et éviter la pourriture. Renouveler les pieds tous les 3-4 ans : ils s’épuisent. Les stolons donnent des plants gratuits et vigoureux."},
+  {nom:"Courgette",latin:"Cucurbita pepo",type:"Légume-fruit",diff:1,diffLabel:"Facile",semis:"Avr–mai (intérieur) • Mai (extérieur directement)",plantation:"Fin mai–juin (après gelées)",recolte:"Juillet à octobre",exposition:"Plein soleil",arrosage:"Abondant et régulier — la courgette boit beaucoup",multiplication:"Semis uniquement",conseil:"Une seule plante suffit pour deux personnes. Récolter les courgettes petites (15-20 cm) — elles ont plus de goût et la plante continue de produire. Une courgette oubliée devient un courge en 4 jours."},
+  {nom:"Carotte",latin:"Daucus carota",type:"Légume-racine",diff:2,diffLabel:"Intermédiaire",semis:"Mars–juillet (en place, ne supporte pas le repiquage)",plantation:"Semis direct uniquement",recolte:"Juin à novembre selon variété",exposition:"Plein soleil",arrosage:"Régulier mais modéré — trop d’eau donne des carottes fissurées",multiplication:"Semis uniquement",conseil:"Sol profond, meuble et sans cailloux — sinon les racines bifurquent. Ne pas fumer le sol l’année du semis (l’humus non dégradé déforme les racines). Éclaircir à 5 cm entre chaque plant."},
+  {nom:"Ail",latin:"Allium sativum",type:"Légume-bulbe",diff:1,diffLabel:"Facile",semis:"Non applicable (multiplication par caieux)",plantation:"Oct–nov (ail d’hiver) • Fév–mars (ail de printemps)",recolte:"Juin–juillet (feuilles jaunes = signal de récolte)",exposition:"Plein soleil",arrosage:"Peu — arrêter arrosage 3 semaines avant récolte",multiplication:"Division en caieux (gousses)",conseil:"Planter pointe vers le haut, à 5 cm de profondeur. Ne pas semer dans un sol qui a reçu de l’ail l’année précédente (rotation 3 ans). La tige florale (hampe) est à supprimer pour concentrer l’énergie dans le bulbe."},
+  {nom:"Laitue",latin:"Lactuca sativa",type:"Légume-feuille",diff:1,diffLabel:"Facile",semis:"Mars–août (en continu pour étaler les récoltes)",plantation:"Toute la belle saison, toutes les 3 semaines",recolte:"45–60 jours après semis selon variété",exposition:"Plein soleil à mi-ombre (apprécie l’ombre en été)",arrosage:"Régulier, sol frais",multiplication:"Semis uniquement",conseil:"Semer toutes les 3 semaines pour éviter d’avoir tout à la fois. La laitue monte en graine rapidement par chaleur — choisir des variétés résistantes à la montée en été."},
+  {nom:"Pomme de terre",latin:"Solanum tuberosum",type:"Légume-tubule",diff:1,diffLabel:"Facile",semis:"Non (multiplication par tubercules)",plantation:"Mars–avr (faire prégermer en fév en lumière)",recolte:"Juillet–oct selon variété",exposition:"Plein soleil",arrosage:"Régulier lors de la formation des tubercules",multiplication:"Tubercules entiers ou en morceaux (germe vers le haut)",conseil:"Butter systématiquement les plants à 15 cm de haut pour éviter que les tubercules verdissent. Le verdissement produit de la solanine — toxique. Ne jamais manger une pomme de terre verte."},
+  {nom:"Haricot",latin:"Phaseolus vulgaris",type:"Légume-fruit",diff:1,diffLabel:"Facile",semis:"Mai–juillet (direct en pleine terre, sol 12°C min)",plantation:"Semis direct — ne supporte pas le repiquage",recolte:"50–60 jours après semis",exposition:"Plein soleil",arrosage:"Régulier, éviter les feuilles",multiplication:"Semis uniquement",conseil:"Semer par vagues toutes les 2–3 semaines pour étaler la récolte. Le haricot grimpant produit plus longtemps que le nain. Cueillir jeune — un haricot trop mûr durcit et signalé la plante à arrêter de produire."},
+  {nom:"Concombre",latin:"Cucumis sativus",type:"Légume-fruit",diff:2,diffLabel:"Intermédiaire",semis:"Avr (intérieur) • Mai (extérieur, 18°C sol min)",plantation:"Fin mai–juin",recolte:"Juillet à septembre",exposition:"Plein soleil absolu",arrosage:"Très régulier — un manque cause de l’amertume",multiplication:"Semis uniquement",conseil:"Le concombre a besoin de chaleur constante. En dessous de 15°C, il blôque. L’arrosage irrégulier provoque des fruits amers ou creux. Tuteurer verticalement pour économiser la place."},
+  {nom:"Thym",latin:"Thymus vulgaris",type:"Aromatique",diff:1,diffLabel:"Facile",semis:"Mars–avr (germe lentement, 15-20 jours)",plantation:"Printemps ou automne",recolte:"Toute l’année (persistant)",exposition:"Plein soleil, sol pauvre et drainé",arrosage:"Rare — très résistant à la sécheresse",multiplication:"Division de touffe • Bouturage semi-ligneux (juin–août)",conseil:"Le thym est meilleur sous stress : trop d’eau ou de sol riche dilue les huiles essentielles. Tailler après floraison pour conserver un port compact. Vit facilement 5-10 ans."},
+  {nom:"Romarin",latin:"Salvia rosmarinus",type:"Aromatique",diff:1,diffLabel:"Facile",semis:"Mars–avr (semis lent, 3-4 semaines)",plantation:"Printemps ou automne",recolte:"Toute l’année",exposition:"Plein soleil, abrité du vent froid",arrosage:"Rare — craint l’excès d’eau",multiplication:"Bouturage semi-ligneux (juin–août) • Marcottage",conseil:"Le romarin craint le gel intense (en dessous de −10°C). En région froide, rentrer en pot l’hiver. Ne jamais arroser l’hiver. Une bouture de 10 cm plantée en août donne un plant vigoureux en un an."},
+  {nom:"Mâche",latin:"Valerianella locusta",type:"Légume-feuille",diff:1,diffLabel:"Facile",semis:"Août–oct (semer direct en place)",plantation:"Semis direct",recolte:"Nov–fév",exposition:"Plein soleil ou mi-ombre",arrosage:"Peu — la pluie suffit souvent",multiplication:"Semis uniquement",conseil:"La mâche résiste jusqu’à −10°C. Semer dense, sans éclaircir. Elle se ressource seule si on laisse quelques pieds monter en graine. La plante la plus oubliée du jardin."},
+  {nom:"Persil",latin:"Petroselinum crispum",type:"Aromatique",diff:1,diffLabel:"Facile",semis:"Mars–août (germe lentement, 3-4 semaines)",plantation:"Semis direct ou repiquage",recolte:"Toute l’année (bis’annuel)",exposition:"Soleil à mi-ombre",arrosage:"Régulier, sol toujours frais",multiplication:"Semis uniquement (bisannuel, meurt après floraison)",conseil:"Faire tremper les graines 24h avant de semer pour accélérer la germination. Le persil plat a plus de goût que le frisé. Ne pas couper ras : toujours laisser des feuilles pour que la plante continue."},
+  {nom:"Ciboulette",latin:"Allium schoenoprasum",type:"Aromatique",diff:1,diffLabel:"Facile",semis:"Mars–mai",plantation:"Printemps ou automne (division de touffe)",recolte:"Toute la belle saison",exposition:"Soleil à mi-ombre",arrosage:"Régulier",multiplication:"Division de touffe (tous les 3 ans) • Semis",conseil:"Couper les tiges au ras du sol avec des ciseaux pour stimuler une repousse dense. Les fleurs mauves sont comestibles et décoratives. Diviser la touffe tous les 3 ans pour la rajeunir."},
+  {nom:"Pélargonium",latin:"Pelargonium sp.",type:"Fleur",diff:1,diffLabel:"Facile",semis:"Janvier–mars (sous lumière artificielle)",plantation:"Après gelées (mi-mai)",recolte:"Mai à octobre (floraison)",exposition:"Plein soleil",arrosage:"Modéré — laisser sécher entre deux arrosages",multiplication:"Bouturage (fév–sept) — très facile",conseil:"Couper les tiges florifles défleuries pour prolonger la floraison. Bouturer à la rentrée (août–sept) pour hiverner en intérieur. Une bouture de 8 cm dans du sable donne racines en 3 semaines."},
+  {nom:"Tournesol",latin:"Helianthus annuus",type:"Fleur",diff:1,diffLabel:"Facile",semis:"Avr–mai (extérieur direct) • Mars (intérieur)",plantation:"Semis direct recommandé",recolte:"Août–sept (graines) • Juillet–août (fleurs)",exposition:"Plein soleil — c’est écrit dans son nom",arrosage:"Modéré, résistant à la sécheresse une fois établi",multiplication:"Semis uniquement",conseil:"Planter face au sud. La tête suit le soleil jusqu’à la maturité, puis reste orientée à l’est. Laisser les graines sécher sur pied pour les oiseaux ou la récolte."}
+];
+
+const plantInput=document.getElementById("plant-input");
+const plantResults=document.getElementById("plant-results");
+const plantCard=document.getElementById("plant-card");
+
+plantInput.addEventListener("input",()=>{
+  const q=plantInput.value.trim().toLowerCase();
+  if(q.length<2){plantResults.classList.remove("on");return;}
+  const matches=PLANTES_DB.filter(p=>p.nom.toLowerCase().includes(q)||p.latin.toLowerCase().includes(q)||p.type.toLowerCase().includes(q));
+  if(!matches.length){plantResults.classList.remove("on");return;}
+  plantResults.innerHTML=matches.map(p=>`<div class="plant-result-item" data-nom="${p.nom}">${p.nom} <span class="plant-result-latin">${p.latin}</span></div>`).join("");
+  plantResults.classList.add("on");
+  plantResults.querySelectorAll(".plant-result-item").forEach(el=>{
+    el.onclick=()=>{
+      const p=PLANTES_DB.find(x=>x.nom===el.dataset.nom);
+      showPlant(p);
+      plantInput.value=p.nom;
+      plantResults.classList.remove("on");
+    };
+  });
+});
+
+plantInput.addEventListener("blur",()=>setTimeout(()=>plantResults.classList.remove("on"),150));
+
+function showPlant(p){
+  plantCard.className="plant-card on";
+  const diffClass=["","diff-1","diff-2","diff-3"][p.diff];
+  const diffStars="●".repeat(p.diff)+"○".repeat(3-p.diff);
+  plantCard.innerHTML=`
+    <div class="plant-card-head">
+      <div class="plant-nom">${p.nom}</div>
+      <div class="plant-latin">${p.latin}</div>
+      <div class="plant-tags">
+        <span class="plant-tag">${p.type}</span>
+        <span class="plant-tag ${diffClass}">${diffStars} ${p.diffLabel}</span>
+      </div>
+    </div>
+    <div class="plant-body">
+      <div class="plant-row"><span class="plant-label">Semis</span><span class="plant-val">${p.semis}</span></div>
+      <div class="plant-row"><span class="plant-label">Plantation</span><span class="plant-val">${p.plantation}</span></div>
+      <div class="plant-row"><span class="plant-label">Récolte</span><span class="plant-val">${p.recolte}</span></div>
+      <div class="plant-row"><span class="plant-label">Exposition</span><span class="plant-val">${p.exposition}</span></div>
+      <div class="plant-row"><span class="plant-label">Arrosage</span><span class="plant-val">${p.arrosage}</span></div>
+      <div class="plant-row"><span class="plant-label">Multiplication</span><span class="plant-val">${p.multiplication}</span></div>
+    </div>
+    <div class="plant-conseil"><strong>Conseil :</strong> ${p.conseil}</div>`;
+  plantCard.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
 </script>
 </body>
 </html>
