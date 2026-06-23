@@ -54,14 +54,16 @@
   .topdate{font-size:0.8rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-soft);}
   .sitenav{display:flex;align-items:baseline;gap:0;}
   .sitenav-link{
-    font-family:'Fraunces',serif;font-size:0.9rem;font-weight:500;
+    font-family:'Fraunces',serif;font-size:0.88rem;font-weight:500;
     letter-spacing:0.3px;color:var(--ink-soft);text-decoration:none;
-    padding:0 18px 4px;border-bottom:2px solid transparent;
+    padding:0 12px 4px;border-bottom:2px solid transparent;
     transition:color .2s, border-color .2s;
   }
   .sitenav-link:hover{color:var(--orange-deep);border-bottom-color:var(--orange-deep);}
   .sitenav-link.current{color:var(--ink);border-bottom-color:var(--ink);}
-  @media(max-width:600px){.sitenav-link{padding:0 10px 4px;font-size:0.82rem;}}
+  .sitenav-ext{font-style:italic;}
+  @media(max-width:780px){.sitenav-link{padding:0 8px 4px;font-size:0.8rem;}}
+  @media(max-width:600px){.topdate{display:none;}}
 
   /* ============ MASTHEAD ============ */
   .masthead{
@@ -343,8 +345,11 @@
       <div class="topbar">
         <a class="brand" onclick="goHome()">Tête <b>vide</b></a>
         <nav class="sitenav">
-          <a class="sitenav-link current" href="#" onclick="goHome();return false;">Réflexions</a>
+          <a class="sitenav-link current" href="#" onclick="goHome();return false;">Textes</a>
           <a class="sitenav-link" href="histoires.html">Histoires</a>
+          <a class="sitenav-link" href="jeux.html">Jeux</a>
+          <a class="sitenav-link" href="plantes.html">Plantes</a>
+          <a class="sitenav-link sitenav-ext" href="https://lilthings3d.fr" target="_blank" rel="noopener">3D ↗</a>
         </nav>
         <div class="topdate" id="today"></div>
       </div>
