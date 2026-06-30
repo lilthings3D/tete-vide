@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Impression sur mesure — lil things 3D</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#FBF7F0;--paper:#fbf6ec;
+  --ink:#2e2218;--ink-soft:#5b4a39;
+  --orange:#D43030;--orange-deep:#B02020;
+  --rule:#e0cfb0;--rule-strong:#c9b189;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--cream);color:var(--ink);font-family:'Spectral',Georgia,serif;font-size:18px;line-height:1.7;-webkit-font-smoothing:antialiased;}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:0.4;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");mix-blend-mode:multiply;}
+.wrap{max-width:720px;margin:0 auto;padding:0 28px;position:relative;z-index:2;}
+
+header.site{padding:30px 0 0;}
+.topbar{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1.5px solid var(--ink);padding-bottom:12px;}
+.brand{font-family:'Fraunces',serif;font-weight:600;font-size:1.15rem;letter-spacing:.5px;text-decoration:none;color:var(--ink);}
+.brand b{color:var(--orange-deep);}
+.back{font-family:'Fraunces',serif;font-size:.88rem;color:var(--ink-soft);text-decoration:none;letter-spacing:.3px;transition:color .2s;}
+.back:hover{color:var(--orange-deep);}
+
+.masthead{text-align:center;padding:56px 0 36px;border-bottom:3px double var(--ink);}
+.masthead .kicker{font-size:.78rem;letter-spacing:5px;text-transform:uppercase;color:var(--orange-deep);margin-bottom:14px;}
+.masthead h1{font-family:'Fraunces',serif;font-weight:300;font-style:italic;font-size:clamp(2.4rem,6vw,4rem);line-height:.95;letter-spacing:-1px;}
+.masthead h1 b{font-style:normal;font-weight:600;color:var(--orange-deep);}
+.masthead .tagline{max-width:480px;margin:14px auto 0;font-size:.95rem;color:var(--ink-soft);font-style:italic;}
+
+/* OPTIONS */
+.options{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1.5px solid var(--ink);margin:40px 0 0;}
+.opt-btn{
+  padding:22px 24px;cursor:pointer;border:none;background:none;
+  text-align:left;border-right:1px solid var(--ink);
+  font-family:'Spectral',Georgia,serif;transition:background .18s;
+}
+.opt-btn:last-child{border-right:none;}
+.opt-btn:hover,.opt-btn.active{background:var(--ink);color:var(--cream);}
+.opt-btn:hover .opt-label,.opt-btn.active .opt-label{color:var(--cream);}
+.opt-btn:hover .opt-sub,.opt-btn.active .opt-sub{color:rgba(255,255,255,.6);}
+.opt-label{font-family:'Fraunces',serif;font-weight:600;font-size:1rem;color:var(--ink);transition:color .18s;}
+.opt-sub{font-size:.82rem;font-style:italic;color:var(--ink-soft);margin-top:4px;transition:color .18s;}
+
+/* FORM */
+.form-section{padding:40px 0 80px;}
+form{display:flex;flex-direction:column;gap:20px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:560px){.form-row{grid-template-columns:1fr;}}
+.field{display:flex;flex-direction:column;gap:6px;}
+.field label{font-family:'Fraunces',serif;font-size:.72rem;letter-spacing:2px;text-transform:uppercase;color:var(--ink-soft);font-weight:600;}
+.field input,.field select,.field textarea{
+  padding:12px 14px;
+  border:1.5px solid var(--rule);background:var(--paper);
+  font-family:'Spectral',Georgia,serif;font-size:.95rem;color:var(--ink);
+  outline:none;transition:border-color .2s;
+  appearance:none;-webkit-appearance:none;
+}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--ink);}
+.field input::placeholder,.field textarea::placeholder{color:var(--rule-strong);font-style:italic;}
+.field textarea{resize:vertical;min-height:110px;}
+.field .hint{font-size:.78rem;color:var(--ink-soft);font-style:italic;}
+.field-full{grid-column:1/-1;}
+
+.submit-btn{
+  font-family:'Fraunces',serif;font-size:.88rem;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--cream);background:var(--orange-deep);border:none;
+  padding:14px 32px;cursor:pointer;transition:opacity .2s;align-self:flex-start;margin-top:8px;
+}
+.submit-btn:hover{opacity:.88;}
+
+.form-reassurance{display:flex;gap:28px;margin-top:8px;flex-wrap:wrap;}
+.reassurance-item{font-size:.8rem;color:var(--ink-soft);font-style:italic;display:flex;align-items:center;gap:6px;}
+
+/* FILE SECTION hidden by default */
+#section-fichier, #section-sans-fichier{display:none;}
+#section-fichier.on, #section-sans-fichier.on{display:contents;}
+</style>
+</head>
+<body>
+
+<header class="site">
+<div class="wrap">
+  <div class="topbar">
+    <a class="brand" href="index.html">Tête <b>vide</b></a>
+    <a class="back" href="lilthings3d.html">← lil things 3D</a>
+  </div>
+</div>
+</header>
+
+<div class="wrap">
+  <section class="masthead">
+    <div class="kicker">lil things 3D</div>
+    <h1>Impression <b>sur mesure</b></h1>
+    <p class="tagline">Décris ton projet et je te fais un devis sous 24–48h.</p>
+  </section>
+
+  <div class="options">
+    <button class="opt-btn active" id="opt-fichier" onclick="switchOpt('fichier')">
+      <div class="opt-label">✓ &nbsp;J'ai mon fichier</div>
+      <div class="opt-sub">STL · 3MF · OBJ · STEP</div>
+    </button>
+    <button class="opt-btn" id="opt-sans" onclick="switchOpt('sans')">
+      <div class="opt-label">◎ &nbsp;Je n'ai pas de fichier</div>
+      <div class="opt-sub">Modélisation + impression</div>
+    </button>
+  </div>
+
+  <div class="form-section">
+    <form id="form-impression" onsubmit="handleSubmit(event)">
+      <div class="form-row">
+        <div class="field">
+          <label>Prénom *</label>
+          <input type="text" name="prenom" required placeholder="Ton prénom">
+        </div>
+        <div class="field">
+          <label>Nom</label>
+          <input type="text" name="nom" placeholder="Ton nom">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label>Email *</label>
+          <input type="email" name="email" required placeholder="ton@email.com">
+        </div>
+        <div class="field">
+          <label>Téléphone <span style="font-weight:300">(facultatif)</span></label>
+          <input type="tel" name="tel" placeholder="06 …">
+        </div>
+      </div>
+
+      <!-- Avec fichier -->
+      <div id="section-fichier" class="on">
+        <div class="field">
+          <label>Fichier 3D *</label>
+          <input type="file" name="fichier" accept=".stl,.3mf,.obj,.step">
+          <span class="hint">STL, 3MF, OBJ ou STEP — max 25 Mo</span>
+        </div>
+      </div>
+
+      <!-- Sans fichier -->
+      <div id="section-sans-fichier">
+        <div class="field">
+          <label>Photo de référence <span style="font-weight:300">(facultatif)</span></label>
+          <input type="file" name="photo_ref" accept=".jpg,.jpeg,.png,.heic">
+          <span class="hint">Une image qui illustre ce que tu veux</span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="field">
+          <label>Couleur souhaitée</label>
+          <input type="text" name="couleur" placeholder="Blanc, noir, rouge…">
+        </div>
+        <div class="field">
+          <label>Quantité</label>
+          <input type="number" name="quantite" min="1" value="1" placeholder="1">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Matériau</label>
+        <select name="materiau">
+          <option value="">— Pas de préférence —</option>
+          <option>PLA (standard, intérieur)</option>
+          <option>PETG (résistant, léger)</option>
+          <option>ABS (haute résistance)</option>
+          <option>TPU (flexible)</option>
+          <option>Résine (haute précision)</option>
+          <option>PLA Wood (aspect bois)</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Description du projet *</label>
+        <textarea name="description" required placeholder="Décris ce que tu veux imprimer : dimensions, usage, contraintes…"></textarea>
+      </div>
+
+      <div class="field">
+        <label>Budget approximatif</label>
+        <select name="budget">
+          <option value="">— Je ne sais pas encore —</option>
+          <option>Moins de 20€</option>
+          <option>20–50€</option>
+          <option>50–100€</option>
+          <option>Plus de 100€</option>
+        </select>
+      </div>
+
+      <button type="submit" class="submit-btn">Envoyer ma demande →</button>
+
+      <div class="form-reassurance">
+        <span class="reassurance-item">⏱ Réponse sous 24–48h</span>
+        <span class="reassurance-item">🔒 Paiement PayPal sécurisé</span>
+        <span class="reassurance-item">✦ Aucun engagement</span>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+function switchOpt(type){
+  document.getElementById('opt-fichier').classList.toggle('active', type==='fichier');
+  document.getElementById('opt-sans').classList.toggle('active', type==='sans');
+  document.getElementById('section-fichier').classList.toggle('on', type==='fichier');
+  document.getElementById('section-sans-fichier').classList.toggle('on', type==='sans');
+}
+
+function handleSubmit(e){
+  e.preventDefault();
+  const f = e.target;
+  const prenom = f.prenom.value;
+  const nom = f.nom.value;
+  const email = f.email.value;
+  const desc = f.description.value;
+  const mat = f.materiau.value;
+  const budget = f.budget.value;
+  const couleur = f.couleur.value;
+  const body = `Bonjour,\n\nNom : ${prenom} ${nom}\nEmail : ${email}\n\nMatériau : ${mat||'Non précisé'}\nCouleur : ${couleur||'Non précisée'}\nBudget : ${budget||'Non précisé'}\n\nDescription :\n${desc}\n\n---\nEnvoyé depuis tete-vide.fr/impression`;
+  window.location.href = `mailto:contact@lilthings3d.fr?subject=Demande impression – ${prenom}&body=${encodeURIComponent(body)}`;
+}
+</script>
+</body>
+</html>
