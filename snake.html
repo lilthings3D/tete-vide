@@ -345,12 +345,11 @@ async function gameOver(){
   lastEntries = entries;
   renderLeaderboard(entries);
 
+  controls.classList.remove('hidden');
   if(qualifies(score, entries)){
     nameEntry.classList.add('on');
     playerNameInput.value = localStorage.getItem('lb-name')||'';
     playerNameInput.focus();
-  } else {
-    controls.classList.remove('hidden');
   }
 }
 
