@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="7" fill="#2e2218"/>
+  <!-- crâne vide -->
+  <ellipse cx="16" cy="13" rx="8" ry="8.5" fill="none" stroke="#FBF7F0" stroke-width="2"/>
+  <!-- mâchoire / bas du visage -->
+  <path d="M10 18 Q10 24 13 24 L19 24 Q22 24 22 18" fill="none" stroke="#FBF7F0" stroke-width="2" stroke-linecap="round"/>
+  <!-- accent orange : un trait au-dessus = "vide" -->
+  <line x1="13" y1="8" x2="19" y2="8" stroke="#B02020" stroke-width="2" stroke-linecap="round"/>
+</svg>
