@@ -101,6 +101,76 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     70%{opacity:1;}
     100%{opacity:0;transform:translateX(-50%) translateY(-20px);}
   }
+
+  /* MILESTONE POPUP */
+  .milestone-popup{
+    position:fixed;top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    font-size:3.5rem;text-align:center;
+    pointer-events:none;z-index:300;
+    animation:ms-pop 2.5s ease forwards;
+  }
+  .milestone-popup span{
+    display:block;font-family:'Fraunces',serif;
+    font-size:1.1rem;color:var(--ink);margin-top:8px;
+  }
+  @keyframes ms-pop{
+    0%  {opacity:0;transform:translate(-50%,-35%) scale(.85);}
+    20% {opacity:1;transform:translate(-50%,-50%) scale(1.1);}
+    30% {transform:translate(-50%,-50%) scale(1);}
+    70% {opacity:1;}
+    100%{opacity:0;transform:translate(-50%,-65%);}
+  }
+
+  /* HOF OVERLAY */
+  #hof-overlay{
+    position:fixed;inset:0;
+    background:rgba(251,247,240,.96);backdrop-filter:blur(6px);
+    display:none;flex-direction:column;
+    align-items:center;justify-content:center;
+    z-index:500;padding:24px;
+  }
+  #hof-box{
+    text-align:center;max-width:400px;width:100%;
+    border:2px solid var(--ink);background:white;padding:40px 32px;
+  }
+  .hof-icon{font-size:3rem;margin-bottom:12px;}
+  #hof-box h2{
+    font-family:'Fraunces',serif;font-weight:300;font-style:italic;
+    font-size:1.8rem;letter-spacing:-.5px;margin-bottom:8px;color:var(--ink);
+  }
+  #hof-box h2 b{font-style:normal;font-weight:600;color:var(--orange-deep);}
+  .hof-sub{
+    font-style:italic;color:var(--ink-soft);font-size:.9rem;
+    margin-bottom:28px;line-height:1.5;
+  }
+  #hof-input{
+    display:block;width:100%;padding:12px 16px;
+    border:1.5px solid var(--rule);background:var(--cream);
+    font-family:'Fraunces',serif;font-size:1.05rem;text-align:center;
+    outline:none;margin-bottom:16px;
+  }
+  #hof-input:focus{border-color:var(--ink);}
+  #hof-btn{
+    font-family:'Fraunces',serif;font-size:.82rem;letter-spacing:1.5px;
+    text-transform:uppercase;color:var(--cream);background:var(--orange-deep);
+    border:none;padding:12px 32px;cursor:pointer;transition:opacity .2s;
+  }
+  #hof-btn:hover{opacity:.88;}
+
+  /* NAME TAG (Hall of Fame flottant) */
+  .name-tag{
+    position:absolute;cursor:pointer;z-index:50;
+    background:white;border:2px solid var(--ink);border-radius:8px;
+    padding:6px 16px;
+    font-family:'Fraunces',serif;font-weight:600;font-size:.88rem;color:var(--ink);
+    white-space:nowrap;user-select:none;
+    filter:drop-shadow(0 4px 8px rgba(0,0,0,.18));
+  }
+  .name-tag.ltr{animation:name-ltr linear forwards;}
+  .name-tag.rtl{animation:name-rtl linear forwards;}
+  @keyframes name-ltr{from{left:-22%}to{left:122%}}
+  @keyframes name-rtl{from{left:122%}to{left:-22%}}
 </style>
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-TBJXMCC70W"></script>
@@ -133,23 +203,100 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div id="hud">
   <span class="hud-label">vaches cliquées</span>
   <span class="hud-count" id="score">0</span>
+  <span style="opacity:.3"> · </span>
+  <span id="hud-prog" style="font-family:'Fraunces',serif;font-size:.82rem;color:var(--ink-soft)">🥛 0/10</span>
+</div>
+
+<div id="hof-overlay">
+  <div id="hof-box">
+    <div class="hof-icon">🏆</div>
+    <h2>Hall of <b>vache</b></h2>
+    <p class="hof-sub">Tu as cliqué 1000 vaches.<br>Entre ton nom pour rejoindre les légendes.</p>
+    <input id="hof-input" type="text" maxlength="32" placeholder="Ton nom…" autocomplete="off">
+    <button id="hof-btn">Rejoindre le Hall ★</button>
+  </div>
 </div>
 
 <script>
 const pasture = document.getElementById('pasture');
 const scoreEl = document.getElementById('score');
-let score = 0;
+const progEl  = document.getElementById('hud-prog');
 
-const SOUNDS = ["meuh1.mp3","meuh2.mp3","meuh3.mp3","meuh4.mp3"];
-const MEUHS  = ["Meuh !","MEUH !!","meuuh…","Mooooh","Meuh ?","MEEUH !","Meuh meuh","Muh."];
+const HOF_KEY  = 'tete-vide-hof-v1';
+const FOUNDERS = ['Meuh McGee', 'Bovinia', 'Jean-Lait'];
+const SOUNDS   = ["meuh1.mp3","meuh2.mp3","meuh3.mp3","meuh4.mp3"];
+const MEUHS    = ["Meuh !","MEUH !!","meuuh…","Mooooh","Meuh ?","MEEUH !","Meuh meuh","Muh."];
 
-function playMoo(){
-  const s = new Audio(SOUNDS[Math.floor(Math.random()*SOUNDS.length)]);
-  s.play().catch(()=>{});
+let score = 0, lait = 0, steak = 0, hofDone = false;
+
+/* ---- SAVE ---- */
+function loadSave(){
+  try{ return JSON.parse(localStorage.getItem(HOF_KEY)) || {}; } catch(e){ return {}; }
+}
+function writeSave(extra){
+  localStorage.setItem(HOF_KEY, JSON.stringify({...loadSave(), ...extra}));
+}
+function getNames(){ return [...FOUNDERS, ...(loadSave().names || [])]; }
+
+/* ---- RESTORE ---- */
+(function(){
+  const s = loadSave();
+  score   = s.score   || 0;
+  lait    = Math.floor(score / 10);
+  steak   = Math.floor(score / 100);
+  hofDone = !!s.hofDone;
+  scoreEl.textContent = score;
+  updateProgHUD();
+})();
+
+/* ---- HUD ---- */
+function updateProgHUD(){
+  if(hofDone || steak >= 10){
+    progEl.textContent = '🏆';
+  } else if(steak > 0){
+    progEl.textContent = `🥛 ${lait % 10}/10 · 🥩 ${steak}/10`;
+  } else {
+    progEl.textContent = `🥛 ${lait % 10}/10`;
+  }
 }
 
-function rand(a,b){return Math.random()*(b-a)+a;}
+/* ---- MILESTONE POPUP ---- */
+function showMilestone(emoji, label){
+  const el = document.createElement('div');
+  el.className = 'milestone-popup';
+  el.innerHTML = `${emoji}<br><span>${label}</span>`;
+  document.body.appendChild(el);
+  el.addEventListener('animationend', ()=>el.remove());
+}
 
+function checkMilestones(){
+  const newLait  = Math.floor(score / 10);
+  const newSteak = Math.floor(score / 100);
+
+  if(newLait > lait){
+    lait = newLait;
+    const l = lait % 10 || 10;
+    showMilestone('🥛', l === 10 ? '10 bouteilles !' : `${l} bouteille${l > 1 ? 's' : ''} de lait`);
+  }
+  if(newSteak > steak){
+    steak = newSteak;
+    setTimeout(() => showMilestone('🥩', `${steak}/10 steaks`), 600);
+    if(steak >= 10 && !hofDone){
+      setTimeout(showHOFForm, 1800);
+    }
+  }
+  updateProgHUD();
+  writeSave({score, hofDone});
+}
+
+/* ---- SOUNDS ---- */
+function playMoo(){
+  const s = new Audio(SOUNDS[Math.floor(Math.random() * SOUNDS.length)]);
+  s.play().catch(()=>{});
+}
+function rand(a, b){ return Math.random() * (b - a) + a; }
+
+/* ---- COW ---- */
 function spawnCow(){
   const ltr = Math.random() < 0.5;
   const cow = document.createElement('div');
@@ -158,12 +305,10 @@ function spawnCow(){
   const top = rand(5, 78);
   const w   = rand(8, 15);
   const dur = rand(13, 26);
-
   cow.style.cssText = `top:${top}vh;width:${w}vw;animation-duration:${dur}s;`;
 
   const img = document.createElement('img');
-  img.src = 'vache.png';
-  img.alt = 'Vache';
+  img.src = 'vache.png'; img.alt = 'Vache';
   cow.appendChild(img);
 
   cow.addEventListener('click', e => {
@@ -172,26 +317,84 @@ function spawnCow(){
     score++;
     scoreEl.textContent = score;
 
-    // Speech bubble
     const old = cow.querySelector('.bubble');
     if(old) old.remove();
     const b = document.createElement('div');
     b.className = 'bubble';
-    b.textContent = MEUHS[Math.floor(Math.random()*MEUHS.length)];
+    b.textContent = MEUHS[Math.floor(Math.random() * MEUHS.length)];
     cow.appendChild(b);
     b.addEventListener('animationend', ()=>b.remove());
 
-    // Petit sursaut
     cow.style.filter = 'drop-shadow(0 6px 14px rgba(0,0,0,.22)) brightness(1.15)';
     setTimeout(()=>{ cow.style.filter = 'drop-shadow(0 6px 14px rgba(0,0,0,.22))'; }, 150);
+
+    checkMilestones();
   });
 
   cow.addEventListener('animationend', ()=>cow.remove());
   pasture.appendChild(cow);
 }
 
-// Démarrage
-for(let i=0;i<5;i++) setTimeout(spawnCow, i*600);
+/* ---- NAME TAG ---- */
+function spawnNameTag(name){
+  const ltr = Math.random() < 0.5;
+  const el = document.createElement('div');
+  el.className = 'name-tag ' + (ltr ? 'ltr' : 'rtl');
+  el.textContent = '★ ' + name;
+
+  const top = rand(10, 80);
+  const dur = rand(14, 24);
+  el.style.cssText = `top:${top}vh;animation-duration:${dur}s;`;
+
+  el.addEventListener('click', e => {
+    e.stopPropagation();
+    const old = el.querySelector('.bubble');
+    if(old) old.remove();
+    const b = document.createElement('div');
+    b.className = 'bubble';
+    b.textContent = `Bravo ${name} !`;
+    el.appendChild(b);
+    b.addEventListener('animationend', ()=>b.remove());
+  });
+
+  el.addEventListener('animationend', ()=>el.remove());
+  pasture.appendChild(el);
+}
+
+function scheduleNameTag(){
+  const names = getNames();
+  if(names.length) spawnNameTag(names[Math.floor(Math.random() * names.length)]);
+  setTimeout(scheduleNameTag, rand(9000, 18000));
+}
+
+/* ---- HOF FORM ---- */
+function showHOFForm(){
+  document.getElementById('hof-overlay').style.display = 'flex';
+}
+
+document.getElementById('hof-btn').addEventListener('click', ()=>{
+  const input = document.getElementById('hof-input');
+  const name  = input.value.trim().slice(0, 32);
+  if(!name) return;
+
+  const prev  = loadSave();
+  const names = prev.names || [];
+  if(!names.includes(name)) names.push(name);
+  writeSave({hofDone: true, names});
+  hofDone = true;
+
+  document.getElementById('hof-overlay').style.display = 'none';
+  updateProgHUD();
+  spawnNameTag(name);
+});
+
+document.getElementById('hof-input').addEventListener('keydown', e =>{
+  if(e.key === 'Enter') document.getElementById('hof-btn').click();
+});
+
+/* ---- DÉMARRAGE ---- */
+setTimeout(scheduleNameTag, 5000);
+for(let i = 0; i < 5; i++) setTimeout(spawnCow, i * 600);
 setInterval(spawnCow, 2200);
 </script>
 </body>
