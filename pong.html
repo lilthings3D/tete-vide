@@ -61,14 +61,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   #pong-title b{font-style:normal;font-weight:600;color:var(--orange-deep);}
 
-  /* OVERLAY */
-  #overlay{
-    position:absolute;inset:0;
-    display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
-    padding-bottom:20px;gap:0;z-index:5;
+  /* CONTROLS — sous le canvas */
+  #controls{
+    display:flex;flex-direction:column;align-items:center;gap:10px;
+    padding:12px 0 4px;flex-shrink:0;
   }
-  #overlay.hidden{display:none;}
-  .ov-bottom{display:flex;flex-direction:column;align-items:center;gap:10px;width:100%;}
+  #controls.hidden{display:none;}
   .btn{
     font-family:'Fraunces',serif;font-size:0.9rem;letter-spacing:1.5px;text-transform:uppercase;
     color:var(--orange-deep);border:1.5px solid var(--orange-deep);
@@ -176,25 +174,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <button class="touch-btn" id="tr-down">▼</button>
   </div>
 
-  <div id="overlay">
-    <div class="ov-bottom">
-      <div class="mode-col">
-        <button class="mode-btn active" id="btn-solo">Solo (vs IA)</button>
-        <button class="mode-btn" id="btn-duo">2 Joueurs</button>
-      </div>
-      <button class="btn" id="btn-start">Jouer →</button>
+  <div id="controls">
+    <div id="winner-msg" style="display:none"></div>
+    <div class="mode-col">
+      <button class="mode-btn active" id="btn-solo">Solo (vs IA)</button>
+      <button class="mode-btn" id="btn-duo">2 Joueurs</button>
     </div>
+    <button class="btn" id="btn-start">Jouer →</button>
   </div>
 </div>
 
 <script>
 const canvas = document.getElementById('c');
 const ctx    = canvas.getContext('2d');
-const overlay = document.getElementById('overlay');
-const btnStart = document.getElementById('btn-start');
-const btnSolo  = document.getElementById('btn-solo');
-const btnDuo   = document.getElementById('btn-duo');
-const ctrlHint = document.getElementById('ctrl-hint');
+const controls  = document.getElementById('controls');
+const winnerMsg = document.getElementById('winner-msg');
+const btnStart  = document.getElementById('btn-start');
+const btnSolo   = document.getElementById('btn-solo');
+const btnDuo    = document.getElementById('btn-duo');
+const ctrlHint  = document.getElementById('ctrl-hint');
 
 // --- CONFIG ---
 const W = 800, H = 500;
@@ -265,8 +263,9 @@ function startGame(){
   state.padR.y = H/2 - PAD_H/2;
   state.score.l = 0; state.score.r = 0;
   winner = null;
+  winnerMsg.style.display = 'none';
   resetBall(Math.random()<0.5?1:-1);
-  overlay.classList.add('hidden');
+  controls.classList.add('hidden');
   running = true;
   requestAnimationFrame(loop);
 }
@@ -350,21 +349,13 @@ function checkWin(){
 }
 
 function showOver(){
-  overlay.classList.remove('hidden');
-  const t = overlay.querySelector('.ov-title');
-  const s = overlay.querySelector('.ov-sub');
-  const w = overlay.querySelector('#winner-msg') || document.createElement('div');
-  w.id = 'winner-msg';
-
   const who = (winner==='l')
     ? (mode==='duo' ? 'Joueur gauche' : 'L\'IA')
     : (mode==='duo' ? 'Joueur droite' : 'Toi');
-  w.textContent = who + ' gagne !';
-
-  if(!overlay.querySelector('#winner-msg')) overlay.insertBefore(w, t.nextSibling);
-  t.innerHTML = 'Fin <b>·</b>';
-  s.textContent = state.score.l + ' — ' + state.score.r;
+  winnerMsg.textContent = who + ' gagne ! ' + state.score.l + ' — ' + state.score.r;
+  winnerMsg.style.display = 'block';
   btnStart.textContent = 'Rejouer →';
+  controls.classList.remove('hidden');
 }
 
 function draw(){
