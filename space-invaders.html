@@ -181,10 +181,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <script>
-/* ---- DREAMLO CONFIG ---- */
-const LB_PUBLIC  = 'kDR-LDsb1Eu-qgKF3A3mrQCPN9Zt-KPkiaQLPjj8NHVA';
-const LB_PRIVATE = '6a442b268f40bb13185897cb';
-
 const canvas = document.getElementById('c');
 const ctx = canvas.getContext('2d');
 const controls = document.getElementById('controls');
@@ -198,16 +194,12 @@ const scoreVal = document.getElementById('score-val');
 const livesVal = document.getElementById('lives-val');
 const lbBody = document.getElementById('lb-body');
 
-async function fetchLeaderboard(){try{const r=await fetch(`https://dreamlo.com/lb/${LB_PUBLIC}/json/10`);const d=await r.json();let e=d?.dreamlo?.leaderboard?.entry;if(!e)return[];return Array.isArray(e)?e:[e];}catch{return[];}}
-function submitScore(name,sc){
-  return new Promise(resolve=>{
-    const img=new Image();
-    img.onload=img.onerror=()=>resolve();
-    img.src=`https://dreamlo.com/lb/${LB_PRIVATE}/add/${encodeURIComponent((name||'Anonyme').trim().slice(0,20))}/${sc}`;
-    setTimeout(resolve,3000);
-  });
-}
-function qualifies(sc,entries){return sc>0&&(entries.length<10||sc>parseInt(entries[entries.length-1]?.score||0));}
+/* ---- LEADERBOARD (localStorage) ---- */
+const LB_KEY = 'lb-invaders';
+function loadLB(){ try{ return JSON.parse(localStorage.getItem(LB_KEY))||[]; }catch{ return []; } }
+function saveLB(e){ localStorage.setItem(LB_KEY, JSON.stringify(e)); }
+function qualifies(sc,entries){ return sc>0&&(entries.length<10||sc>entries[entries.length-1].score); }
+function addToLB(name,sc){ const e=[...loadLB(),{name,score:sc}].sort((a,b)=>b.score-a.score).slice(0,10); saveLB(e); return e; }
 function renderLeaderboard(entries,hl){const m=['🥇','🥈','🥉'];lbBody.innerHTML=entries.length?entries.map((e,i)=>`<tr class="${i===0?'lb-rank-1':''} ${hl&&e.name===hl?'lb-me':''}"><td>${m[i]||'#'+(i+1)}</td><td>${e.name}</td><td>${e.score}</td></tr>`).join(''):'<tr><td colspan="3" class="lb-empty">Pas encore de scores — sois le premier !</td></tr>';}
 
 const W = 800, H = 500;
@@ -370,29 +362,25 @@ function update(dt){
   }
 }
 
-let lastEntries = [];
 function endGame(won){
   running = false;
   btnStart.textContent = 'Rejouer →';
   overMsg.textContent = (won?'Gagné ! ':'Perdu ! ') + 'Score : ' + score;
   overMsg.style.display = 'block';
   controls.classList.remove('hidden');
-  if(qualifies(score,lastEntries)){
+  const entries = loadLB();
+  renderLeaderboard(entries);
+  if(qualifies(score,entries)){
     nameEntry.classList.add('on');
     playerNameInput.value = localStorage.getItem('lb-name')||'';
     playerNameInput.focus();
   }
-  fetchLeaderboard().then(e => { lastEntries=e; renderLeaderboard(e); });
 }
-async function doSubmit(){
+function doSubmit(){
   const name = playerNameInput.value.trim()||'Anonyme';
   localStorage.setItem('lb-name', name);
-  btnSubmit.textContent='Envoi…'; btnSubmit.disabled=true;
-  await submitScore(name, score);
-  const entries = await fetchLeaderboard();
-  renderLeaderboard(entries, name);
-  nameEntry.classList.remove('on'); controls.classList.remove('hidden');
-  btnSubmit.textContent='Valider →'; btnSubmit.disabled=false;
+  renderLeaderboard(addToLB(name, score), name);
+  nameEntry.classList.remove('on');
 }
 btnSubmit.addEventListener('click', doSubmit);
 playerNameInput.addEventListener('keydown', e=>{ if(e.key==='Enter') doSubmit(); });
@@ -435,7 +423,7 @@ function loop(t){
 
 resetGame();
 draw();
-fetchLeaderboard().then(e => { lastEntries=e; renderLeaderboard(e); });
+renderLeaderboard(loadLB());
 </script>
 </body>
 </html>

@@ -195,9 +195,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <script>
-/* ---- DREAMLO CONFIG (remplace par tes codes) ---- */
-const LB_PUBLIC  = '0CD1YDPQwUWCAngibcQPGA1U9bdhYX9EK_8VirXJzcAg';
-const LB_PRIVATE = '6a442aa38f40bb1318589430';
 
 const canvas = document.getElementById('c');
 const ctx = canvas.getContext('2d');
@@ -219,7 +216,7 @@ canvas.width = W; canvas.height = H;
 const COLORS = { bg:'#1a1208', fg:'#f5eddc', accent:'#D43030', head:'#f0a868' };
 
 let snake, dir, nextDir, food, score, best, running, stepMs, acc, lastT;
-let lastEntries = [];
+
 
 best = parseInt(localStorage.getItem('snake-best') || '0', 10);
 bestVal.textContent = best;
@@ -235,46 +232,26 @@ function resize(){
 window.addEventListener('resize', resize);
 resize();
 
-/* ---- LEADERBOARD ---- */
-async function fetchLeaderboard(){
-  try {
-    const r = await fetch(`https://dreamlo.com/lb/${LB_PUBLIC}/json/10`);
-    const d = await r.json();
-    let e = d?.dreamlo?.leaderboard?.entry;
-    if (!e) return [];
-    return Array.isArray(e) ? e : [e];
-  } catch { return []; }
-}
+/* ---- LEADERBOARD (localStorage) ---- */
+const LB_KEY = 'lb-snake';
 
-function submitScore(name, sc){
-  return new Promise(resolve => {
-    const n = encodeURIComponent((name||'Anonyme').trim().slice(0,20));
-    const img = new Image();
-    img.onload = img.onerror = () => resolve();
-    img.src = `https://dreamlo.com/lb/${LB_PRIVATE}/add/${n}/${sc}`;
-    setTimeout(resolve, 3000);
-  });
+function loadLB(){ try{ return JSON.parse(localStorage.getItem(LB_KEY))||[]; }catch{ return []; } }
+function saveLB(entries){ localStorage.setItem(LB_KEY, JSON.stringify(entries)); }
+function qualifies(sc, entries){ return sc > 0 && (entries.length < 10 || sc > entries[entries.length-1].score); }
+function addToLB(name, sc){
+  const entries = loadLB();
+  entries.push({name, score: sc});
+  entries.sort((a,b) => b.score - a.score);
+  const top = entries.slice(0,10);
+  saveLB(top);
+  return top;
 }
-
-function qualifies(sc, entries){
-  if (sc <= 0) return false;
-  return entries.length < 10 || sc > parseInt(entries[entries.length-1]?.score || 0);
-}
-
-function renderLeaderboard(entries, highlightName){
-  if (!entries.length){
-    lbBody.innerHTML = '<tr><td colspan="3" class="lb-empty">Pas encore de scores — sois le premier !</td></tr>';
-    return;
-  }
-  const medals = ['🥇','🥈','🥉'];
-  lbBody.innerHTML = entries.map((e,i) => {
-    const isMe = highlightName && e.name === highlightName;
-    return `<tr class="${i===0?'lb-rank-1':''} ${isMe?'lb-me':''}">
-      <td>${medals[i]||('#'+(i+1))}</td>
-      <td>${e.name}</td>
-      <td>${e.score}</td>
-    </tr>`;
-  }).join('');
+function renderLeaderboard(entries, hl){
+  const m = ['🥇','🥈','🥉'];
+  lbBody.innerHTML = entries.length
+    ? entries.map((e,i) => `<tr class="${i===0?'lb-rank-1':''} ${hl&&e.name===hl?'lb-me':''}">
+        <td>${m[i]||'#'+(i+1)}</td><td>${e.name}</td><td>${e.score}</td></tr>`).join('')
+    : '<tr><td colspan="3" class="lb-empty">Pas encore de scores — sois le premier !</td></tr>';
 }
 
 /* ---- GAME ---- */
@@ -346,24 +323,21 @@ function gameOver(){
   overMsg.style.display = 'block';
   btnStart.textContent = 'Rejouer →';
   controls.classList.remove('hidden');
-  if(qualifies(score, lastEntries)){
+  const entries = loadLB();
+  renderLeaderboard(entries);
+  if(qualifies(score, entries)){
     nameEntry.classList.add('on');
     playerNameInput.value = localStorage.getItem('lb-name')||'';
     playerNameInput.focus();
   }
-  fetchLeaderboard().then(e => { lastEntries=e; renderLeaderboard(e); });
 }
 
-async function doSubmit(){
+function doSubmit(){
   const name = playerNameInput.value.trim()||'Anonyme';
   localStorage.setItem('lb-name', name);
-  btnSubmit.textContent = 'Envoi…'; btnSubmit.disabled = true;
-  await submitScore(name, score);
-  const entries = await fetchLeaderboard();
+  const entries = addToLB(name, score);
   renderLeaderboard(entries, name);
   nameEntry.classList.remove('on');
-  controls.classList.remove('hidden');
-  btnSubmit.textContent = 'Valider →'; btnSubmit.disabled = false;
 }
 
 btnSubmit.addEventListener('click', doSubmit);
@@ -389,7 +363,7 @@ function loop(t){
 
 resetGame();
 ctx.fillStyle = COLORS.bg; ctx.fillRect(0,0,W,H);
-fetchLeaderboard().then(e => { lastEntries=e; renderLeaderboard(e); });
+renderLeaderboard(loadLB());
 </script>
 </body>
 </html>
