@@ -38,7 +38,7 @@
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
     mix-blend-mode:multiply;
   }
-  .wrap{max-width:720px;margin:0 auto;padding:0 28px;position:relative;z-index:2;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px;position:relative;z-index:2;}
 
   /* ============ HEADER ============ */
   header.site{padding:30px 0 0;}
@@ -67,7 +67,8 @@
 
   /* ============ MASTHEAD ============ */
   .masthead{
-    text-align:center;padding:80px 0 50px;position:relative;
+    text-align:center;padding:80px 28px 50px;position:relative;
+    max-width:1180px;margin:0 auto;
   }
   .masthead .kicker{
     font-size:0.78rem;letter-spacing:4px;text-transform:uppercase;
@@ -75,10 +76,10 @@
   }
   .masthead h1{
     font-family:'Fraunces',serif;font-weight:300;font-style:italic;
-    font-size:clamp(2.8rem,8vw,5.5rem);line-height:0.95;
-    letter-spacing:-1px;
+    font-size:clamp(3rem,7vw,6.5rem);line-height:0.92;
+    letter-spacing:-2px;white-space:nowrap;
   }
-  .masthead h1 .accent{font-style:normal;font-weight:600;color:var(--forest-mid);display:block;}
+  .masthead h1 .accent{font-style:normal;font-weight:600;color:var(--forest-mid);}
   .masthead .tagline{
     max-width:480px;margin:26px auto 0;font-size:1.05rem;
     color:var(--ink-soft);font-style:italic;
@@ -92,10 +93,10 @@
 
   /* ============ LISTE D'HISTOIRES ============ */
   .stories-list{
-    padding:64px 0 100px;
+    padding:48px 0 100px;
     display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:0 40px;
+    grid-template-columns:repeat(4,1fr);
+    gap:0 32px;
   }
   .story-card{
     cursor:pointer;
@@ -260,14 +261,14 @@
     </div>
   </header>
 
-  <div class="wrap">
-    <section class="masthead">
-      <div class="kicker">J'avais pas de stylo alors j'ai fais un site</div>
-      <h1>Page<span class="accent">blanche</span></h1>
-      <p class="tagline">J'me raconte pas d'histoires.</p>
-      <div class="rule-deco"><span></span><span class="dot">◆</span><span></span></div>
-    </section>
+  <section class="masthead">
+    <div class="kicker">J'avais pas de stylo alors j'ai fais un site</div>
+    <h1>Page <span class="accent">blanche</span></h1>
+    <p class="tagline">J'me raconte pas d'histoires.</p>
+    <div class="rule-deco"><span></span><span class="dot">◆</span><span></span></div>
+  </section>
 
+  <div class="wrap">
     <main class="stories-list" id="stories-list"></main>
   </div>
 
