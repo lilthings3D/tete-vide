@@ -345,11 +345,12 @@ async function endGame(){
   overMsg.style.display = 'block';
   const entries = await fetchLeaderboard();
   renderLeaderboard(entries);
+  controls.classList.remove('hidden');
   if(qualifies(score,entries)){
     nameEntry.classList.add('on');
     playerNameInput.value = localStorage.getItem('lb-name')||'';
     playerNameInput.focus();
-  } else { controls.classList.remove('hidden'); }
+  }
 }
 async function doSubmit(){
   const name = playerNameInput.value.trim()||'Anonyme';
