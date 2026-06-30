@@ -44,6 +44,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   #arena{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;z-index:2;overflow-y:auto;padding:6px 0;}
 
+  #canvas-wrap{position:relative;display:inline-block;max-width:100%;}
   canvas{
     display:block;
     border:2px solid var(--ink);
@@ -65,8 +66,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   #info-bar strong{color:var(--orange-deep);}
 
   #controls{
-    display:flex;flex-direction:column;align-items:center;gap:10px;
-    padding:12px 0 4px;flex-shrink:0;
+    position:absolute;inset:0;z-index:5;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+    background:rgba(26,18,8,0.6);
   }
   #controls.hidden{display:none;}
   .btn{
@@ -122,18 +124,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div id="arena">
   <div id="game-title">Snake <b>·</b></div>
   <div id="info-bar">Score : <strong id="score-val">0</strong> &nbsp;·&nbsp; Meilleur : <strong id="best-val">0</strong></div>
-  <canvas id="c"></canvas>
+  <div id="canvas-wrap">
+    <canvas id="c"></canvas>
+    <div id="controls">
+      <div id="over-msg" style="display:none"></div>
+      <button class="btn" id="btn-start">Jouer →</button>
+    </div>
+  </div>
 
   <div class="dpad" id="dpad">
     <button class="dpad-btn" id="d-up">▲</button>
     <button class="dpad-btn" id="d-left">◀</button>
     <button class="dpad-btn" id="d-down">▼</button>
     <button class="dpad-btn" id="d-right">▶</button>
-  </div>
-
-  <div id="controls">
-    <div id="over-msg" style="display:none"></div>
-    <button class="btn" id="btn-start">Jouer →</button>
   </div>
 </div>
 
