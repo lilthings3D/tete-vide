@@ -176,7 +176,14 @@ const lbBody = document.getElementById('lb-body');
 async function fetchLeaderboard(){
   try{const r=await fetch(`https://dreamlo.com/lb/${LB_PUBLIC}/json/10`);const d=await r.json();let e=d?.dreamlo?.leaderboard?.entry;if(!e)return[];return Array.isArray(e)?e:[e];}catch{return[];}
 }
-async function submitScore(name,sc){await fetch(`https://dreamlo.com/lb/${LB_PRIVATE}/add/${encodeURIComponent((name||'Anonyme').trim().slice(0,20))}/${sc}`);}
+function submitScore(name,sc){
+  return new Promise(resolve=>{
+    const img=new Image();
+    img.onload=img.onerror=()=>resolve();
+    img.src=`https://dreamlo.com/lb/${LB_PRIVATE}/add/${encodeURIComponent((name||'Anonyme').trim().slice(0,20))}/${sc}`;
+    setTimeout(resolve,3000);
+  });
+}
 function qualifies(sc,entries){return sc>0&&(entries.length<10||sc>parseInt(entries[entries.length-1]?.score||0));}
 function renderLeaderboard(entries,hl){const m=['🥇','🥈','🥉'];lbBody.innerHTML=entries.length?entries.map((e,i)=>`<tr class="${i===0?'lb-rank-1':''} ${hl&&e.name===hl?'lb-me':''}"><td>${m[i]||'#'+(i+1)}</td><td>${e.name}</td><td>${e.score}</td></tr>`).join(''):'<tr><td colspan="3" class="lb-empty">Pas encore de scores — sois le premier !</td></tr>';}
 

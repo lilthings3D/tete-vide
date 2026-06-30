@@ -186,9 +186,14 @@ async function fetchLeaderboard(){
     return Array.isArray(e) ? e : [e];
   } catch { return []; }
 }
-async function submitScore(name, sc){
-  const n = encodeURIComponent((name||'Anonyme').trim().slice(0,20));
-  await fetch(`https://dreamlo.com/lb/${LB_PRIVATE}/add/${n}/${sc}`);
+function submitScore(name, sc){
+  return new Promise(resolve => {
+    const n = encodeURIComponent((name||'Anonyme').trim().slice(0,20));
+    const img = new Image();
+    img.onload = img.onerror = () => resolve();
+    img.src = `https://dreamlo.com/lb/${LB_PRIVATE}/add/${n}/${sc}`;
+    setTimeout(resolve, 3000);
+  });
 }
 function qualifies(sc, entries){ return sc > 0 && (entries.length < 10 || sc > parseInt(entries[entries.length-1]?.score||0)); }
 function renderLeaderboard(entries, highlightName){
