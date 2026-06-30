@@ -16,13 +16,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
   :root{
-    --cream:#FBF7F0;--ink:#2e2218;--ink-soft:#5b4a39;
+    --cream:#FBF7F0;--cream-deep:#f0e4cf;--paper:#fbf6ec;
+    --ink:#2e2218;--ink-soft:#5b4a39;
     --orange:#D43030;--orange-deep:#B02020;
-    --rule:#e0cfb0;
+    --rule:#e0cfb0;--rule-strong:#c9b189;
   }
   *{margin:0;padding:0;box-sizing:border-box;}
-  html,body{height:100%;overflow:hidden;}
+  html{height:100%;}
   body{
+    min-height:100%;overflow-y:auto;overflow-x:hidden;
     background:var(--cream);color:var(--ink);
     font-family:'Spectral',Georgia,serif;
     -webkit-font-smoothing:antialiased;
@@ -34,7 +36,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     mix-blend-mode:multiply;
   }
 
-  header.site{flex-shrink:0;padding:0 28px;border-bottom:1.5px solid var(--ink);z-index:10;}
+  header.site{flex-shrink:0;padding:0 28px;border-bottom:1.5px solid var(--ink);z-index:10;position:sticky;top:0;background:var(--cream);}
   .topbar{display:flex;justify-content:space-between;align-items:center;height:52px;}
   .brand{font-family:'Fraunces',serif;font-weight:600;font-size:1.05rem;text-decoration:none;color:var(--ink);}
   .brand b{color:var(--orange-deep);}
@@ -42,13 +44,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .sitenav-link{font-family:'Fraunces',serif;font-size:0.85rem;font-weight:500;color:var(--ink-soft);text-decoration:none;padding:0 10px 2px;border-bottom:2px solid transparent;transition:color .2s,border-color .2s;}
   .sitenav-link:hover,.sitenav-link.current{color:var(--orange-deep);border-bottom-color:var(--orange-deep);}
 
-  #arena{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;z-index:2;overflow-y:auto;padding:6px 0;}
+  #arena{
+    flex:none;height:calc(100vh - 52px);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    position:relative;z-index:2;padding:6px 0;
+  }
 
   #canvas-wrap{position:relative;display:inline-block;max-width:100%;}
   canvas{
-    display:block;
-    border:2px solid var(--ink);
-    background:#1a1208;
+    display:block;border:2px solid var(--ink);background:#1a1208;
     max-width:100%;max-height:55vh;
   }
 
@@ -59,31 +63,44 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   #game-title b{font-style:normal;font-weight:600;color:var(--orange-deep);}
 
-  #info-bar{
-    font-size:0.78rem;letter-spacing:1px;text-transform:uppercase;
-    color:var(--ink-soft);text-align:center;padding:0 0 6px;line-height:1.8;
-  }
+  #info-bar{font-size:0.78rem;letter-spacing:1px;text-transform:uppercase;color:var(--ink-soft);text-align:center;padding:0 0 6px;line-height:1.8;}
   #info-bar strong{color:var(--orange-deep);}
 
   #controls{
     position:absolute;inset:0;z-index:5;
     display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
-    background:rgba(26,18,8,0.6);
+    background:rgba(26,18,8,0.65);
   }
   #controls.hidden{display:none;}
+
   .btn{
     font-family:'Fraunces',serif;font-size:0.9rem;letter-spacing:1.5px;text-transform:uppercase;
     color:var(--orange-deep);border:1.5px solid var(--orange-deep);
-    background:none;padding:11px 32px;cursor:pointer;
-    transition:background .2s,color .2s;
+    background:none;padding:11px 32px;cursor:pointer;transition:background .2s,color .2s;
   }
   .btn:hover{background:var(--orange-deep);color:var(--cream);}
+  .btn-light{color:var(--cream);border-color:var(--cream);}
+  .btn-light:hover{background:var(--cream);color:var(--ink);}
 
   #over-msg{
     font-family:'Fraunces',serif;font-weight:600;font-style:italic;
     font-size:clamp(1.2rem,3vw,1.8rem);color:var(--orange-deep);text-align:center;
-    margin-bottom:4px;
   }
+
+  /* NAME ENTRY */
+  #name-entry{display:none;flex-direction:column;align-items:center;gap:10px;margin-top:4px;}
+  #name-entry.on{display:flex;}
+  .name-label{font-family:'Fraunces',serif;font-size:0.85rem;letter-spacing:1px;color:rgba(245,237,220,.85);text-transform:uppercase;text-align:center;}
+  #player-name{
+    font-family:'Spectral',Georgia,serif;font-size:1rem;
+    padding:8px 14px;border:1.5px solid rgba(245,237,220,.5);
+    background:rgba(26,18,8,.6);color:#f5eddc;outline:none;text-align:center;
+    width:200px;
+  }
+  #player-name::placeholder{color:rgba(245,237,220,.35);}
+  #player-name:focus{border-color:#f5eddc;}
+  .btn-skip{font-family:'Fraunces',serif;font-size:0.72rem;letter-spacing:1px;color:rgba(245,237,220,.4);text-transform:uppercase;background:none;border:none;cursor:pointer;margin-top:-4px;}
+  .btn-skip:hover{color:rgba(245,237,220,.7);}
 
   .dpad{display:none;grid-template-areas:". up ." "left . right" ". down .";gap:10px;margin:14px 0 4px;}
   .dpad-btn{
@@ -94,6 +111,29 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   #d-up{grid-area:up;} #d-left{grid-area:left;} #d-down{grid-area:down;} #d-right{grid-area:right;}
   @media(pointer:coarse){.dpad{display:grid;}}
+
+  /* LEADERBOARD */
+  #lb-section{padding:60px 28px 80px;max-width:560px;margin:0 auto;width:100%;position:relative;z-index:2;}
+  #lb-section h2{
+    font-family:'Fraunces',serif;font-weight:300;font-style:italic;
+    font-size:clamp(1.8rem,4vw,2.6rem);letter-spacing:-0.5px;
+    border-bottom:3px double var(--ink);padding-bottom:12px;margin-bottom:28px;
+  }
+  #lb-section h2 b{font-style:normal;font-weight:600;color:var(--orange-deep);}
+  .lb-table{width:100%;border-collapse:collapse;}
+  .lb-table tr{border-bottom:1px solid var(--rule);}
+  .lb-table th{
+    font-family:'Fraunces',serif;font-size:0.68rem;letter-spacing:3px;text-transform:uppercase;
+    color:var(--ink-soft);text-align:left;padding:0 0 10px;font-weight:600;
+  }
+  .lb-table td{padding:12px 0;font-size:0.95rem;vertical-align:middle;}
+  .lb-table td:first-child{font-family:'Fraunces',serif;font-size:0.75rem;letter-spacing:2px;color:var(--ink-soft);width:36px;}
+  .lb-table td:nth-child(2){font-weight:500;}
+  .lb-table td:last-child{text-align:right;font-family:'Fraunces',serif;font-size:1.1rem;font-weight:600;color:var(--orange-deep);}
+  .lb-table tr.lb-me td{color:var(--orange-deep);}
+  .lb-table tr.lb-me td:first-child{color:var(--orange-deep);}
+  .lb-empty{font-style:italic;color:var(--ink-soft);padding:20px 0;text-align:center;}
+  .lb-rank-1 td:first-child{font-size:1rem;}
 </style>
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-TBJXMCC70W"></script>
@@ -123,11 +163,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <div id="arena">
   <div id="game-title">Snake <b>·</b></div>
-  <div id="info-bar">Score : <strong id="score-val">0</strong> &nbsp;·&nbsp; Meilleur : <strong id="best-val">0</strong></div>
+  <div id="info-bar">Score : <strong id="score-val">0</strong> &nbsp;·&nbsp; Meilleur local : <strong id="best-val">0</strong></div>
   <div id="canvas-wrap">
     <canvas id="c"></canvas>
     <div id="controls">
       <div id="over-msg" style="display:none"></div>
+      <div id="name-entry">
+        <div class="name-label">Nouveau record mondial ! Ton pseudo :</div>
+        <input id="player-name" type="text" maxlength="20" placeholder="Ton pseudo" autocomplete="off">
+        <button class="btn btn-light" id="btn-submit-score">Valider →</button>
+        <button class="btn-skip" id="btn-skip">Passer</button>
+      </div>
       <button class="btn" id="btn-start">Jouer →</button>
     </div>
   </div>
@@ -140,14 +186,31 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
+<section id="lb-section">
+  <h2>Top 10 <b>mondial</b></h2>
+  <table class="lb-table">
+    <thead><tr><th>#</th><th>Joueur</th><th>Score</th></tr></thead>
+    <tbody id="lb-body"><tr><td colspan="3" class="lb-empty">Chargement…</td></tr></tbody>
+  </table>
+</section>
+
 <script>
+/* ---- DREAMLO CONFIG (remplace par tes codes) ---- */
+const LB_PUBLIC  = 'SNAKE_PUBLIC_CODE';
+const LB_PRIVATE = 'SNAKE_PRIVATE_CODE';
+
 const canvas = document.getElementById('c');
 const ctx = canvas.getContext('2d');
 const controls = document.getElementById('controls');
 const overMsg = document.getElementById('over-msg');
 const btnStart = document.getElementById('btn-start');
+const nameEntry = document.getElementById('name-entry');
+const playerNameInput = document.getElementById('player-name');
+const btnSubmit = document.getElementById('btn-submit-score');
+const btnSkip = document.getElementById('btn-skip');
 const scoreVal = document.getElementById('score-val');
 const bestVal = document.getElementById('best-val');
+const lbBody = document.getElementById('lb-body');
 
 const GRID = 22, CELL = 24;
 const W = GRID*CELL, H = GRID*CELL;
@@ -156,6 +219,7 @@ canvas.width = W; canvas.height = H;
 const COLORS = { bg:'#1a1208', fg:'#f5eddc', accent:'#D43030', head:'#f0a868' };
 
 let snake, dir, nextDir, food, score, best, running, stepMs, acc, lastT;
+let lastEntries = [];
 
 best = parseInt(localStorage.getItem('snake-best') || '0', 10);
 bestVal.textContent = best;
@@ -171,20 +235,55 @@ function resize(){
 window.addEventListener('resize', resize);
 resize();
 
+/* ---- LEADERBOARD ---- */
+async function fetchLeaderboard(){
+  try {
+    const r = await fetch(`https://dreamlo.com/lb/${LB_PUBLIC}/json/10`);
+    const d = await r.json();
+    let e = d?.dreamlo?.leaderboard?.entry;
+    if (!e) return [];
+    return Array.isArray(e) ? e : [e];
+  } catch { return []; }
+}
+
+async function submitScore(name, sc){
+  const n = encodeURIComponent((name||'Anonyme').trim().slice(0,20));
+  await fetch(`https://dreamlo.com/lb/${LB_PRIVATE}/add/${n}/${sc}`);
+}
+
+function qualifies(sc, entries){
+  if (sc <= 0) return false;
+  return entries.length < 10 || sc > parseInt(entries[entries.length-1]?.score || 0);
+}
+
+function renderLeaderboard(entries, highlightName){
+  if (!entries.length){
+    lbBody.innerHTML = '<tr><td colspan="3" class="lb-empty">Pas encore de scores — sois le premier !</td></tr>';
+    return;
+  }
+  const medals = ['🥇','🥈','🥉'];
+  lbBody.innerHTML = entries.map((e,i) => {
+    const isMe = highlightName && e.name === highlightName;
+    return `<tr class="${i===0?'lb-rank-1':''} ${isMe?'lb-me':''}">
+      <td>${medals[i]||('#'+(i+1))}</td>
+      <td>${e.name}</td>
+      <td>${e.score}</td>
+    </tr>`;
+  }).join('');
+}
+
+/* ---- GAME ---- */
 function placeFood(){
   let p;
-  do {
-    p = { x: Math.floor(Math.random()*GRID), y: Math.floor(Math.random()*GRID) };
-  } while (snake.some(s => s.x===p.x && s.y===p.y));
+  do { p = { x:Math.floor(Math.random()*GRID), y:Math.floor(Math.random()*GRID) }; }
+  while (snake.some(s=>s.x===p.x && s.y===p.y));
   food = p;
 }
 
 function resetGame(){
   snake = [{x:11,y:11},{x:10,y:11},{x:9,y:11}];
-  dir = {x:1,y:0};
-  nextDir = {x:1,y:0};
-  score = 0;
-  stepMs = 220;
+  dir = {x:1,y:0}; nextDir = {x:1,y:0};
+  score = 0; stepMs = 220;
   scoreVal.textContent = '0';
   placeFood();
 }
@@ -192,28 +291,27 @@ function resetGame(){
 function startGame(){
   resetGame();
   overMsg.style.display = 'none';
+  nameEntry.classList.remove('on');
   controls.classList.add('hidden');
-  document.getElementById('dpad').style.opacity = '1';
-  running = true;
-  acc = 0; lastT = performance.now();
+  running = true; acc = 0; lastT = performance.now();
   requestAnimationFrame(loop);
 }
-
 btnStart.addEventListener('click', startGame);
 
-function setDir(nx, ny){
-  if (dir.x === -nx && dir.y === -ny) return; // no reverse
-  nextDir = {x:nx, y:ny};
+function setDir(nx,ny){
+  if(dir.x===-nx && dir.y===-ny) return;
+  nextDir = {x:nx,y:ny};
 }
 
 document.addEventListener('keydown', e => {
-  if (e.key==='ArrowUp'||e.key==='w'||e.key==='W') setDir(0,-1);
-  else if (e.key==='ArrowDown'||e.key==='s'||e.key==='S') setDir(0,1);
-  else if (e.key==='ArrowLeft'||e.key==='a'||e.key==='A') setDir(-1,0);
-  else if (e.key==='ArrowRight'||e.key==='d'||e.key==='D') setDir(1,0);
+  if(e.key==='ArrowUp'||e.key==='w'||e.key==='W') setDir(0,-1);
+  else if(e.key==='ArrowDown'||e.key==='s'||e.key==='S') setDir(0,1);
+  else if(e.key==='ArrowLeft'||e.key==='a'||e.key==='A') setDir(-1,0);
+  else if(e.key==='ArrowRight'||e.key==='d'||e.key==='D') setDir(1,0);
+  else if(e.key==='Enter' && !nameEntry.classList.contains('on') && controls.classList.contains('hidden')) startGame();
 });
 
-function bindDpad(id, nx, ny){
+function bindDpad(id,nx,ny){
   const el = document.getElementById(id);
   const fire = e => { e.preventDefault(); setDir(nx,ny); };
   el.addEventListener('touchstart', fire, {passive:false});
@@ -223,42 +321,58 @@ bindDpad('d-up',0,-1); bindDpad('d-down',0,1); bindDpad('d-left',-1,0); bindDpad
 
 function step(){
   dir = nextDir;
-  const head = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
-
-  if (head.x<0 || head.x>=GRID || head.y<0 || head.y>=GRID || snake.some(s=>s.x===head.x && s.y===head.y)){
-    gameOver();
-    return;
+  const head = { x:snake[0].x+dir.x, y:snake[0].y+dir.y };
+  if(head.x<0||head.x>=GRID||head.y<0||head.y>=GRID||snake.some(s=>s.x===head.x&&s.y===head.y)){
+    gameOver(); return;
   }
-
   snake.unshift(head);
-  if (head.x===food.x && head.y===food.y){
-    score++;
-    scoreVal.textContent = score;
-    stepMs = Math.max(130, 220 - score*4);
+  if(head.x===food.x && head.y===food.y){
+    score++; scoreVal.textContent = score;
+    stepMs = Math.max(130, 220-score*4);
     placeFood();
-  } else {
-    snake.pop();
-  }
+  } else { snake.pop(); }
 }
 
-function gameOver(){
+async function gameOver(){
   running = false;
-  if (score > best){ best = score; localStorage.setItem('snake-best', best); bestVal.textContent = best; }
-  overMsg.textContent = 'Perdu ! Score : ' + score;
+  if(score>best){ best=score; localStorage.setItem('snake-best',best); bestVal.textContent=best; }
+  overMsg.textContent = 'Score : ' + score;
   overMsg.style.display = 'block';
   btnStart.textContent = 'Rejouer →';
-  controls.classList.remove('hidden');
+
+  const entries = await fetchLeaderboard();
+  lastEntries = entries;
+  renderLeaderboard(entries);
+
+  if(qualifies(score, entries)){
+    nameEntry.classList.add('on');
+    playerNameInput.value = localStorage.getItem('lb-name')||'';
+    playerNameInput.focus();
+  } else {
+    controls.classList.remove('hidden');
+  }
 }
 
+async function doSubmit(){
+  const name = playerNameInput.value.trim()||'Anonyme';
+  localStorage.setItem('lb-name', name);
+  btnSubmit.textContent = 'Envoi…'; btnSubmit.disabled = true;
+  await submitScore(name, score);
+  const entries = await fetchLeaderboard();
+  renderLeaderboard(entries, name);
+  nameEntry.classList.remove('on');
+  controls.classList.remove('hidden');
+  btnSubmit.textContent = 'Valider →'; btnSubmit.disabled = false;
+}
+
+btnSubmit.addEventListener('click', doSubmit);
+playerNameInput.addEventListener('keydown', e => { if(e.key==='Enter') doSubmit(); });
+btnSkip.addEventListener('click', () => { nameEntry.classList.remove('on'); controls.classList.remove('hidden'); });
+
 function draw(){
-  ctx.fillStyle = COLORS.bg;
-  ctx.fillRect(0,0,W,H);
-
+  ctx.fillStyle = COLORS.bg; ctx.fillRect(0,0,W,H);
   ctx.fillStyle = COLORS.accent;
-  ctx.beginPath();
-  ctx.arc(food.x*CELL+CELL/2, food.y*CELL+CELL/2, CELL*0.35, 0, Math.PI*2);
-  ctx.fill();
-
+  ctx.beginPath(); ctx.arc(food.x*CELL+CELL/2, food.y*CELL+CELL/2, CELL*0.35, 0, Math.PI*2); ctx.fill();
   snake.forEach((s,i) => {
     ctx.fillStyle = i===0 ? COLORS.head : COLORS.fg;
     ctx.fillRect(s.x*CELL+1, s.y*CELL+1, CELL-2, CELL-2);
@@ -266,19 +380,14 @@ function draw(){
 }
 
 function loop(t){
-  if (!running) return;
-  const dt = t - lastT; lastT = t;
-  acc += dt;
-  if (acc >= stepMs){
-    acc = 0;
-    step();
-  }
-  draw();
-  requestAnimationFrame(loop);
+  if(!running) return;
+  const dt = t-lastT; lastT = t; acc += dt;
+  if(acc>=stepMs){ acc=0; step(); }
+  draw(); requestAnimationFrame(loop);
 }
 
-resetGame();
-draw();
+resetGame(); draw();
+fetchLeaderboard().then(e => { lastEntries=e; renderLeaderboard(e); });
 </script>
 </body>
 </html>

@@ -21,8 +21,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     --rule:#e0cfb0;
   }
   *{margin:0;padding:0;box-sizing:border-box;}
-  html,body{height:100%;overflow:hidden;}
+  html{height:100%;}
   body{
+    min-height:100%;overflow-y:auto;overflow-x:hidden;
     background:var(--cream);color:var(--ink);
     font-family:'Spectral',Georgia,serif;
     -webkit-font-smoothing:antialiased;
@@ -34,7 +35,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     mix-blend-mode:multiply;
   }
 
-  header.site{flex-shrink:0;padding:0 28px;border-bottom:1.5px solid var(--ink);z-index:10;}
+  header.site{flex-shrink:0;padding:0 28px;border-bottom:1.5px solid var(--ink);z-index:10;position:sticky;top:0;background:var(--cream);}
   .topbar{display:flex;justify-content:space-between;align-items:center;height:52px;}
   .brand{font-family:'Fraunces',serif;font-weight:600;font-size:1.05rem;text-decoration:none;color:var(--ink);}
   .brand b{color:var(--orange-deep);}
@@ -42,7 +43,30 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .sitenav-link{font-family:'Fraunces',serif;font-size:0.85rem;font-weight:500;color:var(--ink-soft);text-decoration:none;padding:0 10px 2px;border-bottom:2px solid transparent;transition:color .2s,border-color .2s;}
   .sitenav-link:hover,.sitenav-link.current{color:var(--orange-deep);border-bottom-color:var(--orange-deep);}
 
-  #arena{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;z-index:2;}
+  #arena{flex:none;height:calc(100vh - 52px);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;z-index:2;}
+
+  /* NAME ENTRY */
+  #name-entry{display:none;flex-direction:column;align-items:center;gap:10px;margin-bottom:4px;}
+  #name-entry.on{display:flex;}
+  .name-label{font-family:'Fraunces',serif;font-size:0.78rem;letter-spacing:1px;color:var(--ink-soft);text-transform:uppercase;text-align:center;}
+  #player-name{font-family:'Spectral',Georgia,serif;font-size:1rem;padding:8px 14px;border:1.5px solid var(--rule);background:var(--paper);color:var(--ink);outline:none;text-align:center;width:200px;}
+  #player-name:focus{border-color:var(--ink);}
+  .btn-skip{font-family:'Fraunces',serif;font-size:0.72rem;letter-spacing:1px;color:var(--ink-soft);text-transform:uppercase;background:none;border:none;cursor:pointer;}
+  .btn-skip:hover{color:var(--ink);}
+
+  /* LEADERBOARD */
+  #lb-section{padding:60px 28px 80px;max-width:560px;margin:0 auto;width:100%;position:relative;z-index:2;}
+  #lb-section h2{font-family:'Fraunces',serif;font-weight:300;font-style:italic;font-size:clamp(1.8rem,4vw,2.6rem);letter-spacing:-0.5px;border-bottom:3px double var(--ink);padding-bottom:12px;margin-bottom:28px;}
+  #lb-section h2 b{font-style:normal;font-weight:600;color:var(--orange-deep);}
+  .lb-table{width:100%;border-collapse:collapse;}
+  .lb-table tr{border-bottom:1px solid var(--rule);}
+  .lb-table th{font-family:'Fraunces',serif;font-size:0.68rem;letter-spacing:3px;text-transform:uppercase;color:var(--ink-soft);text-align:left;padding:0 0 10px;font-weight:600;}
+  .lb-table td{padding:12px 0;font-size:0.95rem;vertical-align:middle;}
+  .lb-table td:first-child{font-family:'Fraunces',serif;font-size:0.75rem;letter-spacing:2px;color:var(--ink-soft);width:36px;}
+  .lb-table td:last-child{text-align:right;font-family:'Fraunces',serif;font-size:1.1rem;font-weight:600;color:var(--orange-deep);}
+  .lb-table tr.lb-me td{color:var(--orange-deep);}
+  .lb-empty{font-style:italic;color:var(--ink-soft);padding:20px 0;text-align:center;}
+  .lb-rank-1 td:first-child{font-size:1rem;}
 
   canvas{
     display:block;
@@ -117,18 +141,63 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <div id="controls">
     <div id="over-msg" style="display:none"></div>
+    <div id="name-entry">
+      <div class="name-label">Nouveau record mondial ! Ton pseudo :</div>
+      <input id="player-name" type="text" maxlength="20" placeholder="Ton pseudo" autocomplete="off">
+      <button class="btn" id="btn-submit-score">Valider →</button>
+      <button class="btn-skip" id="btn-skip">Passer</button>
+    </div>
     <button class="btn" id="btn-start">Jouer →</button>
   </div>
 </div>
 
+<section id="lb-section">
+  <h2>Top 10 <b>mondial</b></h2>
+  <table class="lb-table">
+    <thead><tr><th>#</th><th>Joueur</th><th>Score</th></tr></thead>
+    <tbody id="lb-body"><tr><td colspan="3" class="lb-empty">Chargement…</td></tr></tbody>
+  </table>
+</section>
+
 <script>
+/* ---- DREAMLO CONFIG ---- */
+const LB_PUBLIC  = 'CASSE_PUBLIC_CODE';
+const LB_PRIVATE = 'CASSE_PRIVATE_CODE';
+
 const canvas = document.getElementById('c');
 const ctx = canvas.getContext('2d');
 const controls = document.getElementById('controls');
 const overMsg = document.getElementById('over-msg');
 const btnStart = document.getElementById('btn-start');
+const nameEntry = document.getElementById('name-entry');
+const playerNameInput = document.getElementById('player-name');
+const btnSubmit = document.getElementById('btn-submit-score');
+const btnSkip = document.getElementById('btn-skip');
 const scoreVal = document.getElementById('score-val');
 const livesVal = document.getElementById('lives-val');
+const lbBody = document.getElementById('lb-body');
+
+async function fetchLeaderboard(){
+  try {
+    const r = await fetch(`https://dreamlo.com/lb/${LB_PUBLIC}/json/10`);
+    const d = await r.json();
+    let e = d?.dreamlo?.leaderboard?.entry;
+    if (!e) return [];
+    return Array.isArray(e) ? e : [e];
+  } catch { return []; }
+}
+async function submitScore(name, sc){
+  const n = encodeURIComponent((name||'Anonyme').trim().slice(0,20));
+  await fetch(`https://dreamlo.com/lb/${LB_PRIVATE}/add/${n}/${sc}`);
+}
+function qualifies(sc, entries){ return sc > 0 && (entries.length < 10 || sc > parseInt(entries[entries.length-1]?.score||0)); }
+function renderLeaderboard(entries, highlightName){
+  const medals = ['🥇','🥈','🥉'];
+  lbBody.innerHTML = entries.length ? entries.map((e,i) =>
+    `<tr class="${i===0?'lb-rank-1':''} ${highlightName&&e.name===highlightName?'lb-me':''}">
+      <td>${medals[i]||'#'+(i+1)}</td><td>${e.name}</td><td>${e.score}</td></tr>`
+  ).join('') : '<tr><td colspan="3" class="lb-empty">Pas encore de scores — sois le premier !</td></tr>';
+}
 
 const W = 800, H = 500;
 canvas.width = W; canvas.height = H;
@@ -186,6 +255,7 @@ function resetGame(){
 function startGame(){
   resetGame();
   overMsg.style.display = 'none';
+  nameEntry.classList.remove('on');
   controls.classList.add('hidden');
   running = true;
   requestAnimationFrame(loop);
@@ -260,10 +330,8 @@ function update(){
 
   if (bricks.every(b => !b.alive)){
     running = false;
-    overMsg.textContent = 'Gagné ! Score : ' + score;
-    overMsg.style.display = 'block';
     btnStart.textContent = 'Rejouer →';
-    controls.classList.remove('hidden');
+    endGame('Gagné !');
     return;
   }
 
@@ -272,10 +340,8 @@ function update(){
     livesVal.textContent = lives;
     if (lives <= 0){
       running = false;
-      overMsg.textContent = 'Perdu ! Score : ' + score;
-      overMsg.style.display = 'block';
       btnStart.textContent = 'Rejouer →';
-      controls.classList.remove('hidden');
+      endGame('Perdu !');
     } else {
       resetBall();
     }
@@ -308,8 +374,38 @@ function loop(){
   requestAnimationFrame(loop);
 }
 
+async function endGame(label){
+  overMsg.textContent = label + ' Score : ' + score;
+  overMsg.style.display = 'block';
+  const entries = await fetchLeaderboard();
+  renderLeaderboard(entries);
+  if (qualifies(score, entries)){
+    nameEntry.classList.add('on');
+    playerNameInput.value = localStorage.getItem('lb-name')||'';
+    playerNameInput.focus();
+  } else {
+    controls.classList.remove('hidden');
+  }
+}
+
+async function doSubmit(){
+  const name = playerNameInput.value.trim()||'Anonyme';
+  localStorage.setItem('lb-name', name);
+  btnSubmit.textContent = 'Envoi…'; btnSubmit.disabled = true;
+  await submitScore(name, score);
+  const entries = await fetchLeaderboard();
+  renderLeaderboard(entries, name);
+  nameEntry.classList.remove('on');
+  controls.classList.remove('hidden');
+  btnSubmit.textContent = 'Valider →'; btnSubmit.disabled = false;
+}
+btnSubmit.addEventListener('click', doSubmit);
+playerNameInput.addEventListener('keydown', e => { if(e.key==='Enter') doSubmit(); });
+btnSkip.addEventListener('click', () => { nameEntry.classList.remove('on'); controls.classList.remove('hidden'); });
+
 resetGame();
 draw();
+fetchLeaderboard().then(renderLeaderboard);
 </script>
 </body>
 </html>
