@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TRQZWVGP');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casse-brique — Tête vide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FBF7F0;--ink:#2e2218;--ink-soft:#5b4a39;
+    --orange:#D43030;--orange-deep:#B02020;
+    --rule:#e0cfb0;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{height:100%;overflow:hidden;}
+  body{
+    background:var(--cream);color:var(--ink);
+    font-family:'Spectral',Georgia,serif;
+    -webkit-font-smoothing:antialiased;
+    display:flex;flex-direction:column;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:0.4;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+    mix-blend-mode:multiply;
+  }
+
+  header.site{flex-shrink:0;padding:0 28px;border-bottom:1.5px solid var(--ink);z-index:10;}
+  .topbar{display:flex;justify-content:space-between;align-items:center;height:52px;}
+  .brand{font-family:'Fraunces',serif;font-weight:600;font-size:1.05rem;text-decoration:none;color:var(--ink);}
+  .brand b{color:var(--orange-deep);}
+  .sitenav{display:flex;gap:0;}
+  .sitenav-link{font-family:'Fraunces',serif;font-size:0.85rem;font-weight:500;color:var(--ink-soft);text-decoration:none;padding:0 10px 2px;border-bottom:2px solid transparent;transition:color .2s,border-color .2s;}
+  .sitenav-link:hover,.sitenav-link.current{color:var(--orange-deep);border-bottom-color:var(--orange-deep);}
+
+  #arena{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;z-index:2;}
+
+  canvas{
+    display:block;
+    border:2px solid var(--ink);
+    background:#1a1208;
+    max-width:100%;max-height:100%;
+    touch-action:none;
+  }
+
+  #game-title{
+    font-family:'Fraunces',serif;font-weight:300;font-style:italic;
+    font-size:clamp(1.4rem,3vw,2rem);color:var(--ink);letter-spacing:-0.5px;
+    padding:8px 0 6px;text-align:center;
+  }
+  #game-title b{font-style:normal;font-weight:600;color:var(--orange-deep);}
+
+  #info-bar{
+    font-size:0.78rem;letter-spacing:1px;text-transform:uppercase;
+    color:var(--ink-soft);text-align:center;padding:0 0 6px;line-height:1.8;
+  }
+  #info-bar strong{color:var(--orange-deep);}
+
+  #controls{
+    display:flex;flex-direction:column;align-items:center;gap:10px;
+    padding:12px 0 4px;flex-shrink:0;
+  }
+  #controls.hidden{display:none;}
+  .btn{
+    font-family:'Fraunces',serif;font-size:0.9rem;letter-spacing:1.5px;text-transform:uppercase;
+    color:var(--orange-deep);border:1.5px solid var(--orange-deep);
+    background:none;padding:11px 32px;cursor:pointer;
+    transition:background .2s,color .2s;
+  }
+  .btn:hover{background:var(--orange-deep);color:var(--cream);}
+
+  #over-msg{
+    font-family:'Fraunces',serif;font-weight:600;font-style:italic;
+    font-size:clamp(1.2rem,3vw,1.8rem);color:var(--orange-deep);text-align:center;
+    margin-bottom:4px;
+  }
+</style>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TBJXMCC70W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-TBJXMCC70W');
+</script>
+</head>
+<body><!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TRQZWVGP"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<header class="site">
+  <div class="topbar">
+    <a class="brand" href="jeux.html">← Minis <b>jeux</b></a>
+    <nav class="sitenav">
+      <a class="sitenav-link" href="index.html">Réflexions</a>
+      <a class="sitenav-link" href="histoires.html">Histoires</a>
+      <a class="sitenav-link current" href="jeux.html">Jeux</a>
+      <a class="sitenav-link" href="plantes.html">Plantes</a>
+    </nav>
+  </div>
+</header>
+
+<div id="arena">
+  <div id="game-title">Casse-brique <b>·</b></div>
+  <div id="info-bar">Score : <strong id="score-val">0</strong> &nbsp;·&nbsp; Vies : <strong id="lives-val">3</strong> &nbsp;·&nbsp; Souris / Tactile / ← →</div>
+  <canvas id="c"></canvas>
+
+  <div id="controls">
+    <div id="over-msg" style="display:none"></div>
+    <button class="btn" id="btn-start">Jouer →</button>
+  </div>
+</div>
+
+<script>
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+const controls = document.getElementById('controls');
+const overMsg = document.getElementById('over-msg');
+const btnStart = document.getElementById('btn-start');
+const scoreVal = document.getElementById('score-val');
+const livesVal = document.getElementById('lives-val');
+
+const W = 800, H = 500;
+canvas.width = W; canvas.height = H;
+
+const COLORS = { bg:'#1a1208', fg:'#f5eddc', accent:'#D43030' };
+const ROW_COLORS = ['#B02020','#D43030','#e07a3f','#e8a85c','#f0c98a'];
+
+const PAD_W = 110, PAD_H = 14, PAD_Y = H - 36;
+const BALL_R = 7;
+const ROWS = 5, COLS = 9, BRICK_GAP = 5, BRICK_H = 22;
+const MARGIN = 24;
+const BRICK_W = (W - MARGIN*2 - BRICK_GAP*(COLS-1)) / COLS;
+
+let paddle, ball, bricks, score, lives, running;
+
+function resize(){
+  const arena = document.getElementById('arena');
+  const maxW = arena.clientWidth - 4;
+  const maxH = arena.clientHeight - 4;
+  const scale = Math.min(maxW/W, maxH/H, 1);
+  canvas.style.width = (W*scale)+'px';
+  canvas.style.height = (H*scale)+'px';
+}
+window.addEventListener('resize', resize);
+resize();
+
+function buildBricks(){
+  bricks = [];
+  for (let r=0; r<ROWS; r++){
+    for (let c=0; c<COLS; c++){
+      bricks.push({
+        x: MARGIN + c*(BRICK_W+BRICK_GAP),
+        y: 50 + r*(BRICK_H+BRICK_GAP),
+        w: BRICK_W, h: BRICK_H,
+        color: ROW_COLORS[r % ROW_COLORS.length],
+        alive: true,
+      });
+    }
+  }
+}
+
+function resetBall(){
+  ball = { x: W/2, y: PAD_Y - BALL_R - 2, dx: 4*(Math.random()<0.5?1:-1), dy: -4 };
+}
+
+function resetGame(){
+  paddle = { x: W/2 - PAD_W/2 };
+  score = 0; lives = 3;
+  scoreVal.textContent = '0';
+  livesVal.textContent = '3';
+  buildBricks();
+  resetBall();
+}
+
+function startGame(){
+  resetGame();
+  overMsg.style.display = 'none';
+  controls.classList.add('hidden');
+  running = true;
+  requestAnimationFrame(loop);
+}
+btnStart.addEventListener('click', startGame);
+
+function clamp(v, lo, hi){ return Math.max(lo, Math.min(hi, v)); }
+
+// --- Controls ---
+const keys = {};
+document.addEventListener('keydown', e => { keys[e.key] = true; });
+document.addEventListener('keyup',   e => { keys[e.key] = false; });
+
+function pointerToCanvasX(clientX){
+  const rect = canvas.getBoundingClientRect();
+  return (clientX - rect.left) * (W / rect.width);
+}
+canvas.addEventListener('mousemove', e => {
+  paddle.x = clamp(pointerToCanvasX(e.clientX) - PAD_W/2, 0, W - PAD_W);
+});
+canvas.addEventListener('touchmove', e => {
+  e.preventDefault();
+  const t = e.touches[0];
+  paddle.x = clamp(pointerToCanvasX(t.clientX) - PAD_W/2, 0, W - PAD_W);
+}, {passive:false});
+canvas.addEventListener('touchstart', e => {
+  e.preventDefault();
+  const t = e.touches[0];
+  paddle.x = clamp(pointerToCanvasX(t.clientX) - PAD_W/2, 0, W - PAD_W);
+}, {passive:false});
+
+function update(){
+  if (keys['ArrowLeft']) paddle.x -= 8;
+  if (keys['ArrowRight']) paddle.x += 8;
+  paddle.x = clamp(paddle.x, 0, W - PAD_W);
+
+  ball.x += ball.dx;
+  ball.y += ball.dy;
+
+  if (ball.x - BALL_R <= 0){ ball.x = BALL_R; ball.dx *= -1; }
+  if (ball.x + BALL_R >= W){ ball.x = W - BALL_R; ball.dx *= -1; }
+  if (ball.y - BALL_R <= 0){ ball.y = BALL_R; ball.dy *= -1; }
+
+  // Paddle collision
+  if (ball.dy > 0 &&
+      ball.y + BALL_R >= PAD_Y &&
+      ball.y + BALL_R <= PAD_Y + PAD_H + 8 &&
+      ball.x >= paddle.x && ball.x <= paddle.x + PAD_W){
+    ball.y = PAD_Y - BALL_R;
+    const rel = (ball.x - (paddle.x + PAD_W/2)) / (PAD_W/2);
+    const spd = Math.hypot(ball.dx, ball.dy) * 1.02;
+    const angle = rel * 1.1;
+    ball.dx = spd * Math.sin(angle);
+    ball.dy = -Math.abs(spd * Math.cos(angle));
+  }
+
+  // Brick collisions
+  for (const b of bricks){
+    if (!b.alive) continue;
+    if (ball.x + BALL_R > b.x && ball.x - BALL_R < b.x + b.w &&
+        ball.y + BALL_R > b.y && ball.y - BALL_R < b.y + b.h){
+      b.alive = false;
+      score += 10;
+      scoreVal.textContent = score;
+      // determine bounce side
+      const overlapX = Math.min(ball.x + BALL_R - b.x, b.x + b.w - (ball.x - BALL_R));
+      const overlapY = Math.min(ball.y + BALL_R - b.y, b.y + b.h - (ball.y - BALL_R));
+      if (overlapX < overlapY) ball.dx *= -1; else ball.dy *= -1;
+      break;
+    }
+  }
+
+  if (bricks.every(b => !b.alive)){
+    running = false;
+    overMsg.textContent = 'Gagné ! Score : ' + score;
+    overMsg.style.display = 'block';
+    btnStart.textContent = 'Rejouer →';
+    controls.classList.remove('hidden');
+    return;
+  }
+
+  if (ball.y - BALL_R > H){
+    lives--;
+    livesVal.textContent = lives;
+    if (lives <= 0){
+      running = false;
+      overMsg.textContent = 'Perdu ! Score : ' + score;
+      overMsg.style.display = 'block';
+      btnStart.textContent = 'Rejouer →';
+      controls.classList.remove('hidden');
+    } else {
+      resetBall();
+    }
+  }
+}
+
+function draw(){
+  ctx.fillStyle = COLORS.bg;
+  ctx.fillRect(0,0,W,H);
+
+  bricks.forEach(b => {
+    if (!b.alive) return;
+    ctx.fillStyle = b.color;
+    ctx.fillRect(b.x, b.y, b.w, b.h);
+  });
+
+  ctx.fillStyle = COLORS.fg;
+  ctx.fillRect(paddle.x, PAD_Y, PAD_W, PAD_H);
+
+  ctx.fillStyle = COLORS.accent;
+  ctx.beginPath();
+  ctx.arc(ball.x, ball.y, BALL_R, 0, Math.PI*2);
+  ctx.fill();
+}
+
+function loop(){
+  if (!running) return;
+  update();
+  draw();
+  requestAnimationFrame(loop);
+}
+
+resetGame();
+draw();
+</script>
+</body>
+</html>

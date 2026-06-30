@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TRQZWVGP');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Snake — Tête vide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FBF7F0;--ink:#2e2218;--ink-soft:#5b4a39;
+    --orange:#D43030;--orange-deep:#B02020;
+    --rule:#e0cfb0;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{height:100%;overflow:hidden;}
+  body{
+    background:var(--cream);color:var(--ink);
+    font-family:'Spectral',Georgia,serif;
+    -webkit-font-smoothing:antialiased;
+    display:flex;flex-direction:column;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:0.4;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+    mix-blend-mode:multiply;
+  }
+
+  header.site{flex-shrink:0;padding:0 28px;border-bottom:1.5px solid var(--ink);z-index:10;}
+  .topbar{display:flex;justify-content:space-between;align-items:center;height:52px;}
+  .brand{font-family:'Fraunces',serif;font-weight:600;font-size:1.05rem;text-decoration:none;color:var(--ink);}
+  .brand b{color:var(--orange-deep);}
+  .sitenav{display:flex;gap:0;}
+  .sitenav-link{font-family:'Fraunces',serif;font-size:0.85rem;font-weight:500;color:var(--ink-soft);text-decoration:none;padding:0 10px 2px;border-bottom:2px solid transparent;transition:color .2s,border-color .2s;}
+  .sitenav-link:hover,.sitenav-link.current{color:var(--orange-deep);border-bottom-color:var(--orange-deep);}
+
+  #arena{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;z-index:2;overflow-y:auto;padding:6px 0;}
+
+  canvas{
+    display:block;
+    border:2px solid var(--ink);
+    background:#1a1208;
+    max-width:100%;max-height:55vh;
+  }
+
+  #game-title{
+    font-family:'Fraunces',serif;font-weight:300;font-style:italic;
+    font-size:clamp(1.4rem,3vw,2rem);color:var(--ink);letter-spacing:-0.5px;
+    padding:8px 0 6px;text-align:center;
+  }
+  #game-title b{font-style:normal;font-weight:600;color:var(--orange-deep);}
+
+  #info-bar{
+    font-size:0.78rem;letter-spacing:1px;text-transform:uppercase;
+    color:var(--ink-soft);text-align:center;padding:0 0 6px;line-height:1.8;
+  }
+  #info-bar strong{color:var(--orange-deep);}
+
+  #controls{
+    display:flex;flex-direction:column;align-items:center;gap:10px;
+    padding:12px 0 4px;flex-shrink:0;
+  }
+  #controls.hidden{display:none;}
+  .btn{
+    font-family:'Fraunces',serif;font-size:0.9rem;letter-spacing:1.5px;text-transform:uppercase;
+    color:var(--orange-deep);border:1.5px solid var(--orange-deep);
+    background:none;padding:11px 32px;cursor:pointer;
+    transition:background .2s,color .2s;
+  }
+  .btn:hover{background:var(--orange-deep);color:var(--cream);}
+
+  #over-msg{
+    font-family:'Fraunces',serif;font-weight:600;font-style:italic;
+    font-size:clamp(1.2rem,3vw,1.8rem);color:var(--orange-deep);text-align:center;
+    margin-bottom:4px;
+  }
+
+  .dpad{display:none;grid-template-areas:". up ." "left . right" ". down .";gap:6px;margin:10px 0 2px;}
+  .dpad-btn{
+    width:50px;height:50px;border:2px solid var(--ink);background:rgba(251,247,240,0.75);
+    font-size:1.3rem;color:var(--ink);border-radius:8px;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;user-select:none;-webkit-user-select:none;touch-action:none;
+  }
+  #d-up{grid-area:up;} #d-left{grid-area:left;} #d-down{grid-area:down;} #d-right{grid-area:right;}
+  @media(pointer:coarse){.dpad{display:grid;}}
+</style>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TBJXMCC70W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-TBJXMCC70W');
+</script>
+</head>
+<body><!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TRQZWVGP"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<header class="site">
+  <div class="topbar">
+    <a class="brand" href="jeux.html">← Minis <b>jeux</b></a>
+    <nav class="sitenav">
+      <a class="sitenav-link" href="index.html">Réflexions</a>
+      <a class="sitenav-link" href="histoires.html">Histoires</a>
+      <a class="sitenav-link current" href="jeux.html">Jeux</a>
+      <a class="sitenav-link" href="plantes.html">Plantes</a>
+    </nav>
+  </div>
+</header>
+
+<div id="arena">
+  <div id="game-title">Snake <b>·</b></div>
+  <div id="info-bar">Score : <strong id="score-val">0</strong> &nbsp;·&nbsp; Meilleur : <strong id="best-val">0</strong></div>
+  <canvas id="c"></canvas>
+
+  <div class="dpad" id="dpad">
+    <button class="dpad-btn" id="d-up">▲</button>
+    <button class="dpad-btn" id="d-left">◀</button>
+    <button class="dpad-btn" id="d-down">▼</button>
+    <button class="dpad-btn" id="d-right">▶</button>
+  </div>
+
+  <div id="controls">
+    <div id="over-msg" style="display:none"></div>
+    <button class="btn" id="btn-start">Jouer →</button>
+  </div>
+</div>
+
+<script>
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+const controls = document.getElementById('controls');
+const overMsg = document.getElementById('over-msg');
+const btnStart = document.getElementById('btn-start');
+const scoreVal = document.getElementById('score-val');
+const bestVal = document.getElementById('best-val');
+
+const GRID = 22, CELL = 24;
+const W = GRID*CELL, H = GRID*CELL;
+canvas.width = W; canvas.height = H;
+
+const COLORS = { bg:'#1a1208', fg:'#f5eddc', accent:'#D43030', head:'#f0a868' };
+
+let snake, dir, nextDir, food, score, best, running, stepMs, acc, lastT;
+
+best = parseInt(localStorage.getItem('snake-best') || '0', 10);
+bestVal.textContent = best;
+
+function resize(){
+  const arena = document.getElementById('arena');
+  const maxW = arena.clientWidth - 4;
+  const maxH = Math.min(arena.clientHeight - 4, window.innerHeight*0.55);
+  const scale = Math.min(maxW/W, maxH/H, 1);
+  canvas.style.width = (W*scale)+'px';
+  canvas.style.height = (H*scale)+'px';
+}
+window.addEventListener('resize', resize);
+resize();
+
+function placeFood(){
+  let p;
+  do {
+    p = { x: Math.floor(Math.random()*GRID), y: Math.floor(Math.random()*GRID) };
+  } while (snake.some(s => s.x===p.x && s.y===p.y));
+  food = p;
+}
+
+function resetGame(){
+  snake = [{x:11,y:11},{x:10,y:11},{x:9,y:11}];
+  dir = {x:1,y:0};
+  nextDir = {x:1,y:0};
+  score = 0;
+  stepMs = 130;
+  scoreVal.textContent = '0';
+  placeFood();
+}
+
+function startGame(){
+  resetGame();
+  overMsg.style.display = 'none';
+  controls.classList.add('hidden');
+  document.getElementById('dpad').style.opacity = '1';
+  running = true;
+  acc = 0; lastT = performance.now();
+  requestAnimationFrame(loop);
+}
+
+btnStart.addEventListener('click', startGame);
+
+function setDir(nx, ny){
+  if (dir.x === -nx && dir.y === -ny) return; // no reverse
+  nextDir = {x:nx, y:ny};
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key==='ArrowUp'||e.key==='w'||e.key==='W') setDir(0,-1);
+  else if (e.key==='ArrowDown'||e.key==='s'||e.key==='S') setDir(0,1);
+  else if (e.key==='ArrowLeft'||e.key==='a'||e.key==='A') setDir(-1,0);
+  else if (e.key==='ArrowRight'||e.key==='d'||e.key==='D') setDir(1,0);
+});
+
+function bindDpad(id, nx, ny){
+  const el = document.getElementById(id);
+  const fire = e => { e.preventDefault(); setDir(nx,ny); };
+  el.addEventListener('touchstart', fire, {passive:false});
+  el.addEventListener('click', fire);
+}
+bindDpad('d-up',0,-1); bindDpad('d-down',0,1); bindDpad('d-left',-1,0); bindDpad('d-right',1,0);
+
+function step(){
+  dir = nextDir;
+  const head = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
+
+  if (head.x<0 || head.x>=GRID || head.y<0 || head.y>=GRID || snake.some(s=>s.x===head.x && s.y===head.y)){
+    gameOver();
+    return;
+  }
+
+  snake.unshift(head);
+  if (head.x===food.x && head.y===food.y){
+    score++;
+    scoreVal.textContent = score;
+    stepMs = Math.max(70, 130 - score*3);
+    placeFood();
+  } else {
+    snake.pop();
+  }
+}
+
+function gameOver(){
+  running = false;
+  if (score > best){ best = score; localStorage.setItem('snake-best', best); bestVal.textContent = best; }
+  overMsg.textContent = 'Perdu ! Score : ' + score;
+  overMsg.style.display = 'block';
+  btnStart.textContent = 'Rejouer →';
+  controls.classList.remove('hidden');
+}
+
+function draw(){
+  ctx.fillStyle = COLORS.bg;
+  ctx.fillRect(0,0,W,H);
+
+  ctx.fillStyle = COLORS.accent;
+  ctx.beginPath();
+  ctx.arc(food.x*CELL+CELL/2, food.y*CELL+CELL/2, CELL*0.35, 0, Math.PI*2);
+  ctx.fill();
+
+  snake.forEach((s,i) => {
+    ctx.fillStyle = i===0 ? COLORS.head : COLORS.fg;
+    ctx.fillRect(s.x*CELL+1, s.y*CELL+1, CELL-2, CELL-2);
+  });
+}
+
+function loop(t){
+  if (!running) return;
+  const dt = t - lastT; lastT = t;
+  acc += dt;
+  if (acc >= stepMs){
+    acc = 0;
+    step();
+  }
+  draw();
+  requestAnimationFrame(loop);
+}
+
+resetGame();
+draw();
+</script>
+</body>
+</html>
