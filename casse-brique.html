@@ -374,17 +374,17 @@ function loop(){
   requestAnimationFrame(loop);
 }
 
-async function endGame(label){
+let lastEntries = [];
+function endGame(label){
   overMsg.textContent = label + ' Score : ' + score;
   overMsg.style.display = 'block';
-  const entries = await fetchLeaderboard();
-  renderLeaderboard(entries);
   controls.classList.remove('hidden');
-  if (qualifies(score, entries)){
+  if (qualifies(score, lastEntries)){
     nameEntry.classList.add('on');
     playerNameInput.value = localStorage.getItem('lb-name')||'';
     playerNameInput.focus();
   }
+  fetchLeaderboard().then(e => { lastEntries=e; renderLeaderboard(e); });
 }
 
 async function doSubmit(){
@@ -404,7 +404,7 @@ btnSkip.addEventListener('click', () => { nameEntry.classList.remove('on'); cont
 
 resetGame();
 draw();
-fetchLeaderboard().then(renderLeaderboard);
+fetchLeaderboard().then(e => { lastEntries=e; renderLeaderboard(e); });
 </script>
 </body>
 </html>

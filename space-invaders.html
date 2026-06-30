@@ -362,19 +362,19 @@ function update(dt){
   }
 }
 
-async function endGame(won){
+let lastEntries = [];
+function endGame(won){
   running = false;
   btnStart.textContent = 'Rejouer →';
   overMsg.textContent = (won?'Gagné ! ':'Perdu ! ') + 'Score : ' + score;
   overMsg.style.display = 'block';
-  const entries = await fetchLeaderboard();
-  renderLeaderboard(entries);
   controls.classList.remove('hidden');
-  if(qualifies(score,entries)){
+  if(qualifies(score,lastEntries)){
     nameEntry.classList.add('on');
     playerNameInput.value = localStorage.getItem('lb-name')||'';
     playerNameInput.focus();
   }
+  fetchLeaderboard().then(e => { lastEntries=e; renderLeaderboard(e); });
 }
 async function doSubmit(){
   const name = playerNameInput.value.trim()||'Anonyme';
@@ -427,7 +427,7 @@ function loop(t){
 
 resetGame();
 draw();
-fetchLeaderboard().then(renderLeaderboard);
+fetchLeaderboard().then(e => { lastEntries=e; renderLeaderboard(e); });
 </script>
 </body>
 </html>

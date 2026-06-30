@@ -334,23 +334,19 @@ function step(){
   } else { snake.pop(); }
 }
 
-async function gameOver(){
+function gameOver(){
   running = false;
   if(score>best){ best=score; localStorage.setItem('snake-best',best); bestVal.textContent=best; }
   overMsg.textContent = 'Score : ' + score;
   overMsg.style.display = 'block';
   btnStart.textContent = 'Rejouer →';
-
-  const entries = await fetchLeaderboard();
-  lastEntries = entries;
-  renderLeaderboard(entries);
-
   controls.classList.remove('hidden');
-  if(qualifies(score, entries)){
+  if(qualifies(score, lastEntries)){
     nameEntry.classList.add('on');
     playerNameInput.value = localStorage.getItem('lb-name')||'';
     playerNameInput.focus();
   }
+  fetchLeaderboard().then(e => { lastEntries=e; renderLeaderboard(e); });
 }
 
 async function doSubmit(){

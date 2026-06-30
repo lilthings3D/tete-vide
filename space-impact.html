@@ -338,19 +338,19 @@ function update(dt, elapsed){
   stars.forEach(s => { s.x -= s.sp; if (s.x < 0) s.x = W; });
 }
 
-async function endGame(){
+let lastEntries = [];
+function endGame(){
   running = false;
   btnStart.textContent = 'Rejouer →';
   overMsg.textContent = 'Perdu ! Score : ' + score;
   overMsg.style.display = 'block';
-  const entries = await fetchLeaderboard();
-  renderLeaderboard(entries);
   controls.classList.remove('hidden');
-  if(qualifies(score,entries)){
+  if(qualifies(score,lastEntries)){
     nameEntry.classList.add('on');
     playerNameInput.value = localStorage.getItem('lb-name')||'';
     playerNameInput.focus();
   }
+  fetchLeaderboard().then(e => { lastEntries=e; renderLeaderboard(e); });
 }
 async function doSubmit(){
   const name = playerNameInput.value.trim()||'Anonyme';
@@ -413,7 +413,7 @@ function loop(t){
 
 resetGame();
 draw();
-fetchLeaderboard().then(renderLeaderboard);
+fetchLeaderboard().then(e => { lastEntries=e; renderLeaderboard(e); });
 </script>
 </body>
 </html>
