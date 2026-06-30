@@ -53,50 +53,51 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     max-width:100%;max-height:100%;
   }
 
+  /* TITRE au dessus du canvas */
+  #pong-title{
+    font-family:'Fraunces',serif;font-weight:300;font-style:italic;
+    font-size:clamp(1.4rem,3vw,2rem);color:var(--ink);letter-spacing:-0.5px;
+    padding:8px 0 6px;text-align:center;
+  }
+  #pong-title b{font-style:normal;font-weight:600;color:var(--orange-deep);}
+
   /* OVERLAY */
   #overlay{
     position:absolute;inset:0;
-    display:flex;flex-direction:column;align-items:center;justify-content:center;
-    gap:16px;z-index:5;
+    display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
+    padding-bottom:20px;gap:0;z-index:5;
   }
   #overlay.hidden{display:none;}
-  .ov-title{
-    font-family:'Fraunces',serif;font-weight:300;font-style:italic;
-    font-size:clamp(2rem,5vw,3.5rem);color:var(--ink);letter-spacing:-1px;
-  }
-  .ov-title b{font-style:normal;font-weight:600;color:var(--orange-deep);}
-  .ov-sub{font-style:italic;color:var(--ink-soft);font-size:1rem;text-align:center;max-width:360px;line-height:1.6;}
-  .ov-controls{
-    margin-top:8px;font-size:0.82rem;letter-spacing:1px;text-transform:uppercase;
-    color:var(--ink-soft);text-align:center;line-height:2;
-  }
+  .ov-bottom{display:flex;flex-direction:column;align-items:center;gap:10px;width:100%;}
   .btn{
     font-family:'Fraunces',serif;font-size:0.9rem;letter-spacing:1.5px;text-transform:uppercase;
     color:var(--orange-deep);border:1.5px solid var(--orange-deep);
     background:none;padding:11px 32px;cursor:pointer;
-    transition:background .2s,color .2s;margin-top:8px;
+    transition:background .2s,color .2s;
   }
   .btn:hover{background:var(--orange-deep);color:var(--cream);}
 
   /* MODE SELECTOR */
-  .mode-row{display:flex;gap:12px;margin-top:4px;}
+  .mode-col{display:flex;flex-direction:column;gap:8px;align-items:center;}
   .mode-btn{
     font-family:'Fraunces',serif;font-size:0.82rem;letter-spacing:1px;text-transform:uppercase;
     color:var(--ink-soft);border:1.5px solid var(--rule);
-    background:none;padding:8px 22px;cursor:pointer;transition:all .2s;
+    background:none;padding:8px 28px;cursor:pointer;transition:all .2s;width:180px;
   }
   .mode-btn.active,.mode-btn:hover{border-color:var(--orange-deep);color:var(--orange-deep);}
 
   #winner-msg{
     font-family:'Fraunces',serif;font-weight:600;font-style:italic;
-    font-size:clamp(1.4rem,4vw,2.2rem);color:var(--orange-deep);text-align:center;
+    font-size:clamp(1.2rem,3vw,1.8rem);color:var(--orange-deep);text-align:center;
+    margin-bottom:8px;
   }
 
-  /* INFO BAR — always visible above the canvas */
+  /* INFO BAR */
   #info-bar{
     font-size:0.78rem;letter-spacing:1px;text-transform:uppercase;
-    color:var(--ink-soft);text-align:center;padding:0 0 10px;line-height:1.8;
+    color:var(--ink-soft);text-align:center;padding:0 0 6px;line-height:1.8;
   }
+  @media(pointer:coarse){#info-bar{font-size:0.65rem;letter-spacing:0.5px;}}
 
   /* TOUCH CONTROLS — mobile only */
   .touch-side{
@@ -161,11 +162,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <button class="touch-btn" id="tl-up">▲</button>
     <button class="touch-btn" id="tl-down">▼</button>
   </div>
+
+  <div id="pong-title">Pong <b>·</b></div>
   <div id="info-bar">
     <span id="ctrl-hint">Joueur : <strong>↑ ↓</strong> &nbsp;·&nbsp; IA joue à gauche (clavier : <strong>A Q</strong>)</span>
     &nbsp;&nbsp;·&nbsp;&nbsp; Match en 7 points
   </div>
   <canvas id="c"></canvas>
+
   <div id="touch-right" class="touch-side">
     <div class="touch-label">J2</div>
     <button class="touch-btn" id="tr-up">▲</button>
@@ -173,15 +177,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 
   <div id="overlay">
-    <div class="ov-title">Pong <b>·</b></div>
-    <p class="ov-sub">La version minimaliste. Pas de fioritures.</p>
-
-    <div class="mode-row">
-      <button class="mode-btn active" id="btn-solo">Solo (vs IA)</button>
-      <button class="mode-btn" id="btn-duo">2 Joueurs</button>
+    <div class="ov-bottom">
+      <div class="mode-col">
+        <button class="mode-btn active" id="btn-solo">Solo (vs IA)</button>
+        <button class="mode-btn" id="btn-duo">2 Joueurs</button>
+      </div>
+      <button class="btn" id="btn-start">Jouer →</button>
     </div>
-
-    <button class="btn" id="btn-start">Jouer →</button>
   </div>
 </div>
 
@@ -322,8 +324,8 @@ function update(){
     state.ball.dy =  spd * Math.sin(angle);
   }
 
-  // Right paddle
-  const rx = W - PAD_W - 10;
+  // Right paddle — rx = face avant (gauche) de la raquette droite
+  const rx = W - PAD_W*2 - 10;
   if(state.ball.dx > 0 &&
      state.ball.x + BALL_SIZE/2 >= rx &&
      state.ball.x - BALL_SIZE/2 <= rx + PAD_W &&
