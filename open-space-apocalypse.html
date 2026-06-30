@@ -61,6 +61,45 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   #gameover { display:none; }
   #gameover .stats { font-size:16px; margin-bottom:28px; line-height:1.9; }
   .hidden { display:none !important; }
+
+  /* MOBILE CONTROLS */
+  #mob-controls{display:none;position:fixed;inset:0;pointer-events:none;z-index:50;}
+  @media(pointer:coarse){#mob-controls{display:block;}}
+  .mob-joy{
+    position:absolute;bottom:32px;
+    width:120px;height:120px;border-radius:50%;
+    background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.3);
+    pointer-events:auto;touch-action:none;
+    display:flex;align-items:center;justify-content:center;
+  }
+  #mob-joy-left{left:24px;}
+  #mob-joy-right{right:24px;}
+  .mob-knob{
+    width:44px;height:44px;border-radius:50%;
+    background:rgba(255,255,255,.5);border:2px solid rgba(255,255,255,.8);
+    pointer-events:none;transition:transform .05s;
+  }
+  .mob-btn{
+    position:absolute;
+    background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.35);
+    color:#e8f4e8;font-family:'Courier New',monospace;font-size:11px;letter-spacing:1px;
+    padding:0;border-radius:50%;
+    width:52px;height:52px;
+    display:flex;align-items:center;justify-content:center;
+    pointer-events:auto;touch-action:none;cursor:pointer;
+  }
+  .mob-btn:active{background:rgba(255,255,255,.35);}
+  #mob-fire{
+    position:absolute;bottom:48px;right:158px;
+    width:68px;height:68px;border-radius:50%;
+    background:rgba(212,60,60,.7);border:2px solid rgba(255,100,100,.8);
+    color:#fff;font-size:22px;
+    display:flex;align-items:center;justify-content:center;
+    pointer-events:auto;touch-action:none;cursor:pointer;
+  }
+  #mob-fire:active{background:rgba(212,60,60,1);}
+  #mob-action{bottom:130px;right:164px;}
+  #mob-weapon{bottom:130px;right:108px;}
 </style>
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-TBJXMCC70W"></script>
@@ -77,6 +116,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 <a id="back-btn" href="jeux.html">← Jeux</a>
 <div id="game"></div>
+
+<!-- Mobile controls -->
+<div id="mob-controls">
+  <div id="mob-joy-left" class="mob-joy"><div class="mob-knob"></div></div>
+  <button id="mob-fire">🔫</button>
+  <button id="mob-action" class="mob-btn" title="[E] Acheter">E</button>
+  <button id="mob-weapon" class="mob-btn" title="Changer d'arme">⚔</button>
+  <div id="mob-joy-right" class="mob-joy"><div class="mob-knob"></div></div>
+</div>
 
 <div id="hud" class="hidden">
   <div id="vignette"></div>
@@ -651,6 +699,7 @@ const player = { pos:new THREE.Vector3(-14,1.6,10), yaw:Math.PI+.6, pitch:0, hea
 let enemies = [], projectiles = [], papers = [], coffees = [], steams = [];
 let round = 0, score = 0, kills = 0, spawnQueue = [], spawnTimer = 0, betweenRounds = 0;
 let reloading = 0, fireCd = 0, mouseDown = false, flowTimer = 0;
+const isMobile = 'ontouchstart' in window;
 let cellsEarned = 0, cellsSpent = 0;
 let running = false, dead = false;
 const keys = {};
@@ -1081,7 +1130,7 @@ function reset() {
    ENTRÉES
 ============================================================ */
 const canvas = renderer.domElement;
-function lock() { canvas.requestPointerLock(); }
+function lock() { if (!isMobile) canvas.requestPointerLock(); }
 $('btnStart').addEventListener('click', () => {
   audio();
   $('start').style.display = 'none';
@@ -1095,7 +1144,7 @@ $('btnRestart').addEventListener('click', () => {
   reset(); running = true; lock();
 });
 document.addEventListener('pointerlockchange', () => {
-  if (document.pointerLockElement !== canvas) { mouseDown = false; if (running && !dead) msg('PAUSE — clique pour reprendre', 4000); }
+  if (!isMobile && document.pointerLockElement !== canvas) { mouseDown = false; if (running && !dead) msg('PAUSE — clique pour reprendre', 4000); }
 });
 canvas.addEventListener('mousedown', e => {
   if (e.button !== 0 || !running || dead) return;
@@ -1125,6 +1174,89 @@ document.addEventListener('keydown', e => {
 document.addEventListener('keyup', e => { keys[e.code] = false; });
 
 updateHUD();
+
+/* ============================================================
+   CONTRÔLES MOBILES
+============================================================ */
+if (isMobile) {
+  function makeJoystick(el, onMove, onEnd) {
+    let id = null, sx = 0, sy = 0, lx = 0, ly = 0;
+    const knob = el.querySelector('.mob-knob');
+    const maxR = 36;
+    el.addEventListener('touchstart', e => {
+      e.preventDefault();
+      if (id !== null) return;
+      const t = e.changedTouches[0];
+      id = t.identifier; sx = t.clientX; sy = t.clientY; lx = sx; ly = sy;
+    }, {passive:false});
+    el.addEventListener('touchmove', e => {
+      e.preventDefault();
+      for (const t of e.changedTouches) {
+        if (t.identifier !== id) continue;
+        const dx = t.clientX - sx, dy = t.clientY - sy;
+        const rdx = t.clientX - lx, rdy = t.clientY - ly;
+        lx = t.clientX; ly = t.clientY;
+        const mag = Math.min(Math.hypot(dx, dy), maxR);
+        const ang = Math.atan2(dy, dx);
+        if (knob) knob.style.transform = `translate(${Math.cos(ang)*mag}px,${Math.sin(ang)*mag}px)`;
+        onMove(dx, dy, rdx, rdy);
+      }
+    }, {passive:false});
+    function end(e) {
+      for (const t of e.changedTouches) {
+        if (t.identifier !== id) continue;
+        id = null;
+        if (knob) knob.style.transform = 'translate(0,0)';
+        onEnd();
+      }
+    }
+    el.addEventListener('touchend', end, {passive:false});
+    el.addEventListener('touchcancel', end, {passive:false});
+  }
+
+  const DEAD = 22;
+  makeJoystick(document.getElementById('mob-joy-left'),
+    (dx, dy) => {
+      keys['KeyW'] = dy < -DEAD;
+      keys['KeyS'] = dy > DEAD;
+      keys['KeyA'] = dx < -DEAD;
+      keys['KeyD'] = dx > DEAD;
+    },
+    () => { keys['KeyW']=keys['KeyS']=keys['KeyA']=keys['KeyD']=false; }
+  );
+
+  makeJoystick(document.getElementById('mob-joy-right'),
+    (dx, dy, rdx, rdy) => {
+      if (!running || dead) return;
+      player.yaw   -= rdx * 0.007;
+      player.pitch -= rdy * 0.007;
+      player.pitch = Math.max(-1.45, Math.min(1.45, player.pitch));
+    },
+    () => {}
+  );
+
+  const mobFire = document.getElementById('mob-fire');
+  mobFire.addEventListener('touchstart', e => {
+    e.preventDefault();
+    if (!running || dead) return;
+    mouseDown = true;
+    if (!WEAPONS[current].auto) shoot();
+  }, {passive:false});
+  mobFire.addEventListener('touchend',   e => { e.preventDefault(); mouseDown = false; }, {passive:false});
+  mobFire.addEventListener('touchcancel', () => { mouseDown = false; });
+
+  document.getElementById('mob-action').addEventListener('touchstart', e => {
+    e.preventDefault();
+    tryBuy('souris');
+  }, {passive:false});
+
+  document.getElementById('mob-weapon').addEventListener('touchstart', e => {
+    e.preventDefault();
+    if (!running || dead || owned.length < 2) return;
+    setWeapon(current === 'clavier' ? 'souris' : 'clavier');
+  }, {passive:false});
+}
+
 })();
 </script>
 </body>

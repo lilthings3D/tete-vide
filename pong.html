@@ -91,6 +91,37 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     font-family:'Fraunces',serif;font-weight:600;font-style:italic;
     font-size:clamp(1.4rem,4vw,2.2rem);color:var(--orange-deep);text-align:center;
   }
+
+  /* TOUCH CONTROLS — mobile only */
+  .touch-side{
+    display:none;
+    flex-direction:column;
+    align-items:center;
+    gap:12px;
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    z-index:20;
+    padding:8px;
+  }
+  #touch-left{ left:0; }
+  #touch-right{ right:0; }
+  .touch-btn{
+    width:60px;height:60px;
+    border:2px solid var(--ink);background:rgba(251,247,240,0.75);
+    font-size:1.5rem;color:var(--ink);
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;user-select:none;-webkit-user-select:none;
+    touch-action:none;border-radius:6px;
+  }
+  .touch-label{
+    font-family:'Fraunces',serif;font-size:.6rem;letter-spacing:1.5px;
+    text-transform:uppercase;color:var(--ink-soft);
+  }
+  @media(pointer:coarse){
+    .touch-side{ display:flex; }
+    canvas{ max-width:calc(100% - 152px)!important; }
+  }
 </style>
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-TBJXMCC70W"></script>
@@ -119,7 +150,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </header>
 
 <div id="arena">
+  <div id="touch-left" class="touch-side">
+    <div class="touch-label" id="label-left">J1</div>
+    <button class="touch-btn" id="tl-up">▲</button>
+    <button class="touch-btn" id="tl-down">▼</button>
+  </div>
   <canvas id="c"></canvas>
+  <div id="touch-right" class="touch-side">
+    <div class="touch-label">J2</div>
+    <button class="touch-btn" id="tr-up">▲</button>
+    <button class="touch-btn" id="tr-down">▼</button>
+  </div>
 
   <div id="overlay">
     <div class="ov-title">Pong <b>·</b></div>
@@ -358,6 +399,30 @@ function loop(){
 
 // Draw static preview
 draw();
+
+// Touch controls
+function bindTouch(el, keyName){
+  el.addEventListener('touchstart', e=>{ e.preventDefault(); keys[keyName]=true; }, {passive:false});
+  el.addEventListener('touchend',   e=>{ e.preventDefault(); keys[keyName]=false; }, {passive:false});
+  el.addEventListener('touchcancel',e=>{ keys[keyName]=false; });
+}
+bindTouch(document.getElementById('tl-up'),   'w');
+bindTouch(document.getElementById('tl-down'),  's');
+bindTouch(document.getElementById('tr-up'),   'ArrowUp');
+bindTouch(document.getElementById('tr-down'), 'ArrowDown');
+
+function updateTouchLabels(){
+  const lbl=document.getElementById('label-left');
+  const side=document.getElementById('touch-left');
+  if(mode==='solo'){
+    lbl.textContent='IA'; side.style.opacity='0.3'; side.style.pointerEvents='none';
+  } else {
+    lbl.textContent='J1'; side.style.opacity='1'; side.style.pointerEvents='auto';
+  }
+}
+btnSolo.addEventListener('click', updateTouchLabels);
+btnDuo.addEventListener('click', updateTouchLabels);
+updateTouchLabels();
 </script>
 </body>
 </html>

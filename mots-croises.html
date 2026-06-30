@@ -695,6 +695,12 @@ function onCellClick(r,c){
 
   const needed=pw.direction==='H'?'h':'v';
   if(currentTab!==needed){ showTab(needed); } else { highlightActiveClue(); }
+
+  // Mobile: focus hidden input to open keyboard
+  if('ontouchstart' in window){
+    const _inp=document.getElementById('mobile-kb');
+    if(_inp){_inp.value=' ';_inp.focus();}
+  }
 }
 
 function highlightActiveClue(){
@@ -824,10 +830,45 @@ document.getElementById('theme-tabs').addEventListener('click',e=>{
 
 document.getElementById('btn-gen').addEventListener('click',generate);
 
+// Mobile keyboard input handler
+(function(){
+  const inp=document.getElementById('mobile-kb');
+  if(!inp) return;
+  inp.value=' ';
+  inp.addEventListener('input',()=>{
+    if(!crossword||activeCellR<0){inp.value=' ';return;}
+    const v=inp.value.trim();
+    if(!v){
+      // backspace
+      if(checked)clearCheck();
+      const k2=key(activeCellR,activeCellC);
+      if(userInput[k2]){
+        delete userInput[k2];
+        const el=cellEl(activeCellR,activeCellC);
+        if(el){const l=el.querySelector('.cell-letter');if(l)l.textContent='';}
+      } else retreatCursor();
+    } else {
+      const ch=v.slice(-1).toUpperCase();
+      if(ch>='A'&&ch<='Z'){
+        if(checked)clearCheck();
+        userInput[key(activeCellR,activeCellC)]=ch;
+        const el=cellEl(activeCellR,activeCellC);
+        if(el){const l=el.querySelector('.cell-letter');if(l)l.textContent=ch;}
+        advanceCursor();
+        // Refocus for next letter
+        setTimeout(()=>{inp.value=' ';inp.focus();},50);
+        return;
+      }
+    }
+    inp.value=' ';
+  });
+})();
+
 // Date
 const months=["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
 const now=new Date();
 document.getElementById('today').textContent=now.getDate()+' '+months[now.getMonth()]+' '+now.getFullYear();
 </script>
+<input id="mobile-kb" type="text" inputmode="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-hidden="true" style="position:fixed;left:-9999px;top:0;opacity:0;width:1px;height:1px;">
 </body>
 </html>
