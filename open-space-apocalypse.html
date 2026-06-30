@@ -936,6 +936,13 @@ function loop(now) {
   const dt = Math.min((now - prev)/1000, .05); prev = now;
   if (!running) { renderer.render(scene, camera); return; }
 
+  /* --- rotation joystick mobile (continue tant que stick dévié) --- */
+  if (isMobile && window.mobRightJoy && (window.mobRightJoy.x || window.mobRightJoy.y)) {
+    player.yaw   -= window.mobRightJoy.x * 2.8 * dt;
+    player.pitch -= window.mobRightJoy.y * 2.8 * dt;
+    player.pitch = Math.max(-1.45, Math.min(1.45, player.pitch));
+  }
+
   /* --- joueur --- */
   if (!dead) {
     const speed = (keys['ShiftLeft']||keys['ShiftRight']) ? 7.4 : 4.5;
@@ -1241,14 +1248,10 @@ if (isMobile) {
     () => { keys['KeyW']=keys['KeyS']=keys['KeyA']=keys['KeyD']=false; }
   );
 
+  window.mobRightJoy = {x:0, y:0};
   makeJoystick(document.getElementById('mob-joy-right'),
-    (dx, dy, rdx, rdy) => {
-      if (!running || dead) return;
-      player.yaw   -= rdx * 0.007;
-      player.pitch -= rdy * 0.007;
-      player.pitch = Math.max(-1.45, Math.min(1.45, player.pitch));
-    },
-    () => {}
+    (dx, dy) => { window.mobRightJoy.x = dx; window.mobRightJoy.y = dy; },
+    ()       => { window.mobRightJoy.x = 0;  window.mobRightJoy.y = 0; }
   );
 
   const mobFire = document.getElementById('mob-fire');
