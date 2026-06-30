@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>lil things 3D — Tête vide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#FBF7F0;--paper:#fbf6ec;
+  --ink:#2e2218;--ink-soft:#5b4a39;
+  --orange:#D43030;--orange-deep:#B02020;
+  --rule:#e0cfb0;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--cream);color:var(--ink);
+  font-family:'Spectral',Georgia,serif;font-size:18px;line-height:1.7;
+  -webkit-font-smoothing:antialiased;min-height:100vh;
+  display:flex;flex-direction:column;
+}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:0.4;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");mix-blend-mode:multiply;}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px;position:relative;z-index:2;}
+
+/* HEADER */
+header.site{padding:30px 0 0;}
+.topbar{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1.5px solid var(--ink);padding-bottom:12px;}
+.brand{font-family:'Fraunces',serif;font-weight:600;font-size:1.15rem;letter-spacing:.5px;text-decoration:none;color:var(--ink);}
+.brand b{color:var(--orange-deep);}
+.sitenav{display:flex;gap:0;}
+.sitenav-link{font-family:'Fraunces',serif;font-size:.88rem;font-weight:500;letter-spacing:.3px;color:var(--ink-soft);text-decoration:none;padding:0 12px 4px;border-bottom:2px solid transparent;transition:color .2s,border-color .2s;}
+.sitenav-link:hover{color:var(--orange-deep);border-bottom-color:var(--orange-deep);}
+.sitenav-link.current{color:var(--ink);border-bottom-color:var(--ink);}
+.topdate{font-size:.8rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-soft);}
+@media(max-width:780px){.sitenav-link{padding:0 8px 4px;font-size:.8rem;}}
+@media(max-width:600px){.wrap{padding:0 20px;}.topdate{display:none;}}
+
+/* LINKTREE */
+main{flex:1;display:flex;align-items:flex-start;justify-content:center;padding:60px 20px 100px;position:relative;z-index:2;}
+.lt-card{width:100%;max-width:520px;}
+
+.lt-profile{text-align:center;margin-bottom:48px;}
+.lt-avatar{
+  width:88px;height:88px;border-radius:50%;
+  background:var(--ink);color:var(--cream);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Fraunces',serif;font-size:1.6rem;font-weight:300;font-style:italic;
+  margin:0 auto 20px;border:2px solid var(--ink);
+}
+.lt-name{
+  font-family:'Fraunces',serif;font-weight:300;font-style:italic;
+  font-size:2.2rem;letter-spacing:-.5px;color:var(--ink);line-height:1;
+}
+.lt-name b{font-style:normal;font-weight:600;}
+.lt-bio{margin-top:10px;font-size:.95rem;color:var(--ink-soft);font-style:italic;}
+
+.lt-links{display:flex;flex-direction:column;gap:10px;}
+
+.lt-link{
+  display:block;padding:18px 24px;
+  border:1.5px solid var(--ink);background:var(--paper);
+  text-decoration:none;color:var(--ink);
+  transition:background .18s,color .18s,border-color .18s;
+  position:relative;overflow:hidden;
+}
+.lt-link:hover{background:var(--ink);color:var(--cream);}
+.lt-link:hover .lt-link-sub{color:rgba(255,255,255,.55);}
+.lt-link:hover .lt-link-arrow{color:var(--cream);}
+
+.lt-link-inner{display:flex;justify-content:space-between;align-items:center;gap:12px;}
+.lt-link-body{flex:1;}
+.lt-link-title{font-family:'Fraunces',serif;font-size:1.05rem;font-weight:600;line-height:1.1;}
+.lt-link-sub{font-size:.8rem;color:var(--ink-soft);font-style:italic;margin-top:4px;transition:color .18s;}
+.lt-link-arrow{font-family:'Fraunces',serif;font-size:1rem;color:var(--ink-soft);transition:color .18s;flex-shrink:0;}
+
+.lt-divider{height:1.5px;background:var(--rule);margin:18px 0;}
+
+.lt-socials{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.lt-social{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:14px 10px;
+  border:1.5px solid var(--rule);background:none;
+  text-decoration:none;color:var(--ink-soft);font-family:'Fraunces',serif;font-size:.82rem;
+  letter-spacing:.5px;transition:all .18s;
+}
+.lt-social:hover{border-color:var(--ink);color:var(--ink);background:var(--paper);}
+.lt-social-icon{font-size:1.1rem;}
+
+footer.site{border-top:1px solid var(--rule);padding:28px 0;text-align:center;position:relative;z-index:2;}
+footer p{color:var(--ink-soft);font-size:.82rem;font-style:italic;}
+</style>
+</head>
+<body>
+
+<header class="site">
+<div class="wrap">
+  <div class="topbar">
+    <a class="brand" href="index.html">Tête <b>vide</b></a>
+    <nav class="sitenav">
+      <a class="sitenav-link" href="index.html">Réflexions</a>
+      <a class="sitenav-link" href="histoires.html">Histoires</a>
+      <a class="sitenav-link" href="jeux.html">Jeux</a>
+      <a class="sitenav-link" href="plantes.html">Plantes</a>
+      <a class="sitenav-link current" href="lilthings3d.html">3D</a>
+    </nav>
+    <div class="topdate" id="today"></div>
+  </div>
+</div>
+</header>
+
+<main>
+  <div class="lt-card">
+    <div class="lt-profile">
+      <div class="lt-avatar">lil</div>
+      <div class="lt-name">lil <b>things</b> 3D</div>
+      <div class="lt-bio">Modèles &amp; impressions 3D · Marseille</div>
+    </div>
+
+    <div class="lt-links">
+
+      <a class="lt-link" href="https://lilthings3d.github.io/lilthings3d/impression.html">
+        <div class="lt-link-inner">
+          <div class="lt-link-body">
+            <div class="lt-link-title">Impression sur mesure</div>
+            <div class="lt-link-sub">Demande un devis · Fichier fourni ou modélisation</div>
+          </div>
+          <div class="lt-link-arrow">→</div>
+        </div>
+      </a>
+
+      <a class="lt-link" href="https://lilthings3d.github.io/lilthings3d/buste.html">
+        <div class="lt-link-inner">
+          <div class="lt-link-body">
+            <div class="lt-link-title">Votre buste en 3D</div>
+            <div class="lt-link-sub">Envoie ta photo · Je modélise &amp; imprime</div>
+          </div>
+          <div class="lt-link-arrow">→</div>
+        </div>
+      </a>
+
+      <a class="lt-link" href="https://cults3d.com" target="_blank" rel="noopener">
+        <div class="lt-link-inner">
+          <div class="lt-link-body">
+            <div class="lt-link-title">Cults3D</div>
+            <div class="lt-link-sub">Télécharge mes fichiers STL</div>
+          </div>
+          <div class="lt-link-arrow">↗</div>
+        </div>
+      </a>
+
+      <a class="lt-link" href="https://lilthings3d.etsy.com" target="_blank" rel="noopener">
+        <div class="lt-link-inner">
+          <div class="lt-link-body">
+            <div class="lt-link-title">Etsy</div>
+            <div class="lt-link-sub">Commande une impression physique</div>
+          </div>
+          <div class="lt-link-arrow">↗</div>
+        </div>
+      </a>
+
+      <div class="lt-divider"></div>
+
+      <div class="lt-socials">
+        <a class="lt-social" href="https://tiktok.com/@lil.things.3d" target="_blank" rel="noopener">
+          <span class="lt-social-icon">▶</span> TikTok
+        </a>
+        <a class="lt-social" href="https://instagram.com/lilthings.3d" target="_blank" rel="noopener">
+          <span class="lt-social-icon">◎</span> Instagram
+        </a>
+        <a class="lt-social" href="https://youtube.com/@lilthings.3d" target="_blank" rel="noopener">
+          <span class="lt-social-icon">▷</span> YouTube
+        </a>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<footer class="site">
+  <p>Fait avec ♥ à Marseille · lil things 3D</p>
+</footer>
+
+<script>
+const months=["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
+const now=new Date();
+document.getElementById("today").textContent=now.getDate()+" "+months[now.getMonth()]+" "+now.getFullYear();
+</script>
+</body>
+</html>
