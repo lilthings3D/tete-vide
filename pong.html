@@ -92,6 +92,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     font-size:clamp(1.4rem,4vw,2.2rem);color:var(--orange-deep);text-align:center;
   }
 
+  /* INFO BAR — always visible above the canvas */
+  #info-bar{
+    font-size:0.78rem;letter-spacing:1px;text-transform:uppercase;
+    color:var(--ink-soft);text-align:center;padding:0 0 10px;line-height:1.8;
+  }
+
   /* TOUCH CONTROLS — mobile only */
   .touch-side{
     display:none;
@@ -155,6 +161,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <button class="touch-btn" id="tl-up">▲</button>
     <button class="touch-btn" id="tl-down">▼</button>
   </div>
+  <div id="info-bar">
+    <span id="ctrl-hint">Joueur : <strong>↑ ↓</strong> &nbsp;·&nbsp; IA joue à gauche (clavier : <strong>A Q</strong>)</span>
+    &nbsp;&nbsp;·&nbsp;&nbsp; Match en 7 points
+  </div>
   <canvas id="c"></canvas>
   <div id="touch-right" class="touch-side">
     <div class="touch-label">J2</div>
@@ -164,15 +174,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <div id="overlay">
     <div class="ov-title">Pong <b>·</b></div>
-    <p class="ov-sub">La version minimaliste. Pas de fioritures.<br><strong>Match en 7 points.</strong></p>
+    <p class="ov-sub">La version minimaliste. Pas de fioritures.</p>
 
     <div class="mode-row">
       <button class="mode-btn active" id="btn-solo">Solo (vs IA)</button>
       <button class="mode-btn" id="btn-duo">2 Joueurs</button>
-    </div>
-
-    <div class="ov-controls" id="ctrl-hint">
-      Joueur : <strong>↑ ↓</strong> &nbsp;·&nbsp; IA joue à gauche
     </div>
 
     <button class="btn" id="btn-start">Jouer →</button>
@@ -234,7 +240,7 @@ resize();
 btnSolo.addEventListener('click', ()=>{
   mode = 'solo';
   btnSolo.classList.add('active'); btnDuo.classList.remove('active');
-  ctrlHint.innerHTML = 'Joueur : <strong>↑ ↓</strong> &nbsp;·&nbsp; IA joue à gauche (clavier&nbsp;: <strong>A Q</strong>)';
+  ctrlHint.innerHTML = 'Joueur : <strong>↑ ↓</strong> &nbsp;·&nbsp; IA joue à gauche (clavier : <strong>A Q</strong>)';
 });
 btnDuo.addEventListener('click', ()=>{
   mode = 'duo';
