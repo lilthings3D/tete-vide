@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mots croisés — Tête vide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#FBF7F0;--cream-deep:#f0e4cf;--paper:#fbf6ec;
+  --ink:#2e2218;--ink-soft:#5b4a39;
+  --orange:#D43030;--orange-deep:#B02020;
+  --green:#2d6a4f;--green-light:#95d5b2;
+  --rule:#e0cfb0;--rule-strong:#c9b189;
+  --cell:12px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--cream);color:var(--ink);font-family:'Spectral',Georgia,serif;font-size:18px;line-height:1.7;-webkit-font-smoothing:antialiased;}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:0.4;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");mix-blend-mode:multiply;}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px;position:relative;z-index:2;}
+
+/* HEADER */
+header.site{padding:30px 0 0;position:sticky;top:0;z-index:100;background:var(--cream);}
+.topbar{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1.5px solid var(--ink);padding-bottom:12px;}
+.brand{font-family:'Fraunces',serif;font-weight:600;font-size:1.15rem;letter-spacing:.5px;text-decoration:none;color:var(--ink);}
+.brand b{color:var(--orange-deep);}
+.sitenav{display:flex;gap:0;}
+.sitenav-link{font-family:'Fraunces',serif;font-size:.88rem;font-weight:500;letter-spacing:.3px;color:var(--ink-soft);text-decoration:none;padding:0 12px 4px;border-bottom:2px solid transparent;transition:color .2s,border-color .2s;}
+.sitenav-link:hover{color:var(--orange-deep);border-bottom-color:var(--orange-deep);}
+.sitenav-link.current{color:var(--ink);border-bottom-color:var(--ink);}
+.topdate{font-size:.8rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-soft);}
+@media(max-width:780px){.sitenav-link{padding:0 8px 4px;font-size:.8rem;}}
+@media(max-width:600px){.wrap{padding:0 16px;}.topdate{display:none;}}
+
+/* MASTHEAD */
+.masthead{text-align:center;padding:50px 0 28px;border-bottom:3px double var(--ink);}
+.masthead .kicker{font-size:.78rem;letter-spacing:5px;text-transform:uppercase;color:var(--orange-deep);margin-bottom:14px;}
+.masthead h1{font-family:'Fraunces',serif;font-weight:300;font-style:italic;font-size:clamp(2.4rem,6vw,4.5rem);line-height:.95;letter-spacing:-1px;}
+.masthead h1 b{font-style:normal;font-weight:600;color:var(--orange-deep);}
+.masthead .tagline{max-width:480px;margin:14px auto 0;font-size:.95rem;color:var(--ink-soft);font-style:italic;}
+
+/* CONTROLS */
+.controls{padding:28px 0 22px;border-bottom:1px solid var(--rule);display:flex;flex-wrap:wrap;align-items:center;gap:16px;}
+.theme-tabs{display:flex;flex-wrap:wrap;gap:6px;flex:1;}
+.theme-btn{
+  font-family:'Fraunces',serif;font-size:.8rem;letter-spacing:1px;text-transform:uppercase;
+  color:var(--ink-soft);border:1.5px solid var(--rule);background:none;
+  padding:7px 16px;cursor:pointer;transition:all .2s;
+}
+.theme-btn.active,.theme-btn:hover{border-color:var(--orange-deep);color:var(--orange-deep);}
+.theme-btn.active{background:var(--orange-deep);color:var(--cream);}
+.btn-gen{
+  font-family:'Fraunces',serif;font-size:.88rem;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--cream);background:var(--orange-deep);border:none;
+  padding:10px 28px;cursor:pointer;transition:opacity .2s;flex-shrink:0;
+}
+.btn-gen:hover{opacity:.88;}
+.btn-gen:disabled{opacity:.4;cursor:not-allowed;}
+
+/* MAIN LAYOUT */
+.crossword-layout{display:grid;grid-template-columns:auto 1fr;gap:36px;padding:32px 0 80px;align-items:start;}
+@media(max-width:860px){.crossword-layout{grid-template-columns:1fr;}}
+
+/* GRID */
+.grid-wrap{overflow:auto;}
+#cw-grid{display:inline-grid;gap:2px;border:2px solid var(--ink);background:var(--ink);}
+.cw-cell{
+  width:36px;height:36px;position:relative;
+  background:var(--cream);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Fraunces',serif;font-size:1.05rem;font-weight:600;
+  text-transform:uppercase;color:var(--ink);
+  user-select:none;transition:background .12s;
+}
+.cw-cell.black{background:var(--ink);cursor:default;pointer-events:none;}
+.cw-cell.word-hi{background:#fde8d8;}
+.cw-cell.cell-hi{background:#f9c4a4;}
+.cw-cell.correct{background:#d4edda;color:var(--green);}
+.cw-cell.wrong{background:#f8d7da;color:#721c24;}
+.cw-cell.revealed{background:#e8e0f0;color:#4a2d7a;}
+.cell-num{
+  position:absolute;top:2px;left:3px;
+  font-size:9px;line-height:1;font-weight:600;
+  color:var(--ink-soft);font-family:'Fraunces',serif;
+}
+.cell-letter{font-size:1rem;font-weight:700;line-height:1;}
+.cw-cell.word-hi .cell-num,.cw-cell.cell-hi .cell-num{color:var(--orange-deep);}
+
+/* CLUES */
+.clues-panel{min-width:0;}
+.clues-header{display:flex;gap:20px;margin-bottom:20px;border-bottom:1.5px solid var(--ink);padding-bottom:10px;}
+.clue-tab{
+  font-family:'Fraunces',serif;font-size:.8rem;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--ink-soft);cursor:pointer;padding-bottom:4px;border-bottom:2px solid transparent;
+  transition:all .2s;background:none;border:none;
+}
+.clue-tab.active{color:var(--orange-deep);border-bottom:2px solid var(--orange-deep);}
+.clues-list{list-style:none;display:flex;flex-direction:column;gap:8px;max-height:60vh;overflow-y:auto;}
+.clue-item{
+  display:grid;grid-template-columns:28px 1fr;gap:4px;
+  font-size:.88rem;line-height:1.5;padding:8px 10px;
+  cursor:pointer;border-left:2px solid transparent;transition:all .15s;
+  color:var(--ink-soft);
+}
+.clue-item:hover{background:var(--paper);border-left-color:var(--rule-strong);}
+.clue-item.active-clue{background:#fde8d8;border-left-color:var(--orange-deep);color:var(--ink);}
+.clue-num{font-family:'Fraunces',serif;font-weight:700;color:var(--orange-deep);font-size:.88rem;}
+.clue-text{}
+.clue-word-hi{font-weight:600;color:var(--ink);}
+
+/* ACTION BAR */
+.action-bar{display:flex;gap:10px;margin-top:24px;flex-wrap:wrap;}
+.btn-action{
+  font-family:'Fraunces',serif;font-size:.8rem;letter-spacing:1.2px;text-transform:uppercase;
+  color:var(--ink-soft);border:1.5px solid var(--rule);background:none;
+  padding:8px 20px;cursor:pointer;transition:all .2s;
+}
+.btn-action:hover{border-color:var(--ink);color:var(--ink);}
+.btn-action.danger{color:var(--orange-deep);border-color:var(--orange-deep);}
+.btn-action.danger:hover{background:var(--orange-deep);color:var(--cream);}
+
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:60px 20px;color:var(--ink-soft);font-style:italic;}
+.empty-state .big{font-family:'Fraunces',serif;font-size:3rem;margin-bottom:12px;opacity:.3;}
+</style>
+</head>
+<body>
+
+<header class="site">
+<div class="wrap">
+  <div class="topbar">
+    <a class="brand" href="index.html">Tête <b>vide</b></a>
+    <nav class="sitenav">
+      <a class="sitenav-link" href="index.html">Réflexions</a>
+      <a class="sitenav-link" href="histoires.html">Histoires</a>
+      <a class="sitenav-link current" href="jeux.html">Jeux</a>
+      <a class="sitenav-link" href="plantes.html">Plantes</a>
+    </nav>
+    <div class="topdate" id="today"></div>
+  </div>
+</div>
+</header>
+
+<div class="wrap">
+  <section class="masthead">
+    <div class="kicker">Généré à la volée</div>
+    <h1>Mots <b>croisés</b></h1>
+    <p class="tagline">Une grille unique à chaque fois. Choisis un thème et joue.</p>
+  </section>
+
+  <div class="controls">
+    <div class="theme-tabs" id="theme-tabs">
+      <button class="theme-btn active" data-theme="animaux">🐾 Animaux</button>
+      <button class="theme-btn" data-theme="nature">🌿 Nature</button>
+      <button class="theme-btn" data-theme="sports">⚽ Sports</button>
+      <button class="theme-btn" data-theme="alimentation">🍽️ Alimentation</button>
+      <button class="theme-btn" data-theme="geographie">🌍 Géographie</button>
+      <button class="theme-btn" data-theme="melange">✨ Mélange</button>
+    </div>
+    <button class="btn-gen" id="btn-gen">Générer →</button>
+  </div>
+
+  <div class="crossword-layout" id="layout">
+    <div class="grid-wrap">
+      <div id="cw-grid">
+        <div class="empty-state" style="width:340px;padding:60px 20px;">
+          <div class="big">✦</div>
+          Choisissez un thème et cliquez sur Générer.
+        </div>
+      </div>
+    </div>
+
+    <div class="clues-panel" id="clues-panel" style="display:none;">
+      <div class="clues-header">
+        <button class="clue-tab active" id="tab-h" onclick="showTab('h')">→ Horizontaux</button>
+        <button class="clue-tab" id="tab-v" onclick="showTab('v')">↓ Verticaux</button>
+      </div>
+      <ul class="clues-list" id="clues-list"></ul>
+      <div class="action-bar">
+        <button class="btn-action" onclick="checkAnswers()">Vérifier</button>
+        <button class="btn-action danger" onclick="revealAll()">Révéler</button>
+        <button class="btn-action" onclick="resetGrid()">Effacer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===================== DATABASE =====================
+const DB = {
+animaux:[
+  {id:'a1',word:'LION',definition:'Roi des animaux à crinière'},
+  {id:'a2',word:'TIGRE',definition:'Grand félin rayé originaire d\'Asie'},
+  {id:'a3',word:'ELEPHANT',definition:'Plus grand mammifère terrestre'},
+  {id:'a4',word:'GIRAFE',definition:'Mammifère africain au très long cou'},
+  {id:'a5',word:'ZEBRE',definition:'Cheval sauvage rayé d\'Afrique'},
+  {id:'a6',word:'GORILLE',definition:'Grand singe puissant d\'Afrique centrale'},
+  {id:'a7',word:'DAUPHIN',definition:'Mammifère marin très intelligent'},
+  {id:'a8',word:'BALEINE',definition:'Plus grand animal de la planète'},
+  {id:'a9',word:'REQUIN',definition:'Prédateur des océans aux grandes dents'},
+  {id:'a10',word:'PANTHERE',definition:'Félin noir au regard perçant'},
+  {id:'a11',word:'JAGUAR',definition:'Félin tacheté des forêts d\'Amérique'},
+  {id:'a12',word:'KOALA',definition:'Marsupial australien qui mange des eucalyptus'},
+  {id:'a13',word:'PANDA',definition:'Ours noir et blanc de Chine'},
+  {id:'a14',word:'KANGOUROU',definition:'Marsupial sauteur d\'Australie'},
+  {id:'a15',word:'PERROQUET',definition:'Oiseau coloré capable d\'imiter la parole'},
+  {id:'a16',word:'FLAMANT',definition:'Oiseau rose qui se tient sur une patte'},
+  {id:'a17',word:'AUTRUCHE',definition:'Plus grand oiseau du monde qui ne vole pas'},
+  {id:'a18',word:'PINGOUIN',definition:'Oiseau marin des régions polaires'},
+  {id:'a19',word:'RENARD',definition:'Canidé roux réputé pour sa ruse'},
+  {id:'a20',word:'LOUP',definition:'Canidé sauvage qui hurle à la lune'},
+  {id:'a21',word:'CERF',definition:'Mammifère à bois qui brame en automne'},
+  {id:'a22',word:'CASTOR',definition:'Rongeur qui construit des barrages'},
+  {id:'a23',word:'HERISSON',definition:'Petit mammifère couvert de piquants'},
+  {id:'a24',word:'HIBOU',definition:'Rapace nocturne à tête ronde'},
+  {id:'a25',word:'AIGLE',definition:'Grand rapace aux serres puissantes'},
+  {id:'a26',word:'CIGOGNE',definition:'Grand oiseau blanc migrateur'},
+  {id:'a27',word:'PIEUVRE',definition:'Mollusque à huit tentacules'},
+  {id:'a28',word:'CROCODILE',definition:'Reptile aquatique aux grandes mâchoires'},
+  {id:'a29',word:'HIPPOCAMPE',definition:'Petit poisson en forme de cheval'},
+  {id:'a30',word:'MEDUSE',definition:'Animal marin translucide et gélatineux'},
+  {id:'a31',word:'MARMOTTE',definition:'Mammifère alpin qui hiberne l\'hiver'},
+  {id:'a32',word:'LOUTRE',definition:'Mammifère semi-aquatique très joueur'},
+  {id:'a33',word:'VAUTOUR',definition:'Grand rapace qui se nourrit de charognes'},
+  {id:'a34',word:'CIGALE',definition:'Insecte chanteur des régions chaudes'},
+  {id:'a35',word:'SANGLIER',definition:'Porc sauvage aux défenses recourbées'},
+  {id:'a36',word:'BLAIREAU',definition:'Mammifère au pelage gris et blanc fouisseur'},
+  {id:'a37',word:'LAPIN',definition:'Petit mammifère aux longues oreilles'},
+  {id:'a38',word:'LIEVRE',definition:'Cousin du lapin plus grand et plus rapide'},
+  {id:'a39',word:'ECUREUIL',definition:'Petit rongeur roux grimpeur aux arbres'},
+  {id:'a40',word:'LYNX',definition:'Grand félin aux oreilles touffues'},
+  {id:'a41',word:'PHOQUE',definition:'Mammifère marin aux nageoires'},
+  {id:'a42',word:'CHOUETTE',definition:'Rapace nocturne au regard perçant'},
+  {id:'a43',word:'SERPENT',definition:'Reptile sans pattes qui ondule'},
+  {id:'a44',word:'TORTUE',definition:'Reptile à carapace dure'},
+  {id:'a45',word:'PAPILLON',definition:'Insecte aux ailes colorées et légères'},
+  {id:'a46',word:'ABEILLE',definition:'Insecte social qui produit du miel'},
+  {id:'a47',word:'CRAPAUD',definition:'Amphibien trapu à la peau rugueuse'},
+  {id:'a48',word:'LIBELLULE',definition:'Insecte aux grandes ailes transparentes et irisées'},
+  {id:'a49',word:'SCORPION',definition:'Arachnide au dard venimeux recourbé'},
+  {id:'a50',word:'SALAMANDRE',definition:'Amphibien tacheté de jaune sur fond noir'},
+],
+nature:[
+  {id:'n1',word:'FORET',definition:'Vaste étendue d\'arbres'},
+  {id:'n2',word:'DESERT',definition:'Région aride avec peu de précipitations'},
+  {id:'n3',word:'VOLCAN',definition:'Montagne qui peut cracher de la lave'},
+  {id:'n4',word:'GLACIER',definition:'Masse de glace qui se déplace lentement'},
+  {id:'n5',word:'SAVANE',definition:'Vaste plaine herbeuse d\'Afrique'},
+  {id:'n6',word:'JUNGLE',definition:'Forêt tropicale dense et impénétrable'},
+  {id:'n7',word:'RIVIERE',definition:'Cours d\'eau qui se jette dans un fleuve'},
+  {id:'n8',word:'FALAISE',definition:'Paroi rocheuse abrupte au bord de la mer'},
+  {id:'n9',word:'GEISER',definition:'Source d\'eau chaude qui jaillit en colonne'},
+  {id:'n10',word:'DELTA',definition:'Embouchure d\'un fleuve en éventail'},
+  {id:'n11',word:'DUNE',definition:'Colline de sable formée par le vent'},
+  {id:'n12',word:'CORAIL',definition:'Structure calcaire colorée des fonds marins'},
+  {id:'n13',word:'PRAIRIE',definition:'Vaste étendue couverte d\'herbes'},
+  {id:'n14',word:'TOUNDRA',definition:'Plaine gelée des régions arctiques'},
+  {id:'n15',word:'GROTTE',definition:'Caverne naturelle creusée dans la roche'},
+  {id:'n16',word:'CASCADE',definition:'Chute d\'eau tombant verticalement'},
+  {id:'n17',word:'CANYON',definition:'Gorge profonde creusée par un fleuve'},
+  {id:'n18',word:'MARAIS',definition:'Zone humide peu profonde avec végétation'},
+  {id:'n19',word:'LAGON',definition:'Étendue d\'eau calme derrière un récif'},
+  {id:'n20',word:'TORRENT',definition:'Cours d\'eau de montagne au courant rapide'},
+  {id:'n21',word:'STALACTITE',definition:'Concrétion calcaire qui descend du plafond'},
+  {id:'n22',word:'MANGROVE',definition:'Forêt côtière dans les zones tropicales'},
+  {id:'n23',word:'ESTUAIRE',definition:'Zone où un fleuve rejoint la mer'},
+  {id:'n24',word:'AURORE',definition:'Phénomène lumineux coloré des régions polaires'},
+  {id:'n25',word:'MIRAGE',definition:'Illusion d\'optique créée par la chaleur'},
+  {id:'n26',word:'TSUNAMI',definition:'Vague géante déclenchée par un séisme sous-marin'},
+  {id:'n27',word:'CYCLONE',definition:'Tempête tropicale en tourbillon'},
+  {id:'n28',word:'FJORD',definition:'Bras de mer entre des falaises en Norvège'},
+  {id:'n29',word:'SEISME',definition:'Secousse du sol causée par une faille'},
+  {id:'n30',word:'AVALANCHE',definition:'Masse de neige dévalant une pente'},
+  {id:'n31',word:'EROSION',definition:'Usure progressive du sol par l\'eau et le vent'},
+  {id:'n32',word:'PLATEAU',definition:'Vaste étendue plate en altitude'},
+  {id:'n33',word:'OASIS',definition:'Zone fertile avec eau au milieu du désert'},
+  {id:'n34',word:'TEMPETE',definition:'Violente perturbation atmosphérique'},
+  {id:'n35',word:'BROUILLARD',definition:'Nuage bas réduisant la visibilité au sol'},
+  {id:'n36',word:'ECLAIR',definition:'Décharge électrique lumineuse lors d\'un orage'},
+  {id:'n37',word:'TONNERRE',definition:'Bruit provoqué par la foudre'},
+  {id:'n38',word:'ROSEE',definition:'Fines gouttelettes d\'eau déposées le matin'},
+  {id:'n39',word:'GIVRE',definition:'Couche de glace fine sur les surfaces froides'},
+  {id:'n40',word:'BANQUISE',definition:'Étendue de glace flottante dans les mers polaires'},
+  {id:'n41',word:'CALCAIRE',definition:'Roche sédimentaire formée de carbonate de calcium'},
+  {id:'n42',word:'GRANITE',definition:'Roche dure formée de cristaux de feldspath'},
+  {id:'n43',word:'OURAGAN',definition:'Tempête tropicale très violente aux vents circulaires'},
+  {id:'n44',word:'TOURBIERE',definition:'Zone humide de végétation décomposée acide'},
+  {id:'n45',word:'LANDE',definition:'Étendue ouverte couverte de bruyères'},
+  {id:'n46',word:'SOLSTICE',definition:'Moment de l\'année où le jour est le plus long'},
+],
+sports:[
+  {id:'s1',word:'NATATION',definition:'Sport de compétition dans l\'eau'},
+  {id:'s2',word:'CYCLISME',definition:'Sport pratiqué à vélo sur route ou piste'},
+  {id:'s3',word:'ESCRIME',definition:'Sport de combat à l\'épée ou au fleuret'},
+  {id:'s4',word:'JUDO',definition:'Art martial japonais de projection au sol'},
+  {id:'s5',word:'RUGBY',definition:'Sport collectif au ballon ovale'},
+  {id:'s6',word:'BOXE',definition:'Sport de combat avec les poings gantés'},
+  {id:'s7',word:'EQUITATION',definition:'Sport pratiqué à cheval'},
+  {id:'s8',word:'KAYAK',definition:'Sport de pagaie sur rivière ou mer'},
+  {id:'s9',word:'HANDBALL',definition:'Sport collectif où l\'on joue avec les mains'},
+  {id:'s10',word:'PATINAGE',definition:'Sport pratiqué sur glace avec des lames'},
+  {id:'s11',word:'AVIRON',definition:'Sport de pagaie en équipe sur l\'eau calme'},
+  {id:'s12',word:'MARATHON',definition:'Course à pied de plus de quarante kilomètres'},
+  {id:'s13',word:'DECATHLON',definition:'Compétition de dix épreuves athlétiques'},
+  {id:'s14',word:'TRIATHLON',definition:'Combinaison natation vélo et course à pied'},
+  {id:'s15',word:'BIATHLON',definition:'Combinaison ski de fond et tir à la carabine'},
+  {id:'s16',word:'SLALOM',definition:'Descente en zigzag entre des portes en ski'},
+  {id:'s17',word:'BOBSLEIGH',definition:'Sport de glisse en équipe dans un couloir glacé'},
+  {id:'s18',word:'CURLING',definition:'Sport de glace avec des pierres et des balais'},
+  {id:'s19',word:'POLO',definition:'Sport à cheval où l\'on frappe une balle'},
+  {id:'s20',word:'PARACHUTE',definition:'Sport de saut depuis un avion en chute libre'},
+  {id:'s21',word:'TRAMPOLINE',definition:'Sport de sauts acrobatiques sur toile élastique'},
+  {id:'s22',word:'SURF',definition:'Sport de glisse sur les vagues'},
+  {id:'s23',word:'VOLLEY',definition:'Sport collectif séparé par un filet en hauteur'},
+  {id:'s24',word:'TENNIS',definition:'Sport de raquette sur court avec filet'},
+  {id:'s25',word:'FOOTBALL',definition:'Sport collectif au ballon rond'},
+  {id:'s26',word:'BASKET',definition:'Sport collectif où on lance le ballon dans un panier'},
+  {id:'s27',word:'GOLF',definition:'Sport où on guide une balle dans un trou avec un club'},
+  {id:'s28',word:'HOCKEY',definition:'Sport sur glace avec patins et crosse'},
+  {id:'s29',word:'BADMINTON',definition:'Sport de raquette avec un volant en plumes'},
+  {id:'s30',word:'KARATE',definition:'Art martial japonais à coups et blocages'},
+  {id:'s31',word:'ESCALADE',definition:'Sport de grimpe sur paroi naturelle ou artificielle'},
+  {id:'s32',word:'SPRINT',definition:'Course à pied sur courte distance à vitesse maximum'},
+  {id:'s33',word:'JAVELOT',definition:'Lancer d\'une tige pointue en athlétisme'},
+  {id:'s34',word:'MARTEAU',definition:'Lancer d\'un boulet attaché à un câble'},
+  {id:'s35',word:'CANOE',definition:'Embarcation propulsée à la pagaie'},
+  {id:'s36',word:'SQUASH',definition:'Sport de raquette dans une salle aux murs rebondissants'},
+  {id:'s37',word:'PARAPENTE',definition:'Vol libre avec une voile gonflable'},
+  {id:'s38',word:'PETANQUE',definition:'Jeu de boules provençal'},
+  {id:'s39',word:'BOWLING',definition:'Sport où on renverse des quilles avec une boule'},
+  {id:'s40',word:'AIKIDO',definition:'Art martial japonais basé sur la redirection'},
+],
+alimentation:[
+  {id:'f1',word:'BAGUETTE',definition:'Pain long et croustillant typiquement français'},
+  {id:'f2',word:'CROISSANT',definition:'Viennoiserie feuilletée en forme de lune'},
+  {id:'f3',word:'FROMAGE',definition:'Produit laitier fermenté aux nombreuses variétés'},
+  {id:'f4',word:'CREPE',definition:'Fine galette cuite à la poêle'},
+  {id:'f5',word:'QUICHE',definition:'Tarte salée aux œufs et à la crème'},
+  {id:'f6',word:'RATATOUILLE',definition:'Plat provençal de légumes mijotés'},
+  {id:'f7',word:'BRIOCHE',definition:'Pain brioché léger et moelleux'},
+  {id:'f8',word:'MACARON',definition:'Petit gâteau coloré à la ganache'},
+  {id:'f9',word:'SORBET',definition:'Glace légère à base de fruits sans crème'},
+  {id:'f10',word:'TARTE',definition:'Fond de pâte garni de fruits ou de crème'},
+  {id:'f11',word:'SAUMON',definition:'Poisson rose aux chairs prisées'},
+  {id:'f12',word:'HOMARD',definition:'Crustacé luxueux aux grandes pinces bleues'},
+  {id:'f13',word:'TRUFFE',definition:'Champignon souterrain très précieux et parfumé'},
+  {id:'f14',word:'BASILIC',definition:'Herbe aromatique au parfum anisé'},
+  {id:'f15',word:'SAFRAN',definition:'Épice précieuse de couleur dorée et orangée'},
+  {id:'f16',word:'VANILLE',definition:'Épice parfumée issue d\'une orchidée tropicale'},
+  {id:'f17',word:'FRAMBOISE',definition:'Petit fruit rouge délicat des bois'},
+  {id:'f18',word:'CERISE',definition:'Petit fruit rouge à noyau du printemps'},
+  {id:'f19',word:'MIEL',definition:'Substance sucrée produite par les abeilles'},
+  {id:'f20',word:'CANNELLE',definition:'Épice douce issue de l\'écorce d\'un arbre'},
+  {id:'f21',word:'GINGEMBRE',definition:'Racine au goût piquant utilisée en cuisine'},
+  {id:'f22',word:'CAMEMBERT',definition:'Fromage normand à croûte blanche fleurie'},
+  {id:'f23',word:'ROQUEFORT',definition:'Fromage bleu affiné dans des caves naturelles'},
+  {id:'f24',word:'COURGETTE',definition:'Légume allongé de couleur verte'},
+  {id:'f25',word:'AUBERGINE',definition:'Légume violet allongé méditerranéen'},
+  {id:'f26',word:'ARTICHAUT',definition:'Légume à feuilles dont on mange le fond'},
+  {id:'f27',word:'ESCARGOT',definition:'Mollusque cuisinée au beurre en France'},
+  {id:'f28',word:'SOUPE',definition:'Préparation liquide chaude à base de légumes'},
+  {id:'f29',word:'GRATIN',definition:'Plat doré au four avec une croûte croustillante'},
+  {id:'f30',word:'FONDUE',definition:'Plat suisse de pain trempé dans le fromage fondu'},
+  {id:'f31',word:'PAELLA',definition:'Plat espagnol au riz safran avec viande et fruits de mer'},
+  {id:'f32',word:'RISOTTO',definition:'Plat italien de riz crémeux cuit au bouillon'},
+  {id:'f33',word:'LASAGNE',definition:'Pâtes plates alternées de sauce et de fromage gratinées'},
+  {id:'f34',word:'PIZZA',definition:'Galette napolitaine garnie de tomates et mozzarella'},
+  {id:'f35',word:'SUSHI',definition:'Bouchée japonaise de riz vinaigré et de poisson cru'},
+  {id:'f36',word:'GUACAMOLE',definition:'Sauce mexicaine crémeuse à base d\'avocat'},
+  {id:'f37',word:'GASPACHO',definition:'Soupe froide espagnole à base de tomates'},
+  {id:'f38',word:'POIVRE',definition:'Épice piquante en grains noirs ou blancs'},
+  {id:'f39',word:'THYM',definition:'Herbe aromatique méditerranéenne'},
+  {id:'f40',word:'CURCUMA',definition:'Épice jaune orangée aux vertus anti-inflammatoires'},
+],
+geographie:[
+  {id:'g1',word:'SAHARA',definition:'Plus grand désert chaud du monde en Afrique'},
+  {id:'g2',word:'HIMALAYA',definition:'Plus haute chaîne de montagnes du monde'},
+  {id:'g3',word:'SIBERIE',definition:'Vaste région froide de Russie asiatique'},
+  {id:'g4',word:'PATAGONIE',definition:'Région sauvage au bout de l\'Amérique du Sud'},
+  {id:'g5',word:'LAPONIE',definition:'Région arctique au nord de la Scandinavie'},
+  {id:'g6',word:'ISLANDE',definition:'Île volcanique dans l\'Atlantique Nord'},
+  {id:'g7',word:'NORMANDIE',definition:'Région côtière au nord de la France'},
+  {id:'g8',word:'BRETAGNE',definition:'Presqu\'île à l\'ouest de la France'},
+  {id:'g9',word:'ALSACE',definition:'Région française frontalière de l\'Allemagne'},
+  {id:'g10',word:'PROVENCE',definition:'Région ensoleillée du sud-est de la France'},
+  {id:'g11',word:'CORSE',definition:'Île montagneuse en Méditerranée française'},
+  {id:'g12',word:'AMAZONE',definition:'Plus long fleuve du monde en Amérique du Sud'},
+  {id:'g13',word:'DANUBE',definition:'Fleuve qui traverse dix pays européens'},
+  {id:'g14',word:'SEINE',definition:'Fleuve qui traverse Paris'},
+  {id:'g15',word:'RHONE',definition:'Grand fleuve du sud-est de la France'},
+  {id:'g16',word:'LOIRE',definition:'Plus long fleuve entièrement français'},
+  {id:'g17',word:'GARONNE',definition:'Fleuve du sud-ouest de la France'},
+  {id:'g18',word:'RHIN',definition:'Fleuve frontière entre France et Allemagne'},
+  {id:'g19',word:'PYRENEES',definition:'Chaîne de montagnes entre France et Espagne'},
+  {id:'g20',word:'ALPES',definition:'Plus haute chaîne de montagnes d\'Europe occidentale'},
+  {id:'g21',word:'VOSGES',definition:'Massif montagneux de l\'est de la France'},
+  {id:'g22',word:'STEPPE',definition:'Vaste plaine herbeuse d\'Asie centrale'},
+  {id:'g23',word:'PAMPA',definition:'Grande plaine herbeuse d\'Amérique du Sud'},
+  {id:'g24',word:'AMAZONIE',definition:'Immense forêt tropicale d\'Amérique du Sud'},
+  {id:'g25',word:'ANTARCTIQUE',definition:'Continent glacé du pôle Sud'},
+  {id:'g26',word:'ARCTIQUE',definition:'Région glacée du pôle Nord'},
+  {id:'g27',word:'ANDES',definition:'Longue chaîne montagneuse de l\'Amérique du Sud'},
+  {id:'g28',word:'ARCHIPEL',definition:'Groupe d\'îles proches situées dans une même mer'},
+  {id:'g29',word:'CONTINENT',definition:'Grande masse de terre entourée par les océans'},
+  {id:'g30',word:'GOLFE',definition:'Vaste enfoncement de la mer dans les terres'},
+  {id:'g31',word:'DETROIT',definition:'Bras de mer étroit entre deux terres'},
+  {id:'g32',word:'CANAL',definition:'Voie navigable artificielle'},
+  {id:'g33',word:'PENINSULE',definition:'Portion de terre entourée d\'eau de trois côtés'},
+  {id:'g34',word:'ISTHME',definition:'Étroit passage de terre entre deux mers'},
+  {id:'g35',word:'BAIE',definition:'Échancrure côtière formant un arc de cercle'},
+  {id:'g36',word:'ALTITUDE',definition:'Hauteur d\'un lieu par rapport au niveau de la mer'},
+  {id:'g37',word:'MAROC',definition:'Pays d\'Afrique du Nord bordant l\'Atlantique'},
+  {id:'g38',word:'MEXIQUE',definition:'Pays d\'Amérique centrale au vaste plateau central'},
+  {id:'g39',word:'BRESIL',definition:'Plus grand pays d\'Amérique du Sud'},
+  {id:'g40',word:'ESPAGNE',definition:'Pays de la péninsule Ibérique frontalier des Pyrénées'},
+]
+};
+
+// ===================== GENERATOR =====================
+function normalize(word){
+  return word.toUpperCase()
+    .normalize('NFD').replace(/[̀-ͯ]/g,'')
+    .replace(/[^A-Z]/g,'');
+}
+const key = (r,c) => `${r},${c}`;
+
+function canPlace(grid, word, row, col, dir){
+  const preR = dir==='H'?row:row-1, preC = dir==='H'?col-1:col;
+  if(grid.has(key(preR,preC))) return false;
+  const postR = dir==='H'?row:row+word.length, postC = dir==='H'?col+word.length:col;
+  if(grid.has(key(postR,postC))) return false;
+  let hasIntersection = false;
+  for(let i=0;i<word.length;i++){
+    const r = dir==='H'?row:row+i, c = dir==='H'?col+i:col;
+    if(grid.has(key(r,c))){
+      if(grid.get(key(r,c))!==word[i]) return false;
+      hasIntersection = true;
+    } else {
+      const p1r=dir==='H'?r-1:r, p1c=dir==='H'?c:c-1;
+      const p2r=dir==='H'?r+1:r, p2c=dir==='H'?c:c+1;
+      if(grid.has(key(p1r,p1c))||grid.has(key(p2r,p2c))) return false;
+    }
+  }
+  return hasIntersection;
+}
+
+function countIntersections(grid, word, row, col, dir){
+  let count=0;
+  for(let i=0;i<word.length;i++){
+    const r=dir==='H'?row:row+i, c=dir==='H'?col+i:col;
+    if(grid.get(key(r,c))===word[i]) count++;
+  }
+  return count;
+}
+
+function placeOnGrid(grid, word, row, col, dir){
+  for(let i=0;i<word.length;i++){
+    const r=dir==='H'?row:row+i, c=dir==='H'?col+i:col;
+    grid.set(key(r,c),word[i]);
+  }
+}
+
+function findCandidates(grid, placed, newWord){
+  const candidates=[];
+  for(const pw of placed){
+    const oppDir = pw.direction==='H'?'V':'H';
+    for(let ei=0;ei<pw.word.length;ei++){
+      for(let ni=0;ni<newWord.length;ni++){
+        if(pw.word[ei]!==newWord[ni]) continue;
+        let row,col;
+        if(pw.direction==='H'){ col=pw.col+ei; row=pw.row-ni; }
+        else { row=pw.row+ei; col=pw.col-ni; }
+        if(canPlace(grid,newWord,row,col,oppDir)){
+          const score=countIntersections(grid,newWord,row,col,oppDir);
+          candidates.push({row,col,dir:oppDir,score});
+        }
+      }
+    }
+  }
+  return candidates;
+}
+
+function generateCrossword(wordEntries, targetWords=15){
+  if(!wordEntries.length) return null;
+  const entries = wordEntries
+    .map(e=>({...e,upper:normalize(e.word)}))
+    .filter(e=>e.upper.length>=3)
+    .sort((a,b)=>b.upper.length-a.upper.length);
+
+  const grid = new Map();
+  const placed = [];
+
+  const first = entries[0];
+  placeOnGrid(grid, first.upper, 0, 0, 'H');
+  placed.push({id:first.id,word:first.upper,originalWord:first.word,definition:first.definition,row:0,col:0,direction:'H',number:0});
+  let hCount=1, vCount=0;
+
+  for(const entry of entries.slice(1)){
+    if(placed.length>=targetWords) break;
+    const candidates = findCandidates(grid,placed,entry.upper);
+    if(!candidates.length) continue;
+    let pool2 = candidates;
+    if(hCount>vCount){ const v=candidates.filter(c=>c.dir==='V'); if(v.length) pool2=v; }
+    else if(vCount>hCount){ const h=candidates.filter(c=>c.dir==='H'); if(h.length) pool2=h; }
+    pool2.sort((a,b)=>b.score!==a.score?b.score-a.score:(Math.abs(a.row)+Math.abs(a.col))-(Math.abs(b.row)+Math.abs(b.col)));
+    const best=pool2[0];
+    placeOnGrid(grid,entry.upper,best.row,best.col,best.dir);
+    placed.push({id:entry.id,word:entry.upper,originalWord:entry.word,definition:entry.definition,row:best.row,col:best.col,direction:best.dir,number:0});
+    if(best.dir==='H') hCount++; else vCount++;
+  }
+
+  if(placed.length<3) return null;
+
+  let minR=Infinity,minC=Infinity,maxR=-Infinity,maxC=-Infinity;
+  for(const [k] of grid){ const [r,c]=k.split(',').map(Number); if(r<minR)minR=r;if(c<minC)minC=c;if(r>maxR)maxR=r;if(c>maxC)maxC=c; }
+
+  const ng=new Map();
+  for(const [k,v] of grid){ const [r,c]=k.split(',').map(Number); ng.set(key(r-minR,c-minC),v); }
+  const np=placed.map(pw=>({...pw,row:pw.row-minR,col:pw.col-minC}));
+  const gridH=maxR-minR+1, gridW=maxC-minC+1;
+
+  const cells=Array.from({length:gridH},(_,r)=>Array.from({length:gridW},(_,c)=>({letter:ng.get(key(r,c))??null,wordIds:[]})));
+  for(const pw of np) for(let i=0;i<pw.word.length;i++){
+    const r=pw.direction==='H'?pw.row:pw.row+i, c=pw.direction==='H'?pw.col+i:pw.col;
+    cells[r][c].wordIds.push(pw.id);
+  }
+
+  const starts=[]; for(const pw of np) starts.push({r:pw.row,c:pw.col,wordId:pw.id});
+  starts.sort((a,b)=>a.r-b.r||a.c-b.c);
+  let clueNum=1; const numMap=new Map(); const assigned=new Set();
+  for(const {r,c,wordId} of starts){
+    const pk=`${r},${c}`;
+    if(!assigned.has(pk)){ assigned.add(pk); numMap.set(pk,clueNum); cells[r][c].clueNumber=clueNum; clueNum++; }
+    const pw=np.find(p=>p.id===wordId);
+    pw.number=numMap.get(pk);
+  }
+
+  return {placedWords:np,gridWidth:gridW,gridHeight:gridH,cells};
+}
+
+// ===================== GAME STATE =====================
+let crossword = null;
+let userInput = {};    // key(r,c) -> letter
+let activeWordId = null;
+let activeCellR = -1, activeCellC = -1;
+let activeDir = 'H';
+let currentTab = 'h';
+let checked = false;
+let currentTheme = 'animaux';
+
+// ===================== UI =====================
+function getPool(theme){
+  if(theme==='melange'){
+    const all=Object.values(DB).flat();
+    return [...all].sort(()=>Math.random()-0.5);
+  }
+  const base=[...(DB[theme]||[])];
+  return base.sort(()=>Math.random()-0.5);
+}
+
+function generate(){
+  const pool = getPool(currentTheme);
+  crossword = generateCrossword(pool, 15);
+  if(!crossword){ generate(); return; }
+  userInput={};
+  activeWordId=null; activeCellR=-1; activeCellC=-1;
+  checked=false;
+  renderGrid();
+  renderClues();
+  document.getElementById('clues-panel').style.display='';
+}
+
+function cellEl(r,c){ return document.querySelector(`[data-r="${r}"][data-c="${c}"]`); }
+
+function renderGrid(){
+  const g=document.getElementById('cw-grid');
+  g.innerHTML='';
+  g.style.gridTemplateColumns=`repeat(${crossword.gridWidth},38px)`;
+  g.style.gridTemplateRows=`repeat(${crossword.gridHeight},38px)`;
+  g.style.gap='2px';
+
+  for(let r=0;r<crossword.gridHeight;r++){
+    for(let c=0;c<crossword.gridWidth;c++){
+      const cell=crossword.cells[r][c];
+      const div=document.createElement('div');
+      div.className='cw-cell'+(cell.letter?'':' black');
+      div.dataset.r=r; div.dataset.c=c;
+      if(cell.letter){
+        if(cell.clueNumber){
+          const n=document.createElement('span');
+          n.className='cell-num'; n.textContent=cell.clueNumber;
+          div.appendChild(n);
+        }
+        const l=document.createElement('div');
+        l.className='cell-letter';
+        l.textContent=userInput[key(r,c)]||'';
+        div.appendChild(l);
+        div.addEventListener('click',()=>onCellClick(r,c));
+      }
+      g.appendChild(div);
+    }
+  }
+}
+
+function renderClues(){
+  const list=document.getElementById('clues-list');
+  list.innerHTML='';
+  const words=crossword.placedWords;
+  const filtered = currentTab==='h'
+    ? words.filter(w=>w.direction==='H').sort((a,b)=>a.number-b.number)
+    : words.filter(w=>w.direction==='V').sort((a,b)=>a.number-b.number);
+
+  for(const pw of filtered){
+    const li=document.createElement('li');
+    li.className='clue-item'+(pw.id===activeWordId?' active-clue':'');
+    li.dataset.wordId=pw.id;
+    li.innerHTML=`<span class="clue-num">${pw.number}</span><span class="clue-text">${pw.definition}</span>`;
+    li.addEventListener('click',()=>selectWord(pw.id, pw.direction));
+    list.appendChild(li);
+  }
+}
+
+function highlightCells(){
+  // Clear all highlights
+  document.querySelectorAll('.cw-cell:not(.black)').forEach(el=>{
+    el.classList.remove('word-hi','cell-hi');
+  });
+  if(!activeWordId) return;
+  const pw=crossword.placedWords.find(p=>p.id===activeWordId);
+  if(!pw) return;
+  for(let i=0;i<pw.word.length;i++){
+    const r=pw.direction==='H'?pw.row:pw.row+i;
+    const c=pw.direction==='H'?pw.col+i:pw.col;
+    const el=cellEl(r,c);
+    if(el) el.classList.add('word-hi');
+  }
+  const ac=cellEl(activeCellR,activeCellC);
+  if(ac){ ac.classList.remove('word-hi'); ac.classList.add('cell-hi'); }
+}
+
+function selectWord(wordId, dir){
+  const pw=crossword.placedWords.find(p=>p.id===wordId);
+  if(!pw) return;
+  activeWordId=wordId;
+  activeDir=dir;
+  activeCellR=pw.row; activeCellC=pw.col;
+  highlightCells();
+  highlightActiveClue();
+
+  // Switch tab to match direction
+  const needed=dir==='H'?'h':'v';
+  if(currentTab!==needed){ showTab(needed); } else { renderClues(); }
+}
+
+function onCellClick(r,c){
+  const cell=crossword.cells[r][c];
+  if(!cell.letter) return;
+
+  // If clicking same cell and it's an intersection → toggle direction
+  if(r===activeCellR && c===activeCellC && cell.wordIds.length>1){
+    const otherDir=activeDir==='H'?'V':'H';
+    const pw=crossword.placedWords.find(p=>cell.wordIds.includes(p.id)&&p.direction===otherDir);
+    if(pw){ selectWord(pw.id, otherDir); return; }
+  }
+
+  activeCellR=r; activeCellC=c;
+  // Find a word that passes through this cell, prefer current direction
+  const pwSame=crossword.placedWords.find(p=>cell.wordIds.includes(p.id)&&p.direction===activeDir);
+  const pw=pwSame||crossword.placedWords.find(p=>cell.wordIds.includes(p.id));
+  if(!pw) return;
+  activeWordId=pw.id;
+  activeDir=pw.direction;
+  highlightCells();
+
+  const needed=pw.direction==='H'?'h':'v';
+  if(currentTab!==needed){ showTab(needed); } else { highlightActiveClue(); }
+}
+
+function highlightActiveClue(){
+  document.querySelectorAll('.clue-item').forEach(li=>{
+    li.classList.toggle('active-clue', li.dataset.wordId===activeWordId);
+  });
+  // Scroll active clue into view
+  const active=document.querySelector('.clue-item.active-clue');
+  if(active) active.scrollIntoView({block:'nearest'});
+}
+
+function showTab(tab){
+  currentTab=tab;
+  document.getElementById('tab-h').classList.toggle('active',tab==='h');
+  document.getElementById('tab-v').classList.toggle('active',tab==='v');
+  renderClues();
+}
+
+function advanceCursor(){
+  if(!activeWordId) return;
+  const pw=crossword.placedWords.find(p=>p.id===activeWordId);
+  if(!pw) return;
+  const idx=pw.direction==='H'?activeCellC-pw.col:activeCellR-pw.row;
+  const next=idx+1;
+  if(next<pw.word.length){
+    activeCellR=pw.direction==='H'?pw.row:pw.row+next;
+    activeCellC=pw.direction==='H'?pw.col+next:pw.col;
+    highlightCells();
+  }
+}
+
+function retreatCursor(){
+  if(!activeWordId) return;
+  const pw=crossword.placedWords.find(p=>p.id===activeWordId);
+  if(!pw) return;
+  const idx=pw.direction==='H'?activeCellC-pw.col:activeCellR-pw.row;
+  const prev=idx-1;
+  if(prev>=0){
+    activeCellR=pw.direction==='H'?pw.row:pw.row+prev;
+    activeCellC=pw.direction==='H'?pw.col+prev:pw.col;
+    highlightCells();
+  }
+}
+
+document.addEventListener('keydown',e=>{
+  if(!crossword||activeCellR<0) return;
+  const k=e.key.toUpperCase();
+
+  if(k>='A'&&k<='Z'&&k.length===1){
+    e.preventDefault();
+    if(checked) clearCheck();
+    userInput[key(activeCellR,activeCellC)]=k;
+    const el=cellEl(activeCellR,activeCellC);
+    if(el){ const l=el.querySelector('.cell-letter'); if(l) l.textContent=k; }
+    advanceCursor();
+  } else if(e.key==='Backspace'){
+    e.preventDefault();
+    if(checked) clearCheck();
+    const k2=key(activeCellR,activeCellC);
+    if(userInput[k2]){
+      delete userInput[k2];
+      const el=cellEl(activeCellR,activeCellC);
+      if(el){ const l=el.querySelector('.cell-letter'); if(l) l.textContent=''; }
+    } else { retreatCursor(); }
+  } else if(e.key==='ArrowRight'||e.key==='ArrowLeft'||e.key==='ArrowDown'||e.key==='ArrowUp'){
+    e.preventDefault();
+  }
+});
+
+function checkAnswers(){
+  if(!crossword) return;
+  checked=true;
+  for(let r=0;r<crossword.gridHeight;r++){
+    for(let c=0;c<crossword.gridWidth;c++){
+      const cell=crossword.cells[r][c];
+      if(!cell.letter) continue;
+      const el=cellEl(r,c);
+      if(!el) continue;
+      el.classList.remove('correct','wrong','revealed');
+      const typed=userInput[key(r,c)]||'';
+      if(!typed) continue;
+      el.classList.add(typed===cell.letter?'correct':'wrong');
+    }
+  }
+}
+
+function clearCheck(){
+  checked=false;
+  document.querySelectorAll('.cw-cell').forEach(el=>el.classList.remove('correct','wrong','revealed'));
+}
+
+function revealAll(){
+  if(!crossword) return;
+  checked=false;
+  for(let r=0;r<crossword.gridHeight;r++){
+    for(let c=0;c<crossword.gridWidth;c++){
+      const cell=crossword.cells[r][c];
+      if(!cell.letter) continue;
+      userInput[key(r,c)]=cell.letter;
+      const el=cellEl(r,c);
+      if(!el) continue;
+      el.classList.remove('correct','wrong');
+      el.classList.add('revealed');
+      const l=el.querySelector('.cell-letter'); if(l) l.textContent=cell.letter;
+    }
+  }
+}
+
+function resetGrid(){
+  if(!crossword) return;
+  userInput={};
+  checked=false;
+  document.querySelectorAll('.cw-cell:not(.black)').forEach(el=>{
+    el.classList.remove('correct','wrong','revealed');
+    const l=el.querySelector('.cell-letter'); if(l) l.textContent='';
+  });
+}
+
+// Theme selector
+document.getElementById('theme-tabs').addEventListener('click',e=>{
+  const btn=e.target.closest('.theme-btn');
+  if(!btn) return;
+  document.querySelectorAll('.theme-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  currentTheme=btn.dataset.theme;
+});
+
+document.getElementById('btn-gen').addEventListener('click',generate);
+
+// Date
+const months=["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
+const now=new Date();
+document.getElementById('today').textContent=now.getDate()+' '+months[now.getMonth()]+' '+now.getFullYear();
+</script>
+</body>
+</html>
