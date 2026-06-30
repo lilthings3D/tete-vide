@@ -107,9 +107,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   #touch-left{ left:0; }
   #touch-right{ right:0; }
   .touch-btn{
-    width:84px;height:84px;
+    width:56px;height:120px;
     border:2px solid var(--ink);background:rgba(251,247,240,0.75);
-    font-size:2rem;color:var(--ink);
+    font-size:1.8rem;color:var(--ink);
     display:flex;align-items:center;justify-content:center;
     cursor:pointer;user-select:none;-webkit-user-select:none;
     touch-action:none;border-radius:8px;
@@ -120,7 +120,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   @media(pointer:coarse){
     .touch-side{ display:flex; }
-    canvas{ max-width:calc(100% - 200px)!important; }
+    canvas{ max-width:calc(100% - 136px)!important; }
   }
 </style>
 <!-- Google Analytics -->
@@ -234,12 +234,12 @@ resize();
 btnSolo.addEventListener('click', ()=>{
   mode = 'solo';
   btnSolo.classList.add('active'); btnDuo.classList.remove('active');
-  ctrlHint.innerHTML = 'Joueur : <strong>↑ ↓</strong> &nbsp;·&nbsp; IA joue à gauche';
+  ctrlHint.innerHTML = 'Joueur : <strong>↑ ↓</strong> &nbsp;·&nbsp; IA joue à gauche (clavier&nbsp;: <strong>A Q</strong>)';
 });
 btnDuo.addEventListener('click', ()=>{
   mode = 'duo';
   btnDuo.classList.add('active'); btnSolo.classList.remove('active');
-  ctrlHint.innerHTML = 'Gauche : <strong>W S</strong> &nbsp;·&nbsp; Droite : <strong>↑ ↓</strong>';
+  ctrlHint.innerHTML = 'Gauche : <strong>A Q</strong> &nbsp;·&nbsp; Droite : <strong>↑ ↓</strong>';
 });
 
 btnStart.addEventListener('click', startGame);
@@ -276,8 +276,8 @@ function aiMove(pad){
 function update(){
   // ---- PADDLES ----
   if(mode === 'duo'){
-    if(keys['w']||keys['W']) state.padL.y -= PAD_SPEED;
-    if(keys['s']||keys['S']) state.padL.y += PAD_SPEED;
+    if(keys['a']||keys['A']) state.padL.y -= PAD_SPEED;
+    if(keys['q']||keys['Q']) state.padL.y += PAD_SPEED;
   } else {
     aiMove(state.padL);
   }
@@ -406,8 +406,8 @@ function bindTouch(el, keyName){
   el.addEventListener('touchend',   e=>{ e.preventDefault(); keys[keyName]=false; }, {passive:false});
   el.addEventListener('touchcancel',e=>{ keys[keyName]=false; });
 }
-bindTouch(document.getElementById('tl-up'),   'w');
-bindTouch(document.getElementById('tl-down'),  's');
+bindTouch(document.getElementById('tl-up'),   'a');
+bindTouch(document.getElementById('tl-down'),  'q');
 bindTouch(document.getElementById('tr-up'),   'ArrowUp');
 bindTouch(document.getElementById('tr-down'), 'ArrowDown');
 

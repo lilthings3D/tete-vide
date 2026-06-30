@@ -65,41 +65,53 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* MOBILE CONTROLS */
   #mob-controls{display:none;position:fixed;inset:0;pointer-events:none;z-index:50;}
   @media(pointer:coarse){#mob-controls{display:block;}}
+
+  /* joysticks */
   .mob-joy{
-    position:absolute;bottom:24px;
-    width:150px;height:150px;border-radius:50%;
+    position:absolute;bottom:16px;
+    width:145px;height:145px;border-radius:50%;
     background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.3);
     pointer-events:auto;touch-action:none;
     display:flex;align-items:center;justify-content:center;
   }
-  #mob-joy-left{left:16px;}
-  #mob-joy-right{right:16px;}
+  #mob-joy-left{left:10px;}
+  #mob-joy-right{right:10px;}
   .mob-knob{
     width:56px;height:56px;border-radius:50%;
     background:rgba(255,255,255,.5);border:2px solid rgba(255,255,255,.8);
     pointer-events:none;transition:transform .05s;
   }
+
+  /* action buttons */
   .mob-btn{
     position:absolute;
     background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.35);
-    color:#e8f4e8;font-family:'Courier New',monospace;font-size:15px;letter-spacing:1px;
+    color:#e8f4e8;font-family:'Courier New',monospace;font-size:17px;letter-spacing:1px;
     padding:0;border-radius:50%;
-    width:70px;height:70px;
+    width:82px;height:82px;
     display:flex;align-items:center;justify-content:center;
     pointer-events:auto;touch-action:none;cursor:pointer;
   }
   .mob-btn:active{background:rgba(255,255,255,.35);}
+
+  /* fire — above left joystick */
   #mob-fire{
-    position:absolute;left:182px;bottom:28px;
-    width:90px;height:90px;border-radius:50%;
+    position:absolute;left:10px;bottom:176px;
+    width:110px;height:110px;border-radius:50%;
     background:rgba(212,60,60,.7);border:2px solid rgba(255,100,100,.8);
-    color:#fff;font-size:28px;
+    color:#fff;font-size:34px;
     display:flex;align-items:center;justify-content:center;
     pointer-events:auto;touch-action:none;cursor:pointer;
   }
   #mob-fire:active{background:rgba(212,60,60,1);}
-  #mob-action{left:182px;bottom:138px;}
-  #mob-weapon{left:264px;bottom:138px;}
+
+  /* left-side action cluster */
+  #mob-action{left:128px;bottom:176px;}   /* E  — next to fire */
+  #mob-cafe  {left:128px;bottom:270px;}   /* F  — above E     */
+
+  /* right-side action cluster */
+  #mob-reload{right:10px; bottom:176px;}  /* R  — above right joy */
+  #mob-weapon{right:102px;bottom:176px;}  /* ⚔  — next to reload  */
 </style>
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-TBJXMCC70W"></script>
@@ -119,11 +131,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <!-- Mobile controls -->
 <div id="mob-controls">
-  <div id="mob-joy-left" class="mob-joy"><div class="mob-knob"></div></div>
+  <div id="mob-joy-left"  class="mob-joy"><div class="mob-knob"></div></div>
   <button id="mob-fire">🔫</button>
-  <button id="mob-action" class="mob-btn" title="[E] Acheter">E</button>
-  <button id="mob-weapon" class="mob-btn" title="Changer d'arme">⚔</button>
+  <button id="mob-action" class="mob-btn" title="[E] Acheter souris">E</button>
+  <button id="mob-cafe"   class="mob-btn" title="[F] Café de soin">☕</button>
   <div id="mob-joy-right" class="mob-joy"><div class="mob-knob"></div></div>
+  <button id="mob-reload" class="mob-btn" title="[R] Recharger">R</button>
+  <button id="mob-weapon" class="mob-btn" title="Changer d'arme">⚔</button>
 </div>
 
 <div id="hud" class="hidden">
@@ -1248,6 +1262,16 @@ if (isMobile) {
   document.getElementById('mob-action').addEventListener('touchstart', e => {
     e.preventDefault();
     tryBuy('souris');
+  }, {passive:false});
+
+  document.getElementById('mob-cafe').addEventListener('touchstart', e => {
+    e.preventDefault();
+    tryBuy('cafe');
+  }, {passive:false});
+
+  document.getElementById('mob-reload').addEventListener('touchstart', e => {
+    e.preventDefault();
+    reload();
   }, {passive:false});
 
   document.getElementById('mob-weapon').addEventListener('touchstart', e => {
