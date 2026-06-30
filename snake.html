@@ -387,7 +387,8 @@ function loop(t){
   draw(); requestAnimationFrame(loop);
 }
 
-resetGame(); draw();
+resetGame();
+ctx.fillStyle = COLORS.bg; ctx.fillRect(0,0,W,H);
 fetchLeaderboard().then(e => { lastEntries=e; renderLeaderboard(e); });
 </script>
 </body>
