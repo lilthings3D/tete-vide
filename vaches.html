@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vaches — Tête vide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FBF7F0;--ink:#2e2218;--ink-soft:#5b4a39;
+    --orange:#D43030;--orange-deep:#B02020;
+    --rule:#e0cfb0;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{height:100%;overflow:hidden;}
+  body{
+    font-family:'Spectral',Georgia,serif;color:var(--ink);
+    background:url('fond.png') center/cover no-repeat fixed;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* HEADER */
+  header.site{
+    position:fixed;top:0;left:0;right:0;z-index:200;
+    background:rgba(251,247,240,0.88);
+    backdrop-filter:blur(6px);
+    border-bottom:1.5px solid rgba(46,34,24,0.18);
+    padding:0 28px;
+  }
+  .topbar{display:flex;justify-content:space-between;align-items:center;height:52px;}
+  .brand{font-family:'Fraunces',serif;font-weight:600;font-size:1.05rem;text-decoration:none;color:var(--ink);}
+  .brand b{color:var(--orange-deep);}
+  .sitenav{display:flex;gap:0;}
+  .sitenav-link{font-family:'Fraunces',serif;font-size:0.85rem;font-weight:500;color:var(--ink-soft);text-decoration:none;padding:0 10px 2px;border-bottom:2px solid transparent;transition:color .2s,border-color .2s;}
+  .sitenav-link:hover,.sitenav-link.current{color:var(--orange-deep);border-bottom-color:var(--orange-deep);}
+
+  /* STATS HUD */
+  #hud{
+    position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:200;
+    background:rgba(251,247,240,0.92);
+    backdrop-filter:blur(6px);
+    border:1.5px solid rgba(46,34,24,0.2);
+    border-radius:100px;
+    padding:10px 28px;
+    display:flex;align-items:center;gap:24px;
+    font-family:'Fraunces',serif;font-size:0.88rem;color:var(--ink-soft);
+    pointer-events:none;
+  }
+  #hud .hud-count{font-size:1.3rem;font-weight:600;color:var(--orange-deep);}
+  #hud .hud-label{font-style:italic;}
+
+  /* PASTURE */
+  #pasture{position:fixed;inset:0;top:52px;}
+
+  /* VACHE */
+  .cow{
+    position:absolute;
+    cursor:pointer;
+    filter:drop-shadow(0 6px 14px rgba(0,0,0,.22));
+    user-select:none;
+  }
+  .cow img{width:100%;height:auto;display:block;pointer-events:none;}
+  .cow.rtl img{transform:scaleX(-1);}
+
+  @keyframes move-ltr{from{left:-15vw}to{left:115vw}}
+  @keyframes move-rtl{from{left:115vw}to{left:-15vw}}
+  .cow.ltr{animation:move-ltr linear forwards;}
+  .cow.rtl{animation:move-rtl linear forwards;}
+
+  /* SPEECH BUBBLE */
+  .bubble{
+    position:absolute;
+    bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);
+    background:white;border:2px solid var(--ink);border-radius:12px;
+    padding:5px 12px;
+    font-family:'Fraunces',serif;font-weight:600;font-style:italic;font-size:1rem;
+    white-space:nowrap;pointer-events:none;
+    animation:bubble-pop .9s ease forwards;
+  }
+  .bubble::after{
+    content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%);
+    border:6px solid transparent;border-top-color:var(--ink);
+  }
+  .bubble::before{
+    content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%) translateY(-1px);
+    border:6px solid transparent;border-top-color:white;z-index:1;
+  }
+  @keyframes bubble-pop{
+    0%{opacity:0;transform:translateX(-50%) scale(0.7);}
+    15%{opacity:1;transform:translateX(-50%) scale(1.08);}
+    25%{transform:translateX(-50%) scale(1);}
+    70%{opacity:1;}
+    100%{opacity:0;transform:translateX(-50%) translateY(-20px);}
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="topbar">
+    <a class="brand" href="index.html">Tête <b>vide</b></a>
+    <nav class="sitenav">
+      <a class="sitenav-link" href="index.html">Réflexions</a>
+      <a class="sitenav-link" href="histoires.html">Histoires</a>
+      <a class="sitenav-link current" href="jeux.html">Jeux</a>
+      <a class="sitenav-link" href="plantes.html">Plantes</a>
+    </nav>
+  </div>
+</header>
+
+<main id="pasture"></main>
+
+<div id="hud">
+  <span class="hud-label">vaches cliquées</span>
+  <span class="hud-count" id="score">0</span>
+</div>
+
+<script>
+const pasture = document.getElementById('pasture');
+const scoreEl = document.getElementById('score');
+let score = 0;
+
+const SOUNDS = ["meuh1.mp3","meuh2.mp3","meuh3.mp3","meuh4.mp3"];
+const MEUHS  = ["Meuh !","MEUH !!","meuuh…","Mooooh","Meuh ?","MEEUH !","Meuh meuh","Muh."];
+
+function playMoo(){
+  const s = new Audio(SOUNDS[Math.floor(Math.random()*SOUNDS.length)]);
+  s.play().catch(()=>{});
+}
+
+function rand(a,b){return Math.random()*(b-a)+a;}
+
+function spawnCow(){
+  const ltr = Math.random() < 0.5;
+  const cow = document.createElement('div');
+  cow.className = 'cow ' + (ltr ? 'ltr' : 'rtl');
+
+  const top = rand(5, 78);
+  const w   = rand(8, 15);
+  const dur = rand(13, 26);
+
+  cow.style.cssText = `top:${top}vh;width:${w}vw;animation-duration:${dur}s;`;
+
+  const img = document.createElement('img');
+  img.src = 'vache.png';
+  img.alt = 'Vache';
+  cow.appendChild(img);
+
+  cow.addEventListener('click', e => {
+    e.stopPropagation();
+    playMoo();
+    score++;
+    scoreEl.textContent = score;
+
+    // Speech bubble
+    const old = cow.querySelector('.bubble');
+    if(old) old.remove();
+    const b = document.createElement('div');
+    b.className = 'bubble';
+    b.textContent = MEUHS[Math.floor(Math.random()*MEUHS.length)];
+    cow.appendChild(b);
+    b.addEventListener('animationend', ()=>b.remove());
+
+    // Petit sursaut
+    cow.style.filter = 'drop-shadow(0 6px 14px rgba(0,0,0,.22)) brightness(1.15)';
+    setTimeout(()=>{ cow.style.filter = 'drop-shadow(0 6px 14px rgba(0,0,0,.22))'; }, 150);
+  });
+
+  cow.addEventListener('animationend', ()=>cow.remove());
+  pasture.appendChild(cow);
+}
+
+// Démarrage
+for(let i=0;i<5;i++) setTimeout(spawnCow, i*600);
+setInterval(spawnCow, 2200);
+</script>
+</body>
+</html>

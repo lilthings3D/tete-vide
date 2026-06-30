@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pong — Tête vide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FBF7F0;--ink:#2e2218;--ink-soft:#5b4a39;
+    --orange:#D43030;--orange-deep:#B02020;
+    --rule:#e0cfb0;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{height:100%;overflow:hidden;}
+  body{
+    background:var(--cream);color:var(--ink);
+    font-family:'Spectral',Georgia,serif;
+    -webkit-font-smoothing:antialiased;
+    display:flex;flex-direction:column;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:0.4;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+    mix-blend-mode:multiply;
+  }
+
+  /* HEADER */
+  header.site{flex-shrink:0;padding:0 28px;border-bottom:1.5px solid var(--ink);z-index:10;}
+  .topbar{display:flex;justify-content:space-between;align-items:center;height:52px;}
+  .brand{font-family:'Fraunces',serif;font-weight:600;font-size:1.05rem;text-decoration:none;color:var(--ink);}
+  .brand b{color:var(--orange-deep);}
+  .sitenav{display:flex;gap:0;}
+  .sitenav-link{font-family:'Fraunces',serif;font-size:0.85rem;font-weight:500;color:var(--ink-soft);text-decoration:none;padding:0 10px 2px;border-bottom:2px solid transparent;transition:color .2s,border-color .2s;}
+  .sitenav-link:hover,.sitenav-link.current{color:var(--orange-deep);border-bottom-color:var(--orange-deep);}
+
+  /* GAME AREA */
+  #arena{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;z-index:2;}
+
+  canvas{
+    display:block;
+    border:2px solid var(--ink);
+    background:#1a1208;
+    max-width:100%;max-height:100%;
+  }
+
+  /* OVERLAY */
+  #overlay{
+    position:absolute;inset:0;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:16px;z-index:5;
+  }
+  #overlay.hidden{display:none;}
+  .ov-title{
+    font-family:'Fraunces',serif;font-weight:300;font-style:italic;
+    font-size:clamp(2rem,5vw,3.5rem);color:var(--ink);letter-spacing:-1px;
+  }
+  .ov-title b{font-style:normal;font-weight:600;color:var(--orange-deep);}
+  .ov-sub{font-style:italic;color:var(--ink-soft);font-size:1rem;text-align:center;max-width:360px;line-height:1.6;}
+  .ov-controls{
+    margin-top:8px;font-size:0.82rem;letter-spacing:1px;text-transform:uppercase;
+    color:var(--ink-soft);text-align:center;line-height:2;
+  }
+  .btn{
+    font-family:'Fraunces',serif;font-size:0.9rem;letter-spacing:1.5px;text-transform:uppercase;
+    color:var(--orange-deep);border:1.5px solid var(--orange-deep);
+    background:none;padding:11px 32px;cursor:pointer;
+    transition:background .2s,color .2s;margin-top:8px;
+  }
+  .btn:hover{background:var(--orange-deep);color:var(--cream);}
+
+  /* MODE SELECTOR */
+  .mode-row{display:flex;gap:12px;margin-top:4px;}
+  .mode-btn{
+    font-family:'Fraunces',serif;font-size:0.82rem;letter-spacing:1px;text-transform:uppercase;
+    color:var(--ink-soft);border:1.5px solid var(--rule);
+    background:none;padding:8px 22px;cursor:pointer;transition:all .2s;
+  }
+  .mode-btn.active,.mode-btn:hover{border-color:var(--orange-deep);color:var(--orange-deep);}
+
+  #winner-msg{
+    font-family:'Fraunces',serif;font-weight:600;font-style:italic;
+    font-size:clamp(1.4rem,4vw,2.2rem);color:var(--orange-deep);text-align:center;
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="topbar">
+    <a class="brand" href="index.html">Tête <b>vide</b></a>
+    <nav class="sitenav">
+      <a class="sitenav-link" href="index.html">Réflexions</a>
+      <a class="sitenav-link" href="histoires.html">Histoires</a>
+      <a class="sitenav-link current" href="jeux.html">Jeux</a>
+      <a class="sitenav-link" href="plantes.html">Plantes</a>
+    </nav>
+  </div>
+</header>
+
+<div id="arena">
+  <canvas id="c"></canvas>
+
+  <div id="overlay">
+    <div class="ov-title">Pong <b>·</b></div>
+    <p class="ov-sub">La version minimaliste. Pas de fioritures.</p>
+
+    <div class="mode-row">
+      <button class="mode-btn active" id="btn-solo">Solo (vs IA)</button>
+      <button class="mode-btn" id="btn-duo">2 Joueurs</button>
+    </div>
+
+    <div class="ov-controls" id="ctrl-hint">
+      Joueur : <strong>↑ ↓</strong> &nbsp;·&nbsp; IA joue à gauche
+    </div>
+
+    <button class="btn" id="btn-start">Jouer →</button>
+  </div>
+</div>
+
+<script>
+const canvas = document.getElementById('c');
+const ctx    = canvas.getContext('2d');
+const overlay = document.getElementById('overlay');
+const btnStart = document.getElementById('btn-start');
+const btnSolo  = document.getElementById('btn-solo');
+const btnDuo   = document.getElementById('btn-duo');
+const ctrlHint = document.getElementById('ctrl-hint');
+
+// --- CONFIG ---
+const W = 800, H = 500;
+const PAD_W = 12, PAD_H = 80, PAD_SPEED = 6;
+const BALL_SIZE = 10;
+const WIN_SCORE = 7;
+const COLORS = {
+  bg: '#1a1208',
+  fg: '#f5eddc',
+  accent: '#D43030',
+  mid: 'rgba(245,237,220,0.12)',
+};
+
+canvas.width  = W;
+canvas.height = H;
+
+let mode = 'solo'; // 'solo' | 'duo'
+let running = false;
+let winner = null;
+
+const state = {
+  padL: { y: H/2 - PAD_H/2, dy: 0 },
+  padR: { y: H/2 - PAD_H/2, dy: 0 },
+  ball: { x: W/2, y: H/2, dx: 0, dy: 0 },
+  score: { l: 0, r: 0 },
+};
+
+const keys = {};
+document.addEventListener('keydown', e => { keys[e.key] = true; });
+document.addEventListener('keyup',   e => { keys[e.key] = false; });
+
+// Resize canvas to fit arena
+function resize(){
+  const arena = document.getElementById('arena');
+  const maxW = arena.clientWidth  - 4;
+  const maxH = arena.clientHeight - 4;
+  const scale = Math.min(maxW/W, maxH/H, 1);
+  canvas.style.width  = (W * scale) + 'px';
+  canvas.style.height = (H * scale) + 'px';
+}
+window.addEventListener('resize', resize);
+resize();
+
+// Mode buttons
+btnSolo.addEventListener('click', ()=>{
+  mode = 'solo';
+  btnSolo.classList.add('active'); btnDuo.classList.remove('active');
+  ctrlHint.innerHTML = 'Joueur : <strong>↑ ↓</strong> &nbsp;·&nbsp; IA joue à gauche';
+});
+btnDuo.addEventListener('click', ()=>{
+  mode = 'duo';
+  btnDuo.classList.add('active'); btnSolo.classList.remove('active');
+  ctrlHint.innerHTML = 'Gauche : <strong>W S</strong> &nbsp;·&nbsp; Droite : <strong>↑ ↓</strong>';
+});
+
+btnStart.addEventListener('click', startGame);
+
+function resetBall(dir=1){
+  state.ball.x = W/2; state.ball.y = H/2;
+  const angle = (Math.random()*0.6 - 0.3);
+  const spd = 5;
+  state.ball.dx = dir * spd * Math.cos(angle);
+  state.ball.dy = spd * Math.sin(angle);
+}
+
+function startGame(){
+  state.padL.y = H/2 - PAD_H/2;
+  state.padR.y = H/2 - PAD_H/2;
+  state.score.l = 0; state.score.r = 0;
+  winner = null;
+  resetBall(Math.random()<0.5?1:-1);
+  overlay.classList.add('hidden');
+  running = true;
+  requestAnimationFrame(loop);
+}
+
+function clamp(v, lo, hi){ return Math.max(lo, Math.min(hi, v)); }
+
+function aiMove(pad){
+  const target = state.ball.y - PAD_H/2;
+  const diff   = target - pad.y;
+  const speed  = Math.min(Math.abs(diff), PAD_SPEED * 0.82);
+  pad.y += Math.sign(diff) * speed;
+  pad.y  = clamp(pad.y, 0, H - PAD_H);
+}
+
+function update(){
+  // ---- PADDLES ----
+  if(mode === 'duo'){
+    if(keys['w']||keys['W']) state.padL.y -= PAD_SPEED;
+    if(keys['s']||keys['S']) state.padL.y += PAD_SPEED;
+  } else {
+    aiMove(state.padL);
+  }
+  if(keys['ArrowUp'])   state.padR.y -= PAD_SPEED;
+  if(keys['ArrowDown']) state.padR.y += PAD_SPEED;
+
+  state.padL.y = clamp(state.padL.y, 0, H-PAD_H);
+  state.padR.y = clamp(state.padR.y, 0, H-PAD_H);
+
+  // ---- BALL ----
+  state.ball.x += state.ball.dx;
+  state.ball.y += state.ball.dy;
+
+  // Top/bottom wall
+  if(state.ball.y - BALL_SIZE/2 <= 0){
+    state.ball.y = BALL_SIZE/2;
+    state.ball.dy *= -1;
+  }
+  if(state.ball.y + BALL_SIZE/2 >= H){
+    state.ball.y = H - BALL_SIZE/2;
+    state.ball.dy *= -1;
+  }
+
+  // Left paddle
+  const lx = PAD_W + 10;
+  if(state.ball.dx < 0 &&
+     state.ball.x - BALL_SIZE/2 <= lx + PAD_W &&
+     state.ball.x + BALL_SIZE/2 >= lx &&
+     state.ball.y + BALL_SIZE/2 >= state.padL.y &&
+     state.ball.y - BALL_SIZE/2 <= state.padL.y + PAD_H){
+    state.ball.x = lx + PAD_W + BALL_SIZE/2;
+    const rel = (state.ball.y - (state.padL.y + PAD_H/2)) / (PAD_H/2);
+    const spd = Math.hypot(state.ball.dx, state.ball.dy) * 1.03;
+    const angle = rel * 1.1;
+    state.ball.dx =  Math.abs(spd * Math.cos(angle));
+    state.ball.dy =  spd * Math.sin(angle);
+  }
+
+  // Right paddle
+  const rx = W - PAD_W - 10;
+  if(state.ball.dx > 0 &&
+     state.ball.x + BALL_SIZE/2 >= rx &&
+     state.ball.x - BALL_SIZE/2 <= rx + PAD_W &&
+     state.ball.y + BALL_SIZE/2 >= state.padR.y &&
+     state.ball.y - BALL_SIZE/2 <= state.padR.y + PAD_H){
+    state.ball.x = rx - BALL_SIZE/2;
+    const rel = (state.ball.y - (state.padR.y + PAD_H/2)) / (PAD_H/2);
+    const spd = Math.hypot(state.ball.dx, state.ball.dy) * 1.03;
+    const angle = rel * 1.1;
+    state.ball.dx = -Math.abs(spd * Math.cos(angle));
+    state.ball.dy =  spd * Math.sin(angle);
+  }
+
+  // Score
+  if(state.ball.x < 0){ state.score.r++; checkWin(); resetBall(1);  }
+  if(state.ball.x > W){ state.score.l++; checkWin(); resetBall(-1); }
+}
+
+function checkWin(){
+  if(state.score.l >= WIN_SCORE){ winner='l'; running=false; showOver(); }
+  if(state.score.r >= WIN_SCORE){ winner='r'; running=false; showOver(); }
+}
+
+function showOver(){
+  overlay.classList.remove('hidden');
+  const t = overlay.querySelector('.ov-title');
+  const s = overlay.querySelector('.ov-sub');
+  const w = overlay.querySelector('#winner-msg') || document.createElement('div');
+  w.id = 'winner-msg';
+
+  const who = (winner==='l')
+    ? (mode==='duo' ? 'Joueur gauche' : 'L\'IA')
+    : (mode==='duo' ? 'Joueur droite' : 'Toi');
+  w.textContent = who + ' gagne !';
+
+  if(!overlay.querySelector('#winner-msg')) overlay.insertBefore(w, t.nextSibling);
+  t.innerHTML = 'Fin <b>·</b>';
+  s.textContent = state.score.l + ' — ' + state.score.r;
+  btnStart.textContent = 'Rejouer →';
+}
+
+function draw(){
+  ctx.fillStyle = COLORS.bg;
+  ctx.fillRect(0, 0, W, H);
+
+  // Centre dashed line
+  ctx.setLineDash([8,10]);
+  ctx.strokeStyle = COLORS.mid;
+  ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(W/2, 0); ctx.lineTo(W/2, H); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Score
+  ctx.fillStyle = COLORS.fg;
+  ctx.font = `300 ${H*0.12}px 'Fraunces', serif`;
+  ctx.textAlign = 'right';
+  ctx.fillText(state.score.l, W/2 - 28, H*0.15);
+  ctx.textAlign = 'left';
+  ctx.fillText(state.score.r, W/2 + 28, H*0.15);
+
+  // Paddles
+  ctx.fillStyle = COLORS.fg;
+  ctx.fillRect(PAD_W+10, state.padL.y, PAD_W, PAD_H);
+  ctx.fillRect(W-PAD_W*2-10, state.padR.y, PAD_W, PAD_H);
+
+  // Ball
+  ctx.fillStyle = COLORS.accent;
+  ctx.beginPath();
+  ctx.arc(state.ball.x, state.ball.y, BALL_SIZE/2, 0, Math.PI*2);
+  ctx.fill();
+}
+
+function loop(){
+  if(!running) return;
+  update();
+  draw();
+  requestAnimationFrame(loop);
+}
+
+// Draw static preview
+draw();
+</script>
+</body>
+</html>
