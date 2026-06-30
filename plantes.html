@@ -42,10 +42,10 @@
   .sec-label::after{content:"";flex:1;height:1px;background:var(--rule-strong);}
 
   /* CALENDRIER */
-  .cal-months{display:grid;grid-template-columns:repeat(6,1fr);border:1.5px solid var(--ink);}
+  .cal-months{display:grid;grid-template-columns:repeat(12,1fr);border:1.5px solid var(--ink);}
   .cal-btn{padding:16px 4px;font-family:'Fraunces',serif;font-size:0.72rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-soft);cursor:pointer;text-align:center;border:none;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);background:none;transition:background .2s,color .2s;}
-  .cal-btn:nth-child(6),.cal-btn:nth-child(12){border-right:none;}
-  .cal-btn:nth-child(7),.cal-btn:nth-child(8),.cal-btn:nth-child(9),.cal-btn:nth-child(10),.cal-btn:nth-child(11),.cal-btn:nth-child(12){border-bottom:none;}
+  .cal-btn:nth-child(12){border-right:none;}
+  .cal-btn{border-bottom:none;}
   .cal-btn:hover{background:var(--green-pale);color:var(--green);}
   .cal-btn.active{background:var(--green-pale);color:var(--green);}
   .cal-btn.now{font-weight:700;color:var(--ink);}
