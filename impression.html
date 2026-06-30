@@ -189,17 +189,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <textarea id="fDesc" placeholder="Dimensions max, finition voulue, délai si urgent…"></textarea>
         </div>
 
-        <div class="field">
-          <label>Budget approximatif</label>
-          <select id="fBudget">
-            <option value="">Je ne sais pas encore</option>
-            <option>Moins de 20 €</option>
-            <option>20 € – 50 €</option>
-            <option>50 € – 100 €</option>
-            <option>Plus de 100 €</option>
-          </select>
-        </div>
-
         <button type="button" class="submit-btn" id="sendBtn" onclick="submitForm()">Envoyer ma demande →</button>
 
         <div class="form-reassurance">
@@ -270,7 +259,7 @@ function submitForm() {
     email:       email,
     telephone:   document.getElementById('fTel').value.trim() || '—',
     description: desc,
-    budget:      document.getElementById('fBudget').value || 'Non précisé',
+
     extra:       extra,
   })
   .then(() => {
