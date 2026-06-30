@@ -14,6 +14,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <style>
 :root{
   --cream:#FBF7F0;--paper:#fbf6ec;
@@ -84,6 +85,13 @@ form{display:flex;flex-direction:column;gap:20px;}
 
 .form-reassurance{display:flex;gap:28px;margin-top:8px;flex-wrap:wrap;}
 .reassurance-item{font-size:.8rem;color:var(--ink-soft);font-style:italic;display:flex;align-items:center;gap:6px;}
+
+.success{display:none;flex-direction:column;align-items:center;text-align:center;gap:16px;padding:60px 0 80px;}
+.success.on{display:flex;}
+.success h2{font-family:'Fraunces',serif;font-weight:300;font-style:italic;font-size:2rem;}
+.success h2 b{font-style:normal;color:var(--orange-deep);}
+.success p{font-size:.95rem;color:var(--ink-soft);}
+.success a{font-family:'Fraunces',serif;font-size:.8rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange-deep);text-decoration:none;margin-top:8px;border-bottom:1px solid var(--rule);padding-bottom:2px;}
 </style>
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-TBJXMCC70W"></script>
@@ -133,70 +141,115 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </div>
 
-  <div class="form-section">
-    <form action="https://formsubmit.co/lilthings.3d@outlook.com" method="POST">
-      <input type="hidden" name="_subject" value="Nouvelle commande buste 3D">
-      <input type="hidden" name="_next" value="https://tete-vide.fr/lilthings3d.html">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_template" value="table">
-      <div class="form-row">
-        <div class="field">
-          <label>Prénom *</label>
-          <input type="text" name="prenom" required placeholder="Ton prénom">
+  <div id="formWrap">
+    <div class="form-section">
+      <form id="busteForm" onsubmit="return false;">
+        <div class="form-row">
+          <div class="field">
+            <label>Prénom *</label>
+            <input type="text" id="fPrenom" placeholder="Ton prénom">
+          </div>
+          <div class="field">
+            <label>Nom</label>
+            <input type="text" id="fNom" placeholder="Ton nom">
+          </div>
         </div>
-        <div class="field">
-          <label>Nom</label>
-          <input type="text" name="nom" placeholder="Ton nom">
+        <div class="form-row">
+          <div class="field">
+            <label>Email *</label>
+            <input type="email" id="fEmail" placeholder="ton@email.com">
+          </div>
+          <div class="field">
+            <label>Téléphone <span style="font-weight:300">(facultatif)</span></label>
+            <input type="tel" id="fTel" placeholder="06 …">
+          </div>
         </div>
-      </div>
-      <div class="form-row">
-        <div class="field">
-          <label>Email *</label>
-          <input type="email" name="email" required placeholder="ton@email.com">
-        </div>
-        <div class="field">
-          <label>Téléphone <span style="font-weight:300">(facultatif)</span></label>
-          <input type="tel" name="tel" placeholder="06 …">
-        </div>
-      </div>
 
-      <div class="field">
-        <label>Pour qui est ce buste ?</label>
-        <input type="text" name="pour_qui" placeholder="Moi, un cadeau pour quelqu'un…">
-      </div>
-
-      <div class="form-row">
         <div class="field">
-          <label>Taille souhaitée</label>
-          <select name="taille">
-            <option value="">— Je ne sais pas —</option>
-            <option>Petite (~10 cm)</option>
-            <option>Moyenne (~15 cm)</option>
-            <option>Grande (~20 cm)</option>
-            <option>Sur mesure</option>
-          </select>
+          <label>Pour qui est ce buste ?</label>
+          <input type="text" id="fPourQui" placeholder="Moi, un cadeau pour quelqu'un…">
         </div>
+
+        <div class="form-row">
+          <div class="field">
+            <label>Taille souhaitée</label>
+            <select id="fTaille">
+              <option value="">— Je ne sais pas —</option>
+              <option>Petite (~10 cm)</option>
+              <option>Moyenne (~15 cm)</option>
+              <option>Grande (~20 cm)</option>
+              <option>Sur mesure</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Couleur souhaitée</label>
+            <input type="text" id="fCouleur" placeholder="Blanc, noir, bronze…">
+          </div>
+        </div>
+
         <div class="field">
-          <label>Couleur souhaitée</label>
-          <input type="text" name="couleur" placeholder="Blanc, noir, bronze…">
+          <label>Infos complémentaires</label>
+          <textarea id="fInfos" placeholder="Délai souhaité, occasion particulière, demandes spéciales…"></textarea>
         </div>
-      </div>
 
-      <div class="field">
-        <label>Infos complémentaires</label>
-        <textarea name="infos" placeholder="Délai souhaité, occasion particulière, demandes spéciales…"></textarea>
-      </div>
+        <button type="button" class="submit-btn" id="sendBtn" onclick="submitForm()">Envoyer ma demande →</button>
 
-      <button type="submit" class="submit-btn">Envoyer ma demande →</button>
+        <div class="form-reassurance">
+          <span class="reassurance-item">⏱ Réponse sous 24–48h</span>
+          <span class="reassurance-item">🔒 Paiement PayPal sécurisé</span>
+          <span class="reassurance-item">✦ Aucun engagement</span>
+        </div>
+      </form>
+    </div>
+  </div>
 
-      <div class="form-reassurance">
-        <span class="reassurance-item">⏱ Réponse sous 24–48h</span>
-        <span class="reassurance-item">🔒 Paiement PayPal sécurisé</span>
-        <span class="reassurance-item">✦ Aucun engagement</span>
-      </div>
-    </form>
+  <div class="success" id="successMsg">
+    <h2>Demande <b>envoyée !</b></h2>
+    <p>Je reviens vers toi à <strong id="successEmail"></strong> sous 24–48h.</p>
+    <a href="lilthings3d.html">← Retour à lil things 3D</a>
   </div>
 </div>
 
+<script>
+emailjs.init('JeHX5X-N1ZCTr1GvC');
+
+function submitForm() {
+  const prenom = document.getElementById('fPrenom').value.trim();
+  const email  = document.getElementById('fEmail').value.trim();
+
+  if (!prenom) { alert('Merci d\'indiquer ton prénom.'); return; }
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { alert('Adresse email invalide.'); return; }
+
+  const extra = [
+    document.getElementById('fPourQui').value.trim() && 'Pour : ' + document.getElementById('fPourQui').value.trim(),
+    document.getElementById('fTaille').value && 'Taille : ' + document.getElementById('fTaille').value,
+    document.getElementById('fCouleur').value.trim() && 'Couleur : ' + document.getElementById('fCouleur').value.trim(),
+  ].filter(Boolean).join(' | ') || '—';
+
+  const btn = document.getElementById('sendBtn');
+  btn.textContent = 'Envoi en cours…';
+  btn.disabled = true;
+
+  emailjs.send('service_msrlt4o', 'template_uayllkc', {
+    service:     'Buste 3D',
+    prenom:      prenom,
+    nom:         document.getElementById('fNom').value.trim() || '—',
+    email:       email,
+    telephone:   document.getElementById('fTel').value.trim() || '—',
+    description: document.getElementById('fInfos').value.trim() || '—',
+    extra:       extra,
+  })
+  .then(() => {
+    document.getElementById('successEmail').textContent = email;
+    document.getElementById('formWrap').style.display = 'none';
+    document.getElementById('successMsg').classList.add('on');
+  })
+  .catch(() => {
+    btn.textContent = 'Envoyer ma demande →';
+    btn.disabled = false;
+    alert('Erreur lors de l\'envoi 😕\nÉcris-moi directement à lilthings.3d@outlook.com');
+  });
+}
+</script>
 </body>
 </html>
