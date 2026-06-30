@@ -69,7 +69,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* joysticks */
   .mob-joy{
     position:absolute;bottom:16px;
-    width:155px;height:155px;border-radius:50%;
+    width:200px;height:200px;border-radius:50%;
     background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.3);
     pointer-events:auto;touch-action:none;
     display:flex;align-items:center;justify-content:center;
@@ -77,41 +77,44 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   #mob-joy-left{left:10px;}
   #mob-joy-right{right:10px;}
   .mob-knob{
-    width:62px;height:62px;border-radius:50%;
+    width:80px;height:80px;border-radius:50%;
     background:rgba(255,255,255,.5);border:2px solid rgba(255,255,255,.8);
     pointer-events:none;transition:transform .05s;
   }
 
-  /* action buttons */
-  .mob-btn{
-    position:absolute;
-    background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.35);
-    color:#e8f4e8;font-family:'Courier New',monospace;font-size:19px;letter-spacing:1px;
-    padding:0;border-radius:50%;
-    width:94px;height:94px;
-    display:flex;align-items:center;justify-content:center;
-    pointer-events:auto;touch-action:none;cursor:pointer;
-  }
-  .mob-btn:active{background:rgba(255,255,255,.35);}
-
   /* fire — à gauche, au-dessus du joystick gauche */
   #mob-fire{
-    position:absolute;left:10px;bottom:188px;
-    width:122px;height:122px;border-radius:50%;
+    position:absolute;left:10px;bottom:228px;
+    width:130px;height:130px;border-radius:50%;
     background:rgba(212,60,60,.7);border:2px solid rgba(255,100,100,.8);
-    color:#fff;font-size:38px;
+    color:#fff;font-size:42px;
     display:flex;align-items:center;justify-content:center;
     pointer-events:auto;touch-action:none;cursor:pointer;
   }
   #mob-fire:active{background:rgba(212,60,60,1);}
 
-  /* gauche : E sous le feu, F au-dessus */
-  #mob-action{left:144px;bottom:188px;}   /* E — à droite du tir  */
-  #mob-cafe  {left:144px;bottom:294px;}   /* ☕ — au-dessus du E   */
+  /* bouton action unique (⚔ ☕ 🏃) — à droite du feu */
+  #mob-action{
+    position:absolute;left:152px;bottom:228px;
+    width:130px;height:130px;border-radius:50%;
+    background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.35);
+    color:#e8f4e8;font-size:14px;line-height:1.3;text-align:center;
+    display:flex;align-items:center;justify-content:center;
+    pointer-events:auto;touch-action:none;cursor:pointer;
+    flex-direction:column;
+  }
+  #mob-action:active{background:rgba(255,255,255,.35);}
 
-  /* droite : R et ⚔ empilés au-dessus du joystick droit */
-  #mob-reload{right:10px;bottom:188px;}   /* R  */
-  #mob-weapon{right:10px;bottom:294px;}   /* ⚔  */
+  /* reload — à droite, au-dessus joystick droit */
+  #mob-reload{
+    position:absolute;right:10px;bottom:228px;
+    width:130px;height:130px;border-radius:50%;
+    background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.35);
+    color:#e8f4e8;font-size:28px;
+    display:flex;align-items:center;justify-content:center;
+    pointer-events:auto;touch-action:none;cursor:pointer;
+  }
+  #mob-reload:active{background:rgba(255,255,255,.35);}
 </style>
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-TBJXMCC70W"></script>
@@ -126,18 +129,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TRQZWVGP"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
-<a id="back-btn" href="jeux.html">← Minis jeux</a>
+<a id="back-btn" href="lilthings3d.html">← lilthings <b>3D</b></a>
 <div id="game"></div>
 
 <!-- Mobile controls -->
 <div id="mob-controls">
   <div id="mob-joy-left"  class="mob-joy"><div class="mob-knob"></div></div>
   <button id="mob-fire">🔫</button>
-  <button id="mob-action" class="mob-btn" title="[E] Acheter souris">E</button>
-  <button id="mob-cafe"   class="mob-btn" title="[F] Café de soin">☕</button>
+  <button id="mob-action" title="Acheter arme · Café · Courir"><span style="font-size:20px">⚔ ☕ 🏃</span><span style="font-size:11px;opacity:.8">ACTION</span></button>
   <div id="mob-joy-right" class="mob-joy"><div class="mob-knob"></div></div>
-  <button id="mob-reload" class="mob-btn" title="[R] Recharger">R</button>
-  <button id="mob-weapon" class="mob-btn" title="Changer d'arme">⚔</button>
+  <button id="mob-reload">R</button>
 </div>
 
 <div id="hud" class="hidden">
@@ -1182,6 +1183,7 @@ document.addEventListener('keydown', e => {
   if (e.code === 'KeyR') reload();
   if (e.code === 'Digit1') setWeapon('clavier');
   if (e.code === 'Digit2') setWeapon('souris');
+  if ((e.code === 'ShiftLeft' || e.code === 'ShiftRight') && !e.repeat && owned.length >= 2) setWeapon(current === 'clavier' ? 'souris' : 'clavier');
   if (e.code === 'KeyE') tryBuy('souris');
   if (e.code === 'KeyF') tryBuy('cafe');
 });
@@ -1259,25 +1261,20 @@ if (isMobile) {
   mobFire.addEventListener('touchend',   e => { e.preventDefault(); mouseDown = false; }, {passive:false});
   mobFire.addEventListener('touchcancel', () => { mouseDown = false; });
 
-  document.getElementById('mob-action').addEventListener('touchstart', e => {
+  const mobAction = document.getElementById('mob-action');
+  mobAction.addEventListener('touchstart', e => {
     e.preventDefault();
+    if (!running || dead) return;
     tryBuy('souris');
-  }, {passive:false});
-
-  document.getElementById('mob-cafe').addEventListener('touchstart', e => {
-    e.preventDefault();
     tryBuy('cafe');
+    keys['ShiftLeft'] = true;
   }, {passive:false});
+  mobAction.addEventListener('touchend',    e => { e.preventDefault(); keys['ShiftLeft'] = false; }, {passive:false});
+  mobAction.addEventListener('touchcancel', () => { keys['ShiftLeft'] = false; });
 
   document.getElementById('mob-reload').addEventListener('touchstart', e => {
     e.preventDefault();
     reload();
-  }, {passive:false});
-
-  document.getElementById('mob-weapon').addEventListener('touchstart', e => {
-    e.preventDefault();
-    if (!running || dead || owned.length < 2) return;
-    setWeapon(current === 'clavier' ? 'souris' : 'clavier');
   }, {passive:false});
 }
 
