@@ -34,6 +34,31 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   #shopPrompt { position:absolute; top:68%; left:50%; transform:translateX(-50%); font-size:15px; color:#9fffc0; text-align:center; line-height:1.8; display:none; background:rgba(8,20,12,.75); padding:10px 22px; border:1px solid rgba(120,255,170,.4); }
   #vignette { position:absolute; inset:0; box-shadow:inset 0 0 180px rgba(180,0,0,0); transition:box-shadow .25s; }
 
+  /* ---------- SHOP BUY BUTTONS (mobile) ---------- */
+  #shopBuyBtns { position:absolute; top:78%; left:50%; transform:translateX(-50%); display:none; flex-direction:column; gap:10px; pointer-events:all; }
+  .shop-buy-btn {
+    font-family:'Courier New',monospace; font-size:15px; letter-spacing:.5px;
+    color:#9fffc0; background:rgba(8,20,12,.85); border:1.5px solid rgba(120,255,170,.6);
+    padding:12px 22px; cursor:pointer; text-align:center; white-space:nowrap;
+  }
+  .shop-buy-btn:active{ background:rgba(120,255,170,.25); }
+  .shop-buy-btn:disabled{ opacity:.45; }
+
+  /* ---------- MOBILE TEXT SCALE ---------- */
+  @media(pointer:coarse){
+    #health { font-size:18px; }
+    #healthbar { width:170px; height:18px; }
+    #ammo { font-size:38px; }
+    #ammo small { font-size:15px; }
+    #weaponName { font-size:18px; }
+    #round { font-size:50px; }
+    #round small { font-size:16px; }
+    #score { font-size:28px; }
+    #zone { font-size:15px; }
+    #msg { font-size:22px; max-width:92%; }
+    #shopPrompt { font-size:19px; padding:14px 26px; }
+  }
+
   /* ---------- BACK BUTTON ---------- */
   #back-btn { position:fixed; top:16px; left:16px; z-index:9999; pointer-events:all; background:rgba(10,12,14,.75); color:rgba(232,244,232,.75); border:1px solid rgba(232,244,232,.25); font-family:'Courier New',monospace; font-size:12px; letter-spacing:1px; padding:7px 14px; cursor:pointer; transition:background .2s,color .2s,border-color .2s; text-decoration:none; display:inline-block; }
   #back-btn:hover { background:rgba(232,244,232,.15); color:#e8f4e8; border-color:rgba(232,244,232,.6); }
@@ -173,7 +198,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div id="mob-controls">
   <div id="mob-joy-left"  class="mob-joy"><div class="mob-knob"></div></div>
   <button id="mob-fire">🔫</button>
-  <button id="mob-action" title="Acheter arme · Café · Courir"><span style="font-size:20px">⚔ ☕ 🏃</span><span style="font-size:11px;opacity:.8">ACTION</span></button>
+  <button id="mob-action" title="Courir"><span style="font-size:26px">🏃</span><span style="font-size:11px;opacity:.8">SPRINT</span></button>
   <div id="mob-joy-right" class="mob-joy"><div class="mob-knob"></div></div>
   <button id="mob-reload">R</button>
 </div>
@@ -193,6 +218,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
   <div id="msg"></div>
   <div id="shopPrompt"></div>
+  <div id="shopBuyBtns">
+    <button class="shop-buy-btn" id="buy-souris">🖱 SOURIS GAMER — 3 cellules</button>
+    <button class="shop-buy-btn" id="buy-cafe">☕ CAFÉ DE SOIN (+40 PV) — 1 cellule</button>
+  </div>
 </div>
 
 <div id="start" class="screen">
@@ -774,7 +803,8 @@ const hud = $('hud'), elRound = $('round'), elScore = $('score'),
       elHealth = $('healthfill'), elAmmo = $('ammoCount'), elAmmoMax = $('ammoMax'),
       elWeapon = $('weaponName'), elMsg = $('msg'), elVig = $('vignette'),
       elHit = $('hitmarker'), elZone = $('zone'), elShop = $('shopPrompt'),
-      elGrid = $('excelGrid'), elCells = $('cellCount');
+      elGrid = $('excelGrid'), elCells = $('cellCount'),
+      elShopBuyBtns = $('shopBuyBtns'), btnBuySouris = $('buy-souris'), btnBuyCafe = $('buy-cafe');
 
 (function buildExcel() {
   const cols = 'ABCDEFGH';
@@ -1019,12 +1049,24 @@ function loop(now) {
 
   /* prompt magasin */
   if (!dead && player.pos.distanceTo(SHOP_POS) < 3.2) {
-    elShop.style.display = 'block';
-    elShop.innerHTML =
-      (owned.includes('souris') ? '<s>[E] SOURIS GAMER — vendue</s>' : '<b>[E]</b> SOURIS GAMER — 3 cellules') +
-      '<br><b>[F]</b> CAFÉ DE SOIN (+40 PV) — 1 cellule' +
-      '<br><small>solde : ' + cells() + ' cellule(s)</small>';
-  } else elShop.style.display = 'none';
+    if (isMobile) {
+      elShop.style.display = 'block';
+      elShop.innerHTML = '<small>solde : ' + cells() + ' cellule(s)</small>';
+      elShopBuyBtns.style.display = 'flex';
+      btnBuySouris.disabled = owned.includes('souris');
+      btnBuySouris.textContent = owned.includes('souris') ? '🖱 SOURIS GAMER — vendue' : '🖱 SOURIS GAMER — 3 cellules';
+      btnBuyCafe.disabled = player.health >= 100;
+    } else {
+      elShop.style.display = 'block';
+      elShop.innerHTML =
+        (owned.includes('souris') ? '<s>[E] SOURIS GAMER — vendue</s>' : '<b>[E]</b> SOURIS GAMER — 3 cellules') +
+        '<br><b>[F]</b> CAFÉ DE SOIN (+40 PV) — 1 cellule' +
+        '<br><small>solde : ' + cells() + ' cellule(s)</small>';
+    }
+  } else {
+    elShop.style.display = 'none';
+    elShopBuyBtns.style.display = 'none';
+  }
 
   /* retour recul + équipement */
   weaponRig.position.z += (-.5 - weaponRig.position.z)*12*dt;
@@ -1317,12 +1359,13 @@ if (isMobile) {
   mobAction.addEventListener('touchstart', e => {
     e.preventDefault();
     if (!running || dead) return;
-    tryBuy('souris');
-    tryBuy('cafe');
     keys['ShiftLeft'] = true;
   }, {passive:false});
   mobAction.addEventListener('touchend',    e => { e.preventDefault(); keys['ShiftLeft'] = false; }, {passive:false});
   mobAction.addEventListener('touchcancel', () => { keys['ShiftLeft'] = false; });
+
+  btnBuySouris.addEventListener('touchstart', e => { e.preventDefault(); if (running && !dead) tryBuy('souris'); }, {passive:false});
+  btnBuyCafe.addEventListener('touchstart',   e => { e.preventDefault(); if (running && !dead) tryBuy('cafe'); }, {passive:false});
 
   document.getElementById('mob-reload').addEventListener('touchstart', e => {
     e.preventDefault();
