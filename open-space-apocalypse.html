@@ -69,7 +69,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* joysticks */
   .mob-joy{
     position:absolute;bottom:16px;
-    width:145px;height:145px;border-radius:50%;
+    width:155px;height:155px;border-radius:50%;
     background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.3);
     pointer-events:auto;touch-action:none;
     display:flex;align-items:center;justify-content:center;
@@ -77,7 +77,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   #mob-joy-left{left:10px;}
   #mob-joy-right{right:10px;}
   .mob-knob{
-    width:56px;height:56px;border-radius:50%;
+    width:62px;height:62px;border-radius:50%;
     background:rgba(255,255,255,.5);border:2px solid rgba(255,255,255,.8);
     pointer-events:none;transition:transform .05s;
   }
@@ -86,32 +86,32 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .mob-btn{
     position:absolute;
     background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.35);
-    color:#e8f4e8;font-family:'Courier New',monospace;font-size:17px;letter-spacing:1px;
+    color:#e8f4e8;font-family:'Courier New',monospace;font-size:19px;letter-spacing:1px;
     padding:0;border-radius:50%;
-    width:82px;height:82px;
+    width:94px;height:94px;
     display:flex;align-items:center;justify-content:center;
     pointer-events:auto;touch-action:none;cursor:pointer;
   }
   .mob-btn:active{background:rgba(255,255,255,.35);}
 
-  /* fire — above left joystick */
+  /* fire — à gauche, au-dessus du joystick gauche */
   #mob-fire{
-    position:absolute;left:10px;bottom:176px;
-    width:110px;height:110px;border-radius:50%;
+    position:absolute;left:10px;bottom:188px;
+    width:122px;height:122px;border-radius:50%;
     background:rgba(212,60,60,.7);border:2px solid rgba(255,100,100,.8);
-    color:#fff;font-size:34px;
+    color:#fff;font-size:38px;
     display:flex;align-items:center;justify-content:center;
     pointer-events:auto;touch-action:none;cursor:pointer;
   }
   #mob-fire:active{background:rgba(212,60,60,1);}
 
-  /* left-side action cluster */
-  #mob-action{left:128px;bottom:176px;}   /* E  — next to fire */
-  #mob-cafe  {left:128px;bottom:270px;}   /* F  — above E     */
+  /* gauche : E sous le feu, F au-dessus */
+  #mob-action{left:144px;bottom:188px;}   /* E — à droite du tir  */
+  #mob-cafe  {left:144px;bottom:294px;}   /* ☕ — au-dessus du E   */
 
-  /* right-side action cluster */
-  #mob-reload{right:10px; bottom:176px;}  /* R  — above right joy */
-  #mob-weapon{right:102px;bottom:176px;}  /* ⚔  — next to reload  */
+  /* droite : R et ⚔ empilés au-dessus du joystick droit */
+  #mob-reload{right:10px;bottom:188px;}   /* R  */
+  #mob-weapon{right:10px;bottom:294px;}   /* ⚔  */
 </style>
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-TBJXMCC70W"></script>
@@ -126,7 +126,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TRQZWVGP"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
-<a id="back-btn" href="jeux.html">← Jeux</a>
+<a id="back-btn" href="jeux.html">← Minis jeux</a>
 <div id="game"></div>
 
 <!-- Mobile controls -->
