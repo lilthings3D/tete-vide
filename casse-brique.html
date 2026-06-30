@@ -266,7 +266,10 @@ function clamp(v, lo, hi){ return Math.max(lo, Math.min(hi, v)); }
 
 // --- Controls ---
 const keys = {};
-document.addEventListener('keydown', e => { keys[e.key] = true; });
+document.addEventListener('keydown', e => {
+  if(['ArrowLeft','ArrowRight'].includes(e.key)) e.preventDefault();
+  keys[e.key] = true;
+});
 document.addEventListener('keyup',   e => { keys[e.key] = false; });
 
 function pointerToCanvasX(clientX){
