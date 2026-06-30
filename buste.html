@@ -117,7 +117,11 @@ form{display:flex;flex-direction:column;gap:20px;}
   </div>
 
   <div class="form-section">
-    <form id="form-buste" onsubmit="handleSubmit(event)">
+    <form action="https://formsubmit.co/lilthings.3D@outlook.com" method="POST" enctype="multipart/form-data">
+      <input type="hidden" name="_subject" value="Nouvelle demande de buste 3D">
+      <input type="hidden" name="_next" value="https://tete-vide.fr/lilthings3d.html">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_template" value="table">
       <div class="form-row">
         <div class="field">
           <label>Prénom *</label>
@@ -194,21 +198,5 @@ form{display:flex;flex-direction:column;gap:20px;}
   </div>
 </div>
 
-<script>
-function handleSubmit(e){
-  e.preventDefault();
-  const f = e.target;
-  const prenom = f.prenom.value;
-  const nom = f.nom.value;
-  const email = f.email.value;
-  const taille = f.taille.value;
-  const couleur = f.couleur.value;
-  const budget = f.budget.value;
-  const pour = f.pour_qui.value;
-  const infos = f.infos.value;
-  const body = `Bonjour,\n\nNom : ${prenom} ${nom}\nEmail : ${email}\n\nPour qui : ${pour||'Non précisé'}\nTaille : ${taille||'Non précisée'}\nCouleur : ${couleur||'Non précisée'}\nBudget : ${budget||'Non précisé'}\n\nInfos complémentaires :\n${infos||'—'}\n\n---\nEnvoyé depuis tete-vide.fr/buste`;
-  window.location.href = `mailto:contact@lilthings3d.fr?subject=Demande buste 3D – ${prenom}&body=${encodeURIComponent(body)}`;
-}
-</script>
 </body>
 </html>

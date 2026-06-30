@@ -112,7 +112,11 @@ form{display:flex;flex-direction:column;gap:20px;}
   </div>
 
   <div class="form-section">
-    <form id="form-impression" onsubmit="handleSubmit(event)">
+    <form action="https://formsubmit.co/lilthings.3D@outlook.com" method="POST" enctype="multipart/form-data">
+      <input type="hidden" name="_subject" value="Nouvelle demande d'impression sur mesure">
+      <input type="hidden" name="_next" value="https://tete-vide.fr/lilthings3d.html">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_template" value="table">
       <div class="form-row">
         <div class="field">
           <label>Prénom *</label>
@@ -209,20 +213,6 @@ function switchOpt(type){
   document.getElementById('opt-sans').classList.toggle('active', type==='sans');
   document.getElementById('section-fichier').classList.toggle('on', type==='fichier');
   document.getElementById('section-sans-fichier').classList.toggle('on', type==='sans');
-}
-
-function handleSubmit(e){
-  e.preventDefault();
-  const f = e.target;
-  const prenom = f.prenom.value;
-  const nom = f.nom.value;
-  const email = f.email.value;
-  const desc = f.description.value;
-  const mat = f.materiau.value;
-  const budget = f.budget.value;
-  const couleur = f.couleur.value;
-  const body = `Bonjour,\n\nNom : ${prenom} ${nom}\nEmail : ${email}\n\nMatériau : ${mat||'Non précisé'}\nCouleur : ${couleur||'Non précisée'}\nBudget : ${budget||'Non précisé'}\n\nDescription :\n${desc}\n\n---\nEnvoyé depuis tete-vide.fr/impression`;
-  window.location.href = `mailto:contact@lilthings3d.fr?subject=Demande impression – ${prenom}&body=${encodeURIComponent(body)}`;
 }
 </script>
 </body>
