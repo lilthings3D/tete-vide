@@ -80,10 +80,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     margin-top:28px;
     font-family:'Fraunces',serif;font-size:0.8rem;letter-spacing:1.5px;
     text-transform:uppercase;color:var(--orange-deep);
-    display:flex;align-items:center;gap:6px;
-    transition:gap .18s;
+    display:flex;align-items:center;justify-content:center;gap:6px;
+    background:var(--cream-deep);
+    padding:10px 20px;
+    align-self:center;
+    transition:gap .18s, background .18s;
   }
-  .game-card:hover .g-play{gap:10px;}
+  .game-card:hover .g-play{gap:10px;background:var(--rule);}
 
   @media(max-width:640px){
     .games-grid{grid-template-columns:1fr;}
