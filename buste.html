@@ -222,9 +222,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         '',
         '(Joins ta photo de face à cet email.)'
       ].join('\n');
-      window.location.href = 'mailto:lilthings.3d@outlook.com'
+      const a = document.createElement('a');
+      a.href = 'mailto:lilthings.3d@outlook.com'
         + '?subject=' + encodeURIComponent('Commande buste 3D — ' + prenom)
         + '&body='    + encodeURIComponent(body);
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
     });
     </script>
   </div>
