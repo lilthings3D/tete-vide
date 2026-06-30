@@ -38,6 +38,29 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   #back-btn { position:fixed; top:16px; left:16px; z-index:9999; pointer-events:all; background:rgba(10,12,14,.75); color:rgba(232,244,232,.75); border:1px solid rgba(232,244,232,.25); font-family:'Courier New',monospace; font-size:12px; letter-spacing:1px; padding:7px 14px; cursor:pointer; transition:background .2s,color .2s,border-color .2s; text-decoration:none; display:inline-block; }
   #back-btn:hover { background:rgba(232,244,232,.15); color:#e8f4e8; border-color:rgba(232,244,232,.6); }
 
+  /* ---------- SETTINGS ---------- */
+  #settings-btn {
+    position:fixed; top:16px; right:16px; z-index:9999;
+    background:rgba(10,12,14,.75); color:rgba(232,244,232,.75);
+    border:1px solid rgba(232,244,232,.25); border-radius:50%;
+    width:36px; height:36px; font-size:18px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    transition:background .2s,color .2s;
+  }
+  #settings-btn:hover { background:rgba(232,244,232,.15); color:#e8f4e8; }
+  #settings-panel {
+    position:fixed; top:60px; right:16px; z-index:9999;
+    background:rgba(10,12,14,.93); border:1px solid rgba(232,244,232,.25);
+    color:#e8f4e8; font-family:'Courier New',monospace; font-size:12px;
+    padding:18px 20px; width:230px; display:none;
+    flex-direction:column; gap:16px;
+  }
+  #settings-panel.open { display:flex; }
+  .sett-row { display:flex; flex-direction:column; gap:6px; }
+  .sett-row label { letter-spacing:1px; text-transform:uppercase; font-size:10px; color:rgba(232,244,232,.55); }
+  .sett-row input[type=range] { width:100%; accent-color:#9fffc0; cursor:pointer; }
+  .sett-val { font-size:11px; color:#9fffc0; text-align:right; }
+
   /* ---------- JAUGE EXCEL ---------- */
   #excel { position:absolute; bottom:20px; left:50%; transform:translateX(-50%); font-family:Calibri, Arial, sans-serif; }
   #excelTitle { font-size:11px; background:#217346; color:#fff; padding:3px 10px; display:flex; justify-content:space-between; align-items:center; width:100%; }
@@ -130,6 +153,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 <a id="back-btn" href="jeux.html">← Minis <b>jeux</b></a>
+<button id="settings-btn" title="Réglages">⚙</button>
+<div id="settings-panel">
+  <div class="sett-row">
+    <label>Sensibilité joystick</label>
+    <input type="range" id="sett-joy" min="0.3" max="4" step="0.1" value="1.5">
+    <div class="sett-val" id="sett-joy-val">1.5</div>
+  </div>
+  <div class="sett-row">
+    <label>Volume</label>
+    <input type="range" id="sett-vol" min="0" max="1" step="0.05" value="1">
+    <div class="sett-val" id="sett-vol-val">100%</div>
+  </div>
+</div>
 <div id="game"></div>
 
 <!-- Mobile controls -->
@@ -187,22 +223,30 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 /* ============================================================
    AUDIO
 ============================================================ */
-let actx = null;
-function audio() { if (!actx) actx = new (window.AudioContext||window.webkitAudioContext)(); return actx; }
+let actx = null, masterGain = null;
+function audio() {
+  if (!actx) {
+    actx = new (window.AudioContext||window.webkitAudioContext)();
+    masterGain = actx.createGain();
+    masterGain.gain.value = parseFloat(localStorage.getItem('osa-vol') ?? 1);
+    masterGain.connect(actx.destination);
+  }
+  return actx;
+}
 function blip(freq, dur, type, vol, slide) {
   const a = audio(), o = a.createOscillator(), g = a.createGain();
   o.type = type||'square'; o.frequency.setValueAtTime(freq, a.currentTime);
   if (slide) o.frequency.exponentialRampToValueAtTime(slide, a.currentTime+dur);
   g.gain.setValueAtTime(vol||0.12, a.currentTime);
   g.gain.exponentialRampToValueAtTime(0.001, a.currentTime+dur);
-  o.connect(g).connect(a.destination); o.start(); o.stop(a.currentTime+dur);
+  o.connect(g).connect(masterGain); o.start(); o.stop(a.currentTime+dur);
 }
 function noise(dur, vol) {
   const a = audio(), n = Math.floor(a.sampleRate*dur), buf = a.createBuffer(1, n, a.sampleRate), d = buf.getChannelData(0);
   for (let i=0;i<n;i++) d[i] = (Math.random()*2-1)*(1-i/n);
   const s = a.createBufferSource(); s.buffer = buf;
   const g = a.createGain(); g.gain.value = vol||0.15;
-  s.connect(g).connect(a.destination); s.start();
+  s.connect(g).connect(masterGain); s.start();
 }
 const sfx = {
   shootW()  { blip(880, .08, 'square', .07, 320); },
@@ -938,8 +982,9 @@ function loop(now) {
 
   /* --- rotation joystick mobile (continue tant que stick dévié) --- */
   if (isMobile && window.mobRightJoy && (window.mobRightJoy.x || window.mobRightJoy.y)) {
-    player.yaw   -= window.mobRightJoy.x * 2.8 * dt;
-    player.pitch -= window.mobRightJoy.y * 2.8 * dt;
+    const joySens = parseFloat(localStorage.getItem('osa-joy') ?? 1.5);
+    player.yaw   -= window.mobRightJoy.x * joySens * dt;
+    player.pitch -= window.mobRightJoy.y * joySens * dt;
     player.pitch = Math.max(-1.45, Math.min(1.45, player.pitch));
   }
 
@@ -1281,6 +1326,43 @@ if (isMobile) {
   }, {passive:false});
 }
 
+})();
+
+/* ---- PANNEAU RÉGLAGES ---- */
+(function(){
+  const btn   = document.getElementById('settings-btn');
+  const panel = document.getElementById('settings-panel');
+  const joySlider = document.getElementById('sett-joy');
+  const volSlider = document.getElementById('sett-vol');
+  const joyVal    = document.getElementById('sett-joy-val');
+  const volVal    = document.getElementById('sett-vol-val');
+
+  const savedJoy = parseFloat(localStorage.getItem('osa-joy') ?? 1.5);
+  const savedVol = parseFloat(localStorage.getItem('osa-vol') ?? 1);
+  joySlider.value = savedJoy;
+  volSlider.value = savedVol;
+  joyVal.textContent = savedJoy.toFixed(1);
+  volVal.textContent = Math.round(savedVol * 100) + '%';
+
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+    panel.classList.toggle('open');
+  });
+  document.addEventListener('click', () => panel.classList.remove('open'));
+  panel.addEventListener('click', e => e.stopPropagation());
+
+  joySlider.addEventListener('input', () => {
+    const v = parseFloat(joySlider.value);
+    joyVal.textContent = v.toFixed(1);
+    localStorage.setItem('osa-joy', v);
+  });
+
+  volSlider.addEventListener('input', () => {
+    const v = parseFloat(volSlider.value);
+    volVal.textContent = Math.round(v * 100) + '%';
+    localStorage.setItem('osa-vol', v);
+    if (masterGain) masterGain.gain.value = v;
+  });
 })();
 </script>
 </body>

@@ -129,77 +129,59 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 
   <div class="form-section">
-    <form action="https://formsubmit.co/lilthings.3D@outlook.com" method="POST" enctype="multipart/form-data">
-      <input type="hidden" name="_subject" value="Nouvelle demande d'impression sur mesure">
-      <input type="hidden" name="_next" value="https://tete-vide.fr/lilthings3d.html">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_template" value="table">
+    <form id="cmd-form">
       <div class="form-row">
         <div class="field">
           <label>Prénom *</label>
-          <input type="text" name="prenom" required placeholder="Ton prénom">
+          <input type="text" id="f-prenom" required placeholder="Ton prénom">
         </div>
         <div class="field">
           <label>Nom</label>
-          <input type="text" name="nom" placeholder="Ton nom">
+          <input type="text" id="f-nom" placeholder="Ton nom">
         </div>
       </div>
       <div class="form-row">
         <div class="field">
           <label>Email *</label>
-          <input type="email" name="email" required placeholder="ton@email.com">
+          <input type="email" id="f-email" required placeholder="ton@email.com">
         </div>
         <div class="field">
           <label>Téléphone <span style="font-weight:300">(facultatif)</span></label>
-          <input type="tel" name="tel" placeholder="06 …">
+          <input type="tel" id="f-tel" placeholder="06 …">
         </div>
       </div>
 
-      <!-- Avec fichier -->
-      <div id="section-fichier" class="on">
-        <div class="field">
-          <label>Fichier 3D *</label>
-          <input type="file" name="fichier" accept=".stl,.3mf,.obj,.step">
-          <span class="hint">STL, 3MF, OBJ ou STEP — max 25 Mo</span>
-        </div>
-      </div>
-
-      <!-- Sans fichier -->
-      <div id="section-sans-fichier">
-        <div class="field">
-          <label>Photo de référence <span style="font-weight:300">(facultatif)</span></label>
-          <input type="file" name="photo_ref" accept=".jpg,.jpeg,.png,.heic">
-          <span class="hint">Une image qui illustre ce que tu veux</span>
-        </div>
+      <div class="field">
+        <label>Fichier 3D <span style="font-weight:300">(si tu en as un)</span></label>
+        <p class="hint" style="margin-top:6px">Joins ton fichier STL / 3MF / OBJ directement dans l'email qui va s'ouvrir.</p>
       </div>
 
       <div class="form-row">
         <div class="field">
           <label>Couleur souhaitée</label>
-          <input type="text" name="couleur" placeholder="Blanc, noir, rouge…">
+          <input type="text" id="f-couleur" placeholder="Blanc, noir, rouge…">
         </div>
         <div class="field">
           <label>Quantité</label>
-          <input type="number" name="quantite" min="1" value="1" placeholder="1">
+          <input type="number" id="f-qte" min="1" value="1">
         </div>
       </div>
 
       <div class="field">
         <label>Matériau</label>
-        <select name="materiau">
+        <select id="f-mat">
           <option value="">— Pas de préférence —</option>
           <option>PLA (standard, intérieur)</option>
           <option>PETG (résistant, léger)</option>
           <option>ABS (haute résistance)</option>
           <option>TPU (flexible)</option>
-          <option>Résine (haute précision)</option>
           <option>PLA Wood (aspect bois)</option>
         </select>
       </div>
 
       <div class="field">
         <label>Description du projet *</label>
-        <textarea name="description" required placeholder="Décris ce que tu veux imprimer : dimensions, usage, contraintes…"></textarea>
+        <textarea id="f-desc" required placeholder="Décris ce que tu veux imprimer : dimensions, usage, contraintes…"></textarea>
       </div>
 
       <button type="submit" class="submit-btn">Envoyer ma demande →</button>
@@ -210,6 +192,37 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <span class="reassurance-item">✦ Aucun engagement</span>
       </div>
     </form>
+    <script>
+    document.getElementById('cmd-form').addEventListener('submit', function(e){
+      e.preventDefault();
+      const prenom  = document.getElementById('f-prenom').value.trim();
+      const nom     = document.getElementById('f-nom').value.trim();
+      const email   = document.getElementById('f-email').value.trim();
+      const tel     = document.getElementById('f-tel').value.trim();
+      const couleur = document.getElementById('f-couleur').value.trim();
+      const qte     = document.getElementById('f-qte').value.trim();
+      const mat     = document.getElementById('f-mat').value;
+      const desc    = document.getElementById('f-desc').value.trim();
+      if(!prenom || !email || !desc){ alert('Merci de remplir les champs obligatoires (Prénom, Email, Description).'); return; }
+      const body = [
+        'Prénom : ' + prenom,
+        'Nom : ' + (nom||'—'),
+        'Email : ' + email,
+        'Téléphone : ' + (tel||'—'),
+        'Couleur : ' + (couleur||'—'),
+        'Quantité : ' + qte,
+        'Matériau : ' + (mat||'Pas de préférence'),
+        '',
+        'Description :',
+        desc,
+        '',
+        '(Joins ton fichier 3D à cet email si tu en as un.)'
+      ].join('\n');
+      window.location.href = 'mailto:lilthings.3d@outlook.com'
+        + '?subject=' + encodeURIComponent('Commande impression sur mesure — ' + prenom)
+        + '&body='    + encodeURIComponent(body);
+    });
+    </script>
   </div>
 </div>
 

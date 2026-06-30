@@ -134,47 +134,42 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 
   <div class="form-section">
-    <form action="https://formsubmit.co/lilthings.3D@outlook.com" method="POST" enctype="multipart/form-data">
-      <input type="hidden" name="_subject" value="Nouvelle demande de buste 3D">
-      <input type="hidden" name="_next" value="https://tete-vide.fr/lilthings3d.html">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_template" value="table">
+    <form id="buste-form">
       <div class="form-row">
         <div class="field">
           <label>Prénom *</label>
-          <input type="text" name="prenom" required placeholder="Ton prénom">
+          <input type="text" id="b-prenom" required placeholder="Ton prénom">
         </div>
         <div class="field">
           <label>Nom</label>
-          <input type="text" name="nom" placeholder="Ton nom">
+          <input type="text" id="b-nom" placeholder="Ton nom">
         </div>
       </div>
       <div class="form-row">
         <div class="field">
           <label>Email *</label>
-          <input type="email" name="email" required placeholder="ton@email.com">
+          <input type="email" id="b-email" required placeholder="ton@email.com">
         </div>
         <div class="field">
           <label>Téléphone <span style="font-weight:300">(facultatif)</span></label>
-          <input type="tel" name="tel" placeholder="06 …">
+          <input type="tel" id="b-tel" placeholder="06 …">
         </div>
       </div>
 
       <div class="field">
         <label>Photo de face *</label>
-        <input type="file" name="photo" accept=".jpg,.jpeg,.png,.heic" required>
-        <span class="hint">JPG, PNG ou HEIC — voir les conseils ci-dessus</span>
+        <p class="hint" style="margin-top:6px">Joins ta photo directement dans l'email qui va s'ouvrir. JPG, PNG ou HEIC — voir les conseils ci-dessus.</p>
       </div>
 
       <div class="field">
         <label>Pour qui est ce buste ?</label>
-        <input type="text" name="pour_qui" placeholder="Moi, un cadeau pour quelqu'un…">
+        <input type="text" id="b-pour" placeholder="Moi, un cadeau pour quelqu'un…">
       </div>
 
       <div class="form-row">
         <div class="field">
           <label>Taille souhaitée</label>
-          <select name="taille">
+          <select id="b-taille">
             <option value="">— Je ne sais pas —</option>
             <option>Petite (~10 cm)</option>
             <option>Moyenne (~15 cm)</option>
@@ -184,13 +179,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
         <div class="field">
           <label>Couleur souhaitée</label>
-          <input type="text" name="couleur" placeholder="Blanc, noir, bronze…">
+          <input type="text" id="b-couleur" placeholder="Blanc, noir, bronze…">
         </div>
       </div>
 
       <div class="field">
         <label>Infos complémentaires</label>
-        <textarea name="infos" placeholder="Délai souhaité, occasion particulière, demandes spéciales…"></textarea>
+        <textarea id="b-infos" placeholder="Délai souhaité, occasion particulière, demandes spéciales…"></textarea>
       </div>
 
       <button type="submit" class="submit-btn">Envoyer ma demande →</button>
@@ -201,6 +196,37 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <span class="reassurance-item">✦ Aucun engagement</span>
       </div>
     </form>
+    <script>
+    document.getElementById('buste-form').addEventListener('submit', function(e){
+      e.preventDefault();
+      const prenom  = document.getElementById('b-prenom').value.trim();
+      const nom     = document.getElementById('b-nom').value.trim();
+      const email   = document.getElementById('b-email').value.trim();
+      const tel     = document.getElementById('b-tel').value.trim();
+      const pour    = document.getElementById('b-pour').value.trim();
+      const taille  = document.getElementById('b-taille').value;
+      const couleur = document.getElementById('b-couleur').value.trim();
+      const infos   = document.getElementById('b-infos').value.trim();
+      if(!prenom || !email){ alert('Merci de remplir les champs obligatoires (Prénom, Email).'); return; }
+      const body = [
+        'Prénom : ' + prenom,
+        'Nom : ' + (nom||'—'),
+        'Email : ' + email,
+        'Téléphone : ' + (tel||'—'),
+        'Pour qui : ' + (pour||'—'),
+        'Taille : ' + (taille||'Je ne sais pas'),
+        'Couleur : ' + (couleur||'—'),
+        '',
+        'Infos complémentaires :',
+        infos||'—',
+        '',
+        '(Joins ta photo de face à cet email.)'
+      ].join('\n');
+      window.location.href = 'mailto:lilthings.3d@outlook.com'
+        + '?subject=' + encodeURIComponent('Commande buste 3D — ' + prenom)
+        + '&body='    + encodeURIComponent(body);
+    });
+    </script>
   </div>
 </div>
 
