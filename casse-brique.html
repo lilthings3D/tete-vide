@@ -425,7 +425,7 @@ function update(){
   // Move bonuses and check paddle collection
   const pw = padW();
   bonuses = bonuses.filter(bo => {
-    bo.y += 1.5;
+    bo.y += 3;
     if (bo.y > H + 10) return false;
     if (bo.y + 9 >= PAD_Y && bo.y - 9 <= PAD_Y + PAD_H
         && bo.x + 18 >= paddle.x && bo.x - 18 <= paddle.x + pw){
