@@ -364,6 +364,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     cursor:pointer;transition:background .2s, color .2s;
   }
   .contact button:hover{background:var(--orange-deep);color:var(--cream);}
+  .contact-msg{margin-top:16px;font-style:italic;color:var(--ink-soft);font-size:0.95rem;}
+  .contact-msg.ok{color:var(--orange-deep);}
+  .contact-msg.err{color:#c0392b;}
 
   /* ============ RESPONSIVE ============ */
   @media(max-width:900px){
@@ -437,7 +440,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <section class="contact" id="contact">
       <h2>Me contacter</h2>
       <p class="ct-intro">Une réaction, un désaccord, une vérité à ajouter ? Écris-moi.</p>
-      <form action="https://formspree.io/f/maqzejgy" method="POST">
+      <form id="contact-form-home" onsubmit="envoyerContact(event,'contact-form-home','contact-msg-home')">
         <label>Ton nom (optionnel)</label>
         <input type="text" name="nom">
         <label>Ton email (pour que je puisse te répondre)</label>
@@ -446,6 +449,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <textarea name="message" rows="5" required></textarea>
         <button type="submit">Envoyer</button>
       </form>
+      <div id="contact-msg-home" class="contact-msg"></div>
     </section>
   </div>
 
@@ -605,6 +609,34 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   }
 
+  // ---- CONTACT ----
+  async function envoyerContact(e, formId, msgId) {
+    e.preventDefault();
+    const form = document.getElementById(formId);
+    const msg = document.getElementById(msgId);
+    const btn = form.querySelector('button[type="submit"]');
+    btn.disabled = true; btn.textContent = 'Envoi…';
+    try {
+      const r = await fetch('https://formspree.io/f/maqzejgy', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: new FormData(form)
+      });
+      if (r.ok) {
+        form.reset();
+        msg.className = 'contact-msg ok';
+        msg.textContent = 'Message envoyé, merci !';
+      } else {
+        msg.className = 'contact-msg err';
+        msg.textContent = 'Erreur lors de l\'envoi — réessaie.';
+      }
+    } catch(err) {
+      msg.className = 'contact-msg err';
+      msg.textContent = 'Erreur réseau — vérifie ta connexion.';
+    }
+    btn.disabled = false; btn.textContent = 'Envoyer';
+  }
+
   // ---- NOTES ----
   function renderNote(articleId, moy, n){
     const box = document.getElementById("note-box");
@@ -725,7 +757,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <section class="contact">
         <h2>Me contacter</h2>
         <p class="ct-intro">Une réaction plus longue, un désaccord, une vérité à ajouter ? Écris-moi.</p>
-        <form action="https://formspree.io/f/maqzejgy" method="POST">
+        <form id="contact-form-art" onsubmit="envoyerContact(event,'contact-form-art','contact-msg-art')">
           <label>Ton nom (optionnel)</label>
           <input type="text" name="nom">
           <label>Ton email (pour que je puisse te répondre)</label>
@@ -734,6 +766,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <textarea name="message" rows="5" required></textarea>
           <button type="submit">Envoyer</button>
         </form>
+        <div id="contact-msg-art" class="contact-msg"></div>
       </section>
 
       <div class="more-link" onclick="openArticle('${next.id}')">Lire ensuite : « ${next.titre} » →</div>
