@@ -27,23 +27,6 @@ const HISTOIRES = [
 <p>Il se leva, partit en direction de la fente laissée par la scie avant de réaliser une chose. La scie ne coupait pas plus profond qu'une vingtaine de centimètres. Autrement dit : pas de quoi faire trembler le monde.</p>`
   },
   {
-    id: "cetait-quand-deja",
-    titre: "C'était quand déjà",
-    sousTitre: "Une chambre fermée à double tour",
-    minutes: 4,
-    corps: `<p>Voilà plusieurs jours que je n'ai pas vu la lumière extérieure. J'ai besoin de me retrouver seul avec moi-même, en réalité j'ai surtout besoin d'aide mais je n'ai pas suffisamment de recul pour réaliser cela. Les volets de ma chambre sont fermés, les fenêtres aussi, la porte verrouillée à double tour. En fait, c'est surtout moi qui suis fermé au monde.</p>
-
-<p>Je suis perdu, je n'ai ni but ni direction, je n'ai pas de besoin particulier ni même d'envie, je ne comprends pas bien les règles sociales, j'ai du mal avec les gens, je ne sais pas parler, je ne saurais même pas quoi dire. Pour me cacher un peu plus j'ai glissé mon lit sous mon bureau, certes il est en verre, mais le simple fait d'avoir un toit me rassure. À gauche il y a un piano électrique qui sert plus de barricade que de véritable instrument. Bien sûr il m'arrive d'en jouer pour passer le temps, les mêmes morceaux, encore et encore, que je n'ai jamais terminés, pas une fois, pas un seul. À droite, le mur de ma chambre ferme complètement cette forteresse de fortune.</p>
-
-<p>Ici il y a un ordinateur, ma seule compagnie, avec la radio qui passe Rire et Chansons en boucle, de quoi devenir fou. Sur mégavidéo, je regarde des films, toutes sortes de films, et puis pendant soixante-douze minutes j'écoute la radio ou je joue du piano, mais je ne sors pas, jamais. Je ne vais pas à l'école. Je n'y suis pas heureux, je ne comprends pas les règles, je n'aime pas ce qu'on m'enseigne, je n'aime pas les comportements humains et sociaux là-bas.</p>
-
-<p>Ma mère se rassure en disant que je m'y ennuie car je suis trop intelligent. En fait je crois à ce moment-là être bien trop stupide, au moins socialement, et ce monde me terrifie. Bien sûr ça ne se passe pas bien à la maison. Ma sœur est en crise, elle fait des aller-retours à l'hôpital tous les deux mois. Mon frère est en dépression, il prend plus de dix douches par jour et se sent toujours sale. Il ne me parle pas, il ne parle à personne ici. Son père le traite comme le dernier des abrutis. Quand ma mère rentre du travail, il est déjà tard. Tout le monde se cache.</p>
-
-<p>Enfin au milieu de tout ça, moi, je me cache. J'essaie de comprendre le monde à travers un petit écran de mauvaise qualité, je regarde des films pour comprendre le monde. Autant apprendre l'astronomie à l'œil nu.</p>
-
-<p>J'attends au fond de ma forteresse, passivement, et le monde avance. Parfois mon père vient me voir, parfois ma mère tente de forcer la porte. Je reste caché. Peut-être que quelqu'un viendra me sauver.</p>`
-  },
-  {
     id: "entrez",
     titre: "Entrez",
     sousTitre: "Une baignoire, une vache, et une amende",
