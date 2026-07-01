@@ -47,7 +47,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   #game-col{display:flex;flex-direction:column;align-items:center;flex-shrink:0;}
   canvas{max-height:calc(100vh - 180px) !important;}
   #lb-section{position:absolute;top:20px;right:32px;width:260px;padding-top:46px;max-height:calc(100vh - 130px);overflow-y:auto;}  #lb-section h2{font-family:'Fraunces',serif;font-weight:300;font-style:italic;font-size:1.6rem;letter-spacing:-0.5px;border-bottom:3px double var(--ink);padding-bottom:10px;margin-bottom:20px;}  #lb-section h2 b{font-style:normal;font-weight:600;color:var(--orange-deep);}
-  @media(max-width:900px){#arena{padding:16px 20px;}#lb-section{position:relative;top:auto;right:auto;width:100%;max-width:100%;max-height:none;padding-top:20px;border-top:1.5px solid var(--rule);margin-top:8px;}canvas{max-height:50vh !important;}}
+  @media(max-width:900px){#arena{padding:16px 20px;}canvas{max-height:50vh !important;}}
+  @media(max-width:900px),(pointer:coarse){#lb-section{position:relative;top:auto;right:auto;width:100%;max-width:100%;max-height:none;padding-top:20px;border-top:1.5px solid var(--rule);margin-top:8px;}}
   header.site{}
   #name-entry{display:none;flex-direction:column;align-items:center;gap:10px;margin-bottom:4px;}
   #name-entry.on{display:flex;}
