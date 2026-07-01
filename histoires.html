@@ -405,7 +405,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   const SUPA_URL = "https://xvevjmzxnvqjmojwsxww.supabase.co";
   const SUPA_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh2ZXZqbXp4bnZxam1vandzeHd3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA3OTEzNDgsImV4cCI6MjA5NjM2NzM0OH0.Cn7VrL42KmM8PCTDAKvr22oQPQ09AACOTC95xWnjMrE";
   const SUPA_H = {"apikey":SUPA_KEY,"Authorization":"Bearer "+SUPA_KEY,"Content-Type":"application/json"};
-  const ECHELLE_H = ["c'est quoi ce truc","bof","pas mal","bien","plutôt pas mal"];
+  const ECHELLE_H = ["c'est quoi ce truc","bof","pas mal","bien","plutôt bien"];
 
   function renderNoteH(storyId, moy, n) {
     const box = document.getElementById("note-box");
@@ -420,7 +420,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <span class="note-label">${label}</span>
         <span class="note-count">${n ? n+" vote"+(n>1?"s":"") : ""}</span>
       </div>
-      <div class="note-scale"><span>c'est quoi ce truc</span><span>pas mal</span><span>plutôt pas mal</span></div>
+      <div class="note-scale"><span>c'est quoi ce truc</span><span>pas mal</span><span>plutôt bien</span></div>
       <div class="note-buttons">${btns}</div>`;
     box.querySelectorAll(".note-btn").forEach(btn =>
       btn.addEventListener("click", () => voterH(storyId, parseInt(btn.dataset.val)))
@@ -478,7 +478,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
       <section class="note-section">
         <h2>Et alors ?</h2>
-        <p class="c-intro">Note cette histoire, de « c'est quoi ce truc » à « plutôt pas mal ».</p>
+        <p class="c-intro">Note cette histoire, de « c'est quoi ce truc » à « plutôt bien ».</p>
         <div id="note-box"></div>
       </section>`;
 
