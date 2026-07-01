@@ -429,7 +429,7 @@ function update(dt, elapsed){
   player.gy=clamp(player.gy,HUD,GH-player.h);
 
   fireTimer-=dt;
-  if (fireTimer<=0){ bullets.push({gx:player.gx+player.w, gy:player.gy+2, spd:0.28}); fireTimer=480; }
+  if (fireTimer<=0){ bullets.push({gx:player.gx+player.w, gy:player.gy+2, spd:0.28}); fireTimer=240; }
 
   /* phase logic */
   if (gamePhase==='bossTransition'){
