@@ -352,12 +352,14 @@ function pointerToCanvasX(clientX){
 canvas.addEventListener('mousemove', e => {
   paddle.x = clamp(pointerToCanvasX(e.clientX) - padW()/2, 0, W - padW());
 });
-canvas.addEventListener('touchmove', e => {
+document.addEventListener('touchmove', e => {
+  if (!running) return;
   e.preventDefault();
   const t = e.touches[0];
   paddle.x = clamp(pointerToCanvasX(t.clientX) - padW()/2, 0, W - padW());
 }, {passive:false});
-canvas.addEventListener('touchstart', e => {
+document.addEventListener('touchstart', e => {
+  if (!running) return;
   e.preventDefault();
   const t = e.touches[0];
   paddle.x = clamp(pointerToCanvasX(t.clientX) - padW()/2, 0, W - padW());
