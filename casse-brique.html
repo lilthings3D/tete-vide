@@ -66,7 +66,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .lb-table td{padding:12px 0;font-size:0.95rem;vertical-align:middle;}
   .lb-table td:first-child{font-family:'Fraunces',serif;font-size:0.75rem;letter-spacing:2px;color:var(--ink-soft);width:36px;}
   .lb-table td:last-child{text-align:right;font-family:'Fraunces',serif;font-size:1.1rem;font-weight:600;color:var(--orange-deep);}
-  .lb-table tr.lb-me td{color:var(--orange-deep);}
+  .lb-table tr.lb-me td{background:var(--orange);color:var(--cream);}
   .lb-empty{font-style:italic;color:var(--ink-soft);padding:20px 0;text-align:center;}
   .lb-rank-1 td:first-child{font-size:1rem;}
 
@@ -352,18 +352,18 @@ function pointerToCanvasX(clientX){
 canvas.addEventListener('mousemove', e => {
   paddle.x = clamp(pointerToCanvasX(e.clientX) - padW()/2, 0, W - padW());
 });
-document.addEventListener('touchmove', e => {
+window.addEventListener('touchmove', e => {
   if (!running) return;
   e.preventDefault();
   const t = e.touches[0];
   paddle.x = clamp(pointerToCanvasX(t.clientX) - padW()/2, 0, W - padW());
-}, {passive:false});
-document.addEventListener('touchstart', e => {
+}, {passive:false, capture:true});
+window.addEventListener('touchstart', e => {
   if (!running) return;
   e.preventDefault();
   const t = e.touches[0];
   paddle.x = clamp(pointerToCanvasX(t.clientX) - padW()/2, 0, W - padW());
-}, {passive:false});
+}, {passive:false, capture:true});
 
 function update(){
   if (keys['ArrowLeft']) paddle.x -= 8;
