@@ -360,7 +360,7 @@ MOIS_COURTS.forEach((m,i)=>{
   calContainer.appendChild(btn);
 });
 
-function toggleMonth(i,btn){
+function toggleMonth(i,btn,scroll=true){
   if(activeMonth===i){
     activeMonth=-1;
     calPanel.classList.remove("on");
@@ -381,7 +381,7 @@ function toggleMonth(i,btn){
     calGrid.appendChild(div);
   });
   calPanel.classList.add("on");
-  calPanel.scrollIntoView({behavior:"smooth",block:"nearest"});
+  if(scroll) calPanel.scrollIntoView({behavior:"smooth",block:"nearest"});
 }
 
 document.getElementById("cal-close").onclick=()=>{
@@ -390,8 +390,8 @@ document.getElementById("cal-close").onclick=()=>{
   document.querySelectorAll(".cal-btn").forEach(b=>b.classList.remove("active"));
 };
 
-// Auto-ouvrir le mois en cours
-document.querySelectorAll(".cal-btn")[currentMonth].click();
+// Auto-ouvrir le mois en cours sans scroller
+toggleMonth(currentMonth, document.querySelectorAll(".cal-btn")[currentMonth], false);
 
 /* ---- PLANTES ---- */
 const PLANTES_DB=[
