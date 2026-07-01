@@ -491,15 +491,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     document.getElementById("alm-content").innerHTML = '<div class="alm-loading">Chargement…</div>';
     try {
       const m = now.getMonth()+1, d = now.getDate();
-      const res = await fetch(`https://fr.wikipedia.org/api/rest_v1/feed/onthisday/all/${m}/${d}`);
-      const data = await res.json();
-      const pick = arr => {
-        if(!arr||!arr.length) return null;
-        return arr[Math.floor(Math.random()*Math.min(arr.length,8))];
-      };
-      const ev = pick(data.events);
-      const birth = pick(data.births);
-      const death = pick(data.deaths);
+      const base = `https://fr.wikipedia.org/api/rest_v1/feed/onthisday`;
+      const [r1,r2,r3] = await Promise.all([
+        fetch(`${base}/events/${m}/${d}`),
+        fetch(`${base}/births/${m}/${d}`),
+        fetch(`${base}/deaths/${m}/${d}`)
+      ]);
+      const [evData,birthData,deathData] = await Promise.all([r1.json(),r2.json(),r3.json()]);
+      const pick = arr => arr&&arr.length ? arr[Math.floor(Math.random()*Math.min(arr.length,8))] : null;
+      const ev    = pick(evData.events);
+      const birth = pick(birthData.births);
+      const death = pick(deathData.deaths);
       let html = '';
       if(ev)    html += almBlock('Événement', ev);
       if(birth) html += almBlock('Naissance', birth);
