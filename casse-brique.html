@@ -175,10 +175,10 @@ const scoreVal = document.getElementById('score-val');
 const livesVal = document.getElementById('lives-val');
 const lbBody = document.getElementById('lb-body');
 
-/* ---- LEADERBOARD (dreamlo global) ---- */
-const LB_PUBLIC  = 'n88AQZZtPkyrF1nrf044tg74SfnSC4a0OSMtvKvUD2Zg';
-const LB_PRIVATE = '6a442adc8f40bb13185895b5';
-const LB_CACHE   = 'lb-casse-cache';
+/* ---- LEADERBOARD (Google Apps Script global) ---- */
+const LB_URL   = 'https://script.google.com/macros/s/AKfycbwyBOl_zvYu9U7LciBuBeQhta19z1lWJ7hXr7KYFmfaWCc_ZnV_QIUoU-wri5Pu4Ps/exec';
+const LB_GAME  = 'casse-brique';
+const LB_CACHE = 'lb-casse-cache';
 
 function loadCache(){ try{ return JSON.parse(localStorage.getItem(LB_CACHE))||[]; }catch{ return []; } }
 function saveCache(e){ localStorage.setItem(LB_CACHE, JSON.stringify(e)); }
@@ -186,17 +186,16 @@ function qualifies(sc, entries){ return sc > 0 && (entries.length < 10 || sc > e
 
 async function fetchLB(){
   try{
-    const r = await fetch('https://dreamlo.com/lb/'+LB_PUBLIC+'/json/10');
-    const d = await r.json();
-    let raw = d.dreamlo?.leaderboard?.entry || [];
-    if(!Array.isArray(raw)) raw=[raw];
-    const entries = raw.map(e=>({name:e.name,score:parseInt(e.score,10)||0})).filter(e=>e.score>0);
-    saveCache(entries); return entries;
+    const r = await fetch(LB_URL + '?game=' + LB_GAME);
+    const entries = await r.json();
+    if(Array.isArray(entries)){ saveCache(entries); return entries; }
+    return loadCache();
   }catch{ return loadCache(); }
 }
 
 function addToLB(name, sc){
-  new Image().src = 'https://dreamlo.com/lb/'+LB_PRIVATE+'/add/'+encodeURIComponent(name)+'/'+sc;
+  const url = LB_URL + '?action=add&game=' + LB_GAME + '&name=' + encodeURIComponent(name) + '&score=' + sc;
+  fetch(url).then(r=>r.json()).then(e=>{ if(Array.isArray(e)){ saveCache(e); renderLeaderboard(e, name); } }).catch(()=>{});
   const entries = [...loadCache(),{name,score:sc}].sort((a,b)=>b.score-a.score).slice(0,10);
   saveCache(entries); return entries;
 }
@@ -403,7 +402,6 @@ function doSubmit(){
   localStorage.setItem('lb-name', name);
   renderLeaderboard(addToLB(name, score), name);
   nameEntry.classList.remove('on');
-  setTimeout(()=>fetchLB().then(e=>renderLeaderboard(e,name)), 2000);
 }
 btnSubmit.addEventListener('click', doSubmit);
 playerNameInput.addEventListener('keydown', e => { if(e.key==='Enter') doSubmit(); });
