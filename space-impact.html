@@ -226,7 +226,7 @@ function renderLeaderboard(entries,hl){const m=['🥇','🥈','🥉'];lbBody.inn
 /* ================================================================
    SPACE IMPACT — pixel art, dark space background
    ================================================================ */
-const S  = 10, GW = 80, GH = 50, HUD = 5, PH = GH - HUD;
+const S  = 5, GW = 160, GH = 100, HUD = 10, PH = GH - HUD;
 const W = GW*S, H = GH*S;
 canvas.width = W; canvas.height = H;
 
@@ -511,8 +511,8 @@ function draw(){
 
   /* score */
   ctx.fillStyle=C_HUD; ctx.textBaseline='middle'; ctx.textAlign='left';
-  ctx.font=`bold ${S*2}px monospace`;
-  ctx.fillText(String(score).padStart(6,'0'), S, (HUD-1)*S/2);
+  ctx.font=`bold ${S*4}px monospace`;
+  ctx.fillText(String(score).padStart(6,'0'), S*2, (HUD-1)*S/2);
 
   /* level */
   ctx.textAlign='center';
@@ -534,7 +534,7 @@ function draw(){
     const bx=12, by=HUD, bw=48;
     ctx.fillStyle='#2a0808'; ctx.fillRect(bx*S,by*S,bw*S,S);
     ctx.fillStyle='#ff3333'; ctx.fillRect(bx*S,by*S,Math.round(bw*boss.hp/boss.maxHp)*S,S);
-    ctx.fillStyle=C_BOSS; ctx.textAlign='right'; ctx.font=`${S}px monospace`;
+    ctx.fillStyle=C_BOSS; ctx.textAlign='right'; ctx.font=`${S*2}px monospace`;
     ctx.fillText('BOSS',(bx-1)*S,(by+0.5)*S);
     ctx.textAlign='left';
     drawSpr(SP_BOSS, Math.round(boss.gx), Math.round(boss.gy), C_BOSS);
@@ -558,30 +558,30 @@ function draw(){
   /* phase overlays */
   if (gamePhase==='bossTransition'){
     ctx.fillStyle=C_BOSS; ctx.textAlign='center'; ctx.textBaseline='middle';
-    ctx.font=`bold ${S*3}px monospace`;
-    ctx.fillText(`NIVEAU ${level}`, W/2, H/2-S*4);
+    ctx.font=`bold ${S*6}px monospace`;
+    ctx.fillText(`NIVEAU ${level}`, W/2, H/2-S*8);
     if (Math.floor(Date.now()/500)%2===0){
-      ctx.font=`bold ${S*2}px monospace`;
-      ctx.fillText('⚠  BOSS  ⚠', W/2, H/2+S*2);
+      ctx.font=`bold ${S*4}px monospace`;
+      ctx.fillText('⚠  BOSS  ⚠', W/2, H/2+S*4);
     }
   }
   if (gamePhase==='levelClear'){
     ctx.fillStyle=C_BUG; ctx.textAlign='center'; ctx.textBaseline='middle';
-    ctx.font=`bold ${S*3}px monospace`;
-    ctx.fillText(`NIVEAU ${level-1}`, W/2, H/2-S*4);
+    ctx.font=`bold ${S*6}px monospace`;
+    ctx.fillText(`NIVEAU ${level-1}`, W/2, H/2-S*8);
     ctx.fillText('TERMINÉ !', W/2, H/2);
-    ctx.font=`${S*2}px monospace`; ctx.fillStyle=C_HUD;
-    ctx.fillText(`+${(level-1)*100} pts bonus`, W/2, H/2+S*5);
+    ctx.font=`${S*4}px monospace`; ctx.fillStyle=C_HUD;
+    ctx.fillText(`+${(level-1)*100} pts bonus`, W/2, H/2+S*10);
   }
 
   /* title screen */
   if (!running){
     ctx.fillStyle=C_PLAYER; ctx.textAlign='center'; ctx.textBaseline='middle';
-    ctx.font=`bold ${S*4}px monospace`;
-    ctx.fillText('SPACE', W/2, H/2-S*5);
+    ctx.font=`bold ${S*8}px monospace`;
+    ctx.fillText('SPACE', W/2, H/2-S*10);
     ctx.fillText('IMPACT', W/2, H/2);
-    ctx.font=`${S*2}px monospace`;
-    if (Math.floor(Date.now()/600)%2===0) ctx.fillText('▶  JOUER', W/2, H/2+S*7);
+    ctx.font=`${S*4}px monospace`;
+    if (Math.floor(Date.now()/600)%2===0) ctx.fillText('▶  JOUER', W/2, H/2+S*14);
   }
 }
 
