@@ -47,7 +47,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   #game-col{display:flex;flex-direction:column;align-items:center;flex-shrink:0;}
   canvas{max-height:calc(100vh - 180px) !important;}
   @media(max-width:900px){#arena{padding:16px 20px;}canvas{max-height:50vh !important;}}
-  @media(max-width:900px),(pointer:coarse){#lb-section{position:relative;top:auto;right:auto;width:100%;max-width:100%;max-height:none;padding-top:20px;border-top:1.5px solid var(--rule);margin-top:8px;}}
 
   #canvas-wrap{position:relative;display:inline-block;max-width:100%;}
   canvas{display:block;border:2px solid var(--ink);background:#1a1208;max-width:100%;}
@@ -121,6 +120,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .lb-table tr.lb-me td{color:var(--orange-deep);}
   .lb-empty{font-style:italic;color:var(--ink-soft);padding:20px 0;text-align:center;}
 
+  @media(max-width:900px),(pointer:coarse){
+    #lb-section{position:relative;top:auto;right:auto;width:100%;max-width:100%;max-height:none;overflow-y:visible;padding-top:20px;border-top:1.5px solid var(--rule);margin-top:8px;}
+  }
   @media(pointer:coarse){
     html,body{height:auto;overflow:visible;}
     #arena{overflow-y:visible;height:auto;flex:none;}
