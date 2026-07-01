@@ -91,9 +91,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   #info-bar strong{color:var(--orange-deep);}
 
+  #canvas-wrap{ position:relative; line-height:0; }
   #controls{
-    display:flex;flex-direction:column;align-items:center;gap:10px;
-    padding:12px 0 4px;flex-shrink:0;
+    position:absolute;inset:0;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+    background:rgba(26,18,8,0.82);
+    padding:20px;
   }
   #controls.hidden{display:none;}
   .btn{
@@ -152,16 +155,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div id="game-col">
     <div id="game-title">Casse-brique <b>·</b></div>
     <div id="info-bar">Score : <strong id="score-val">0</strong> &nbsp;·&nbsp; Vies : <strong id="lives-val">3</strong> &nbsp;·&nbsp; Niv. : <strong id="level-val">1</strong> &nbsp;·&nbsp; Souris / Tactile / ← →</div>
-    <canvas id="c"></canvas>
-    <div id="controls">
-      <div id="over-msg" style="display:none"></div>
-      <div id="name-entry">
-        <div class="name-label">Nouveau record ! Ton pseudo :</div>
-        <input id="player-name" type="text" maxlength="20" placeholder="Ton pseudo" autocomplete="off">
-        <button class="btn" id="btn-submit-score">Valider →</button>
-        <button class="btn-skip" id="btn-skip">Passer</button>
+    <div id="canvas-wrap">
+      <canvas id="c"></canvas>
+      <div id="controls">
+        <div id="over-msg" style="display:none"></div>
+        <div id="name-entry">
+          <div class="name-label">Nouveau record ! Ton pseudo :</div>
+          <input id="player-name" type="text" maxlength="20" placeholder="Ton pseudo" autocomplete="off">
+          <button class="btn" id="btn-submit-score">Valider →</button>
+          <button class="btn-skip" id="btn-skip">Passer</button>
+        </div>
+        <button class="btn" id="btn-start">Jouer →</button>
       </div>
-      <button class="btn" id="btn-start">Jouer →</button>
     </div>
   </div>
   <section id="lb-section">
@@ -230,7 +235,13 @@ const ROWS = 5, COLS = 9, BRICK_GAP = 5, BRICK_H = 22;
 const MARGIN = 24;
 const BRICK_W = (W - MARGIN*2 - BRICK_GAP*(COLS-1)) / COLS;
 
-let paddle, ball, bricks, score, lives, running, level, nextLevelPending;
+let paddle, balls, bricks, score, lives, running, level, nextLevelPending;
+let bonuses, largePaddleTimer;
+
+const BONUS_TYPES  = ['vie', 'balle', 'large'];
+const BONUS_COLORS = { vie:'#ff5566', balle:'#44bbff', large:'#ffaa22' };
+const BONUS_LABELS = { vie:'+♥', balle:'+●', large:'⟺' };
+function padW(){ return largePaddleTimer > 0 ? Math.round(PAD_W * 1.7) : PAD_W; }
 
 function resize(){
   const arena = document.getElementById('arena');
@@ -273,18 +284,29 @@ function buildBricksForLevel(lvl){
 }
 
 function resetBall(){
+  bonuses = [];
   const spd = Math.min(4 + (level-1)*0.4, 7);
-  ball = { x: W/2, y: PAD_Y - BALL_R - 2, dx: spd*(Math.random()<0.5?1:-1), dy: -spd };
+  balls = [{ x: W/2, y: PAD_Y - BALL_R - 2, dx: spd*(Math.random()<0.5?1:-1), dy: -spd }];
 }
 
 function resetGame(){
   paddle = { x: W/2 - PAD_W/2 };
   score = 0; lives = 3; level = 1;
+  bonuses = []; largePaddleTimer = 0;
   scoreVal.textContent = '0';
   livesVal.textContent = '3';
   document.getElementById('level-val').textContent = '1';
   buildBricksForLevel(level);
   resetBall();
+}
+
+function applyBonus(type){
+  if (type === 'vie'){ lives = Math.min(lives+1, 9); livesVal.textContent = lives; }
+  else if (type === 'balle'){
+    const ref = balls[0];
+    if (ref) balls.push({ x:ref.x, y:ref.y, dx:-ref.dx, dy:ref.dy });
+  }
+  else if (type === 'large'){ largePaddleTimer = 10000; }
 }
 
 function startGame(){
@@ -300,6 +322,7 @@ btnStart.addEventListener('click', () => {
   if (nextLevelPending) {
     nextLevelPending = false;
     paddle = { x: W/2 - PAD_W/2 };
+    bonuses = [];
     buildBricksForLevel(level);
     resetBall();
     overMsg.style.display = 'none';
@@ -327,76 +350,87 @@ function pointerToCanvasX(clientX){
   return (clientX - rect.left) * (W / rect.width);
 }
 canvas.addEventListener('mousemove', e => {
-  paddle.x = clamp(pointerToCanvasX(e.clientX) - PAD_W/2, 0, W - PAD_W);
+  paddle.x = clamp(pointerToCanvasX(e.clientX) - padW()/2, 0, W - padW());
 });
 canvas.addEventListener('touchmove', e => {
   e.preventDefault();
   const t = e.touches[0];
-  paddle.x = clamp(pointerToCanvasX(t.clientX) - PAD_W/2, 0, W - PAD_W);
+  paddle.x = clamp(pointerToCanvasX(t.clientX) - padW()/2, 0, W - padW());
 }, {passive:false});
 canvas.addEventListener('touchstart', e => {
   e.preventDefault();
   const t = e.touches[0];
-  paddle.x = clamp(pointerToCanvasX(t.clientX) - PAD_W/2, 0, W - PAD_W);
+  paddle.x = clamp(pointerToCanvasX(t.clientX) - padW()/2, 0, W - padW());
 }, {passive:false});
 
 function update(){
   if (keys['ArrowLeft']) paddle.x -= 8;
   if (keys['ArrowRight']) paddle.x += 8;
-  paddle.x = clamp(paddle.x, 0, W - PAD_W);
+  paddle.x = clamp(paddle.x, 0, W - padW());
 
-  ball.x += ball.dx;
-  ball.y += ball.dy;
+  if (largePaddleTimer > 0) largePaddleTimer = Math.max(0, largePaddleTimer - 16);
 
-  if (ball.x - BALL_R <= 0){ ball.x = BALL_R; ball.dx *= -1; }
-  if (ball.x + BALL_R >= W){ ball.x = W - BALL_R; ball.dx *= -1; }
-  if (ball.y - BALL_R <= 0){ ball.y = BALL_R; ball.dy *= -1; }
+  // Update each ball
+  const surviving = [];
+  for (const bl of balls){
+    bl.x += bl.dx; bl.y += bl.dy;
+    if (bl.x - BALL_R <= 0){ bl.x = BALL_R; bl.dx *= -1; }
+    if (bl.x + BALL_R >= W){ bl.x = W - BALL_R; bl.dx *= -1; }
+    if (bl.y - BALL_R <= 0){ bl.y = BALL_R; bl.dy *= -1; }
 
-  // Paddle collision
-  if (ball.dy > 0 &&
-      ball.y + BALL_R >= PAD_Y &&
-      ball.y + BALL_R <= PAD_Y + PAD_H + 8 &&
-      ball.x >= paddle.x && ball.x <= paddle.x + PAD_W){
-    ball.y = PAD_Y - BALL_R;
-    const rel = (ball.x - (paddle.x + PAD_W/2)) / (PAD_W/2);
-    const spd = Math.hypot(ball.dx, ball.dy) * 1.02;
-    const angle = rel * 1.1;
-    ball.dx = spd * Math.sin(angle);
-    ball.dy = -Math.abs(spd * Math.cos(angle));
-  }
-
-  // Brick collisions
-  for (const b of bricks){
-    if (!b.alive) continue;
-    if (ball.x + BALL_R > b.x && ball.x - BALL_R < b.x + b.w &&
-        ball.y + BALL_R > b.y && ball.y - BALL_R < b.y + b.h){
-      b.alive = false;
-      score += 10;
-      scoreVal.textContent = score;
-      // determine bounce side
-      const overlapX = Math.min(ball.x + BALL_R - b.x, b.x + b.w - (ball.x - BALL_R));
-      const overlapY = Math.min(ball.y + BALL_R - b.y, b.y + b.h - (ball.y - BALL_R));
-      if (overlapX < overlapY) ball.dx *= -1; else ball.dy *= -1;
-      break;
+    const pw = padW();
+    if (bl.dy > 0 && bl.y + BALL_R >= PAD_Y && bl.y + BALL_R <= PAD_Y + PAD_H + 8
+        && bl.x >= paddle.x && bl.x <= paddle.x + pw){
+      bl.y = PAD_Y - BALL_R;
+      const rel = (bl.x - (paddle.x + pw/2)) / (pw/2);
+      const spd = Math.hypot(bl.dx, bl.dy) * 1.02;
+      bl.dx = spd * Math.sin(rel * 1.1);
+      bl.dy = -Math.abs(spd * Math.cos(rel * 1.1));
     }
-  }
 
-  if (bricks.every(b => !b.alive)){
-    nextLevel();
+    for (const br of bricks){
+      if (!br.alive) continue;
+      if (bl.x + BALL_R > br.x && bl.x - BALL_R < br.x + br.w &&
+          bl.y + BALL_R > br.y && bl.y - BALL_R < br.y + br.h){
+        br.alive = false;
+        score += 10;
+        scoreVal.textContent = score;
+        if (Math.random() < 0.05){
+          const t = BONUS_TYPES[Math.floor(Math.random()*3)];
+          bonuses.push({ x: br.x + br.w/2, y: br.y + br.h/2, type: t });
+        }
+        const ox = Math.min(bl.x + BALL_R - br.x, br.x + br.w - (bl.x - BALL_R));
+        const oy = Math.min(bl.y + BALL_R - br.y, br.y + br.h - (bl.y - BALL_R));
+        if (ox < oy) bl.dx *= -1; else bl.dy *= -1;
+        break;
+      }
+    }
+
+    if (bl.y - BALL_R <= H) surviving.push(bl);
+  }
+  balls = surviving;
+
+  if (bricks.every(b => !b.alive)){ nextLevel(); return; }
+
+  if (balls.length === 0){
+    lives--;
+    livesVal.textContent = lives;
+    if (lives <= 0){ running = false; endGame('Perdu !'); }
+    else resetBall();
     return;
   }
 
-  if (ball.y - BALL_R > H){
-    lives--;
-    livesVal.textContent = lives;
-    if (lives <= 0){
-      running = false;
-      btnStart.textContent = 'Rejouer →';
-      endGame('Perdu !');
-    } else {
-      resetBall();
+  // Move bonuses and check paddle collection
+  const pw = padW();
+  bonuses = bonuses.filter(bo => {
+    bo.y += 3;
+    if (bo.y > H + 10) return false;
+    if (bo.y + 9 >= PAD_Y && bo.y - 9 <= PAD_Y + PAD_H
+        && bo.x + 18 >= paddle.x && bo.x - 18 <= paddle.x + pw){
+      applyBonus(bo.type); return false;
     }
-  }
+    return true;
+  });
 }
 
 function draw(){
@@ -409,13 +443,26 @@ function draw(){
     ctx.fillRect(b.x, b.y, b.w, b.h);
   });
 
-  ctx.fillStyle = COLORS.fg;
-  ctx.fillRect(paddle.x, PAD_Y, PAD_W, PAD_H);
+  // Bonus capsules
+  bonuses.forEach(bo => {
+    ctx.fillStyle = BONUS_COLORS[bo.type];
+    ctx.fillRect(bo.x - 18, bo.y - 9, 36, 18);
+    ctx.fillStyle = '#1a1208';
+    ctx.font = 'bold 11px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(BONUS_LABELS[bo.type], bo.x, bo.y);
+  });
+
+  ctx.fillStyle = largePaddleTimer > 0 ? '#e07a3f' : COLORS.fg;
+  ctx.fillRect(paddle.x, PAD_Y, padW(), PAD_H);
 
   ctx.fillStyle = COLORS.accent;
-  ctx.beginPath();
-  ctx.arc(ball.x, ball.y, BALL_R, 0, Math.PI*2);
-  ctx.fill();
+  balls.forEach(bl => {
+    ctx.beginPath();
+    ctx.arc(bl.x, bl.y, BALL_R, 0, Math.PI*2);
+    ctx.fill();
+  });
 }
 
 function loop(){
