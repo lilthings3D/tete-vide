@@ -317,7 +317,7 @@ function makeStars(){
 function resetGame(){
   player={gx:4, gy:HUD+PH/2-2.5, w:8, h:5, spd:0.13};
   bullets=[]; eBullets=[]; enemies=[]; boss=null;
-  score=0; lives=3; level=1; killsThisLevel=0; killsNeeded=18;
+  score=0; lives=3; level=1; killsThisLevel=0; killsNeeded=10;
   gamePhase='play'; phaseTimer=0;
   scoreVal.textContent='0'; livesVal.textContent='3';
   spawnTimer=0; fireTimer=0; invuln=0;
@@ -398,7 +398,7 @@ function updateBoss(dt){
 
   if (boss.hp<=0){
     score+=100*level; scoreVal.textContent=score;
-    boss=null; level++; killsThisLevel=0; killsNeeded=18+level*5;
+    boss=null; level++; killsThisLevel=0; killsNeeded=10+level*3;
     gamePhase='levelClear'; phaseTimer=3000;
   }
 }
@@ -442,7 +442,7 @@ function update(dt, elapsed){
     if (phaseTimer<=0){ gamePhase='play'; enemies=[]; eBullets=[]; }
   } else { // 'play'
     spawnTimer-=dt;
-    if (spawnTimer<=0){ spawnEnemy(elapsed); spawnTimer=Math.max(1400,3000-elapsed/35-(level-1)*80); }
+    if (spawnTimer<=0){ spawnEnemy(elapsed); spawnTimer=Math.max(900,2000-elapsed/35-(level-1)*80); }
   }
 
   bullets.forEach(b=>b.gx+=b.spd*dt);
