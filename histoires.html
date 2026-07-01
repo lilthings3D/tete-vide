@@ -252,6 +252,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .next-story:hover{color:var(--forest-mid);}
 
+  /* ====== NOTE SECTION ====== */
+  .note-section{max-width:600px;margin:56px auto 0;padding-top:40px;border-top:1px solid var(--forest-pale);}
+  .note-section h2{font-family:'Fraunces',serif;font-weight:300;font-style:italic;font-size:1.6rem;letter-spacing:-0.5px;color:var(--forest);margin-bottom:8px;}
+  .note-section .c-intro{color:var(--ink-soft);margin:0 0 24px;line-height:1.5;font-size:0.98rem;}
+  .note-result{display:flex;align-items:baseline;gap:14px;margin-bottom:6px;}
+  .note-moy{font-family:'Fraunces',serif;font-size:2.6rem;font-weight:600;color:var(--forest-mid);line-height:1;}
+  .note-label{font-family:'Fraunces',serif;font-style:italic;font-size:1rem;color:var(--ink-soft);}
+  .note-count{font-size:0.78rem;color:var(--ink-soft);letter-spacing:0.5px;}
+  .note-scale{display:flex;justify-content:space-between;font-size:0.72rem;letter-spacing:0.5px;text-transform:uppercase;color:var(--ink-soft);margin:14px 0 8px;}
+  .note-buttons{display:flex;gap:8px;}
+  .note-btn{flex:1;padding:12px 0;font-family:'Fraunces',serif;font-size:1.05rem;border:1px solid var(--forest-pale);border-radius:0;background:transparent;color:var(--ink-soft);cursor:pointer;transition:all .18s ease;}
+  .note-btn:hover{background:var(--forest-mid);color:#fff;border-color:var(--forest-mid);}
+
   /* État vide */
   .empty{
     text-align:center;padding:80px 0;
@@ -389,6 +402,57 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     });
   }
 
+  const SUPA_URL = "https://xvevjmzxnvqjmojwsxww.supabase.co";
+  const SUPA_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh2ZXZqbXp4bnZxam1vandzeHd3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA3OTEzNDgsImV4cCI6MjA5NjM2NzM0OH0.Cn7VrL42KmM8PCTDAKvr22oQPQ09AACOTC95xWnjMrE";
+  const SUPA_H = {"apikey":SUPA_KEY,"Authorization":"Bearer "+SUPA_KEY,"Content-Type":"application/json"};
+  const ECHELLE_H = ["c'est quoi ce truc","bof","pas mal","bien","plutôt pas mal"];
+
+  function renderNoteH(storyId, moy, n) {
+    const box = document.getElementById("note-box");
+    if (!box) return;
+    const label = n ? ECHELLE_H[Math.round(moy)-1] || "—" : "pas encore noté";
+    let btns = "";
+    for (let i = 1; i <= 5; i++)
+      btns += `<button class="note-btn" data-val="${i}" title="${ECHELLE_H[i-1]}">${i}</button>`;
+    box.innerHTML = `
+      <div class="note-result">
+        <span class="note-moy">${n ? moy.toFixed(1) : "—"}</span>
+        <span class="note-label">${label}</span>
+        <span class="note-count">${n ? n+" vote"+(n>1?"s":"") : ""}</span>
+      </div>
+      <div class="note-scale"><span>c'est quoi ce truc</span><span>pas mal</span><span>plutôt pas mal</span></div>
+      <div class="note-buttons">${btns}</div>`;
+    box.querySelectorAll(".note-btn").forEach(btn =>
+      btn.addEventListener("click", () => voterH(storyId, parseInt(btn.dataset.val)))
+    );
+  }
+
+  async function chargerNoteH(storyId) {
+    const box = document.getElementById("note-box");
+    if (!box) return;
+    renderNoteH(storyId, 0, 0);
+    try {
+      const r = await fetch(`${SUPA_URL}/rest/v1/notes?article_id=eq.histoire-${encodeURIComponent(storyId)}&select=valeur`, {headers: SUPA_H});
+      if (!r.ok) return;
+      const data = await r.json();
+      if (!Array.isArray(data) || !data.length) return;
+      const n = data.length;
+      renderNoteH(storyId, data.reduce((s,x)=>s+x.valeur,0)/n, n);
+    } catch(e) {}
+  }
+
+  async function voterH(storyId, valeur) {
+    try {
+      const r = await fetch(`${SUPA_URL}/rest/v1/notes`, {
+        method: "POST",
+        headers: {...SUPA_H, "Prefer":"return=minimal"},
+        body: JSON.stringify({article_id: "histoire-"+storyId, valeur})
+      });
+      if (r.ok) chargerNoteH(storyId);
+      else alert("Vote non enregistré — réessaie.");
+    } catch(e) { console.error("Vote error:", e); alert("Erreur réseau — vérifie ta connexion ou réessaie plus tard."); }
+  }
+
   function openStory(id) {
     const h = HISTOIRES.find(x => x.id === id);
     if (!h) return;
@@ -411,12 +475,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="fin-mark"><hr><span>fin</span><hr></div>
         <div class="sig">A.</div>
         ${nextBtn}
-      </div>`;
+      </div>
+      <section class="note-section">
+        <h2>Et alors ?</h2>
+        <p class="c-intro">Note cette histoire, de « c'est quoi ce truc » à « plutôt pas mal ».</p>
+        <div id="note-box"></div>
+      </section>`;
 
     document.getElementById("home").style.display = "none";
     document.getElementById("story-view").classList.add("on");
     window.scrollTo(0, 0);
     history.pushState({ id }, "", "#" + h.id);
+    chargerNoteH(id);
   }
 
   function goHome() {

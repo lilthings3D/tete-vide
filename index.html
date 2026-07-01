@@ -652,7 +652,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       });
       if(r.ok) chargerNote(articleId);
       else alert("Vote non enregistré — réessaie.");
-    }catch(e){ alert("Erreur réseau, réessaie."); }
+    }catch(e){ console.error("Vote error:", e); alert("Erreur réseau — vérifie ta connexion ou réessaie plus tard."); }
   }
 
   // ---- COMMENTAIRES ----
