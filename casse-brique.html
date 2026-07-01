@@ -241,7 +241,7 @@ let bonuses, largePaddleTimer;
 const BONUS_TYPES  = ['vie', 'balle', 'large'];
 const BONUS_COLORS = { vie:'#ff5566', balle:'#44bbff', large:'#ffaa22' };
 const BONUS_LABELS = { vie:'+♥', balle:'+●', large:'⟺' };
-function padW(){ return largePaddleTimer > 0 ? Math.round(PAD_W * 1.7) : PAD_W; }
+function padW(){ return largePaddleTimer > 0 ? PAD_W * 2 : PAD_W; }
 
 function resize(){
   const arena = document.getElementById('arena');
@@ -425,7 +425,7 @@ function update(){
   // Move bonuses and check paddle collection
   const pw = padW();
   bonuses = bonuses.filter(bo => {
-    bo.y += 3;
+    bo.y += 1.5;
     if (bo.y > H + 10) return false;
     if (bo.y + 9 >= PAD_Y && bo.y - 9 <= PAD_Y + PAD_H
         && bo.x + 18 >= paddle.x && bo.x - 18 <= paddle.x + pw){
