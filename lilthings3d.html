@@ -57,9 +57,10 @@ header.site{padding:30px 0 0;}
   .alm-year{font-family:'Fraunces',serif;font-size:2rem;font-weight:600;color:var(--orange-deep);line-height:1;margin-bottom:6px;}
   .alm-text{font-size:0.93rem;line-height:1.65;color:var(--ink);}
   .alm-loading{text-align:center;padding:36px 0;color:var(--ink-soft);font-style:italic;font-size:0.9rem;}
+  .date-short{display:none;}
   @media(max-width:520px){#almanach-panel{padding:28px 22px 24px;}}
 @media(max-width:780px){.sitenav-link{padding:0 8px 4px;font-size:.8rem;}}
-@media(max-width:600px){.wrap{padding:0 20px;}.topdate{display:none;}}
+@media(max-width:600px){.wrap{padding:0 20px;}.date-long{display:none;}.date-short{display:inline;}}
 
 /* LINKTREE */
 main{flex:1;display:flex;align-items:flex-start;justify-content:center;padding:60px 20px 100px;position:relative;z-index:2;}
@@ -220,7 +221,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script>
 const months=["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
 const now=new Date();
-document.getElementById("today").textContent = now.getDate()+" "+months[now.getMonth()]+" "+now.getFullYear();
+const shortMonths=["jan.","fév.","mars","avr.","mai","juin","juil.","août","sept.","oct.","nov.","déc."];
+  document.getElementById("today").innerHTML = '<span class="date-long">'+now.getDate()+" "+months[now.getMonth()]+" "+now.getFullYear()+'</span><span class="date-short">'+now.getDate()+" "+shortMonths[now.getMonth()]+'</span>';
   const todayEl = document.getElementById("today");
   todayEl.title = "Ce jour dans l'histoire";
   todayEl.onclick = openAlmanach;

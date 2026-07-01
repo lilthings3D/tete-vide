@@ -99,6 +99,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .alm-text{font-size:0.93rem;line-height:1.65;color:var(--ink);}
   .alm-loading{text-align:center;padding:36px 0;color:var(--ink-soft);font-style:italic;font-size:0.9rem;}
+  .date-short{display:none;}
   @media(max-width:520px){#almanach-panel{padding:28px 22px 24px;}}
   .sitenav{display:flex;align-items:baseline;gap:0;}
   .sitenav-link{
@@ -111,7 +112,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .sitenav-link.current{color:var(--ink);border-bottom-color:var(--ink);}
   .sitenav-ext{font-style:italic;}
   @media(max-width:780px){.sitenav-link{padding:0 8px 4px;font-size:0.8rem;}}
-  @media(max-width:600px){.topdate{display:none;}}
+  @media(max-width:600px){.date-long{display:none;}.date-short{display:inline;}}
 
   /* ============ MASTHEAD ============ */
   .masthead{
@@ -380,7 +381,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .feature .f-side{padding-left:18px;}
     .masthead{padding:30px 0 14px;}
     .art-body p:first-of-type::first-letter{font-size:3.4rem;}
-    .topdate{display:none;}
+    .date-long{display:none;}.date-short{display:inline;}
     .contact{padding:32px 22px;}
   }
 </style>
@@ -480,7 +481,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   const months=["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
   const now=new Date();
   const todayEl = document.getElementById("today");
-  todayEl.textContent = now.getDate()+" "+months[now.getMonth()]+" "+now.getFullYear();
+  const shortMonths=["jan.","fév.","mars","avr.","mai","juin","juil.","août","sept.","oct.","nov.","déc."];
+  todayEl.innerHTML = '<span class="date-long">'+now.getDate()+" "+months[now.getMonth()]+" "+now.getFullYear()+'</span><span class="date-short">'+now.getDate()+" "+shortMonths[now.getMonth()]+'</span>';
   todayEl.title = "Ce jour dans l'histoire";
   todayEl.onclick = openAlmanach;
 
