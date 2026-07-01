@@ -110,18 +110,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     margin-bottom:4px;
   }
 
-  #touch-controls{display:none;flex-direction:column;align-items:center;gap:4px;padding:12px 0 4px;}
-  @media(pointer:coarse){#touch-controls{display:flex;}}
-  .dpad-row{display:flex;gap:4px;}
-  .dpad-gap{width:64px;height:64px;}
+  #touch-controls{display:none;grid-template-areas:". t-up ." "t-left . t-right" ". t-down .";gap:10px;margin:14px 0 4px;}
+  @media(pointer:coarse){#touch-controls{display:grid;}}
+  #t-up{grid-area:t-up;} #t-left{grid-area:t-left;} #t-right{grid-area:t-right;} #t-down{grid-area:t-down;}
   .tbtn{
-    width:64px;height:64px;font-size:1.5rem;line-height:1;
-    background:rgba(212,237,208,0.1);border:1.5px solid rgba(212,237,208,0.35);
-    color:rgba(212,237,208,0.9);border-radius:8px;cursor:pointer;
-    -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+    width:72px;height:72px;border:2px solid var(--ink);background:rgba(251,247,240,0.85);
+    font-size:1.7rem;color:var(--ink);border-radius:14px;
     display:flex;align-items:center;justify-content:center;
+    cursor:pointer;user-select:none;-webkit-user-select:none;touch-action:none;
   }
-  .tbtn:active{background:rgba(212,237,208,0.3);}
 
 
   @media(pointer:coarse){
@@ -180,11 +177,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
     <div id="touch-controls">
       <button class="tbtn" id="t-up">▲</button>
-      <div class="dpad-row">
-        <button class="tbtn" id="t-left">◀</button>
-        <div class="dpad-gap"></div>
-        <button class="tbtn" id="t-right">▶</button>
-      </div>
+      <button class="tbtn" id="t-left">◀</button>
+      <button class="tbtn" id="t-right">▶</button>
       <button class="tbtn" id="t-down">▼</button>
     </div>
   </div>
@@ -247,41 +241,45 @@ const C_PBLT   = '#ff4444';
 const C_EBLT   = '#f0a868';
 
 /* ---- SPRITES ---- */
+// Player: delta-wing fighter, gun RIGHT, 8×5
 const SP_SHIP = [
   [0,0,1,0,0,0,0,0],
-  [0,1,1,1,1,0,0,0],
-  [1,1,1,1,1,1,1,1],
-  [0,1,1,1,1,0,0,0],
+  [0,1,1,1,1,1,0,0],
+  [1,0,1,1,1,1,1,1],
+  [0,1,1,1,1,1,0,0],
   [0,0,1,0,0,0,0,0],
-]; // 8×5 player, gun RIGHT
+];
 
+// Bug: angular twin-engine craft, gun LEFT, 8×5
 const SP_BUG = [
-  [0,1,0,0,1,0],
-  [1,1,1,1,1,1],
-  [0,1,1,1,1,0],
-  [1,1,1,1,1,1],
-  [0,1,0,0,1,0],
-]; // 6×5
+  [0,0,1,0,0,1,0,0],
+  [0,1,1,1,1,1,1,0],
+  [1,1,0,1,1,0,1,1],
+  [0,1,1,1,1,1,1,0],
+  [0,0,1,0,0,1,0,0],
+];
 
+// Drone: heavy cruiser, triple prong gun LEFT, 10×5
 const SP_DRONE = [
-  [0,0,0,1,1,0,0,0],
-  [0,1,1,1,1,1,1,0],
-  [1,1,1,1,1,1,1,1],
-  [0,1,1,1,1,1,1,0],
-  [0,0,0,1,1,0,0,0],
-]; // 8×5, gun LEFT
+  [0,0,0,1,1,1,0,0,0,0],
+  [0,1,1,1,1,1,1,1,0,0],
+  [1,1,1,0,0,1,1,1,1,1],
+  [0,1,1,1,1,1,1,1,0,0],
+  [0,0,0,1,1,1,0,0,0,0],
+];
 
+// Boss: capital ship, multi-prong gun LEFT, 14×9
 const SP_BOSS = [
-  [0,0,0,0,1,1,1,1,1,1,0,0,0,0],
+  [0,0,0,0,0,1,1,1,1,1,1,0,0,0],
   [0,0,1,1,1,1,1,1,1,1,1,1,0,0],
-  [0,1,1,1,0,0,1,1,1,1,1,1,1,0],
-  [1,1,0,1,1,1,1,1,1,1,1,1,1,1],
-  [1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-  [1,1,0,1,1,1,1,1,1,1,1,1,1,1],
-  [0,1,1,1,0,0,1,1,1,1,1,1,1,0],
+  [0,1,1,0,0,1,1,1,1,1,1,1,1,0],
+  [1,1,0,0,1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,1,1,0,1,1,1,1,1,1,1],
+  [1,1,0,0,1,1,1,1,1,1,1,1,1,1],
+  [0,1,1,0,0,1,1,1,1,1,1,1,1,0],
   [0,0,1,1,1,1,1,1,1,1,1,1,0,0],
-  [0,0,0,0,1,1,1,1,1,1,0,0,0,0],
-]; // 14×9 boss, gun LEFT
+  [0,0,0,0,0,1,1,1,1,1,1,0,0,0],
+];
 
 const SP_LIFE = [
   [0,1,0,0,0],
@@ -317,7 +315,7 @@ function makeStars(){
 }
 
 function resetGame(){
-  player={gx:4, gy:HUD+PH/2-2.5, w:8, h:5, spd:0.20};
+  player={gx:4, gy:HUD+PH/2-2.5, w:8, h:5, spd:0.13};
   bullets=[]; eBullets=[]; enemies=[]; boss=null;
   score=0; lives=3; level=1; killsThisLevel=0; killsNeeded=18;
   gamePhase='play'; phaseTimer=0;
@@ -380,7 +378,7 @@ function updateBoss(dt){
   if (boss.shootTimer<=0){
     const cy=boss.gy+boss.h/2;
     for (let i=-1;i<=1;i++)
-      eBullets.push({gx:boss.gx, gy:cy+i*2.5, spd:0.15+Math.abs(i)*0.04});
+      eBullets.push({gx:boss.gx, gy:cy+i*2.5, spd:0.09+Math.abs(i)*0.02});
     boss.shootTimer=Math.max(700, 2000-level*70);
   }
 
@@ -409,7 +407,7 @@ function updateBoss(dt){
 function spawnEnemy(elapsed){
   const isBug = Math.random()<(level<=1?0.78:0.55);
   const spr = isBug ? SP_BUG : SP_DRONE;
-  const spd = 0.06 + Math.min(0.09, elapsed/200000) + (level-1)*0.008;
+  const spd = 0.035 + Math.min(0.055, elapsed/250000) + (level-1)*0.005;
   enemies.push({
     gx:GW, gy:HUD+1+Math.random()*(PH-spr.length-1),
     w:spr[0].length, h:spr.length, spd, spr,
@@ -431,7 +429,7 @@ function update(dt, elapsed){
   player.gy=clamp(player.gy,HUD,GH-player.h);
 
   fireTimer-=dt;
-  if (fireTimer<=0){ bullets.push({gx:player.gx+player.w, gy:player.gy+2, spd:0.40}); fireTimer=400; }
+  if (fireTimer<=0){ bullets.push({gx:player.gx+player.w, gy:player.gy+2, spd:0.28}); fireTimer=480; }
 
   /* phase logic */
   if (gamePhase==='bossTransition'){
@@ -444,7 +442,7 @@ function update(dt, elapsed){
     if (phaseTimer<=0){ gamePhase='play'; enemies=[]; eBullets=[]; }
   } else { // 'play'
     spawnTimer-=dt;
-    if (spawnTimer<=0){ spawnEnemy(elapsed); spawnTimer=Math.max(900,2200-elapsed/30-(level-1)*70); }
+    if (spawnTimer<=0){ spawnEnemy(elapsed); spawnTimer=Math.max(1400,3000-elapsed/35-(level-1)*80); }
   }
 
   bullets.forEach(b=>b.gx+=b.spd*dt);
@@ -454,7 +452,7 @@ function update(dt, elapsed){
     en.gx-=en.spd*dt;
     en.wob+=0.0018*dt;
     en.gy+=Math.sin(en.wob)*0.2*(dt/16);
-    if (en.shoots){ en.shootTimer-=dt; if(en.shootTimer<=0){ eBullets.push({gx:en.gx,gy:en.gy+Math.floor(en.h/2),spd:0.14}); en.shootTimer=2000+Math.random()*2000; } }
+    if (en.shoots){ en.shootTimer-=dt; if(en.shootTimer<=0){ eBullets.push({gx:en.gx,gy:en.gy+Math.floor(en.h/2),spd:0.09}); en.shootTimer=2500+Math.random()*2000; } }
   });
   enemies=enemies.filter(en=>en.gx>-en.w-2);
 
