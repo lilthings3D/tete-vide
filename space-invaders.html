@@ -166,7 +166,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div id="arena">
   <div id="game-col">
     <div id="game-title">Space Invaders <b>·</b></div>
-    <div id="info-bar">Score : <strong id="score-val">0</strong> &nbsp;·&nbsp; Vies : <strong id="lives-val">3</strong> &nbsp;·&nbsp; ← → / Espace pour tirer</div>
+    <div id="info-bar">Score : <strong id="score-val">0</strong> &nbsp;·&nbsp; Vies : <strong id="lives-val">3</strong> &nbsp;·&nbsp; Vague : <strong id="wave-val">1</strong> &nbsp;·&nbsp; ← → / Espace pour tirer</div>
     <canvas id="c"></canvas>
     <div id="touch-controls">
       <button class="tbtn" id="t-left">◀</button>
@@ -356,7 +356,7 @@ const PW = 13*PPX, PH = 8*PPX;
 
 let player, bullet, alienBullets, aliens, bunkers;
 let alienDir, alienSpeed, animFrame, animTick;
-let score, lives, running, alienFireTimer;
+let score, lives, running, alienFireTimer, wave, nextWavePending;
 let ufo, ufoTimer;
 
 function buildAliens() {
@@ -365,14 +365,15 @@ function buildAliens() {
   for (let r = 0; r < ROWS; r++)
     for (let c = 0; c < COLS; c++)
       aliens.push({ row:r, col:c, x:gx0+c*(AL_W+AL_GX), y:38+r*(AL_H+AL_GY), alive:true });
-  alienDir = 1; alienSpeed = 0.8; animFrame = 0; animTick = 0;
+  alienDir = 1; alienSpeed = 0.8 + (wave-1)*0.3; animFrame = 0; animTick = 0;
 }
 
 function resetGame() {
   player = { x: W/2 - PW/2, y: H-42, speed: 6 };
   bullet = null; alienBullets = [];
-  score = 0; lives = 3;
+  score = 0; lives = 3; wave = 1;
   scoreVal.textContent = '0'; livesVal.textContent = '3';
+  document.getElementById('wave-val').textContent = '1';
   alienFireTimer = 1000;
   ufo = null; ufoTimer = Math.random()*15000+18000;
   bunkers = buildBunkers();
@@ -380,6 +381,7 @@ function resetGame() {
 }
 
 function startGame() {
+  nextWavePending = false;
   resetGame();
   overMsg.style.display = 'none';
   nameEntry.classList.remove('on');
@@ -387,7 +389,23 @@ function startGame() {
   running = true;
   requestAnimationFrame(loop);
 }
-btnStart.addEventListener('click', startGame);
+btnStart.addEventListener('click', () => {
+  if (nextWavePending) {
+    nextWavePending = false;
+    bunkers = buildBunkers();
+    buildAliens();
+    bullet = null; alienBullets = [];
+    alienFireTimer = 1000;
+    ufo = null; ufoTimer = Math.random()*15000+18000;
+    overMsg.style.display = 'none';
+    nameEntry.classList.remove('on');
+    controls.classList.add('hidden');
+    running = true;
+    requestAnimationFrame(loop);
+  } else {
+    startGame();
+  }
+});
 
 const keys = {};
 document.addEventListener('keydown', e => {
@@ -499,9 +517,19 @@ function update(dt) {
 
   /* conditions fin */
   if (alive.some(a=>a.y+AL_H>=player.y)) { endGame(false); return; }
-  if (alive.length===0) { endGame(true); return; }
+  if (alive.length===0) { nextWave(); return; }
 }
 
+function nextWave() {
+  running = false;
+  wave++;
+  document.getElementById('wave-val').textContent = wave;
+  nextWavePending = true;
+  overMsg.textContent = `Vague ${wave-1} effacée ! Score : ${score} → Vague ${wave}`;
+  overMsg.style.display = 'block';
+  controls.classList.remove('hidden');
+  btnStart.textContent = `Vague ${wave} →`;
+}
 function endGame(won) {
   running=false;
   btnStart.textContent='Rejouer →';

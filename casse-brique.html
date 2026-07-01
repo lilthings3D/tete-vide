@@ -151,7 +151,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div id="arena">
   <div id="game-col">
     <div id="game-title">Casse-brique <b>·</b></div>
-    <div id="info-bar">Score : <strong id="score-val">0</strong> &nbsp;·&nbsp; Vies : <strong id="lives-val">3</strong> &nbsp;·&nbsp; Souris / Tactile / ← →</div>
+    <div id="info-bar">Score : <strong id="score-val">0</strong> &nbsp;·&nbsp; Vies : <strong id="lives-val">3</strong> &nbsp;·&nbsp; Niv. : <strong id="level-val">1</strong> &nbsp;·&nbsp; Souris / Tactile / ← →</div>
     <canvas id="c"></canvas>
     <div id="controls">
       <div id="over-msg" style="display:none"></div>
@@ -230,7 +230,7 @@ const ROWS = 5, COLS = 9, BRICK_GAP = 5, BRICK_H = 22;
 const MARGIN = 24;
 const BRICK_W = (W - MARGIN*2 - BRICK_GAP*(COLS-1)) / COLS;
 
-let paddle, ball, bricks, score, lives, running;
+let paddle, ball, bricks, score, lives, running, level, nextLevelPending;
 
 function resize(){
   const arena = document.getElementById('arena');
@@ -243,10 +243,25 @@ function resize(){
 window.addEventListener('resize', resize);
 resize();
 
-function buildBricks(){
+function getLayout(lvl) {
+  const p = (lvl-1) % 8;
+  switch(p){
+    case 1: return Array.from({length:6},(_,r)=>Array.from({length:9},(_,c)=>(r+c)%2));
+    case 2: return [[0,0,0,0,1,0,0,0,0],[0,0,0,1,1,1,0,0,0],[0,0,1,1,1,1,1,0,0],[0,1,1,1,1,1,1,1,0],[1,1,1,1,1,1,1,1,1]];
+    case 3: return [[0,0,0,0,1,0,0,0,0],[0,0,0,1,1,1,0,0,0],[0,0,1,1,1,1,1,0,0],[0,1,1,1,1,1,1,1,0],[0,0,1,1,1,1,1,0,0],[0,0,0,1,1,1,0,0,0],[0,0,0,0,1,0,0,0,0]];
+    case 4: return [[1,1,1,1,1,1,1,1,1],[1,0,0,0,0,0,0,0,1],[1,0,1,1,1,1,1,0,1],[1,0,0,0,0,0,0,0,1],[1,1,1,1,1,1,1,1,1]];
+    case 5: return [[0,1,0,1,0,1,0,1,0],[1,1,1,1,1,1,1,1,1],[0,1,0,1,1,1,0,1,0],[1,1,1,1,1,1,1,1,1],[0,1,0,1,0,1,0,1,0]];
+    case 6: return [[1,1,0,1,0,1,0,1,1],[0,1,1,0,1,0,1,1,0],[1,0,1,1,1,1,1,0,1],[1,1,0,1,0,1,0,1,1],[0,1,1,0,1,0,1,1,0],[1,0,1,1,1,1,1,0,1]];
+    case 7: return [[1,1,0,0,0,0,0,1,1],[1,1,0,0,1,0,0,1,1],[1,1,0,1,1,1,0,1,1],[1,1,1,0,1,0,1,1,1],[1,0,1,0,1,0,1,0,1]];
+    default: return Array.from({length:5},()=>Array(9).fill(1));
+  }
+}
+function buildBricksForLevel(lvl){
   bricks = [];
-  for (let r=0; r<ROWS; r++){
-    for (let c=0; c<COLS; c++){
+  const layout = getLayout(lvl);
+  for (let r=0; r<layout.length; r++)
+    for (let c=0; c<layout[r].length; c++){
+      if (!layout[r][c]) continue;
       bricks.push({
         x: MARGIN + c*(BRICK_W+BRICK_GAP),
         y: 50 + r*(BRICK_H+BRICK_GAP),
@@ -255,23 +270,25 @@ function buildBricks(){
         alive: true,
       });
     }
-  }
 }
 
 function resetBall(){
-  ball = { x: W/2, y: PAD_Y - BALL_R - 2, dx: 4*(Math.random()<0.5?1:-1), dy: -4 };
+  const spd = Math.min(4 + (level-1)*0.4, 7);
+  ball = { x: W/2, y: PAD_Y - BALL_R - 2, dx: spd*(Math.random()<0.5?1:-1), dy: -spd };
 }
 
 function resetGame(){
   paddle = { x: W/2 - PAD_W/2 };
-  score = 0; lives = 3;
+  score = 0; lives = 3; level = 1;
   scoreVal.textContent = '0';
   livesVal.textContent = '3';
-  buildBricks();
+  document.getElementById('level-val').textContent = '1';
+  buildBricksForLevel(level);
   resetBall();
 }
 
 function startGame(){
+  nextLevelPending = false;
   resetGame();
   overMsg.style.display = 'none';
   nameEntry.classList.remove('on');
@@ -279,7 +296,21 @@ function startGame(){
   running = true;
   requestAnimationFrame(loop);
 }
-btnStart.addEventListener('click', startGame);
+btnStart.addEventListener('click', () => {
+  if (nextLevelPending) {
+    nextLevelPending = false;
+    paddle = { x: W/2 - PAD_W/2 };
+    buildBricksForLevel(level);
+    resetBall();
+    overMsg.style.display = 'none';
+    nameEntry.classList.remove('on');
+    controls.classList.add('hidden');
+    running = true;
+    requestAnimationFrame(loop);
+  } else {
+    startGame();
+  }
+});
 
 function clamp(v, lo, hi){ return Math.max(lo, Math.min(hi, v)); }
 
@@ -351,9 +382,7 @@ function update(){
   }
 
   if (bricks.every(b => !b.alive)){
-    running = false;
-    btnStart.textContent = 'Rejouer →';
-    endGame('Gagné !');
+    nextLevel();
     return;
   }
 
@@ -400,6 +429,7 @@ function endGame(label){
   overMsg.textContent = label + ' Score : ' + score;
   overMsg.style.display = 'block';
   controls.classList.remove('hidden');
+  btnStart.textContent = 'Rejouer →';
   const entries = loadCache();
   renderLeaderboard(entries);
   if(qualifies(score, entries)){
@@ -408,6 +438,16 @@ function endGame(label){
     playerNameInput.focus();
   }
   fetchLB().then(e => renderLeaderboard(e));
+}
+function nextLevel(){
+  running = false;
+  level++;
+  document.getElementById('level-val').textContent = level;
+  nextLevelPending = true;
+  overMsg.textContent = `Niveau ${level-1} effacé ! → Niveau ${level}`;
+  overMsg.style.display = 'block';
+  controls.classList.remove('hidden');
+  btnStart.textContent = `Niveau ${level} →`;
 }
 function doSubmit(){
   const name = playerNameInput.value.trim()||'Anonyme';
