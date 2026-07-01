@@ -206,7 +206,7 @@ function qualifies(sc,entries){ return sc>0&&(entries.length<10||sc>entries[entr
 
 async function fetchLB(){
   try{
-    const r = await fetch('http://dreamlo.com/lb/'+LB_PUBLIC+'/json/10');
+    const r = await fetch('https://dreamlo.com/lb/'+LB_PUBLIC+'/json/10');
     const d = await r.json();
     let raw = d.dreamlo?.leaderboard?.entry || [];
     if(!Array.isArray(raw)) raw=[raw];
@@ -216,7 +216,7 @@ async function fetchLB(){
 }
 
 function addToLB(name, sc){
-  new Image().src = 'http://dreamlo.com/lb/'+LB_PRIVATE+'/add/'+encodeURIComponent(name)+'/'+sc;
+  new Image().src = 'https://dreamlo.com/lb/'+LB_PRIVATE+'/add/'+encodeURIComponent(name)+'/'+sc;
   const entries = [...loadCache(),{name,score:sc}].sort((a,b)=>b.score-a.score).slice(0,10);
   saveCache(entries); return entries;
 }
