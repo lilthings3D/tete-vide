@@ -58,7 +58,48 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     letter-spacing:0.5px;cursor:pointer;text-decoration:none;color:var(--ink);
   }
   .brand b{color:var(--orange-deep);}
-  .topdate{font-size:0.8rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-soft);}
+  .topdate{font-size:0.8rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-soft);cursor:pointer;border-bottom:1px dotted var(--ink-soft);transition:color .2s,border-color .2s;}
+  .topdate:hover{color:var(--ink);border-color:var(--ink);}
+
+  /* ============ ALMANACH ============ */
+  #almanach-overlay{
+    display:none;position:fixed;inset:0;z-index:200;
+    background:rgba(46,34,24,0.5);backdrop-filter:blur(3px);
+    align-items:center;justify-content:center;
+  }
+  #almanach-overlay.open{display:flex;}
+  #almanach-panel{
+    background:var(--cream);border:1.5px solid var(--ink);
+    max-width:480px;width:calc(100% - 48px);
+    padding:36px 36px 32px;position:relative;
+    max-height:82vh;overflow-y:auto;
+  }
+  .alm-close{
+    position:absolute;top:12px;right:16px;background:none;border:none;
+    font-size:1.6rem;cursor:pointer;color:var(--ink-soft);line-height:1;padding:0;
+  }
+  .alm-close:hover{color:var(--orange-deep);}
+  .alm-kicker{
+    font-family:'Fraunces',serif;font-size:0.7rem;letter-spacing:3px;
+    text-transform:uppercase;color:var(--orange-deep);margin-bottom:14px;
+  }
+  .alm-title{
+    font-family:'Fraunces',serif;font-size:1.7rem;font-weight:300;font-style:italic;
+    line-height:1.1;margin-bottom:28px;border-bottom:3px double var(--ink);padding-bottom:18px;
+  }
+  .alm-section{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--rule);}
+  .alm-section:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none;}
+  .alm-label{
+    font-family:'Fraunces',serif;font-size:0.68rem;letter-spacing:2.5px;
+    text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px;
+  }
+  .alm-year{
+    font-family:'Fraunces',serif;font-size:2rem;font-weight:600;
+    color:var(--orange-deep);line-height:1;margin-bottom:6px;
+  }
+  .alm-text{font-size:0.93rem;line-height:1.65;color:var(--ink);}
+  .alm-loading{text-align:center;padding:36px 0;color:var(--ink-soft);font-style:italic;font-size:0.9rem;}
+  @media(max-width:520px){#almanach-panel{padding:28px 22px 24px;}}
   .sitenav{display:flex;align-items:baseline;gap:0;}
   .sitenav-link{
     font-family:'Fraunces',serif;font-size:0.88rem;font-weight:500;
@@ -423,12 +464,65 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
+<!-- Almanach overlay -->
+<div id="almanach-overlay" onclick="closeAlmanach(event)">
+  <div id="almanach-panel">
+    <button class="alm-close" onclick="closeAlmanach()">×</button>
+    <div class="alm-kicker">Ce jour dans l'histoire</div>
+    <div class="alm-title" id="alm-title"></div>
+    <div id="alm-content"><div class="alm-loading">Chargement…</div></div>
+  </div>
+</div>
+
 <script src="articles.js"></script>
 <script>
   // date
   const months=["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
   const now=new Date();
-  document.getElementById("today").textContent = now.getDate()+" "+months[now.getMonth()]+" "+now.getFullYear();
+  const todayEl = document.getElementById("today");
+  todayEl.textContent = now.getDate()+" "+months[now.getMonth()]+" "+now.getFullYear();
+  todayEl.title = "Ce jour dans l'histoire";
+  todayEl.onclick = openAlmanach;
+
+  // almanach
+  async function openAlmanach(){
+    document.getElementById("almanach-overlay").classList.add("open");
+    document.getElementById("alm-title").textContent = now.getDate()+" "+months[now.getMonth()];
+    document.getElementById("alm-content").innerHTML = '<div class="alm-loading">Chargement…</div>';
+    try {
+      const m = now.getMonth()+1, d = now.getDate();
+      const res = await fetch(`https://fr.wikipedia.org/api/rest_v1/feed/onthisday/all/${m}/${d}`);
+      const data = await res.json();
+      const pick = arr => {
+        if(!arr||!arr.length) return null;
+        return arr[Math.floor(Math.random()*Math.min(arr.length,8))];
+      };
+      const ev = pick(data.events);
+      const birth = pick(data.births);
+      const death = pick(data.deaths);
+      let html = '';
+      if(ev)    html += almBlock('Événement', ev);
+      if(birth) html += almBlock('Naissance', birth);
+      if(death) html += almBlock('Décès', death);
+      document.getElementById("alm-content").innerHTML = html || '<div class="alm-loading">Aucune donnée.</div>';
+    } catch(e) {
+      document.getElementById("alm-content").innerHTML = '<div class="alm-loading">Impossible de charger les données.</div>';
+    }
+  }
+
+  function almBlock(label, item){
+    return `<div class="alm-section">
+      <div class="alm-label">${label}</div>
+      <div class="alm-year">${item.year}</div>
+      <div class="alm-text">${item.text}</div>
+    </div>`;
+  }
+
+  function closeAlmanach(e){
+    if(!e || e.target===document.getElementById("almanach-overlay"))
+      document.getElementById("almanach-overlay").classList.remove("open");
+  }
+  document.addEventListener("keydown", e=>{ if(e.key==="Escape") document.getElementById("almanach-overlay").classList.remove("open"); });
 
   // on retire les brouillons de tout ce qui est visible aux lecteurs
   const ARTICLES_PUBLIES = ARTICLES.filter(a => !a.brouillon);
