@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TRQZWVGP');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moto Backflip — Tête vide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FBF7F0;--ink:#2e2218;--ink-soft:#5b4a39;
+    --orange:#D43030;--orange-deep:#B02020;
+    --rule:#e0cfb0;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{height:100%;overflow:hidden;}
+  body{
+    background:var(--cream);color:var(--ink);
+    font-family:'Spectral',Georgia,serif;
+    -webkit-font-smoothing:antialiased;
+    display:flex;flex-direction:column;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:0.4;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+    mix-blend-mode:multiply;
+  }
+
+  header.site{flex-shrink:0;padding:0 28px;border-bottom:1.5px solid var(--ink);z-index:10;}
+  .topbar{display:flex;justify-content:space-between;align-items:center;height:52px;}
+  .brand{font-family:'Fraunces',serif;font-weight:600;font-size:1.05rem;text-decoration:none;color:var(--ink);}
+  .brand b{color:var(--orange-deep);}
+  .sitenav{display:flex;gap:0;}
+  .sitenav-link{font-family:'Fraunces',serif;font-size:0.85rem;font-weight:500;color:var(--ink-soft);text-decoration:none;padding:0 10px 2px;border-bottom:2px solid transparent;transition:color .2s,border-color .2s;}
+  .sitenav-link:hover,.sitenav-link.current{color:var(--orange-deep);border-bottom-color:var(--orange-deep);}
+
+  #arena{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;padding:20px 32px;overflow-y:auto;position:relative;z-index:2;}
+  #game-col{display:flex;flex-direction:column;align-items:center;flex-shrink:0;}
+  canvas{max-height:calc(100vh - 180px) !important;}
+  #lb-section{position:absolute;top:20px;right:32px;width:260px;padding-top:46px;max-height:calc(100vh - 130px);overflow-y:auto;}
+  #lb-section h2{font-family:'Fraunces',serif;font-weight:300;font-style:italic;font-size:1.6rem;letter-spacing:-0.5px;border-bottom:3px double var(--ink);padding-bottom:10px;margin-bottom:20px;}
+  #lb-section h2 b{font-style:normal;font-weight:600;color:var(--orange-deep);}
+  @media(max-width:900px){#arena{padding:16px 20px;}canvas{max-height:50vh !important;}}
+  @media(max-width:900px),(pointer:coarse){#lb-section{position:relative;top:auto;right:auto;width:100%;max-width:100%;max-height:none;padding-top:20px;border-top:1.5px solid var(--rule);margin-top:8px;}}
+  #name-entry{display:none;flex-direction:column;align-items:center;gap:10px;margin-bottom:4px;}
+  #name-entry.on{display:flex;}
+  .name-label{font-family:'Fraunces',serif;font-size:0.78rem;letter-spacing:1px;color:var(--ink-soft);text-transform:uppercase;text-align:center;}
+  #player-name{font-family:'Spectral',Georgia,serif;font-size:1rem;padding:8px 14px;border:1.5px solid var(--rule);background:var(--cream);color:var(--ink);outline:none;text-align:center;width:200px;}
+  #player-name:focus{border-color:var(--ink);}
+  .btn-skip{font-family:'Fraunces',serif;font-size:0.72rem;letter-spacing:1px;color:rgba(251,247,240,.55);text-transform:uppercase;background:none;border:none;cursor:pointer;}
+  .btn-skip:hover{color:var(--cream);}
+  .lb-table{width:100%;border-collapse:collapse;}
+  .lb-table tr{border-bottom:1px solid var(--rule);}
+  .lb-table th{font-family:'Fraunces',serif;font-size:0.68rem;letter-spacing:3px;text-transform:uppercase;color:var(--ink-soft);text-align:left;padding:0 0 10px;font-weight:600;}
+  .lb-table td{padding:12px 0;font-size:0.95rem;vertical-align:middle;}
+  .lb-table td:first-child{font-family:'Fraunces',serif;font-size:0.75rem;letter-spacing:2px;color:var(--ink-soft);width:36px;}
+  .lb-table td:last-child{text-align:right;font-family:'Fraunces',serif;font-size:1.1rem;font-weight:600;color:var(--orange-deep);}
+  .lb-table tr.lb-me td{background:var(--orange);color:var(--cream);}
+  .lb-empty{font-style:italic;color:var(--ink-soft);padding:20px 0;text-align:center;}
+  .lb-rank-1 td:first-child{font-size:1rem;}
+
+  canvas{
+    display:block;
+    border:2px solid var(--ink);
+    background:#101a26;
+    max-width:100%;max-height:100%;
+    touch-action:none;
+  }
+
+  #game-title{
+    font-family:'Fraunces',serif;font-weight:300;font-style:italic;
+    font-size:clamp(1.4rem,3vw,2rem);color:var(--ink);letter-spacing:-0.5px;
+    padding:8px 0 6px;text-align:center;
+  }
+  #game-title b{font-style:normal;font-weight:600;color:var(--orange-deep);}
+
+  #info-bar{
+    font-size:0.78rem;letter-spacing:1px;text-transform:uppercase;
+    color:var(--ink-soft);text-align:center;padding:0 0 6px;line-height:1.8;
+  }
+  #info-bar strong{color:var(--orange-deep);}
+
+  #canvas-wrap{ position:relative; line-height:0; }
+  #controls{
+    position:absolute;inset:0;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+    background:rgba(16,26,38,0.88);
+    padding:20px;
+  }
+  #controls.hidden{display:none;}
+  .btn{
+    font-family:'Fraunces',serif;font-size:0.9rem;letter-spacing:1.5px;text-transform:uppercase;
+    color:var(--cream);border:2px solid var(--cream);
+    background:none;padding:11px 32px;cursor:pointer;
+    transition:background .2s,color .2s;
+  }
+  .btn:hover{background:var(--cream);color:var(--ink);}
+
+  #over-msg{
+    font-family:'Fraunces',serif;font-weight:600;font-style:italic;
+    font-size:clamp(1.1rem,2.6vw,1.6rem);color:var(--cream);text-align:center;
+    margin-bottom:4px;line-height:1.5;
+  }
+  #over-msg b{color:#ff7b6b;}
+
+  /* touch buttons — snake-style cream */
+  #touch-controls{display:none;justify-content:space-between;width:100%;max-width:560px;margin:14px 0 4px;gap:10px;}
+  @media(pointer:coarse){#touch-controls{display:flex;}}
+  .tbtn{
+    height:76px;border:2px solid var(--ink);background:rgba(251,247,240,0.85);
+    font-family:'Fraunces',serif;font-size:0.85rem;letter-spacing:1.5px;text-transform:uppercase;
+    color:var(--ink);border-radius:14px;flex:1;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;user-select:none;-webkit-user-select:none;touch-action:none;
+  }
+  .tbtn:active{background:var(--rule);}
+  #t-boost{flex:0.7;color:var(--orange-deep);border-color:var(--orange-deep);}
+
+  @media(pointer:coarse){
+    html,body{height:auto;overflow:visible;}
+    #arena{overflow-y:visible;height:auto;flex:none;}
+  }
+  @media(max-width:600px){
+    .topbar{flex-wrap:wrap;padding-bottom:6px;height:auto;}
+    .sitenav{width:100%;border-top:1px solid var(--rule);padding-top:8px;margin-top:6px;justify-content:center;flex-wrap:wrap;gap:4px;}
+    .sitenav-link{font-size:0.65rem;padding:4px 8px;border:1px solid var(--rule);border-bottom:1px solid var(--rule);}
+    .sitenav-link.current{background:var(--ink);color:var(--cream);border-color:var(--ink);}
+  }
+</style>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TBJXMCC70W"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-TBJXMCC70W');
+</script>
+</head>
+<body><!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TRQZWVGP"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<header class="site">
+  <div class="topbar">
+    <a class="brand" href="jeux.html">← Minis <b>jeux</b></a>
+    <nav class="sitenav">
+      <a class="sitenav-link" href="snake.html">Snake</a>
+      <a class="sitenav-link" href="casse-brique.html">Casse-brique</a>
+      <a class="sitenav-link" href="space-impact.html">Space Impact</a>
+      <a class="sitenav-link current" href="moto.html">Moto</a>
+    </nav>
+  </div>
+</header>
+
+<div id="arena">
+  <div id="game-col">
+    <div id="game-title">Moto <b>Backflip</b></div>
+    <div id="info-bar">Score : <strong id="score-val">0</strong> &nbsp;·&nbsp; Flips : <strong id="flips-val">0</strong> &nbsp;·&nbsp; → gaz · ← frein/rotation · Espace boost</div>
+    <div id="canvas-wrap">
+      <canvas id="c"></canvas>
+      <div id="controls">
+        <div id="over-msg" style="display:none"></div>
+        <div id="name-entry">
+          <div class="name-label" style="color:rgba(251,247,240,.8)">Nouveau record ! Ton pseudo :</div>
+          <input id="player-name" type="text" maxlength="20" placeholder="Ton pseudo" autocomplete="off">
+          <button class="btn" id="btn-submit-score">Valider →</button>
+          <button class="btn-skip" id="btn-skip">Passer</button>
+        </div>
+        <button class="btn" id="btn-start">Jouer →</button>
+      </div>
+    </div>
+    <div id="touch-controls">
+      <button class="tbtn" id="t-brake">◀ Frein</button>
+      <button class="tbtn" id="t-boost">🔥 Boost</button>
+      <button class="tbtn" id="t-gas">Gaz ▶</button>
+    </div>
+  </div>
+  <section id="lb-section">
+    <h2>Top 10 <b>·</b></h2>
+    <table class="lb-table">
+      <thead><tr><th>#</th><th>Joueur</th><th>Score</th></tr></thead>
+      <tbody id="lb-body"><tr><td colspan="3" class="lb-empty">Pas encore de scores.</td></tr></tbody>
+    </table>
+  </section>
+</div>
+
+<script>
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+const controls = document.getElementById('controls');
+const overMsg = document.getElementById('over-msg');
+const btnStart = document.getElementById('btn-start');
+const nameEntry = document.getElementById('name-entry');
+const playerNameInput = document.getElementById('player-name');
+const btnSubmit = document.getElementById('btn-submit-score');
+const btnSkip = document.getElementById('btn-skip');
+const scoreVal = document.getElementById('score-val');
+const flipsVal = document.getElementById('flips-val');
+const lbBody = document.getElementById('lb-body');
+
+/* ---- LEADERBOARD ---- */
+const LB_URL   = 'https://script.google.com/macros/s/AKfycbwyBOl_zvYu9U7LciBuBeQhta19z1lWJ7hXr7KYFmfaWCc_ZnV_QIUoU-wri5Pu4Ps/exec';
+const LB_GAME  = 'moto';
+const LB_CACHE = 'lb-moto-cache';
+function loadCache(){ try{ return JSON.parse(localStorage.getItem(LB_CACHE))||[]; }catch{ return []; } }
+function saveCache(e){ localStorage.setItem(LB_CACHE, JSON.stringify(e)); }
+function qualifies(sc,entries){ return sc>0&&(entries.length<10||sc>entries[entries.length-1].score); }
+async function fetchLB(){
+  try{ const r=await fetch(LB_URL+'?game='+LB_GAME); const e=await r.json(); if(Array.isArray(e)){saveCache(e);return e;} return loadCache(); }catch{ return loadCache(); }
+}
+function addToLB(name,sc){
+  const url=LB_URL+'?action=add&game='+LB_GAME+'&name='+encodeURIComponent(name)+'&score='+sc;
+  fetch(url).then(r=>r.json()).then(e=>{if(Array.isArray(e)){saveCache(e);renderLeaderboard(e,name);}}).catch(()=>{});
+  const entries=[...loadCache(),{name,score:sc}].sort((a,b)=>b.score-a.score).slice(0,10);
+  saveCache(entries); return entries;
+}
+function renderLeaderboard(entries,hl){const m=['🥇','🥈','🥉'];lbBody.innerHTML=entries.length?entries.map((e,i)=>`<tr class="${i===0?'lb-rank-1':''} ${hl&&e.name===hl?'lb-me':''}"><td>${m[i]||'#'+(i+1)}</td><td>${e.name}</td><td>${e.score}</td></tr>`).join(''):'<tr><td colspan="3" class="lb-empty">Pas encore de scores — sois le premier !</td></tr>';}
+
+/* ================================================================
+   MOTO BACKFLIP — terrain procédural, physique 2D, flips = boost
+   ================================================================ */
+const W = 900, H = 450;
+canvas.width = W; canvas.height = H;
+
+function resize(){
+  const arena = document.getElementById('arena');
+  const sc = Math.min((arena.clientWidth-4)/W, (arena.clientHeight-4)/H, 1);
+  canvas.style.width=(W*sc)+'px'; canvas.style.height=(H*sc)+'px';
+}
+window.addEventListener('resize', resize); resize();
+
+/* ---- seeded RNG (nouveau tracé à chaque run) ---- */
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+
+/* ---- terrain ---- */
+let terra; // {amps, freqs, phases}
+function makeTerrain(seed){
+  const rnd = mulberry32(seed);
+  const n = 5, amps=[], freqs=[], phases=[];
+  const baseAmps=[70,48,30,16,8];
+  for(let i=0;i<n;i++){
+    amps.push(baseAmps[i]*(0.7+rnd()*0.7));
+    freqs.push((2*Math.PI)/(1400/(i+1)*(0.7+rnd()*0.7)));
+    phases.push(rnd()*Math.PI*2);
+  }
+  terra = {amps,freqs,phases};
+}
+function groundY(x){
+  let y = H*0.68;
+  const difficulty = Math.min(1.6, 1 + x/22000); // relief s'accentue avec la distance
+  for(let i=0;i<terra.amps.length;i++)
+    y += terra.amps[i]*difficulty*Math.sin(x*terra.freqs[i]+terra.phases[i]);
+  return y;
+}
+function slopeAngle(x){
+  const d=8;
+  return Math.atan2(groundY(x+d)-groundY(x-d), 2*d);
+}
+
+/* ---- état ---- */
+let bike, running, score, flips, flipPoints, boost, camX, popups, crashT;
+const G = 0.0028;          // gravité px/ms²
+const ACCEL = 0.00050;     // gaz
+const BRAKE = 0.0010;
+const MAXV = 0.62;         // vitesse max sol (px/ms)
+const BOOST_MAXV = 1.0;
+const BOOST_ACC = 0.0016;
+const BOOST_DRAIN = 0.055; // /ms
+const ROT = 0.0085;        // vitesse rotation air (rad/ms)
+
+function resetGame(){
+  makeTerrain((Math.random()*1e9)|0);
+  const x0 = 100;
+  bike = {
+    x:x0, y:groundY(x0)-14, vx:0.15, vy:0,
+    angle:slopeAngle(x0), angVel:0,
+    onGround:true, rotSum:0, airFlips:0,
+  };
+  running=false; score=0; flips=0; flipPoints=0; boost=0; camX=0; popups=[]; crashT=0;
+  scoreVal.textContent='0'; flipsVal.textContent='0';
+}
+
+function startGame(){
+  resetGame();
+  overMsg.style.display='none';
+  nameEntry.classList.remove('on');
+  controls.classList.add('hidden');
+  running=true;
+}
+btnStart.addEventListener('click', startGame);
+
+/* ---- contrôles ---- */
+const keys={};
+document.addEventListener('keydown', e=>{
+  if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key)) e.preventDefault();
+  keys[e.key]=true;
+});
+document.addEventListener('keyup', e=>{ keys[e.key]=false; });
+
+function bindHold(id, obj){
+  const el=document.getElementById(id); if(!el) return;
+  const on=e=>{e.preventDefault();obj.a=true;};
+  const off=e=>{e.preventDefault();obj.a=false;};
+  el.addEventListener('touchstart',on,{passive:false});
+  el.addEventListener('touchend',off,{passive:false});
+  el.addEventListener('touchcancel',off,{passive:false});
+  el.addEventListener('mousedown',on); el.addEventListener('mouseup',off); el.addEventListener('mouseleave',off);
+}
+const tGas={a:false}, tBrake={a:false}, tBoost={a:false};
+bindHold('t-gas',tGas); bindHold('t-brake',tBrake); bindHold('t-boost',tBoost);
+
+function gasOn(){ return tGas.a||keys['ArrowRight']||keys['ArrowUp']||keys['d']||keys['D']; }
+function brakeOn(){ return tBrake.a||keys['ArrowLeft']||keys['ArrowDown']||keys['a']||keys['A']; }
+function boostOn(){ return tBoost.a||keys[' ']; }
+
+/* ---- update ---- */
+function normAngle(a){ while(a>Math.PI)a-=2*Math.PI; while(a<-Math.PI)a+=2*Math.PI; return a; }
+
+function addPopup(txt, col){
+  popups.push({txt, col, x:bike.x, y:bike.y-46, t:1400});
+}
+
+function crash(){
+  crashT = 1;
+  running = false;
+  setTimeout(endGame, 900);
+}
+
+function update(dt){
+  const b = bike;
+  const gy = groundY(b.x);
+  const sa = slopeAngle(b.x);
+
+  const boosting = boostOn() && boost>0;
+  if (boosting) boost = Math.max(0, boost - BOOST_DRAIN*dt);
+
+  if (b.onGround){
+    /* accélération le long de la pente */
+    if (gasOn())   b.vx += ACCEL*dt*Math.cos(sa);
+    if (brakeOn()) b.vx -= BRAKE*dt;
+    if (boosting)  b.vx += BOOST_ACC*dt;
+    /* gravité le long de la pente + frottement */
+    b.vx += -Math.sin(sa)*0.0009*dt*Math.cos(sa);
+    b.vx *= (1 - 0.00006*dt);
+    const cap = boosting ? BOOST_MAXV : MAXV;
+    if (b.vx > cap) b.vx = Math.max(cap, b.vx*(1-0.002*dt));
+    if (b.vx < 0.03) b.vx = 0.03;
+
+    b.x += b.vx*dt;
+    const ngy = groundY(b.x);
+    const nsa = slopeAngle(b.x);
+    /* décollage : la pente tombe plus vite que la moto */
+    const drop = ngy - (b.y+14);
+    if (drop > 3.5 && b.vx > 0.2){
+      b.onGround=false;
+      b.vy = Math.sin(sa)*b.vx;   // vitesse verticale héritée de la pente
+      b.vx = Math.cos(sa)*b.vx;
+      b.rotSum=0; b.airFlips=0;
+      b.angVel = 0;
+    } else {
+      b.y = ngy-14;
+      /* alignement progressif sur la pente */
+      b.angle += normAngle(nsa-b.angle)*Math.min(1, 0.02*dt);
+      b.angVel = 0;
+    }
+  } else {
+    /* en l'air */
+    if (boosting) b.vx += BOOST_ACC*0.7*dt;
+    b.vy += G*dt;
+    b.x += b.vx*dt;
+    b.y += b.vy*dt;
+
+    /* rotation : gaz = backflip, frein = rotation avant */
+    let target = 0;
+    if (gasOn())   target = -ROT;
+    if (brakeOn()) target =  ROT;
+    b.angVel += (target-b.angVel)*Math.min(1, 0.015*dt);
+    const dA = b.angVel*dt;
+    b.angle += dA;
+    b.rotSum += dA;
+
+    /* flip complété en plein vol */
+    while (b.rotSum <= -(b.airFlips+1)*2*Math.PI*0.92){
+      b.airFlips++;
+      flips++; flipsVal.textContent=flips;
+      flipPoints += 100;
+      boost = Math.min(100, boost+40);
+      addPopup('BACKFLIP ! +100', '#ffd866');
+    }
+    while (b.rotSum >= (b.airFlips+1)*2*Math.PI*0.92){
+      b.airFlips++;
+      flips++; flipsVal.textContent=flips;
+      flipPoints += 150;
+      boost = Math.min(100, boost+40);
+      addPopup('FRONTFLIP ! +150', '#ff9d66');
+    }
+
+    /* atterrissage */
+    const gy2 = groundY(b.x);
+    if (b.y+14 >= gy2){
+      const sa2 = slopeAngle(b.x);
+      const diff = normAngle(b.angle - sa2);
+      if (Math.cos(diff) < -0.15){
+        /* tombé sur la tête */
+        b.y = gy2-14;
+        crash();
+        return;
+      }
+      b.onGround = true;
+      b.y = gy2-14;
+      b.angle = sa2 + diff*0.3;
+      const sp = Math.max(0.05, b.vx*Math.cos(sa2)+b.vy*Math.sin(sa2));
+      b.vx = sp*0.985;
+      b.vy = 0;
+      if (b.airFlips>0) addPopup('Réception !', '#9fffc0');
+    }
+  }
+
+  /* score distance : 1 pt / 10 px */
+  score = Math.floor((b.x-100)/10) + flipPoints;
+  scoreVal.textContent = score;
+
+  camX = b.x - 240;
+  popups.forEach(p=>{ p.t-=dt; p.y-=0.02*dt; });
+  popups = popups.filter(p=>p.t>0);
+}
+
+/* ---- draw ---- */
+function drawBike(){
+  const b=bike;
+  ctx.save();
+  ctx.translate(b.x-camX, b.y);
+  ctx.rotate(b.angle);
+  /* roues */
+  ctx.strokeStyle='#e8e6df'; ctx.lineWidth=3; ctx.fillStyle='#101a26';
+  ctx.beginPath(); ctx.arc(-16,10,9,0,7); ctx.fill(); ctx.stroke();
+  ctx.beginPath(); ctx.arc( 16,10,9,0,7); ctx.fill(); ctx.stroke();
+  /* cadre */
+  ctx.strokeStyle='#ff6b5b'; ctx.lineWidth=4; ctx.lineCap='round';
+  ctx.beginPath();
+  ctx.moveTo(-16,10); ctx.lineTo(-4,-2); ctx.lineTo(10,-2); ctx.lineTo(16,10);
+  ctx.moveTo(10,-2); ctx.lineTo(14,-10);
+  ctx.stroke();
+  /* pilote */
+  ctx.strokeStyle='#e8e6df'; ctx.lineWidth=3.5;
+  ctx.beginPath();
+  ctx.moveTo(-2,-2); ctx.lineTo(-4,-14); ctx.lineTo(12,-11);
+  ctx.stroke();
+  ctx.fillStyle='#e8e6df';
+  ctx.beginPath(); ctx.arc(-6,-20,5.5,0,7); ctx.fill();
+  /* flamme boost */
+  if (boostOn() && boost>0){
+    ctx.fillStyle='#ffd866';
+    ctx.beginPath();
+    ctx.moveTo(-24,6); ctx.lineTo(-38-Math.random()*8,10); ctx.lineTo(-24,13);
+    ctx.closePath(); ctx.fill();
+  }
+  ctx.restore();
+}
+
+function draw(){
+  ctx.fillStyle='#101a26'; ctx.fillRect(0,0,W,H);
+
+  /* étoiles + lune */
+  ctx.fillStyle='rgba(232,230,223,0.5)';
+  for(let i=0;i<40;i++){
+    const sx=((i*271+((camX*0.1)|0)*-1)%W+W)%W;
+    const sy=(i*97)%Math.floor(H*0.5);
+    ctx.fillRect(sx,sy,2,2);
+  }
+  ctx.fillStyle='rgba(232,230,223,0.85)';
+  ctx.beginPath(); ctx.arc(W-90,70,26,0,7); ctx.fill();
+  ctx.fillStyle='#101a26';
+  ctx.beginPath(); ctx.arc(W-80,62,22,0,7); ctx.fill();
+
+  /* collines lointaines (parallaxe) */
+  ctx.fillStyle='#182634';
+  ctx.beginPath(); ctx.moveTo(0,H);
+  for(let sx=0;sx<=W;sx+=16){
+    const wx=(sx+camX*0.3);
+    ctx.lineTo(sx, H*0.55+40*Math.sin(wx*0.004)+25*Math.sin(wx*0.011+2));
+  }
+  ctx.lineTo(W,H); ctx.closePath(); ctx.fill();
+
+  /* terrain */
+  ctx.beginPath(); ctx.moveTo(0,H);
+  for(let sx=0;sx<=W;sx+=6) ctx.lineTo(sx, groundY(sx+camX));
+  ctx.lineTo(W,H); ctx.closePath();
+  ctx.fillStyle='#223246'; ctx.fill();
+  ctx.beginPath();
+  for(let sx=0;sx<=W;sx+=6){
+    const gy=groundY(sx+camX);
+    if(sx===0)ctx.moveTo(sx,gy);else ctx.lineTo(sx,gy);
+  }
+  ctx.strokeStyle='#7fd47f'; ctx.lineWidth=3; ctx.stroke();
+
+  /* bornes de distance tous les 500 px */
+  ctx.fillStyle='rgba(232,230,223,0.35)';
+  ctx.font='12px monospace'; ctx.textAlign='center';
+  const first = Math.ceil(camX/500)*500;
+  for(let mx=first; mx<camX+W; mx+=500){
+    if (mx<=100) continue;
+    const sx=mx-camX;
+    const gy=groundY(mx);
+    ctx.fillRect(sx-1,gy-18,2,18);
+    ctx.fillText(Math.floor((mx-100)/10)+'m', sx, gy-24);
+  }
+
+  drawBike();
+
+  /* popups */
+  popups.forEach(p=>{
+    ctx.globalAlpha=Math.min(1,p.t/500);
+    ctx.fillStyle=p.col;
+    ctx.font='bold 20px monospace'; ctx.textAlign='center';
+    ctx.fillText(p.txt, p.x-camX, p.y);
+    ctx.globalAlpha=1;
+  });
+
+  /* jauge boost */
+  ctx.fillStyle='rgba(232,230,223,0.25)'; ctx.fillRect(20,20,160,14);
+  ctx.fillStyle= boost>0 ? '#ffd866' : 'rgba(232,230,223,0.15)';
+  ctx.fillRect(20,20,160*boost/100,14);
+  ctx.strokeStyle='rgba(232,230,223,0.6)'; ctx.lineWidth=1.5; ctx.strokeRect(20,20,160,14);
+  ctx.fillStyle='rgba(232,230,223,0.8)'; ctx.font='11px monospace'; ctx.textAlign='left';
+  ctx.fillText('BOOST (backflip pour recharger)', 20, 48);
+
+  /* crash flash */
+  if (crashT>0){
+    ctx.fillStyle=`rgba(212,48,48,${0.35*crashT})`;
+    ctx.fillRect(0,0,W,H);
+  }
+
+  /* écran titre */
+  if (!running && !controls.classList.contains('hidden') && overMsg.style.display==='none'){
+    ctx.fillStyle='#e8e6df'; ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.font='bold 44px monospace';
+    ctx.fillText('MOTO BACKFLIP', W/2, H/2-40);
+    ctx.font='18px monospace';
+    ctx.fillText('Nouveau tracé à chaque course', W/2, H/2+4);
+  }
+}
+
+let finalScore=0;
+function endGame(){
+  finalScore = Math.floor((bike.x-100)/10) + flipPoints;
+  btnStart.textContent='Rejouer →';
+  overMsg.innerHTML='<b>CRASH !</b><br>Distance : '+Math.floor((bike.x-100)/10)+' m · Flips : '+flips+'<br>Score : '+finalScore;
+  overMsg.style.display='block';
+  controls.classList.remove('hidden');
+  const entries=loadCache(); renderLeaderboard(entries);
+  if(qualifies(finalScore,entries)){
+    nameEntry.classList.add('on');
+    playerNameInput.value=localStorage.getItem('lb-name')||'';
+    playerNameInput.focus();
+  }
+  fetchLB().then(e=>renderLeaderboard(e));
+}
+function doSubmit(){
+  const name=playerNameInput.value.trim()||'Anonyme';
+  localStorage.setItem('lb-name',name);
+  renderLeaderboard(addToLB(name,finalScore),name);
+  nameEntry.classList.remove('on');
+}
+btnSubmit.addEventListener('click',doSubmit);
+playerNameInput.addEventListener('keydown',e=>{if(e.key==='Enter')doSubmit();});
+btnSkip.addEventListener('click',()=>{nameEntry.classList.remove('on');});
+
+/* ---- boucle ---- */
+let lastT=0;
+function loop(t){
+  const dt=Math.min(34,t-lastT); lastT=t;
+  if (running) update(dt);
+  if (crashT>0) crashT=Math.max(0,crashT-dt/900);
+  draw();
+  requestAnimationFrame(loop);
+}
+
+resetGame();
+requestAnimationFrame(loop);
+renderLeaderboard(loadCache());
+fetchLB().then(renderLeaderboard);
+</script>
+</body>
+</html>
