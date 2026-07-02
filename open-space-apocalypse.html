@@ -813,6 +813,7 @@ function makeCafeZombie(hp, speed) {
    ÉTAT
 ============================================================ */
 const player = { pos:new THREE.Vector3(-14,1.6,10), yaw:Math.PI+.6, pitch:0, health:100, lastHit:0, radius:.38 };
+const AIM_ASSIST = window.matchMedia('(pointer:coarse)').matches;
 let enemies = [], projectiles = [], papers = [], coffees = [], steams = [];
 let round = 0, score = 0, kills = 0, spawnQueue = [], spawnTimer = 0, betweenRounds = 0;
 let reloading = 0, fireCd = 0, mouseDown = false, flowTimer = 0;
@@ -925,6 +926,19 @@ function shoot() {
   if (current === 'souris') {
     dir.x += (Math.random()-.5)*.03; dir.y += (Math.random()-.5)*.03; dir.z += (Math.random()-.5)*.03;
     dir.normalize();
+  }
+  /* aide à la visée sur tactile : la balle se courbe vers l'ennemi le plus proche du réticule */
+  if (AIM_ASSIST) {
+    let best = null, bestAng = 0.30;
+    for (const e of enemies) {
+      if (e.userData.state !== 'alive') continue;
+      const tp = new THREE.Vector3(e.position.x, e.position.y + .8, e.position.z).sub(player.pos);
+      if (tp.length() > 32) continue;
+      tp.normalize();
+      const ang = dir.angleTo(tp);
+      if (ang < bestAng) { bestAng = ang; best = tp; }
+    }
+    if (best) dir.lerp(best, .85).normalize();
   }
   spr.userData = { vel: dir.clone().multiplyScalar(w.speed), life:1.6, spin:(Math.random()-.5)*14, dmg:w.dmg };
   scene.add(spr); projectiles.push(spr);

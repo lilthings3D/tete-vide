@@ -52,7 +52,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   @media(max-width:900px),(pointer:coarse){#lb-section{position:relative;top:auto;right:auto;width:100%;max-width:100%;max-height:none;padding-top:20px;border-top:1.5px solid var(--rule);margin-top:8px;}}
   #name-entry{display:none;flex-direction:column;align-items:center;gap:10px;margin-bottom:4px;}
   #name-entry.on{display:flex;}
-  .name-label{font-family:'Fraunces',serif;font-size:0.78rem;letter-spacing:1px;color:var(--ink-soft);text-transform:uppercase;text-align:center;}
+  .name-label{font-family:'Fraunces',serif;font-size:0.78rem;letter-spacing:1px;color:rgba(251,247,240,.8);text-transform:uppercase;text-align:center;}
   #player-name{font-family:'Spectral',Georgia,serif;font-size:1rem;padding:8px 14px;border:1.5px solid var(--rule);background:var(--cream);color:var(--ink);outline:none;text-align:center;width:200px;}
   #player-name:focus{border-color:var(--ink);}
   .btn-skip{font-family:'Fraunces',serif;font-size:0.72rem;letter-spacing:1px;color:rgba(251,247,240,.55);text-transform:uppercase;background:none;border:none;cursor:pointer;}
@@ -70,7 +70,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   canvas{
     display:block;
     border:2px solid var(--ink);
-    background:#101a26;
+    background:#0e1826;
     max-width:100%;max-height:100%;
     touch-action:none;
   }
@@ -92,7 +92,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   #controls{
     position:absolute;inset:0;
     display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
-    background:rgba(16,26,38,0.88);
+    background:rgba(14,24,38,0.88);
     padding:20px;
   }
   #controls.hidden{display:none;}
@@ -110,19 +110,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     margin-bottom:4px;line-height:1.5;
   }
   #over-msg b{color:#ff7b6b;}
+  #daily-hint{font-size:0.72rem;letter-spacing:1px;text-transform:uppercase;color:rgba(251,247,240,.55);text-align:center;}
 
-  /* touch buttons — snake-style cream */
-  #touch-controls{display:none;justify-content:space-between;width:100%;max-width:560px;margin:14px 0 4px;gap:10px;}
+  /* touch buttons */
+  #touch-controls{display:none;justify-content:space-between;width:100%;max-width:560px;margin:14px 0 4px;gap:12px;}
   @media(pointer:coarse){#touch-controls{display:flex;}}
   .tbtn{
-    height:76px;border:2px solid var(--ink);background:rgba(251,247,240,0.85);
-    font-family:'Fraunces',serif;font-size:0.85rem;letter-spacing:1.5px;text-transform:uppercase;
-    color:var(--ink);border-radius:14px;flex:1;
+    height:90px;border:2px solid var(--ink);background:rgba(251,247,240,0.85);
+    font-family:'Fraunces',serif;font-size:1.05rem;letter-spacing:2px;text-transform:uppercase;font-weight:600;
+    color:var(--ink);border-radius:16px;flex:1;
     display:flex;align-items:center;justify-content:center;
     cursor:pointer;user-select:none;-webkit-user-select:none;touch-action:none;
   }
   .tbtn:active{background:var(--rule);}
-  #t-boost{flex:0.7;color:var(--orange-deep);border-color:var(--orange-deep);}
+  #t-boost{color:var(--orange-deep);border-color:var(--orange-deep);}
 
   @media(pointer:coarse){
     html,body{height:auto;overflow:visible;}
@@ -164,26 +165,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div id="arena">
   <div id="game-col">
     <div id="game-title">Moto <b>Backflip</b></div>
-    <div id="info-bar">Score : <strong id="score-val">0</strong> &nbsp;·&nbsp; Flips : <strong id="flips-val">0</strong> &nbsp;·&nbsp; → gaz · ← frein/rotation · Espace boost</div>
+    <div id="info-bar">Score : <strong id="score-val">0</strong> &nbsp;·&nbsp; Flips : <strong id="flips-val">0</strong> &nbsp;·&nbsp; Ça roule tout seul · Espace = flip · → = boost</div>
     <div id="canvas-wrap">
       <canvas id="c"></canvas>
       <div id="controls">
         <div id="over-msg" style="display:none"></div>
         <div id="name-entry">
-          <div class="name-label" style="color:rgba(251,247,240,.8)">Nouveau record ! Ton pseudo :</div>
+          <div class="name-label">Nouveau record ! Ton pseudo :</div>
           <input id="player-name" type="text" maxlength="20" placeholder="Ton pseudo" autocomplete="off">
           <button class="btn" id="btn-submit-score">Valider →</button>
           <button class="btn-skip" id="btn-skip">Passer</button>
         </div>
         <button class="btn" id="btn-start">Course libre →</button>
         <button class="btn" id="btn-daily">Course du jour →</button>
-        <div id="daily-hint" style="font-size:0.72rem;letter-spacing:1px;text-transform:uppercase;color:rgba(251,247,240,.55);text-align:center;">Course du jour : même tracé pour tous, course contre ton fantôme</div>
+        <div id="daily-hint">Course du jour : même tracé pour tous, course contre ton fantôme</div>
       </div>
     </div>
     <div id="touch-controls">
-      <button class="tbtn" id="t-brake">◀ Frein</button>
+      <button class="tbtn" id="t-flip">↺ Flip</button>
       <button class="tbtn" id="t-boost">🔥 Boost</button>
-      <button class="tbtn" id="t-gas">Gaz ▶</button>
     </div>
   </div>
   <section id="lb-section">
@@ -232,7 +232,7 @@ function addToLB(name,sc){
 function renderLeaderboard(entries,hl){const m=['🥇','🥈','🥉'];lbBody.innerHTML=entries.length?entries.map((e,i)=>`<tr class="${i===0?'lb-rank-1':''} ${hl&&e.name===hl?'lb-me':''}"><td>${m[i]||'#'+(i+1)}</td><td>${e.name}</td><td>${e.score}</td></tr>`).join(''):'<tr><td colspan="3" class="lb-empty">Pas encore de scores — sois le premier !</td></tr>';}
 
 /* ================================================================
-   MOTO BACKFLIP — terrain procédural, physique 2D, flips = boost
+   MOTO BACKFLIP v2 — auto-accélération, 2 commandes : FLIP + BOOST
    ================================================================ */
 const W = 900, H = 450;
 canvas.width = W; canvas.height = H;
@@ -244,38 +244,43 @@ function resize(){
 }
 window.addEventListener('resize', resize); resize();
 
-/* ---- seeded RNG (nouveau tracé à chaque run) ---- */
 function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
 
 /* ---- terrain ---- */
-let terra; // {amps, freqs, phases}
+let terra;
 function makeTerrain(seed){
   const rnd = mulberry32(seed);
-  const n = 5, amps=[], freqs=[], phases=[];
-  const baseAmps=[70,48,30,16,8];
+  const n = 4, amps=[], freqs=[], phases=[];
+  const baseAmps=[85,45,22,10];
+  const baseWave=[1600,700,320,150];
   for(let i=0;i<n;i++){
-    amps.push(baseAmps[i]*(0.7+rnd()*0.7));
-    freqs.push((2*Math.PI)/(1400/(i+1)*(0.7+rnd()*0.7)));
+    amps.push(baseAmps[i]*(0.75+rnd()*0.5));
+    freqs.push((2*Math.PI)/(baseWave[i]*(0.8+rnd()*0.5)));
     phases.push(rnd()*Math.PI*2);
   }
   terra = {amps,freqs,phases};
 }
 function groundY(x){
-  let y = H*0.68;
-  const difficulty = Math.min(1.6, 1 + x/22000); // relief s'accentue avec la distance
+  let y = H*0.66;
+  const difficulty = Math.min(1.5, 1 + x/25000);
   for(let i=0;i<terra.amps.length;i++)
     y += terra.amps[i]*difficulty*Math.sin(x*terra.freqs[i]+terra.phases[i]);
   return y;
 }
 function slopeAngle(x){
-  const d=8;
+  const d=10;
   return Math.atan2(groundY(x+d)-groundY(x-d), 2*d);
 }
 
 /* ---- état ---- */
-let bike, running, score, flips, flipPoints, boost, camX, popups, crashT;
+let bike, running, score, flips, flipPoints, boost, camX, popups, crashT, dust;
 let elapsed, recFrames, recT, ghostData;
-const REC_DT = 60; // ms entre deux frames de fantôme
+const REC_DT = 60;
+
+const G = 0.0030;
+const CRUISE = 0.40;      // vitesse de croisière auto (px/ms)
+const BOOSTV = 0.82;
+const FLIP_ROT = -0.0100; // rotation backflip (rad/ms)
 
 function dateSeed(){
   const s = todayStr(); let h = 5381;
@@ -284,24 +289,17 @@ function dateSeed(){
 }
 function ghostKey(){ return 'moto-ghost-'+todayStr(); }
 function loadGhost(){ try{ return JSON.parse(localStorage.getItem(ghostKey())); }catch{ return null; } }
-const G = 0.0028;          // gravité px/ms²
-const ACCEL = 0.00050;     // gaz
-const BRAKE = 0.0010;
-const MAXV = 0.62;         // vitesse max sol (px/ms)
-const BOOST_MAXV = 1.0;
-const BOOST_ACC = 0.0016;
-const BOOST_DRAIN = 0.055; // /ms
-const ROT = 0.0085;        // vitesse rotation air (rad/ms)
 
 function resetGame(){
   makeTerrain(mode==='jour' ? dateSeed() : (Math.random()*1e9)|0);
   const x0 = 100;
   bike = {
-    x:x0, y:groundY(x0)-14, vx:0.15, vy:0,
+    x:x0, y:groundY(x0)-16, vx:0.2, vy:0,
     angle:slopeAngle(x0), angVel:0,
-    onGround:true, rotSum:0, airFlips:0,
+    onGround:true, rotSum:0, airFlips:0, wheelRot:0,
   };
-  running=false; score=0; flips=0; flipPoints=0; boost=0; camX=0; popups=[]; crashT=0;
+  running=false; score=0; flips=0; flipPoints=0; boost=100; camX=0;
+  popups=[]; crashT=0; dust=[];
   elapsed=0; recFrames=[]; recT=0;
   ghostData = mode==='jour' ? loadGhost() : null;
   scoreVal.textContent='0'; flipsVal.textContent='0';
@@ -322,7 +320,7 @@ function startGame(m){
 btnStart.addEventListener('click', ()=>startGame('libre'));
 document.getElementById('btn-daily').addEventListener('click', ()=>startGame('jour'));
 
-/* ---- contrôles ---- */
+/* ---- contrôles : FLIP + BOOST, c'est tout ---- */
 const keys={};
 document.addEventListener('keydown', e=>{
   if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key)) e.preventDefault();
@@ -339,121 +337,118 @@ function bindHold(id, obj){
   el.addEventListener('touchcancel',off,{passive:false});
   el.addEventListener('mousedown',on); el.addEventListener('mouseup',off); el.addEventListener('mouseleave',off);
 }
-const tGas={a:false}, tBrake={a:false}, tBoost={a:false};
-bindHold('t-gas',tGas); bindHold('t-brake',tBrake); bindHold('t-boost',tBoost);
+const tFlip={a:false}, tBoost={a:false};
+bindHold('t-flip',tFlip); bindHold('t-boost',tBoost);
 
-function gasOn(){ return tGas.a||keys['ArrowRight']||keys['ArrowUp']||keys['d']||keys['D']; }
-function brakeOn(){ return tBrake.a||keys['ArrowLeft']||keys['ArrowDown']||keys['a']||keys['A']; }
-function boostOn(){ return tBoost.a||keys[' ']; }
+function flipOn(){ return tFlip.a||keys[' ']||keys['ArrowUp']||keys['ArrowLeft']; }
+function boostOn(){ return tBoost.a||keys['ArrowRight']||keys['Shift']; }
 
-/* ---- update ---- */
+/* ---- helpers ---- */
 function normAngle(a){ while(a>Math.PI)a-=2*Math.PI; while(a<-Math.PI)a+=2*Math.PI; return a; }
-
-function addPopup(txt, col){
-  popups.push({txt, col, x:bike.x, y:bike.y-46, t:1400});
+function addPopup(txt, col){ popups.push({txt, col, x:bike.x, y:bike.y-52, t:1500}); }
+function puff(n, spd){
+  for(let i=0;i<n;i++){
+    dust.push({
+      x:bike.x-14+Math.random()*10, y:bike.y+16,
+      vx:-(0.05+Math.random()*0.1)*(spd||1), vy:-(0.02+Math.random()*0.06),
+      r:2+Math.random()*4, t:500+Math.random()*400,
+    });
+  }
 }
-
 function crash(){
   crashT = 1;
   running = false;
+  puff(18, 2);
   setTimeout(endGame, 900);
 }
 
+/* ---- update ---- */
 function update(dt){
   const b = bike;
-  const gy = groundY(b.x);
-  const sa = slopeAngle(b.x);
-
   const boosting = boostOn() && boost>0;
-  if (boosting) boost = Math.max(0, boost - BOOST_DRAIN*dt);
+  if (boosting) boost = Math.max(0, boost - 0.05*dt);
 
   if (b.onGround){
-    /* accélération le long de la pente */
-    if (gasOn())   b.vx += ACCEL*dt*Math.cos(sa);
-    if (brakeOn()) b.vx -= BRAKE*dt;
-    if (boosting)  b.vx += BOOST_ACC*dt;
-    /* gravité le long de la pente + frottement */
-    b.vx += -Math.sin(sa)*0.0009*dt*Math.cos(sa);
-    b.vx *= (1 - 0.00006*dt);
-    const cap = boosting ? BOOST_MAXV : MAXV;
-    if (b.vx > cap) b.vx = Math.max(cap, b.vx*(1-0.002*dt));
-    if (b.vx < 0.03) b.vx = 0.03;
+    const sa = slopeAngle(b.x);
+    /* auto-accélération vers la vitesse cible */
+    const target = boosting ? BOOSTV : CRUISE;
+    b.vx += (target - b.vx)*0.0018*dt;
+    /* la pente joue : descente accélère, montée freine */
+    b.vx += Math.sin(sa)*0.0011*dt;
+    if (b.vx < 0.08) b.vx = 0.08;
 
     b.x += b.vx*dt;
+    b.wheelRot += b.vx*dt/10;
     const ngy = groundY(b.x);
     const nsa = slopeAngle(b.x);
-    /* décollage : la pente tombe plus vite que la moto */
-    const drop = ngy - (b.y+14);
-    if (drop > 3.5 && b.vx > 0.2){
+    const drop = ngy - (b.y+16);
+    if (drop > 2.5 && b.vx > 0.25){
+      /* décollage */
       b.onGround=false;
-      b.vy = Math.sin(sa)*b.vx;   // vitesse verticale héritée de la pente
+      b.vy = Math.sin(sa)*b.vx;
       b.vx = Math.cos(sa)*b.vx;
-      b.rotSum=0; b.airFlips=0;
-      b.angVel = 0;
+      b.rotSum=0; b.airFlips=0; b.angVel=0;
     } else {
-      b.y = ngy-14;
-      /* alignement progressif sur la pente */
-      b.angle += normAngle(nsa-b.angle)*Math.min(1, 0.02*dt);
+      b.y = ngy-16;
+      b.angle += normAngle(nsa-b.angle)*Math.min(1, 0.025*dt);
       b.angVel = 0;
+      if (boosting && Math.random()<0.4) puff(1,1);
     }
   } else {
     /* en l'air */
-    if (boosting) b.vx += BOOST_ACC*0.7*dt;
+    if (boosting) b.vx += 0.0009*dt;
     b.vy += G*dt;
     b.x += b.vx*dt;
     b.y += b.vy*dt;
+    b.wheelRot += b.vx*dt/14;
 
-    /* rotation : gaz = backflip, frein = rotation avant */
-    let target = 0;
-    if (gasOn())   target = -ROT;
-    if (brakeOn()) target =  ROT;
-    b.angVel += (target-b.angVel)*Math.min(1, 0.015*dt);
+    if (flipOn()){
+      /* backflip ! */
+      b.angVel += (FLIP_ROT - b.angVel)*Math.min(1, 0.02*dt);
+    } else {
+      /* auto-stabilisation vers la pente d'atterrissage */
+      const saAhead = slopeAngle(b.x + b.vx*300);
+      const corr = normAngle(saAhead - b.angle);
+      const targetAV = Math.max(-0.004, Math.min(0.004, corr*0.01));
+      b.angVel += (targetAV - b.angVel)*Math.min(1, 0.008*dt);
+    }
     const dA = b.angVel*dt;
     b.angle += dA;
     b.rotSum += dA;
 
-    /* flip complété en plein vol */
-    while (b.rotSum <= -(b.airFlips+1)*2*Math.PI*0.92){
+    while (b.rotSum <= -(b.airFlips+1)*2*Math.PI*0.9){
       b.airFlips++;
       flips++; flipsVal.textContent=flips;
       flipPoints += 100;
-      boost = Math.min(100, boost+40);
+      boost = Math.min(100, boost+45);
       addPopup('BACKFLIP ! +100', '#ffd866');
-    }
-    while (b.rotSum >= (b.airFlips+1)*2*Math.PI*0.92){
-      b.airFlips++;
-      flips++; flipsVal.textContent=flips;
-      flipPoints += 150;
-      boost = Math.min(100, boost+40);
-      addPopup('FRONTFLIP ! +150', '#ff9d66');
     }
 
     /* atterrissage */
     const gy2 = groundY(b.x);
-    if (b.y+14 >= gy2){
+    if (b.y+16 >= gy2){
       const sa2 = slopeAngle(b.x);
       const diff = normAngle(b.angle - sa2);
-      if (Math.cos(diff) < -0.15){
-        /* tombé sur la tête */
-        b.y = gy2-14;
+      if (Math.cos(diff) < -0.35){
+        b.y = gy2-16;
         crash();
         return;
       }
       b.onGround = true;
-      b.y = gy2-14;
-      b.angle = sa2 + diff*0.3;
-      const sp = Math.max(0.05, b.vx*Math.cos(sa2)+b.vy*Math.sin(sa2));
-      b.vx = sp*0.985;
+      b.y = gy2-16;
+      b.angle = sa2;
+      const sp = Math.max(0.1, b.vx*Math.cos(sa2)+b.vy*Math.sin(sa2));
+      b.vx = sp;
       b.vy = 0;
+      puff(6, 1.4);
       if (b.airFlips>0) addPopup('Réception !', '#9fffc0');
     }
   }
 
-  /* score distance : 1 pt / 10 px */
   score = Math.floor((b.x-100)/10) + flipPoints;
   scoreVal.textContent = score;
 
-  /* enregistrement du fantôme (course du jour) */
+  /* fantôme (course du jour) */
   elapsed += dt;
   if (mode==='jour'){
     recT += dt;
@@ -466,9 +461,70 @@ function update(dt){
   camX = b.x - 240;
   popups.forEach(p=>{ p.t-=dt; p.y-=0.02*dt; });
   popups = popups.filter(p=>p.t>0);
+  dust.forEach(d=>{ d.t-=dt; d.x+=d.vx*dt; d.y+=d.vy*dt; });
+  dust = dust.filter(d=>d.t>0);
 }
 
-/* ---- draw ---- */
+/* ---- dessin de la moto (partagé joueur / fantôme) ---- */
+function drawMoto(x, y, angle, wheelRot, ghost){
+  ctx.save();
+  ctx.translate(x-camX, y);
+  ctx.rotate(angle);
+  const frame = ghost ? 'rgba(159,212,255,0.9)' : '#e8502f';
+  const metal = ghost ? 'rgba(159,212,255,0.9)' : '#cfd8e0';
+  const tire  = ghost ? 'rgba(159,212,255,0.7)' : '#3a4652';
+  const rider = ghost ? 'rgba(159,212,255,0.9)' : '#2c3540';
+  const helmet= ghost ? 'rgba(159,212,255,1)'   : '#FBF7F0';
+  if (ghost) ctx.globalAlpha = 0.4;
+
+  /* roues : pneu + jante + rayons qui tournent */
+  for (const wx of [-17, 17]){
+    ctx.strokeStyle=tire; ctx.lineWidth=5;
+    ctx.beginPath(); ctx.arc(wx,11,9,0,7); ctx.stroke();
+    ctx.strokeStyle=metal; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.arc(wx,11,5.5,0,7); ctx.stroke();
+    ctx.save();
+    ctx.translate(wx,11); ctx.rotate(wheelRot);
+    ctx.beginPath();
+    ctx.moveTo(-5.5,0); ctx.lineTo(5.5,0);
+    ctx.moveTo(0,-5.5); ctx.lineTo(0,5.5);
+    ctx.stroke();
+    ctx.restore();
+  }
+  /* bras oscillant + fourche */
+  ctx.strokeStyle=metal; ctx.lineWidth=3; ctx.lineCap='round';
+  ctx.beginPath();
+  ctx.moveTo(-17,11); ctx.lineTo(-5,4);
+  ctx.moveTo(17,11); ctx.lineTo(11,-3);
+  ctx.stroke();
+  /* cadre + réservoir */
+  ctx.strokeStyle=frame; ctx.lineWidth=5;
+  ctx.beginPath();
+  ctx.moveTo(-6,4); ctx.lineTo(2,3); ctx.lineTo(10,-3);
+  ctx.stroke();
+  ctx.fillStyle=frame;
+  ctx.beginPath(); ctx.ellipse(3,-3,7,3.5,-0.25,0,7); ctx.fill();
+  /* selle */
+  ctx.fillStyle=rider;
+  ctx.fillRect(-9,-4,9,3);
+  /* guidon */
+  ctx.strokeStyle=metal; ctx.lineWidth=2.5;
+  ctx.beginPath(); ctx.moveTo(11,-3); ctx.lineTo(14,-9); ctx.lineTo(17,-10); ctx.stroke();
+  /* pilote : jambe, torse penché, bras, casque */
+  ctx.strokeStyle=rider; ctx.lineWidth=4; ctx.lineJoin='round';
+  ctx.beginPath();
+  ctx.moveTo(-3,3); ctx.lineTo(-5,-4);           /* jambe */
+  ctx.moveTo(-5,-4); ctx.lineTo(-2,-15);         /* torse */
+  ctx.moveTo(-2,-15); ctx.lineTo(13,-9);         /* bras */
+  ctx.stroke();
+  ctx.fillStyle=helmet;
+  ctx.beginPath(); ctx.arc(-1,-19,5.5,0,7); ctx.fill();
+  ctx.fillStyle= ghost ? 'rgba(14,24,38,0.5)' : '#2c3540';
+  ctx.beginPath(); ctx.arc(1,-19.5,2.6,0,7); ctx.fill(); /* visière */
+  ctx.restore();
+  ctx.globalAlpha = 1;
+}
+
 function drawGhost(){
   if (!ghostData || !ghostData.frames || !ghostData.frames.length) return;
   const fr = ghostData.frames;
@@ -478,130 +534,142 @@ function drawGhost(){
   const t = fi-i0;
   const gx = fr[i0][0]+(fr[i1][0]-fr[i0][0])*t;
   const gy = fr[i0][1]+(fr[i1][1]-fr[i0][1])*t;
-  let a0=fr[i0][2], a1=fr[i1][2];
-  const ga = a0 + normAngle(a1-a0)*t;
+  const ga = fr[i0][2] + normAngle(fr[i1][2]-fr[i0][2])*t;
   const sx = gx-camX;
   if (sx < -60 || sx > W+60) return;
-  ctx.save();
-  ctx.globalAlpha = 0.38;
-  ctx.translate(sx, gy);
-  ctx.rotate(ga);
-  ctx.strokeStyle='#9fd4ff'; ctx.lineWidth=3; ctx.fillStyle='#101a26';
-  ctx.beginPath(); ctx.arc(-16,10,9,0,7); ctx.fill(); ctx.stroke();
-  ctx.beginPath(); ctx.arc( 16,10,9,0,7); ctx.fill(); ctx.stroke();
-  ctx.lineWidth=4; ctx.lineCap='round';
-  ctx.beginPath();
-  ctx.moveTo(-16,10); ctx.lineTo(-4,-2); ctx.lineTo(10,-2); ctx.lineTo(16,10);
-  ctx.moveTo(10,-2); ctx.lineTo(14,-10);
-  ctx.stroke();
-  ctx.lineWidth=3.5;
-  ctx.beginPath();
-  ctx.moveTo(-2,-2); ctx.lineTo(-4,-14); ctx.lineTo(12,-11);
-  ctx.stroke();
-  ctx.fillStyle='#9fd4ff';
-  ctx.beginPath(); ctx.arc(-6,-20,5.5,0,7); ctx.fill();
-  ctx.restore();
+  drawMoto(gx, gy, ga, gx/10, true);
 }
 
-function drawBike(){
-  const b=bike;
-  ctx.save();
-  ctx.translate(b.x-camX, b.y);
-  ctx.rotate(b.angle);
-  /* roues */
-  ctx.strokeStyle='#e8e6df'; ctx.lineWidth=3; ctx.fillStyle='#101a26';
-  ctx.beginPath(); ctx.arc(-16,10,9,0,7); ctx.fill(); ctx.stroke();
-  ctx.beginPath(); ctx.arc( 16,10,9,0,7); ctx.fill(); ctx.stroke();
-  /* cadre */
-  ctx.strokeStyle='#ff6b5b'; ctx.lineWidth=4; ctx.lineCap='round';
-  ctx.beginPath();
-  ctx.moveTo(-16,10); ctx.lineTo(-4,-2); ctx.lineTo(10,-2); ctx.lineTo(16,10);
-  ctx.moveTo(10,-2); ctx.lineTo(14,-10);
-  ctx.stroke();
-  /* pilote */
-  ctx.strokeStyle='#e8e6df'; ctx.lineWidth=3.5;
-  ctx.beginPath();
-  ctx.moveTo(-2,-2); ctx.lineTo(-4,-14); ctx.lineTo(12,-11);
-  ctx.stroke();
-  ctx.fillStyle='#e8e6df';
-  ctx.beginPath(); ctx.arc(-6,-20,5.5,0,7); ctx.fill();
-  /* flamme boost */
-  if (boostOn() && boost>0){
-    ctx.fillStyle='#ffd866';
-    ctx.beginPath();
-    ctx.moveTo(-24,6); ctx.lineTo(-38-Math.random()*8,10); ctx.lineTo(-24,13);
-    ctx.closePath(); ctx.fill();
-  }
-  ctx.restore();
-}
-
+/* ---- draw ---- */
+let skyGrad=null;
 function draw(){
-  ctx.fillStyle='#101a26'; ctx.fillRect(0,0,W,H);
+  if (!skyGrad){
+    skyGrad = ctx.createLinearGradient(0,0,0,H);
+    skyGrad.addColorStop(0,'#0e1826');
+    skyGrad.addColorStop(0.55,'#1c2b45');
+    skyGrad.addColorStop(1,'#31405e');
+  }
+  ctx.fillStyle=skyGrad; ctx.fillRect(0,0,W,H);
 
-  /* étoiles + lune */
-  ctx.fillStyle='rgba(232,230,223,0.5)';
-  for(let i=0;i<40;i++){
-    const sx=((i*271+((camX*0.1)|0)*-1)%W+W)%W;
-    const sy=(i*97)%Math.floor(H*0.5);
+  /* étoiles */
+  ctx.fillStyle='rgba(232,230,223,0.55)';
+  for(let i=0;i<36;i++){
+    const sx=((i*263 - camX*0.06)%W+W)%W;
+    const sy=(i*89)%Math.floor(H*0.45);
     ctx.fillRect(sx,sy,2,2);
   }
-  ctx.fillStyle='rgba(232,230,223,0.85)';
-  ctx.beginPath(); ctx.arc(W-90,70,26,0,7); ctx.fill();
-  ctx.fillStyle='#101a26';
-  ctx.beginPath(); ctx.arc(W-80,62,22,0,7); ctx.fill();
+  /* lune */
+  ctx.fillStyle='rgba(240,236,225,0.9)';
+  ctx.beginPath(); ctx.arc(W-110,72,28,0,7); ctx.fill();
+  ctx.fillStyle='rgba(200,196,185,0.5)';
+  ctx.beginPath(); ctx.arc(W-118,64,6,0,7); ctx.fill();
+  ctx.beginPath(); ctx.arc(W-100,82,4,0,7); ctx.fill();
 
-  /* collines lointaines (parallaxe) */
-  ctx.fillStyle='#182634';
+  /* collines lointaines (2 plans de parallaxe) */
+  ctx.fillStyle='#16233a';
   ctx.beginPath(); ctx.moveTo(0,H);
   for(let sx=0;sx<=W;sx+=16){
-    const wx=(sx+camX*0.3);
-    ctx.lineTo(sx, H*0.55+40*Math.sin(wx*0.004)+25*Math.sin(wx*0.011+2));
+    const wx=(sx+camX*0.25);
+    ctx.lineTo(sx, H*0.52+46*Math.sin(wx*0.003)+20*Math.sin(wx*0.009+2));
+  }
+  ctx.lineTo(W,H); ctx.closePath(); ctx.fill();
+  ctx.fillStyle='#1b2c44';
+  ctx.beginPath(); ctx.moveTo(0,H);
+  for(let sx=0;sx<=W;sx+=16){
+    const wx=(sx+camX*0.5);
+    ctx.lineTo(sx, H*0.6+34*Math.sin(wx*0.005+1)+14*Math.sin(wx*0.013));
   }
   ctx.lineTo(W,H); ctx.closePath(); ctx.fill();
 
   /* terrain */
   ctx.beginPath(); ctx.moveTo(0,H);
-  for(let sx=0;sx<=W;sx+=6) ctx.lineTo(sx, groundY(sx+camX));
+  for(let sx=0;sx<=W;sx+=5) ctx.lineTo(sx, groundY(sx+camX));
   ctx.lineTo(W,H); ctx.closePath();
-  ctx.fillStyle='#223246'; ctx.fill();
+  ctx.fillStyle='#243447'; ctx.fill();
+  /* liseré d'herbe + ombre */
   ctx.beginPath();
-  for(let sx=0;sx<=W;sx+=6){
+  for(let sx=0;sx<=W;sx+=5){
     const gy=groundY(sx+camX);
     if(sx===0)ctx.moveTo(sx,gy);else ctx.lineTo(sx,gy);
   }
-  ctx.strokeStyle='#7fd47f'; ctx.lineWidth=3; ctx.stroke();
+  ctx.strokeStyle='#86c98b'; ctx.lineWidth=4; ctx.stroke();
+  ctx.beginPath();
+  for(let sx=0;sx<=W;sx+=5){
+    const gy=groundY(sx+camX)+6;
+    if(sx===0)ctx.moveTo(sx,gy);else ctx.lineTo(sx,gy);
+  }
+  ctx.strokeStyle='rgba(0,0,0,0.22)'; ctx.lineWidth=5; ctx.stroke();
 
-  /* bornes de distance tous les 500 px */
-  ctx.fillStyle='rgba(232,230,223,0.35)';
+  /* bornes tous les 500 px */
+  ctx.fillStyle='rgba(232,230,223,0.4)';
   ctx.font='12px monospace'; ctx.textAlign='center';
   const first = Math.ceil(camX/500)*500;
   for(let mx=first; mx<camX+W; mx+=500){
     if (mx<=100) continue;
     const sx=mx-camX;
     const gy=groundY(mx);
-    ctx.fillRect(sx-1,gy-18,2,18);
-    ctx.fillText(Math.floor((mx-100)/10)+'m', sx, gy-24);
+    ctx.fillRect(sx-1.5,gy-20,3,20);
+    ctx.fillText(Math.floor((mx-100)/10)+'m', sx, gy-26);
   }
 
+  /* poussière */
+  dust.forEach(d=>{
+    ctx.globalAlpha = Math.min(0.5, d.t/800);
+    ctx.fillStyle='#b8a88f';
+    ctx.beginPath(); ctx.arc(d.x-camX, d.y, d.r, 0, 7); ctx.fill();
+  });
+  ctx.globalAlpha=1;
+
   if (mode==='jour' && running) drawGhost();
-  drawBike();
+
+  /* traînées de vitesse pendant le boost */
+  if (running && boostOn() && boost>0){
+    ctx.strokeStyle='rgba(255,216,102,0.35)'; ctx.lineWidth=2;
+    for(let i=0;i<5;i++){
+      const ly = bike.y - 14 + i*8;
+      const lx = bike.x - camX - 30 - Math.random()*30;
+      ctx.beginPath(); ctx.moveTo(lx,ly); ctx.lineTo(lx-24,ly); ctx.stroke();
+    }
+  }
+
+  drawMoto(bike.x, bike.y, bike.angle, bike.wheelRot, false);
+
+  /* flamme boost */
+  if (running && boostOn() && boost>0){
+    ctx.save();
+    ctx.translate(bike.x-camX, bike.y);
+    ctx.rotate(bike.angle);
+    ctx.fillStyle='#ffd866';
+    ctx.beginPath();
+    ctx.moveTo(-26,8); ctx.lineTo(-40-Math.random()*10,11); ctx.lineTo(-26,14);
+    ctx.closePath(); ctx.fill();
+    ctx.fillStyle='#e8502f';
+    ctx.beginPath();
+    ctx.moveTo(-26,9.5); ctx.lineTo(-34-Math.random()*6,11); ctx.lineTo(-26,12.5);
+    ctx.closePath(); ctx.fill();
+    ctx.restore();
+  }
 
   /* popups */
   popups.forEach(p=>{
     ctx.globalAlpha=Math.min(1,p.t/500);
+    ctx.font='bold 22px monospace'; ctx.textAlign='center';
+    ctx.lineWidth=4; ctx.strokeStyle='rgba(14,24,38,0.85)';
+    ctx.strokeText(p.txt, p.x-camX, p.y);
     ctx.fillStyle=p.col;
-    ctx.font='bold 20px monospace'; ctx.textAlign='center';
     ctx.fillText(p.txt, p.x-camX, p.y);
     ctx.globalAlpha=1;
   });
 
   /* jauge boost */
-  ctx.fillStyle='rgba(232,230,223,0.25)'; ctx.fillRect(20,20,160,14);
-  ctx.fillStyle= boost>0 ? '#ffd866' : 'rgba(232,230,223,0.15)';
-  ctx.fillRect(20,20,160*boost/100,14);
-  ctx.strokeStyle='rgba(232,230,223,0.6)'; ctx.lineWidth=1.5; ctx.strokeRect(20,20,160,14);
-  ctx.fillStyle='rgba(232,230,223,0.8)'; ctx.font='11px monospace'; ctx.textAlign='left';
-  ctx.fillText('BOOST (backflip pour recharger)', 20, 48);
+  ctx.fillStyle='rgba(14,24,38,0.55)'; ctx.fillRect(18,18,168,20);
+  ctx.fillStyle= boost>15 ? '#ffd866' : '#e8502f';
+  ctx.fillRect(21,21,162*boost/100,14);
+  ctx.strokeStyle='rgba(232,230,223,0.7)'; ctx.lineWidth=1.5; ctx.strokeRect(18,18,168,20);
+  ctx.fillStyle='rgba(232,230,223,0.85)'; ctx.font='bold 11px monospace'; ctx.textAlign='left';
+  ctx.fillText('BOOST', 24, 51);
+  ctx.fillStyle='rgba(232,230,223,0.5)';
+  ctx.fillText('backflip = recharge', 74, 51);
 
   /* crash flash */
   if (crashT>0){
@@ -612,11 +680,15 @@ function draw(){
   /* écran titre */
   if (!running && !controls.classList.contains('hidden') && overMsg.style.display==='none'){
     ctx.fillStyle='#e8e6df'; ctx.textAlign='center'; ctx.textBaseline='middle';
-    ctx.font='bold 44px monospace';
-    ctx.fillText('MOTO BACKFLIP', W/2, H/2-40);
-    ctx.font='18px monospace';
-    ctx.fillText('Nouveau tracé à chaque course', W/2, H/2+4);
+    ctx.font='bold 42px monospace';
+    ctx.fillText('MOTO BACKFLIP', W/2, H/2-70);
+    ctx.font='16px monospace';
+    ctx.fillText('Ça roule tout seul.', W/2, H/2-26);
+    ctx.fillText('ESPACE (ou FLIP) en l\'air = backflip → points + boost', W/2, H/2);
+    ctx.fillText('→ (ou BOOST) = plus vite, plus haut', W/2, H/2+26);
+    ctx.fillText('Retombe sur tes roues.', W/2, H/2+52);
   }
+  ctx.textBaseline='alphabetic';
 }
 
 let finalScore=0;
