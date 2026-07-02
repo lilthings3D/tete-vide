@@ -58,33 +58,50 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     #msg { font-size:calc(28px*var(--ts,1)); max-width:94%; }
     #shopPrompt { font-size:calc(24px*var(--ts,1)); padding:16px 28px; }
     .shop-buy-btn { font-size:calc(22px*var(--ts,1)); padding:18px 30px; }
-    .screen h1 { font-size:calc(32px*var(--ts,1)); letter-spacing:2px; }
-    .screen h2 { font-size:calc(20px*var(--ts,1)); margin-bottom:22px; }
-    .screen .keys { font-size:calc(18px*var(--ts,1)); line-height:2.4; margin-bottom:28px; }
-    .screen button { font-size:calc(24px*var(--ts,1)); padding:18px 52px; }
-    #gameover .stats { font-size:calc(22px*var(--ts,1)); }
+    .screen h1 { font-size:calc(46px*var(--ts,1)); letter-spacing:2px; }
+    .screen h2 { font-size:calc(28px*var(--ts,1)); margin-bottom:26px; }
+    .screen .keys { font-size:calc(26px*var(--ts,1)); line-height:2; margin-bottom:32px; max-width:92%; }
+    .screen button { font-size:calc(32px*var(--ts,1)); padding:22px 60px; }
+    #gameover .stats, #pause .stats { font-size:calc(30px*var(--ts,1)); }
   }
 
   /* ---------- BACK BUTTON ---------- */
   #back-btn { position:fixed; top:16px; left:16px; z-index:9999; pointer-events:all; background:rgba(10,12,14,.75); color:rgba(232,244,232,.75); border:1px solid rgba(232,244,232,.25); font-family:'Courier New',monospace; font-size:12px; letter-spacing:1px; padding:7px 14px; cursor:pointer; transition:background .2s,color .2s,border-color .2s; text-decoration:none; display:inline-block; }
   #back-btn:hover { background:rgba(232,244,232,.15); color:#e8f4e8; border-color:rgba(232,244,232,.6); }
   @media(pointer:coarse){
-    #back-btn { font-size:18px; padding:14px 22px; }
+    #back-btn { font-size:24px; padding:20px 28px; }
   }
+
+  /* ---------- PAUSE ---------- */
+  #pause-btn {
+    position:fixed; top:16px; right:16px; z-index:9998;
+    background:rgba(10,12,14,.75); color:rgba(232,244,232,.8);
+    border:1px solid rgba(232,244,232,.3); border-radius:50%;
+    width:52px; height:52px; font-size:22px; cursor:pointer;
+    display:none; align-items:center; justify-content:center;
+    transition:background .2s,color .2s;
+  }
+  #pause-btn.on { display:flex; }
+  #pause-btn:hover { background:rgba(232,244,232,.15); color:#e8f4e8; }
+  @media(pointer:coarse){
+    #pause-btn { width:80px; height:80px; font-size:34px; }
+  }
+  #pause { display:none; z-index:9997; }
+  #pause h1 { color:#9fffc0; text-shadow:0 0 24px rgba(120,255,170,.5); }
 
   /* ---------- SETTINGS ---------- */
   @media(pointer:fine){#settings-btn,#settings-panel{display:none!important;}}
   #settings-btn {
-    position:fixed; top:16px; right:16px; z-index:9999;
+    position:fixed; top:16px; right:108px; z-index:9999;
     background:rgba(10,12,14,.75); color:rgba(232,244,232,.75);
     border:1px solid rgba(232,244,232,.25); border-radius:50%;
-    width:60px; height:60px; font-size:30px; cursor:pointer;
+    width:80px; height:80px; font-size:38px; cursor:pointer;
     display:flex; align-items:center; justify-content:center;
     transition:background .2s,color .2s;
   }
   #settings-btn:hover { background:rgba(232,244,232,.15); color:#e8f4e8; }
   #settings-panel {
-    position:fixed; top:88px; right:16px; z-index:9999;
+    position:fixed; top:108px; right:16px; z-index:9999;
     background:rgba(10,12,14,.93); border:1px solid rgba(232,244,232,.25);
     color:#e8f4e8; font-family:'Courier New',monospace; font-size:15px;
     padding:22px 24px; width:290px; display:none;
@@ -271,6 +288,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <h2>FIN DE PÉRIODE D'ESSAI</h2>
   <div class="stats" id="finalStats"></div>
   <button id="btnRestart">REPOSTULER</button>
+</div>
+
+<button id="pause-btn" title="Pause">⏸</button>
+<div id="pause" class="screen">
+  <h1>PAUSE SYNDICALE</h1>
+  <h2>LE CARNAGE EST SUSPENDU — ACCORD DES RH EN ATTENTE</h2>
+  <div class="stats" id="pauseStats"></div>
+  <button id="btnResume">REPRENDRE LE CARNAGE</button>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -819,7 +844,7 @@ let round = 0, score = 0, kills = 0, spawnQueue = [], spawnTimer = 0, betweenRou
 let reloading = 0, fireCd = 0, mouseDown = false, flowTimer = 0;
 const isMobile = 'ontouchstart' in window;
 let cellsEarned = 0, cellsSpent = 0;
-let running = false, dead = false;
+let running = false, dead = false, paused = false;
 const keys = {};
 const tmpV = new THREE.Vector3();
 
@@ -1051,7 +1076,7 @@ let prev = performance.now();
 function loop(now) {
   requestAnimationFrame(loop);
   const dt = Math.min((now - prev)/1000, .05); prev = now;
-  if (!running) { renderer.render(scene, camera); return; }
+  if (!running || paused) { renderer.render(scene, camera); return; }
 
   /* --- rotation joystick mobile (continue tant que stick dévié) --- */
   if (isMobile && window.mobRightJoy && (window.mobRightJoy.x || window.mobRightJoy.y)) {
@@ -1258,6 +1283,7 @@ requestAnimationFrame(loop);
 ============================================================ */
 function gameOver() {
   dead = true; running = false; mouseDown = false;
+  paused = false; $('pause').style.display = 'none'; $('pause-btn').classList.remove('on');
   document.exitPointerLock();
   $('finalStats').innerHTML =
     `Vague atteinte : <b>${round}</b><br>` +
@@ -1291,15 +1317,38 @@ $('btnStart').addEventListener('click', () => {
   $('start').style.display = 'none';
   hud.classList.remove('hidden');
   reset(); running = true; lock();
+  $('pause-btn').classList.add('on');
   msg('Les photocopieuses arrivent. Le magasin est dans la salle de pause (pièce du milieu).', 4500);
 });
 $('btnRestart').addEventListener('click', () => {
   $('gameover').style.display = 'none';
   hud.classList.remove('hidden');
   reset(); running = true; lock();
+  $('pause-btn').classList.add('on');
 });
+
+/* ---------- PAUSE ---------- */
+function setPause(p) {
+  if (!running || dead) p = false;
+  paused = p;
+  if (paused) {
+    mouseDown = false;
+    $('pauseStats').innerHTML =
+      `Vague en cours : <b>${round}</b><br>` +
+      `Score : <b>${score} pts</b><br>` +
+      `Machines détruites : <b>${kills}</b><br>` +
+      `Cellules Excel : <b>${cells()} dispo</b><br>` +
+      `Santé : <b>${Math.max(0, Math.round(player.health))}%</b>`;
+    $('pause').style.display = 'flex';
+    if (!isMobile && document.pointerLockElement === canvas) document.exitPointerLock();
+  } else {
+    $('pause').style.display = 'none';
+  }
+}
+$('pause-btn').addEventListener('click', () => setPause(!paused));
+$('btnResume').addEventListener('click', () => { setPause(false); lock(); });
 document.addEventListener('pointerlockchange', () => {
-  if (!isMobile && document.pointerLockElement !== canvas) { mouseDown = false; if (running && !dead) msg('PAUSE — clique pour reprendre', 4000); }
+  if (!isMobile && document.pointerLockElement !== canvas) { mouseDown = false; if (running && !dead && !paused) setPause(true); }
 });
 canvas.addEventListener('mousedown', e => {
   if (e.button !== 0 || !running || dead) return;
