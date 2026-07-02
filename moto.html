@@ -173,7 +173,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div id="arena">
   <div id="game-col">
     <div id="game-title">Moto <b>Backflip</b></div>
-    <div id="info-bar">Score : <strong id="score-val">0</strong> &nbsp;·&nbsp; Flips : <strong id="flips-val">0</strong><span class="kb-hint"> &nbsp;·&nbsp; <kbd>ESPACE</kbd> flip (en l'air) &nbsp;·&nbsp; <kbd>→</kbd> boost</span></div>
+    <div id="info-bar"><strong id="dist-val">0</strong> / 1000 m &nbsp;·&nbsp; Flips : <strong id="flips-val">0</strong><span class="kb-hint"> &nbsp;·&nbsp; <kbd>←</kbd> cabrer &nbsp; <kbd>→</kbd> piquer &nbsp; <kbd>ESPACE</kbd> boost</span></div>
     <div id="canvas-wrap">
       <canvas id="c"></canvas>
       <div id="controls">
@@ -190,8 +190,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </div>
     <div id="touch-controls">
-      <button class="tbtn" id="t-flip"><span class="big">↺ FLIP</span><span class="small">maintenir en l'air = backflip</span></button>
-      <button class="tbtn" id="t-boost"><span class="big">🔥 BOOST</span><span class="small">plus vite, plus haut</span></button>
+      <button class="tbtn" id="t-left"><span class="big">◀ ARRIÈRE</span><span class="small">cabrer / backflip</span></button>
+      <button class="tbtn" id="t-boost"><span class="big">🔥</span><span class="small">boost</span></button>
+      <button class="tbtn" id="t-right"><span class="big">AVANT ▶</span><span class="small">piquer / frontflip</span></button>
     </div>
   </div>
   <section id="lb-section">
@@ -217,7 +218,7 @@ const nameEntry = document.getElementById('name-entry');
 const playerNameInput = document.getElementById('player-name');
 const btnSubmit = document.getElementById('btn-submit-score');
 const btnSkip = document.getElementById('btn-skip');
-const scoreVal = document.getElementById('score-val');
+const distVal = document.getElementById('dist-val');
 const flipsVal = document.getElementById('flips-val');
 const lbBody = document.getElementById('lb-body');
 const IS_TOUCH = window.matchMedia('(pointer:coarse)').matches;
@@ -301,9 +302,11 @@ function slopeAngle(x){
 /* ---- état ---- */
 let bike, running, score, flips, flipPoints, boost, camX, camY, popups, crashT, dust;
 let elapsed, recFrames, recT, ghostData;
-let pickups, pickRnd, nextPickX, airTime, flipHintShown;
+let pickups, pickRnd, nextPickX, airTime, flipHintShown, finished;
 let rw, fw, rotSum, lastAng, wasGnd, physAcc, airFlips; /* physique 2-roues */
 const REC_DT = 60;
+const RACE_M = 1000;                 // longueur de la course en mètres
+const FINISH_X = 100 + RACE_M*10;    // x de la ligne d'arrivée (1 m = 10 px)
 
 /* ================================================================
    ⚙ RÉGLAGES PHYSIQUE (modèle 2 roues — pas fixe de 16 ms)
@@ -320,8 +323,8 @@ const BOOST  = 5.6;    // ~336 px/s
 const WB = 34;         // empattement (écart entre les 2 roues)
 const WR = 9;          // rayon de roue
 const DRIVE = 0.20;    // accélération au sol
-const AIR_SPIN = 0.11; // vitesse de rotation en l'air (backflip)
-const STAB = 0.09;     // force d'auto-stabilisation en l'air quand on ne fait rien
+const AIR_SPIN = 0.14; // vitesse de rotation quand tu t'inclines (← / →)
+const AIR_DAMP = 0.72; // amortissement quand tu ne touches rien (évite de tournoyer tout seul)
 const CRASH_ANG = 2.2; // tolérance d'atterrissage en radians (~126°, crash si plus incliné)
 
 function dateSeed(){
@@ -348,8 +351,8 @@ function resetGame(){
   elapsed=0; recFrames=[]; recT=0;
   ghostData = mode==='jour' ? loadGhost() : null;
   pickups=[]; pickRnd=mulberry32(curSeed^0x9E3779B9); nextPickX=650;
-  airTime=0; flipHintShown=false;
-  scoreVal.textContent='0'; flipsVal.textContent='0';
+  airTime=0; flipHintShown=false; finished=false;
+  distVal.textContent='0'; flipsVal.textContent='0';
 }
 
 function startGame(m){
@@ -384,11 +387,13 @@ function bindHold(id, obj){
   el.addEventListener('touchcancel',off,{passive:false});
   el.addEventListener('mousedown',on); el.addEventListener('mouseup',off); el.addEventListener('mouseleave',off);
 }
-const tFlip={a:false}, tBoost={a:false};
-bindHold('t-flip',tFlip); bindHold('t-boost',tBoost);
+const tLeft={a:false}, tRight={a:false}, tBoost={a:false};
+bindHold('t-left',tLeft); bindHold('t-right',tRight); bindHold('t-boost',tBoost);
 
-function flipOn(){ return tFlip.a||keys[' ']||keys['ArrowUp']||keys['ArrowLeft']; }
-function boostOn(){ return tBoost.a||keys['ArrowRight']||keys['Shift']; }
+/* ← cabrer (rotation arrière / backflip) · → piquer (rotation avant / frontflip) */
+function leanBackOn(){ return tLeft.a ||keys['ArrowLeft'] ||keys['a']||keys['A']; }
+function leanFwdOn(){  return tRight.a||keys['ArrowRight']||keys['d']||keys['D']; }
+function boostOn(){    return tBoost.a||keys[' ']||keys['ArrowUp']||keys['Shift']; }
 
 /* ---- helpers ---- */
 function normAngle(a){ while(a>Math.PI)a-=2*Math.PI; while(a<-Math.PI)a+=2*Math.PI; return a; }
@@ -411,7 +416,7 @@ function crash(){
 
 /* ---- bonus de boost sur le tracé ---- */
 function ensurePickups(){
-  while (nextPickX < bike.x + 1400){
+  while (nextPickX < bike.x + 1400 && nextPickX < FINISH_X-200){
     const h = 24 + pickRnd()*100;
     pickups.push({ x:nextPickX, y:groundY(nextPickX)-h, taken:false });
     nextPickX += 450 + pickRnd()*500;
@@ -435,11 +440,12 @@ function rotateWheels(cx, cy, a, damped){
     }
   }
 }
-function doFlip(){
+function doFlip(dir){
   airFlips++; flips++; flipsVal.textContent=flips;
-  flipPoints += 100;
+  const pts = dir<0 ? 100 : 150; /* frontflip plus risqué = plus de points */
+  flipPoints += pts;
   boost = Math.min(100, boost+45);
-  addPopup('BACKFLIP ! +100', C.popup);
+  addPopup((dir<0?'BACKFLIP ! +':'FRONTFLIP ! +')+pts, C.popup);
 }
 
 /* ---- un pas de physique (dt fixe = 16 ms) ---- */
@@ -494,36 +500,35 @@ function physicsStep(){
   let ang=Math.atan2(fw.y-rw.y, fw.x-rw.x);
   const mx=(rw.x+fw.x)/2, my=(rw.y+fw.y)/2;
 
-  /* 5. en l'air : flip ou auto-stabilisation, puis comptage des backflips */
+  /* 5. en l'air : inclinaison MANUELLE (← cabrer / → piquer), pas d'auto-stabilisation.
+        C'est au joueur de remettre la moto droite avant d'atterrir. */
   if (!gnd){
     airTime += 16;
     if (!flipHintShown && airTime > 340){
       flipHintShown = true;
-      addPopup(IS_TOUCH ? 'FLIP !' : 'ESPACE = FLIP !', C.popup);
+      addPopup(IS_TOUCH ? '◀ ▶ pour t\'incliner' : '← → pour t\'incliner', C.popup);
     }
     if (boosting){
       const bx=Math.cos(ang)*0.10, by=Math.sin(ang)*0.10;
       rw.x+=bx; rw.y+=by; fw.x+=bx; fw.y+=by;
     }
-    const cvx=((rw.x-rw.px)+(fw.x-fw.px))/2, cvy=((rw.y-rw.py)+(fw.y-fw.py))/2;
-    if (flipOn()){
-      rotateWheels(mx, my, -AIR_SPIN, false); /* flip : on injecte du spin (momentum) */
+    if (leanBackOn()){
+      rotateWheels(mx, my, -AIR_SPIN, false); /* cabrer → backflip */
+    } else if (leanFwdOn()){
+      rotateWheels(mx, my, +AIR_SPIN, false); /* piquer → frontflip */
     } else {
-      /* amortir la rotation résiduelle : rapprocher la vitesse de chaque roue de
-         celle du centre → la moto arrête de tournoyer et se remet à plat toute seule */
+      /* aucune commande : on amortit la rotation pour ne pas tournoyer tout seul.
+         On NE réoriente PAS vers le sol — l'inclinaison reste ton boulot. */
+      const cvx=((rw.x-rw.px)+(fw.x-fw.px))/2, cvy=((rw.y-rw.py)+(fw.y-fw.py))/2;
       for (const w of [rw, fw]){
-        const rvx=(w.x-w.px-cvx)*0.75, rvy=(w.y-w.py-cvy)*0.75;
-        w.px = w.x-(cvx+rvx); w.py = w.y-(cvy+rvy);
+        const rvx=(w.x-w.px-cvx)*AIR_DAMP, rvy=(w.y-w.py-cvy)*AIR_DAMP;
+        w.px=w.x-(cvx+rvx); w.py=w.y-(cvy+rvy);
       }
-      /* puis on oriente doucement vers la pente d'atterrissage */
-      const targetAng=slopeAngle(mx + cvx*20);
-      const d=normAngle(targetAng-ang);
-      rotateWheels(mx, my, Math.max(-STAB, Math.min(STAB, d*0.20)), false);
     }
     const ang2=Math.atan2(fw.y-rw.y, fw.x-rw.x);
     rotSum += normAngle(ang2-lastAng);
-    while (rotSum <= -2*Math.PI*0.9){ rotSum += 2*Math.PI; doFlip(); }
-    while (rotSum >=  2*Math.PI*0.9){ rotSum -= 2*Math.PI; doFlip(); }
+    while (rotSum <= -2*Math.PI*0.9){ rotSum += 2*Math.PI; doFlip(-1); }
+    while (rotSum >=  2*Math.PI*0.9){ rotSum -= 2*Math.PI; doFlip(+1); }
     lastAng=ang2; ang=ang2;
   } else {
     airTime=0; lastAng=ang;
@@ -572,8 +577,15 @@ function update(dtMs){
     }
   }
 
-  score = Math.floor((b.x-100)/10) + flipPoints;
-  scoreVal.textContent = score;
+  const dist = Math.min(RACE_M, Math.floor((b.x-100)/10));
+  distVal.textContent = dist;
+
+  /* ligne d'arrivée à 1000 m */
+  if (!finished && b.x >= FINISH_X){
+    finished = true;
+    finishGame();
+    return;
+  }
 
   elapsed += dtMs;
   if (mode==='jour'){
@@ -777,11 +789,24 @@ function draw(){
   ctx.font='12px monospace'; ctx.textAlign='center';
   const first = Math.ceil(camX/500)*500;
   for(let mx=first; mx<camX+W; mx+=500){
-    if (mx<=100) continue;
+    if (mx<=100 || mx>=FINISH_X) continue;
     const sx=mx-camX;
     const gy=groundY(mx)-camY;
     ctx.fillRect(sx-1.5,gy-20,3,20);
     ctx.fillText(Math.floor((mx-100)/10)+'m', sx, gy-26);
+  }
+
+  /* ligne d'arrivée (damier) */
+  if (FINISH_X > camX-40 && FINISH_X < camX+W+40){
+    const sx=FINISH_X-camX, gy=groundY(FINISH_X)-camY, ph=80;
+    ctx.fillStyle='rgba(28,16,56,0.9)'; ctx.fillRect(sx-2,gy-ph,4,ph);           // poteau
+    ctx.fillRect(sx-2,gy-ph-6,44,6);                                             // hampe
+    for(let r=0;r<4;r++)for(let c=0;c<5;c++){                                    // drapeau à damier
+      ctx.fillStyle=((r+c)&1)?'#f8f4ec':'#241826';
+      ctx.fillRect(sx+2+c*8, gy-ph-6+r*8, 8, 8);
+    }
+    ctx.fillStyle='#9fffc0'; ctx.font='bold 13px monospace'; ctx.textAlign='center';
+    ctx.fillText('ARRIVÉE', sx+20, gy-ph-16);
   }
 
   /* bonus de boost : orbes flamme pulsantes */
@@ -865,8 +890,9 @@ function draw(){
 
   /* rappel des touches pendant le jeu (desktop) */
   if (running && !IS_TOUCH){
-    let nx = keycap(18, H-26, 'ESPACE', 'flip (en l\'air)');
-    keycap(nx+18, H-26, '→', 'boost');
+    let nx = keycap(18, H-26, '←', 'cabrer');
+    nx = keycap(nx+14, H-26, '→', 'piquer');
+    keycap(nx+14, H-26, 'ESPACE', 'boost');
   }
 
   /* crash flash */
@@ -884,21 +910,20 @@ function draw(){
     ctx.fillStyle='#ffd866';
     ctx.fillText('MOTO BACKFLIP', W/2, H/2-78);
     ctx.fillStyle='#ffe8d0'; ctx.font='17px monospace';
-    ctx.fillText('Ça roule tout seul. Retombe sur tes roues.', W/2, H/2-34);
+    ctx.fillText('Rejoins l\'arrivée à 1000 m. Retombe sur tes roues !', W/2, H/2-34);
     if (IS_TOUCH){
-      ctx.fillText('↺ FLIP (maintenir en l\'air) = backflip → points + boost', W/2, H/2-4);
-      ctx.fillText('🔥 BOOST = plus vite, plus haut', W/2, H/2+26);
+      ctx.fillText('◀ cabrer (backflip)  ·  piquer (frontflip) ▶', W/2, H/2-4);
+      ctx.fillText('🔥 boost  ·  incline-toi pour bien atterrir', W/2, H/2+26);
     } else {
-      ctx.fillText('ESPACE (en l\'air) = backflip → points + boost', W/2, H/2-4);
-      ctx.fillText('→ = boost · ramasse les ⚡ pour recharger', W/2, H/2+26);
+      ctx.fillText('← cabrer / backflip  ·  → piquer / frontflip', W/2, H/2-4);
+      ctx.fillText('ESPACE = boost  ·  incline-toi pour bien atterrir', W/2, H/2+26);
     }
     ctx.textBaseline='alphabetic';
   }
 }
 
 let finalScore=0;
-function endGame(){
-  finalScore = Math.floor((bike.x-100)/10) + flipPoints;
+function showEnd(headerHtml){
   let ghostMsg = '';
   if (mode==='jour'){
     const prev = loadGhost();
@@ -909,8 +934,9 @@ function endGame(){
       ghostMsg = '<br>Fantôme : '+prev.score+' pts — pas battu';
     }
   }
-  overMsg.innerHTML='<b>CRASH !</b><br>Distance : '+Math.floor((bike.x-100)/10)+' m · Flips : '+flips+'<br>Score : '+finalScore+ghostMsg;
+  overMsg.innerHTML = headerHtml + ghostMsg;
   overMsg.style.display='block';
+  btnStart.textContent='Rejouer (libre) →';
   controls.classList.remove('hidden');
   const entries=loadCache(); renderLeaderboard(entries);
   if(qualifies(finalScore,entries)){
@@ -919,6 +945,21 @@ function endGame(){
     playerNameInput.focus();
   }
   fetchLB().then(e=>renderLeaderboard(e));
+}
+/* CRASH avant l'arrivée : score partiel (distance + flips), toujours < une arrivée */
+function endGame(){
+  running=false;
+  finalScore = Math.floor((bike.x-100)/10) + flipPoints;
+  showEnd('<b>CRASH !</b><br>Distance : '+Math.floor((bike.x-100)/10)+' / 1000 m · Flips : '+flips+'<br>Score : '+finalScore);
+}
+/* ARRIVÉE à 1000 m : bonus de complétion + bonus de vitesse + flips */
+function finishGame(){
+  running=false; crashT=0;
+  const timeSec = elapsed/1000;
+  const speedBonus = Math.max(0, Math.round((150 - timeSec) * 40));
+  finalScore = 1000 + flipPoints + speedBonus;
+  showEnd('<b style="color:#9fffc0">ARRIVÉE !</b><br>Temps : '+timeSec.toFixed(1)+' s · Flips : '+flips+
+          '<br>Bonus vitesse : +'+speedBonus+'<br>Score : '+finalScore);
 }
 function doSubmit(){
   const name=playerNameInput.value.trim()||'Anonyme';
