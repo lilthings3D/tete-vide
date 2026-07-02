@@ -1085,7 +1085,7 @@ function loop(now) {
     const nx = Math.max(-1, Math.min(1, window.mobRightJoy.x / JOY_MAX));
     const ny = Math.max(-1, Math.min(1, window.mobRightJoy.y / JOY_MAX));
     player.yaw   -= nx * joySens * dt;
-    player.pitch -= ny * joySens * dt;
+    player.pitch -= ny * joySens * dt * .45; /* vertical volontairement plus lent */
     player.pitch = Math.max(-1.45, Math.min(1.45, player.pitch));
   }
 
