@@ -1297,7 +1297,10 @@ function gameOver() {
 function reset() {
   [...enemies, ...projectiles, ...papers, ...coffees, ...steams].forEach(o => scene.remove(o));
   enemies = []; projectiles = []; papers = []; coffees = []; steams = [];
-  player.pos.set(-14,1.6,10); player.yaw = Math.PI+.6; player.pitch = 0;
+  /* spawn aléatoire : point au hasard, repoussé hors des murs */
+  player.pos.set(MAP_X1+3+Math.random()*(MAP_X2-MAP_X1-6), 1.6, MAP_Z1+3+Math.random()*(MAP_Z2-MAP_Z1-6));
+  collide(player.pos, player.radius);
+  player.yaw = Math.random()*Math.PI*2; player.pitch = 0;
   player.health = 100; round = 0; score = 0; kills = 0;
   cellsEarned = 0; cellsSpent = 0;
   spawnQueue = []; betweenRounds = 0; reloading = 0; dead = false;
