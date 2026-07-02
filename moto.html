@@ -45,11 +45,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   #arena{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;padding:20px 32px;overflow-y:auto;position:relative;z-index:2;}
   #game-col{display:flex;flex-direction:column;align-items:center;flex-shrink:0;}
   canvas{max-height:calc(100vh - 180px) !important;}
-  #lb-section{position:absolute;top:20px;right:32px;width:260px;padding-top:46px;max-height:calc(100vh - 130px);overflow-y:auto;}
+  #lb-section{position:relative;width:100%;max-width:420px;padding-top:20px;border-top:1.5px solid var(--rule);margin-top:14px;}
   #lb-section h2{font-family:'Fraunces',serif;font-weight:300;font-style:italic;font-size:1.6rem;letter-spacing:-0.5px;border-bottom:3px double var(--ink);padding-bottom:10px;margin-bottom:20px;}
   #lb-section h2 b{font-style:normal;font-weight:600;color:var(--orange-deep);}
   @media(max-width:900px){#arena{padding:16px 20px;}canvas{max-height:50vh !important;}}
-  @media(max-width:900px),(pointer:coarse){#lb-section{position:relative;top:auto;right:auto;width:100%;max-width:100%;max-height:none;padding-top:20px;border-top:1.5px solid var(--rule);margin-top:8px;}}
   #name-entry{display:none;flex-direction:column;align-items:center;gap:10px;margin-bottom:4px;}
   #name-entry.on{display:flex;}
   .name-label{font-family:'Fraunces',serif;font-size:0.78rem;letter-spacing:1px;color:rgba(251,247,240,.8);text-transform:uppercase;text-align:center;}
@@ -304,10 +303,16 @@ let elapsed, recFrames, recT, ghostData;
 let pickups, pickRnd, nextPickX, airTime, flipHintShown;
 const REC_DT = 60;
 
-/* physique allégée : plus réactive, plus d'air */
-const G = 0.0024;
-const CRUISE = 0.50;
-const BOOSTV = 0.95;
+/* ================================================================
+   ⚙ RÉGLAGES PHYSIQUE — les 3 chiffres à toucher si besoin :
+     • G      = gravité. Plus PETIT = tu retombes plus lentement, tu voles plus longtemps.
+     • CRUISE = vitesse normale de la moto. Plus PETIT = plus lent.
+     • BOOSTV = vitesse quand tu boostes. Toujours garder BOOSTV > CRUISE.
+   (FLIP_ROT = vitesse de rotation en l'air, à ne pas trop changer.)
+   ================================================================ */
+const G = 0.0018;      // était 0.0024 — gravité plus douce
+const CRUISE = 0.38;   // était 0.50  — moto plus lente
+const BOOSTV = 0.70;   // était 0.95  — boost plus lent
 const FLIP_ROT = -0.0115;
 
 function dateSeed(){
