@@ -175,7 +175,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <button class="btn" id="btn-submit-score">Valider →</button>
           <button class="btn-skip" id="btn-skip">Passer</button>
         </div>
-        <button class="btn" id="btn-start">Jouer →</button>
+        <button class="btn" id="btn-start">Course libre →</button>
+        <button class="btn" id="btn-daily">Course du jour →</button>
+        <div id="daily-hint" style="font-size:0.72rem;letter-spacing:1px;text-transform:uppercase;color:rgba(251,247,240,.55);text-align:center;">Course du jour : même tracé pour tous, course contre ton fantôme</div>
       </div>
     </div>
     <div id="touch-controls">
@@ -185,7 +187,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </div>
   <section id="lb-section">
-    <h2>Top 10 <b>·</b></h2>
+    <h2 id="lb-title">Top 10 <b>·</b></h2>
     <table class="lb-table">
       <thead><tr><th>#</th><th>Joueur</th><th>Score</th></tr></thead>
       <tbody id="lb-body"><tr><td colspan="3" class="lb-empty">Pas encore de scores.</td></tr></tbody>
@@ -207,18 +209,22 @@ const scoreVal = document.getElementById('score-val');
 const flipsVal = document.getElementById('flips-val');
 const lbBody = document.getElementById('lb-body');
 
-/* ---- LEADERBOARD ---- */
-const LB_URL   = 'https://script.google.com/macros/s/AKfycbwyBOl_zvYu9U7LciBuBeQhta19z1lWJ7hXr7KYFmfaWCc_ZnV_QIUoU-wri5Pu4Ps/exec';
-const LB_GAME  = 'moto';
-const LB_CACHE = 'lb-moto-cache';
-function loadCache(){ try{ return JSON.parse(localStorage.getItem(LB_CACHE))||[]; }catch{ return []; } }
-function saveCache(e){ localStorage.setItem(LB_CACHE, JSON.stringify(e)); }
+/* ---- LEADERBOARD (clé dynamique : libre = 'moto', jour = 'moto-jour-DATE') ---- */
+const LB_URL = 'https://script.google.com/macros/s/AKfycbwyBOl_zvYu9U7LciBuBeQhta19z1lWJ7hXr7KYFmfaWCc_ZnV_QIUoU-wri5Pu4Ps/exec';
+const lbTitle = document.getElementById('lb-title');
+let mode = 'libre'; // 'libre' | 'jour'
+function todayStr(){ const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function lbGame(){ return mode==='jour' ? 'moto-jour-'+todayStr() : 'moto'; }
+function lbCacheKey(){ return 'lb-cache-'+lbGame(); }
+function updateLbTitle(){ lbTitle.innerHTML = mode==='jour' ? 'Course du jour <b>·</b>' : 'Top 10 <b>·</b>'; }
+function loadCache(){ try{ return JSON.parse(localStorage.getItem(lbCacheKey()))||[]; }catch{ return []; } }
+function saveCache(e){ localStorage.setItem(lbCacheKey(), JSON.stringify(e)); }
 function qualifies(sc,entries){ return sc>0&&(entries.length<10||sc>entries[entries.length-1].score); }
 async function fetchLB(){
-  try{ const r=await fetch(LB_URL+'?game='+LB_GAME); const e=await r.json(); if(Array.isArray(e)){saveCache(e);return e;} return loadCache(); }catch{ return loadCache(); }
+  try{ const r=await fetch(LB_URL+'?game='+lbGame()); const e=await r.json(); if(Array.isArray(e)){saveCache(e);return e;} return loadCache(); }catch{ return loadCache(); }
 }
 function addToLB(name,sc){
-  const url=LB_URL+'?action=add&game='+LB_GAME+'&name='+encodeURIComponent(name)+'&score='+sc;
+  const url=LB_URL+'?action=add&game='+lbGame()+'&name='+encodeURIComponent(name)+'&score='+sc;
   fetch(url).then(r=>r.json()).then(e=>{if(Array.isArray(e)){saveCache(e);renderLeaderboard(e,name);}}).catch(()=>{});
   const entries=[...loadCache(),{name,score:sc}].sort((a,b)=>b.score-a.score).slice(0,10);
   saveCache(entries); return entries;
@@ -268,6 +274,16 @@ function slopeAngle(x){
 
 /* ---- état ---- */
 let bike, running, score, flips, flipPoints, boost, camX, popups, crashT;
+let elapsed, recFrames, recT, ghostData;
+const REC_DT = 60; // ms entre deux frames de fantôme
+
+function dateSeed(){
+  const s = todayStr(); let h = 5381;
+  for (let i=0;i<s.length;i++) h = ((h<<5)+h+s.charCodeAt(i))|0;
+  return h>>>0;
+}
+function ghostKey(){ return 'moto-ghost-'+todayStr(); }
+function loadGhost(){ try{ return JSON.parse(localStorage.getItem(ghostKey())); }catch{ return null; } }
 const G = 0.0028;          // gravité px/ms²
 const ACCEL = 0.00050;     // gaz
 const BRAKE = 0.0010;
@@ -278,7 +294,7 @@ const BOOST_DRAIN = 0.055; // /ms
 const ROT = 0.0085;        // vitesse rotation air (rad/ms)
 
 function resetGame(){
-  makeTerrain((Math.random()*1e9)|0);
+  makeTerrain(mode==='jour' ? dateSeed() : (Math.random()*1e9)|0);
   const x0 = 100;
   bike = {
     x:x0, y:groundY(x0)-14, vx:0.15, vy:0,
@@ -286,17 +302,25 @@ function resetGame(){
     onGround:true, rotSum:0, airFlips:0,
   };
   running=false; score=0; flips=0; flipPoints=0; boost=0; camX=0; popups=[]; crashT=0;
+  elapsed=0; recFrames=[]; recT=0;
+  ghostData = mode==='jour' ? loadGhost() : null;
   scoreVal.textContent='0'; flipsVal.textContent='0';
 }
 
-function startGame(){
+function startGame(m){
+  mode = m;
   resetGame();
+  updateLbTitle();
+  renderLeaderboard(loadCache());
+  fetchLB().then(renderLeaderboard);
   overMsg.style.display='none';
   nameEntry.classList.remove('on');
   controls.classList.add('hidden');
   running=true;
+  if (mode==='jour' && ghostData) addPopup('Fantôme : '+ghostData.score+' pts', '#9fd4ff');
 }
-btnStart.addEventListener('click', startGame);
+btnStart.addEventListener('click', ()=>startGame('libre'));
+document.getElementById('btn-daily').addEventListener('click', ()=>startGame('jour'));
 
 /* ---- contrôles ---- */
 const keys={};
@@ -429,12 +453,56 @@ function update(dt){
   score = Math.floor((b.x-100)/10) + flipPoints;
   scoreVal.textContent = score;
 
+  /* enregistrement du fantôme (course du jour) */
+  elapsed += dt;
+  if (mode==='jour'){
+    recT += dt;
+    while (recT >= REC_DT && recFrames.length < 8000){
+      recFrames.push([Math.round(b.x*10)/10, Math.round(b.y*10)/10, Math.round(b.angle*100)/100]);
+      recT -= REC_DT;
+    }
+  }
+
   camX = b.x - 240;
   popups.forEach(p=>{ p.t-=dt; p.y-=0.02*dt; });
   popups = popups.filter(p=>p.t>0);
 }
 
 /* ---- draw ---- */
+function drawGhost(){
+  if (!ghostData || !ghostData.frames || !ghostData.frames.length) return;
+  const fr = ghostData.frames;
+  const fi = elapsed/REC_DT;
+  const i0 = Math.min(fr.length-1, Math.floor(fi));
+  const i1 = Math.min(fr.length-1, i0+1);
+  const t = fi-i0;
+  const gx = fr[i0][0]+(fr[i1][0]-fr[i0][0])*t;
+  const gy = fr[i0][1]+(fr[i1][1]-fr[i0][1])*t;
+  let a0=fr[i0][2], a1=fr[i1][2];
+  const ga = a0 + normAngle(a1-a0)*t;
+  const sx = gx-camX;
+  if (sx < -60 || sx > W+60) return;
+  ctx.save();
+  ctx.globalAlpha = 0.38;
+  ctx.translate(sx, gy);
+  ctx.rotate(ga);
+  ctx.strokeStyle='#9fd4ff'; ctx.lineWidth=3; ctx.fillStyle='#101a26';
+  ctx.beginPath(); ctx.arc(-16,10,9,0,7); ctx.fill(); ctx.stroke();
+  ctx.beginPath(); ctx.arc( 16,10,9,0,7); ctx.fill(); ctx.stroke();
+  ctx.lineWidth=4; ctx.lineCap='round';
+  ctx.beginPath();
+  ctx.moveTo(-16,10); ctx.lineTo(-4,-2); ctx.lineTo(10,-2); ctx.lineTo(16,10);
+  ctx.moveTo(10,-2); ctx.lineTo(14,-10);
+  ctx.stroke();
+  ctx.lineWidth=3.5;
+  ctx.beginPath();
+  ctx.moveTo(-2,-2); ctx.lineTo(-4,-14); ctx.lineTo(12,-11);
+  ctx.stroke();
+  ctx.fillStyle='#9fd4ff';
+  ctx.beginPath(); ctx.arc(-6,-20,5.5,0,7); ctx.fill();
+  ctx.restore();
+}
+
 function drawBike(){
   const b=bike;
   ctx.save();
@@ -515,6 +583,7 @@ function draw(){
     ctx.fillText(Math.floor((mx-100)/10)+'m', sx, gy-24);
   }
 
+  if (mode==='jour' && running) drawGhost();
   drawBike();
 
   /* popups */
@@ -553,8 +622,17 @@ function draw(){
 let finalScore=0;
 function endGame(){
   finalScore = Math.floor((bike.x-100)/10) + flipPoints;
-  btnStart.textContent='Rejouer →';
-  overMsg.innerHTML='<b>CRASH !</b><br>Distance : '+Math.floor((bike.x-100)/10)+' m · Flips : '+flips+'<br>Score : '+finalScore;
+  let ghostMsg = '';
+  if (mode==='jour'){
+    const prev = loadGhost();
+    if (!prev || finalScore > prev.score){
+      try{ localStorage.setItem(ghostKey(), JSON.stringify({score:finalScore, frames:recFrames})); }catch{}
+      ghostMsg = prev ? '<br>Fantôme battu ! ('+prev.score+' → '+finalScore+')' : '<br>Fantôme enregistré !';
+    } else {
+      ghostMsg = '<br>Fantôme : '+prev.score+' pts — pas battu';
+    }
+  }
+  overMsg.innerHTML='<b>CRASH !</b><br>Distance : '+Math.floor((bike.x-100)/10)+' m · Flips : '+flips+'<br>Score : '+finalScore+ghostMsg;
   overMsg.style.display='block';
   controls.classList.remove('hidden');
   const entries=loadCache(); renderLeaderboard(entries);
