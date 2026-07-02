@@ -101,12 +101,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   #controls.hidden{display:none;}
   .btn{
-    font-family:'Fraunces',serif;font-size:0.9rem;letter-spacing:1.5px;text-transform:uppercase;
-    color:var(--cream);border:2px solid var(--cream);
-    background:none;padding:11px 32px;cursor:pointer;
-    transition:background .2s,color .2s;
+    font-family:'Fraunces',serif;font-size:1rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+    color:var(--cream);border:2px solid var(--orange);
+    background:var(--orange);padding:13px 36px;cursor:pointer;
+    transition:background .2s,color .2s,transform .1s;
   }
-  .btn:hover{background:var(--cream);color:var(--ink);}
+  .btn:hover{background:var(--orange-deep);border-color:var(--orange-deep);}
+  .btn:active{transform:scale(0.97);}
 
   #over-msg{
     font-family:'Fraunces',serif;font-weight:600;font-style:italic;
