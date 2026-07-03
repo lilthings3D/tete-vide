@@ -315,16 +315,16 @@ const FINISH_X = 100 + RACE_M*10;    // x de la ligne d'arrivée (1 m = 10 px)
      • CRUISE = vitesse normale (px par frame). Plus PETIT = plus lent.
      • BOOST  = vitesse en boost. Garder BOOST > CRUISE.
    ================================================================ */
-const GRAV   = 0.30;   // gravité douce
-const CRUISE = 3.4;    // ~205 px/s — moto tranquille
-const BOOST  = 5.6;    // ~336 px/s
+const GRAV   = 0.20;   // gravité douce et pesante (la moto flotte, retombe posément)
+const CRUISE = 2.4;    // ~145 px/s — allure tranquille et réaliste
+const BOOST  = 4.2;    // ~250 px/s
 
 /* réglages avancés (à ne pas trop toucher) */
 const WB = 34;         // empattement (écart entre les 2 roues)
 const WR = 9;          // rayon de roue
 const DRIVE = 0.20;    // accélération au sol
-const AIR_SPIN = 0.14; // vitesse de rotation quand tu t'inclines (← / →)
-const AIR_DAMP = 0.72; // amortissement quand tu ne touches rien (évite de tournoyer tout seul)
+const AIR_SPIN = 0.12; // vitesse de rotation quand tu t'inclines (← / →) — ~0,84 s le tour
+const AIR_DAMP = 0.80; // amortissement quand tu ne touches rien (évite de tournoyer tout seul)
 const CRASH_ANG = 2.2; // tolérance d'atterrissage en radians (~126°, crash si plus incliné)
 
 function dateSeed(){
