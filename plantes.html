@@ -19,6 +19,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     --cream:#FBF7F0;--paper:#fbf6ec;
     --ink:#2e2218;--ink-soft:#5b4a39;
     --green:#3A6B35;--green-mid:#5A9B52;--green-light:#A8CFA4;--green-pale:#D8EDD6;
+    --orange-deep:#B8521A;--rust:#9B3535;
     --rule:#e0cfb0;--rule-strong:#c9b189;
   }
   *{margin:0;padding:0;box-sizing:border-box;}
@@ -201,6 +202,54 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .quiz-replay:hover{background:var(--green);color:var(--cream);}
 
+  /* EN CE MOMENT */
+  .now-band{border:1.5px solid var(--ink);background:var(--green-pale);margin-top:44px;padding:28px 30px;}
+  .now-kicker{font-family:'Fraunces',serif;font-size:0.72rem;letter-spacing:3px;text-transform:uppercase;color:var(--green);font-weight:600;margin-bottom:18px;}
+  .now-kicker b{color:var(--ink);font-style:italic;}
+  .now-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+  @media(max-width:700px){.now-grid{grid-template-columns:1fr;gap:20px;}}
+  .now-col h3{font-family:'Fraunces',serif;font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--green-mid);margin-bottom:10px;border-bottom:1px solid var(--green-light);padding-bottom:7px;}
+  .now-col ul{list-style:none;display:flex;flex-direction:column;gap:5px;}
+  .now-col li{font-size:0.9rem;color:var(--ink-soft);line-height:1.4;padding-left:14px;position:relative;}
+  .now-col li::before{content:"—";position:absolute;left:0;color:var(--green-light);}
+  .now-note{margin-top:20px;padding-top:16px;border-top:1px solid var(--green-light);font-style:italic;font-size:0.92rem;color:var(--ink-soft);}
+
+  /* COMPAGNONNAGE */
+  .compa-intro{font-size:0.95rem;color:var(--ink-soft);margin-bottom:22px;max-width:660px;line-height:1.6;}
+  .compa-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px;}
+  .compa-chip{font-family:'Fraunces',serif;font-size:0.8rem;letter-spacing:0.3px;padding:7px 15px;border:1.5px solid var(--rule-strong);background:var(--paper);color:var(--ink-soft);cursor:pointer;transition:background .18s,color .18s,border-color .18s;}
+  .compa-chip:hover{border-color:var(--green);color:var(--green);}
+  .compa-chip.active{background:var(--green);color:var(--cream);border-color:var(--green);}
+  .compa-panel{display:none;border:1.5px solid var(--ink);padding:28px;}
+  .compa-panel.on{display:block;}
+  .compa-plant{font-family:'Fraunces',serif;font-size:1.5rem;font-style:italic;color:var(--ink);margin-bottom:22px;}
+  .compa-cols{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-bottom:18px;}
+  @media(max-width:560px){.compa-cols{grid-template-columns:1fr;gap:20px;}}
+  .compa-h{font-family:'Fraunces',serif;font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid var(--rule);}
+  .compa-h.amis{color:var(--green);} .compa-h.ennemis{color:var(--rust);}
+  .compa-list{display:flex;flex-wrap:wrap;gap:6px;}
+  .compa-tag{font-size:0.85rem;padding:5px 12px;border-radius:2px;line-height:1.2;}
+  .compa-tag.ami{background:var(--green-pale);color:var(--green);}
+  .compa-tag.ennemi{background:#f7e2df;color:var(--rust);}
+  .compa-none{font-size:0.85rem;font-style:italic;color:var(--green-light);}
+  .compa-note{font-size:0.9rem;font-style:italic;color:var(--ink-soft);line-height:1.6;border-top:1px solid var(--rule);padding-top:16px;}
+  .compa-note strong{font-style:normal;color:var(--ink);}
+
+  /* DIAGNOSTIC */
+  .diag-list{border-top:1.5px solid var(--ink);}
+  .diag-item{border-bottom:1px solid var(--rule);}
+  .diag-q{width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:20px 42px 20px 0;font-family:'Fraunces',serif;font-size:1.05rem;font-weight:600;color:var(--ink);position:relative;transition:color .2s;}
+  .diag-q:hover{color:var(--green);}
+  .diag-q .diag-em{font-size:0.82rem;font-weight:400;font-style:italic;color:var(--green-mid);display:block;margin-top:2px;}
+  .diag-q::after{content:"+";position:absolute;right:6px;top:22px;font-size:1.4rem;color:var(--green-mid);font-weight:400;}
+  .diag-item.open .diag-q::after{content:"–";}
+  .diag-a{display:none;padding:0 0 24px;}
+  .diag-item.open .diag-a{display:block;}
+  .diag-cause{margin-bottom:15px;padding-left:16px;border-left:2px solid var(--green-light);}
+  .diag-cause:last-child{margin-bottom:0;}
+  .diag-cause-t{font-family:'Fraunces',serif;font-weight:600;color:var(--green);font-size:0.92rem;margin-bottom:3px;}
+  .diag-cause-s{font-size:0.92rem;color:var(--ink-soft);line-height:1.6;}
+
   footer.site{border-top:3px double var(--ink);padding:46px 0 70px;text-align:center;}
   footer .f-brand{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;color:var(--green);}
   footer p{color:var(--ink-soft);font-size:0.9rem;margin-top:12px;max-width:460px;margin-left:auto;margin-right:auto;}
@@ -242,8 +291,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p class="tagline">Pour pas se planter, selon la saison.</p>
   </section>
 
+  <!-- EN CE MOMENT -->
+  <section class="now-band" id="now-band"></section>
+
   <!-- CALENDRIER -->
-  <div class="sec-label">Calendrier du jardinier</div>
+  <div class="sec-label" style="margin-top:56px;">Calendrier du jardinier</div>
   <div class="cal-months" id="cal-months"></div>
   <div class="cal-panel" id="cal-panel">
     <div class="cal-panel-head">
@@ -260,6 +312,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="plant-results" id="plant-results"></div>
   </div>
   <div class="plant-card" id="plant-card"></div>
+
+  <!-- COMPAGNONNAGE -->
+  <div class="sec-label" style="margin-top:56px;">Bons et mauvais voisins</div>
+  <p class="compa-intro">Au potager, certaines plantes s'entraident — elles repoussent les parasites de leurs voisines ou améliorent leur goût. D'autres se gênent. Choisis une plante pour voir avec qui l'installer, et qui éloigner.</p>
+  <div class="compa-chips" id="compa-chips"></div>
+  <div class="compa-panel" id="compa-panel"></div>
 
   <!-- FAITS -->
   <div class="sec-label" style="margin-top:56px;">Fun facts</div>
@@ -297,6 +355,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="tip"><div class="tip-num">06</div><div class="tip-body"><div class="tip-titre">Un pot sans trou, c’est une plante qui pourrit</div><div class="tip-texte">Sans drainage, l’eau stagne au fond et asphyxie les racines. Toujours un trou. Toujours une soucoupe qu’on vide après l’arrosage.</div></div></div>
     <div class="tip"><div class="tip-num">07</div><div class="tip-body"><div class="tip-titre">Tailler en biseau, toujours au-dessus d’un nœud</div><div class="tip-texte">Une coupe droite retient l’eau et favorise les champignons. En biseau, l’eau glisse. Et couper juste au-dessus d’un nœud indique à la plante où faire repartir sa croissance.</div></div></div>
   </div>
+
+  <!-- DIAGNOSTIC -->
+  <div class="sec-label" style="margin-top:56px;">Au secours, ma plante…</div>
+  <div class="diag-list" id="diag-list"></div>
 
   <!-- BIO -->
   <div class="sec-label" style="margin-top:56px;">Biologie végétale</div>
@@ -695,6 +757,130 @@ function showScore(){
 }
 
 startQuiz();
+
+/* ---- EN CE MOMENT AU JARDIN ---- */
+const MOIS_NOTES=[
+  "Le potager dort, mais c'est le mois pour rêver et commander les semences.",
+  "Sous la neige ou la pluie, on prépare : semis au chaud et taille des fruitiers.",
+  "Tout se réveille. Le sol se travaille dès qu'il n'est plus détrempé.",
+  "Le grand rush des semis. Mais attention, les gelées rôdent encore.",
+  "Après les Saints de glace (11-13 mai), tu peux enfin tout planter dehors.",
+  "Journées longues, croissance explosive. Arrose tôt le matin.",
+  "Récoltes abondantes et arrosages quotidiens. Le jardin donne tout.",
+  "Le cœur de l'abondance. On récolte plus vite qu'on ne mange.",
+  "La bascule : dernières récoltes d'été, premiers semis d'automne.",
+  "Le mois de l'ail et des plantations d'arbres. On range, on paille.",
+  "Le jardin se met au repos. On protège, on nettoie les outils.",
+  "Presque rien à faire dehors — le bon moment pour planifier l'an prochain."
+];
+(function(){
+  const d = CALENDRIER[currentMonth];
+  const cap=(arr,n)=>(arr||[]).slice(0,n);
+  const col=(title,items)=> items.length ? `<div class="now-col"><h3>${title}</h3><ul>${items.map(x=>`<li>${x}</li>`).join('')}</ul></div>` : '';
+  document.getElementById('now-band').innerHTML=
+    `<div class="now-kicker">En ce moment · <b>${MOIS_LONGS[currentMonth]}</b></div>
+     <div class="now-grid">
+       ${col('Semer', cap(d.semer,4))}
+       ${col('Récolter', cap(d.recolter,4))}
+       ${col('À faire', cap(d.entretien,4))}
+     </div>
+     <div class="now-note">${MOIS_NOTES[currentMonth]}</div>`;
+})();
+
+/* ---- BONS ET MAUVAIS VOISINS (compagnonnage) ---- */
+const COMPAGNONS={
+  "Tomate":{amis:["Basilic","Œillet d'Inde","Carotte","Persil","Ail","Oignon","Ciboulette"],ennemis:["Pomme de terre","Concombre","Chou","Fenouil"],note:"Le basilic éloigne les pucerons et aleurodes, l'œillet d'Inde neutralise les nématodes du sol. Éviter la pomme de terre : même famille, mêmes maladies (mildiou)."},
+  "Carotte":{amis:["Poireau","Oignon","Ciboulette","Radis","Tomate","Laitue"],ennemis:["Aneth","Persil","Fenouil"],note:"Le duo carotte + poireau est légendaire : l'odeur du poireau désoriente la mouche de la carotte, et vice-versa. Éviter les autres ombellifères (aneth, fenouil)."},
+  "Basilic":{amis:["Tomate","Poivron","Aubergine"],ennemis:["Concombre","Rue"],note:"Compagnon roi de la tomate : il en éloigne les nuisibles et, dit-on, en améliore le goût. Il aime les mêmes conditions chaudes."},
+  "Fraisier":{amis:["Ail","Oignon","Ciboulette","Laitue","Épinard","Bourrache"],ennemis:["Chou","Pomme de terre"],note:"L'ail et la ciboulette protègent les fraisiers des maladies fongiques. La bourrache attire les pollinisateurs. Tenir à distance des choux, gourmands en azote."},
+  "Courgette":{amis:["Haricot","Maïs","Capucine","Bourrache"],ennemis:["Pomme de terre","Concombre"],note:"La capucine sert de piège à pucerons, le haricot fixe l'azote dont la courgette raffole. La classique trilogie « courge–maïs–haricot » (les Trois Sœurs)."},
+  "Haricot":{amis:["Carotte","Courgette","Maïs","Concombre","Laitue","Radis"],ennemis:["Ail","Oignon","Poireau","Ciboulette"],note:"Le haricot enrichit le sol en azote pour ses voisins. Mais il déteste toutes les plantes de la famille de l'oignon (alliacées)."},
+  "Laitue":{amis:["Carotte","Radis","Fraisier","Concombre","Haricot"],ennemis:["Persil","Tournesol","Céleri"],note:"Pousse vite entre des légumes plus lents (carottes, poireaux) : on l'y intercale pour ne pas gâcher l'espace. Le radis marque les rangs."},
+  "Ail":{amis:["Rosier","Fraisier","Tomate","Carotte","Betterave"],ennemis:["Haricot","Pois","Chou"],note:"Fongicide et répulsif naturel : planté au pied des rosiers, il éloigne pucerons et maladies. À bannir près des légumineuses (haricots, pois)."},
+  "Chou":{amis:["Céleri","Thym","Menthe","Sauge","Romarin","Bette"],ennemis:["Tomate","Fraisier","Ail","Oignon"],note:"Les aromatiques odorantes (thym, menthe, sauge) brouillent les pistes de la piéride du chou. Le céleri le protège aussi."},
+  "Concombre":{amis:["Haricot","Laitue","Maïs","Tournesol","Aneth"],ennemis:["Tomate","Pomme de terre","Sauge"],note:"Le maïs et le tournesol lui servent de tuteur vivant et d'ombrage. Éviter les aromatiques fortes et la tomate."},
+  "Pomme de terre":{amis:["Haricot","Chou","Maïs","Épinard","Œillet d'Inde"],ennemis:["Tomate","Concombre","Courge","Tournesol"],note:"Le haricot éloigne le doryphore, l'œillet d'Inde protège les racines. Jamais près de la tomate : elles se transmettent le mildiou."},
+  "Rosier":{amis:["Ail","Ciboulette","Lavande","Œillet d'Inde"],ennemis:[],note:"L'ail et la ciboulette plantés au pied éloignent les pucerons et préviennent les maladies fongiques (oïdium, taches noires). La lavande fait fuir d'autres nuisibles."}
+};
+(function(){
+  const chips=document.getElementById('compa-chips');
+  const panel=document.getElementById('compa-panel');
+  const names=Object.keys(COMPAGNONS);
+  let active=null;
+  function tag(cls,arr){
+    if(!arr.length) return '<span class="compa-none">— aucun connu —</span>';
+    return arr.map(x=>`<span class="compa-tag ${cls}">${x}</span>`).join('');
+  }
+  function show(name,btn){
+    if(active===name){ active=null; panel.classList.remove('on'); chips.querySelectorAll('.compa-chip').forEach(b=>b.classList.remove('active')); return; }
+    active=name;
+    chips.querySelectorAll('.compa-chip').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const c=COMPAGNONS[name];
+    panel.innerHTML=
+      `<div class="compa-plant">${name}</div>
+       <div class="compa-cols">
+         <div><div class="compa-h amis">✓ À planter à côté</div><div class="compa-list">${tag('ami',c.amis)}</div></div>
+         <div><div class="compa-h ennemis">✗ À tenir à distance</div><div class="compa-list">${tag('ennemi',c.ennemis)}</div></div>
+       </div>
+       <div class="compa-note"><strong>Pourquoi :</strong> ${c.note}</div>`;
+    panel.classList.add('on');
+  }
+  names.forEach(n=>{
+    const b=document.createElement('button');
+    b.className='compa-chip'; b.textContent=n;
+    b.onclick=()=>show(n,b);
+    chips.appendChild(b);
+  });
+})();
+
+/* ---- AU SECOURS, MA PLANTE… (diagnostic) ---- */
+const DIAGNOSTICS=[
+  {symptome:"Feuilles jaunes",indice:"surtout en bas de la plante",causes:[
+    {c:"Trop d'eau, racines asphyxiées",s:"La cause n°1. Laisse sécher la terre sur 2-3 cm avant de ré-arroser, et vérifie qu'il y a bien un trou de drainage."},
+    {c:"Manque d'azote",s:"Feuilles pâles et croissance lente. Apporte du compost ou un engrais riche en azote."},
+    {c:"Vieillissement normal",s:"Si seules les feuilles du bas jaunissent une à une, c'est naturel : la plante recycle. Rien à faire."}
+  ]},
+  {symptome:"La plante flétrit alors que la terre est humide",indice:"feuilles molles, tombantes",causes:[
+    {c:"Excès d'arrosage / pourriture des racines",s:"Paradoxal mais fréquent : les racines noyées pourrissent et ne boivent plus. Dépote, coupe les racines brunes et molles, rempote dans un substrat neuf et drainant."},
+    {c:"Choc thermique",s:"Un courant d'air froid ou un plein soleil brûlant peut faire flétrir. Déplace la plante dans un endroit plus stable."}
+  ]},
+  {symptome:"Poudre blanche ou taches sur les feuilles",indice:"feutrage blanc, taches brunes",causes:[
+    {c:"Oïdium (poudre blanche)",s:"Maladie fongique favorisée par l'humidité stagnante. Aère, ne mouille jamais le feuillage, pulvérise du bicarbonate (1 c. à café/L d'eau) ou du purin de prêle."},
+    {c:"Mildiou (taches brunes huileuses)",s:"Surtout tomates et pommes de terre par temps humide. Retire les parties atteintes, arrose au pied, espace les plants pour aérer."}
+  ]},
+  {symptome:"Petites bêtes collantes sous les feuilles",indice:"amas verts, noirs ou blancs",causes:[
+    {c:"Pucerons",s:"Douche au jet d'eau, puis pulvérise du savon noir dilué (1 c. à soupe/L). Les coccinelles en raffolent : ne traite pas chimiquement, tu les tuerais aussi."},
+    {c:"Fourmis qui montent la garde",s:"Les fourmis « élèvent » les pucerons pour leur miellat. Traiter les pucerons coupe l'attraction."}
+  ]},
+  {symptome:"Tige longue, pâle et penchée",indice:"la plante s'étire vers la fenêtre",causes:[
+    {c:"Étiolement — manque de lumière",s:"La plante s'allonge pour chercher la lumière. Rapproche-la d'une fenêtre lumineuse et tourne le pot d'un quart chaque semaine pour qu'elle pousse droit."}
+  ]},
+  {symptome:"Pointes des feuilles brunes et sèches",indice:"bord craquant, brun",causes:[
+    {c:"Air trop sec",s:"Fréquent en intérieur l'hiver (chauffage). Brumise le feuillage ou pose le pot sur un lit de billes d'argile humides."},
+    {c:"Excès d'engrais ou eau calcaire",s:"Les sels s'accumulent et brûlent les pointes. Rince le substrat à grande eau une fois, et espace les apports d'engrais."}
+  ]},
+  {symptome:"Beaucoup de fleurs mais peu de fruits",indice:"les fleurs tombent",causes:[
+    {c:"Manque de pollinisation",s:"En intérieur ou sous serre, secoue doucement les fleurs (tomates, poivrons) ou attire les abeilles avec des fleurs mellifères à côté."},
+    {c:"À-coups d'arrosage ou de chaleur",s:"Le stress fait avorter les fleurs. Vise un arrosage régulier et un paillage pour lisser l'humidité du sol."}
+  ]},
+  {symptome:"Trous dans les feuilles",indice:"bords grignotés, traces argentées",causes:[
+    {c:"Limaces et escargots",s:"Traces brillantes = coupables identifiés. Ramasse-les à la tombée du soir, dispose des cendres ou coquilles d'œuf en barrière, ou un piège à bière enterré."},
+    {c:"Chenilles",s:"Inspecte le dessous des feuilles et retire-les à la main. Le Bacillus thuringiensis (Bt) est un traitement bio ciblé et sans danger."}
+  ]}
+];
+(function(){
+  const list=document.getElementById('diag-list');
+  DIAGNOSTICS.forEach(d=>{
+    const item=document.createElement('div');
+    item.className='diag-item';
+    item.innerHTML=
+      `<button class="diag-q">${d.symptome}<span class="diag-em">${d.indice}</span></button>
+       <div class="diag-a">${d.causes.map(x=>`<div class="diag-cause"><div class="diag-cause-t">${x.c}</div><div class="diag-cause-s">${x.s}</div></div>`).join('')}</div>`;
+    item.querySelector('.diag-q').onclick=()=>item.classList.toggle('open');
+    list.appendChild(item);
+  });
+})();
 </script>
 
 <!-- Almanach overlay -->
