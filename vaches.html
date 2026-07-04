@@ -282,7 +282,7 @@ const ACTS = [
     entity:'cow', clickBase:1,                              /* 1 clic = 1 lait */
     tiers:[
       {id:'fermier',  emoji:'🧑‍🌾', name:'Fermier',  desc:'Trait 1 bouteille de lait par seconde.',  base:1,     mul:1.13, rate:1,   revealBy:null},
-      {id:'ferme',    emoji:'🚜',   name:'Ferme',    desc:'Produit des fermiers toute seule.',        base:120,   mul:1.16, rate:0.5, revealBy:{tier:'fermier', n:100}},
+      {id:'ferme',    emoji:'🚜',   name:'Ferme',    desc:'Produit des fermiers toute seule.',        base:120,   mul:1.16, rate:0.5, revealBy:{tier:'fermier', n:20}},
       {id:'monsanto', emoji:'🏭',   name:'Monsanto', desc:'Rachète des fermes en série.',             base:14000, mul:1.19, rate:0.25,revealBy:{tier:'ferme', n:10}},
     ],
     bonus:{id:'eaux', emoji:'💧', name:'Compagnie des eaux', desc:'Fait grimper le prix du lait : +30% à toute la production.', base:4000, mul:2.4, boost:0.30},
