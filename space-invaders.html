@@ -26,7 +26,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:description" content="Space Invaders : l'original de 1978, vagues d'aliens qui accélèrent et classement mondial. Gratuit dans le navigateur.">
 <meta name="twitter:image" content="https://tete-vide.fr/fond.png">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"VideoGame","name":"Space Invaders","url":"https://tete-vide.fr/space-invaders.html","inLanguage":"fr","genre":"Tir","applicationCategory":"Game","gamePlatform":"Navigateur web","image":"https://tete-vide.fr/fond.png","description":"Space Invaders : l'original de 1978, vagues d'aliens qui accélèrent et classement mondial. Gratuit dans le navigateur.","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"publisher":{"@type":"Organization","name":"Tête vide","url":"https://tete-vide.fr/"}}</script>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
 <title>Space Invaders — Tête vide</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -624,6 +624,16 @@ resize();
 renderLeaderboard(loadCache());
 fetchLB().then(renderLeaderboard);
 
+</script>
+<script>
+/* Bloque le zoom à deux doigts (pinch) sur mobile, sans empêcher le défilement à un doigt.
+   (le double-tap est bloqué par user-scalable=no dans le viewport) */
+['gesturestart','gesturechange','gestureend'].forEach(function(ev){
+  document.addEventListener(ev, function(e){ e.preventDefault(); }, {passive:false});
+});
+document.addEventListener('touchmove', function(e){
+  if(e.touches.length>1) e.preventDefault();
+}, {passive:false});
 </script>
 </body>
 </html>

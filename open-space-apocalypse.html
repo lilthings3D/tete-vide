@@ -9,7 +9,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-TRQZWVGP');</script>
 <!-- End Google Tag Manager -->
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
 <meta name="description" content="Un FPS de bureau où tu survis aux imprimantes zombies et machines à café à coups d'agrafeuse. Gratuit dans le navigateur.">
 <link rel="canonical" href="https://tete-vide.fr/open-space-apocalypse.html">
 <link rel="icon" type="image/png" href="/vache.png">
@@ -1549,6 +1549,16 @@ if (isMobile) {
     document.documentElement.style.setProperty('--ts', v);
   });
 })();
+</script>
+<script>
+/* Bloque le zoom à deux doigts (pinch) sur mobile, sans empêcher le défilement à un doigt.
+   (le double-tap est bloqué par user-scalable=no dans le viewport) */
+['gesturestart','gesturechange','gestureend'].forEach(function(ev){
+  document.addEventListener(ev, function(e){ e.preventDefault(); }, {passive:false});
+});
+document.addEventListener('touchmove', function(e){
+  if(e.touches.length>1) e.preventDefault();
+}, {passive:false});
 </script>
 </body>
 </html>

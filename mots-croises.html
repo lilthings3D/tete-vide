@@ -26,7 +26,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:description" content="Mots croisés générés à l'infini : 5 thèmes, plus de 200 mots, une grille unique à chaque partie. Gratuit dans le navigateur.">
 <meta name="twitter:image" content="https://tete-vide.fr/fond.png">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"VideoGame","name":"Mots croisés","url":"https://tete-vide.fr/mots-croises.html","inLanguage":"fr","genre":"Réflexion","applicationCategory":"Game","gamePlatform":"Navigateur web","image":"https://tete-vide.fr/fond.png","description":"Mots croisés générés à l'infini : 5 thèmes, plus de 200 mots, une grille unique à chaque partie. Gratuit dans le navigateur.","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"publisher":{"@type":"Organization","name":"Tête vide","url":"https://tete-vide.fr/"}}</script>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
 <title>Mots croisés — Tête vide</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -947,5 +947,15 @@ const shortMonths=["jan.","fév.","mars","avr.","mai","juin","juil.","août","se
   </div>
 </div>
 
+<script>
+/* Bloque le zoom à deux doigts (pinch) sur mobile, sans empêcher le défilement à un doigt.
+   (le double-tap est bloqué par user-scalable=no dans le viewport) */
+['gesturestart','gesturechange','gestureend'].forEach(function(ev){
+  document.addEventListener(ev, function(e){ e.preventDefault(); }, {passive:false});
+});
+document.addEventListener('touchmove', function(e){
+  if(e.touches.length>1) e.preventDefault();
+}, {passive:false});
+</script>
 </body>
 </html>
