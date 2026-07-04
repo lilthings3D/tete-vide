@@ -1274,6 +1274,7 @@ function loop(now) {
   /* --- cafés brûlants --- */
   for (let i = coffees.length-1; i >= 0; i--) {
     const c = coffees[i], u = c.userData;
+    const cx0 = c.position.x, cz0 = c.position.z;
     u.vel.y -= 9.5*dt;
     c.position.addScaledVector(u.vel, dt);
     u.life -= dt;
@@ -1282,7 +1283,9 @@ function loop(now) {
       steam(c.position, 4, 0xc8a070);
       scene.remove(c); coffees.splice(i,1); continue;
     }
-    if (u.life <= 0 || c.position.y < .05) {
+    let cWall = false;
+    for (let s = 1; s <= 4; s++) { const t = s/4; if (pointInWall(cx0+(c.position.x-cx0)*t, cz0+(c.position.z-cz0)*t)) { cWall = true; break; } }
+    if (cWall || u.life <= 0 || c.position.y < .05) {
       steam(c.position, 3, 0xc8a070);
       scene.remove(c); coffees.splice(i,1);
     }
@@ -1291,11 +1294,14 @@ function loop(now) {
   /* --- feuilles + vapeur --- */
   for (let i = papers.length-1; i >= 0; i--) {
     const p = papers[i], u = p.userData;
+    const px0 = p.position.x, pz0 = p.position.z;
     u.vel.y -= 9*dt;
     p.position.addScaledVector(u.vel, dt);
     p.rotation.x += u.rot.x*dt; p.rotation.y += u.rot.y*dt;
     u.life -= dt;
-    if (u.life <= 0 || p.position.y < 0) { scene.remove(p); papers.splice(i,1); }
+    let pWall = false;
+    for (let s = 1; s <= 4; s++) { const t = s/4; if (pointInWall(px0+(p.position.x-px0)*t, pz0+(p.position.z-pz0)*t)) { pWall = true; break; } }
+    if (pWall || u.life <= 0 || p.position.y < 0) { scene.remove(p); papers.splice(i,1); }
   }
   for (let i = steams.length-1; i >= 0; i--) {
     const s = steams[i], u = s.userData;
