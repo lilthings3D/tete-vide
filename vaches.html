@@ -64,6 +64,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     padding:8px 18px;cursor:pointer;white-space:nowrap;transition:opacity .2s;
   }
   #shop-toggle:hover{opacity:.9;}
+  #shop-toggle{position:relative;}
+  #shop-badge{display:none;}
+  #shop-badge.on{
+    display:inline-flex;align-items:center;justify-content:center;
+    position:absolute;top:-7px;right:-7px;min-width:22px;height:22px;padding:0 5px;
+    background:#2ec16b;color:#fff;border:2px solid var(--cream);border-radius:100px;
+    font-size:.72rem;font-weight:700;font-family:'Fraunces',serif;
+    animation:badge-pulse 1.1s ease-in-out infinite;
+  }
+  @keyframes badge-pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.18);}}
+  .item.affordable{border-left:4px solid #2ec16b;}
 
   #pasture{position:fixed;inset:0;top:52px;overflow:hidden;}
 
@@ -217,7 +228,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="topbar">
     <a class="brand" href="jeux.html">← Minis <b>jeux</b></a>
     <span id="act-name"></span>
-    <button id="shop-toggle">🛒 Boutique</button>
+    <button id="shop-toggle">🛒 Boutique<span id="shop-badge"></span></button>
   </div>
 </header>
 
@@ -267,14 +278,15 @@ const ACTS = [
   {
     key:'steak', title:'L\'empire du steak', theme:0,
     cur:{emoji:'🥩', name:'steaks'},
-    entity:'cow', clickBase:1,
+    sub:{emoji:'🥛', name:'bouteilles de lait', per:10},   /* 10 laits = 1 steak */
+    entity:'cow', clickBase:1,                              /* 1 clic = 1 lait */
     tiers:[
-      {id:'fermier',  emoji:'🧑‍🌾', name:'Fermier',  desc:'Rapporte des vaches (steaks).',         base:15,     mul:1.13, rate:1,   revealBy:null},
-      {id:'ferme',    emoji:'🚜',   name:'Ferme',    desc:'Produit des fermiers toute seule.',       base:1100,   mul:1.16, rate:0.5, revealBy:{tier:'fermier', n:100}},
-      {id:'monsanto', emoji:'🏭',   name:'Monsanto', desc:'Rachète des fermes en série.',            base:130000, mul:1.19, rate:0.25,revealBy:{tier:'ferme', n:10}},
+      {id:'fermier',  emoji:'🧑‍🌾', name:'Fermier',  desc:'Trait 1 bouteille de lait par seconde.',  base:1,     mul:1.13, rate:1,   revealBy:null},
+      {id:'ferme',    emoji:'🚜',   name:'Ferme',    desc:'Produit des fermiers toute seule.',        base:120,   mul:1.16, rate:0.5, revealBy:{tier:'fermier', n:100}},
+      {id:'monsanto', emoji:'🏭',   name:'Monsanto', desc:'Rachète des fermes en série.',             base:14000, mul:1.19, rate:0.25,revealBy:{tier:'ferme', n:10}},
     ],
-    bonus:{id:'eaux', emoji:'💧', name:'Compagnie des eaux', desc:'Fait grimper le prix du lait : +30% à toute la production.', base:50000, mul:2.4, boost:0.30},
-    next:{cost:2.5e8, title:'Investir chez NVIDIA', flavor:'Tu revends le troupeau et tu mises tout sur les puces graphiques…'}
+    bonus:{id:'eaux', emoji:'💧', name:'Compagnie des eaux', desc:'Fait grimper le prix du lait : +30% à toute la production.', base:4000, mul:2.4, boost:0.30},
+    next:{cost:2.5e7, title:'Investir chez NVIDIA', flavor:'Tu revends le troupeau et tu mises tout sur les puces graphiques…'}
   },
   {
     key:'puce', title:'La ruée vers les puces', theme:1,
@@ -302,12 +314,13 @@ const ACTS = [
 ];
 
 /* ---- ÉTAT ---- */
-const SAVE_KEY = 'vaches-idle-v2';
+const SAVE_KEY = 'vaches-idle-v3';
 let S; // état courant
 function freshState(){
   const st = {act:0, buildings:{}, bonus:{}, lastTs:Date.now()};
   ACTS.forEach(a=>{
     st['cur_'+a.key]=0; st['earned_'+a.key]=0;
+    if(a.sub) st['sub_'+a.key]=0;
     a.tiers.forEach(t=> st.buildings[t.id]={bought:0, amount:0});
     if(a.bonus) st.bonus[a.bonus.id]=0;
   });
@@ -358,6 +371,23 @@ function isRevealed(t){
 }
 
 /* ---- PRODUCTION ---- */
+/* ajoute des unités "brutes" : si l'acte a une sous-monnaie (lait), on remplit
+   d'abord la sous-monnaie puis on convertit par paquets (10 laits -> 1 steak). */
+function addRaw(amount){
+  const a=act();
+  if(a.sub){
+    S['sub_'+a.key]+=amount;
+    if(S['sub_'+a.key] >= a.sub.per){
+      const n=Math.floor(S['sub_'+a.key]/a.sub.per);
+      S['sub_'+a.key]-=n*a.sub.per;
+      setCur(curVal()+n);
+      S['earned_'+a.key]+=n;
+    }
+  } else {
+    setCur(curVal()+amount);
+    S['earned_'+a.key]+=amount;
+  }
+}
 function tick(dt){
   const a=act(), mult=globalMult();
   // du haut vers le bas : chaque tier alimente le tier du dessous
@@ -365,11 +395,9 @@ function tick(dt){
     const up=a.tiers[i], down=a.tiers[i-1];
     S.buildings[down.id].amount += S.buildings[up.id].amount * up.rate * dt;
   }
-  // tier 0 -> monnaie
+  // tier 0 -> production (lait pour l'acte 1, sinon monnaie directe)
   const t0=a.tiers[0];
-  const gain = S.buildings[t0.id].amount * t0.rate * dt * mult;
-  setCur(curVal()+gain);
-  S['earned_'+a.key]+=gain;
+  addRaw(S.buildings[t0.id].amount * t0.rate * dt * mult);
 
   // endgame : auto-clic des floaters
   if(a.endgame && amountOf(a.endgame.tier)>=a.endgame.n){
@@ -377,6 +405,7 @@ function tick(dt){
     autoCollect+=dt;
   }
 }
+/* production du tier 0 par seconde, dans son unité (lait pour l'acte 1) */
 function perSecond(){
   const a=act(), t0=a.tiers[0];
   return S.buildings[t0.id].amount * t0.rate * globalMult();
@@ -414,8 +443,9 @@ function investNext(){
   S.act++;
   document.body.className = S.act===1?'act-1':S.act===2?'act-2':'';
   clearFloaters();
+  announced = new Set();               // nouvel acte : on repart de zéro pour les signalements
   showMilestone(ACTS[S.act].cur.emoji, ACTS[S.act].title);
-  renderAll(); save();
+  renderAll(); checkAnnounce(true); save();
 }
 
 /* ---- FLOATERS (vache/puce/code qui traversent) ---- */
@@ -461,11 +491,12 @@ function spawnFloater(){
 
 function collect(el, x, y){
   const a=act();
-  const reward = Math.max(a.clickBase, Math.floor(perSecond()*0.05)); // le clic reste utile
-  setCur(curVal()+reward);
-  S['earned_'+a.key]+=reward;
+  // le clic donne 1 unité brute (1 lait pour l'acte 1), plus un bonus tardif
+  const reward = Math.max(a.clickBase, Math.floor(perSecond()*0.05));
+  addRaw(reward);
 
   if(a.entity==='cow') playMoo();
+  const gainEmoji = a.sub ? a.sub.emoji : a.cur.emoji;
 
   // bulle
   const old=el.querySelector('.bubble'); if(old) old.remove();
@@ -477,7 +508,7 @@ function collect(el, x, y){
   // +gain flottant
   if(x!=null){
     const g=document.createElement('div'); g.className='gain-pop';
-    g.textContent='+'+fmt(reward)+' '+a.cur.emoji;
+    g.textContent='+'+fmt(reward)+' '+gainEmoji;
     g.style.left=x+'px'; g.style.top=y+'px';
     document.body.appendChild(g);
     g.addEventListener('animationend',()=>g.remove());
@@ -498,7 +529,16 @@ function updateHUD(){
   const a=act();
   hudCur.textContent = fmt(Math.floor(curVal()))+' '+a.cur.emoji;
   const ps=perSecond();
-  hudRate.textContent = ps>0 ? ('+'+fmt(ps)+' '+a.cur.name+'/s') : ('clique les '+(a.entity==='cow'?'vaches':a.entity==='chip'?'puces':'lignes de code'));
+  if(a.sub){
+    // acte 1 : montre la progression du lait vers le prochain steak + le débit de lait
+    const s=Math.floor(S['sub_'+a.key]);
+    const bits=[a.sub.emoji+' '+s+'/'+a.sub.per];
+    if(ps>0) bits.push('+'+fmt(ps)+' '+a.sub.emoji+'/s');
+    else bits.push('clique les vaches');
+    hudRate.textContent = bits.join(' · ');
+  } else {
+    hudRate.textContent = ps>0 ? ('+'+fmt(ps)+' '+a.cur.name+'/s') : ('clique les '+(a.entity==='chip'?'puces':'lignes de code'));
+  }
 }
 function itemRow(t){
   const st=S.buildings[t.id];
@@ -514,7 +554,8 @@ function itemRow(t){
   const can = cost<=curVal() && (buyMode!=='max'||maxAffordable(t)>=1);
   const div=document.createElement('div');
   div.className='item '+(can?'affordable':'cant');
-  const perEach = t===act().tiers[0] ? `${fmt(t.rate*globalMult())} ${act().cur.name}/s` : `${fmt(t.rate)} ${tierCfg(act().tiers[act().tiers.indexOf(t)-1].id).name.toLowerCase()}/s`;
+  const t0unit = act().sub ? act().sub.name : act().cur.name;  // le tier 0 produit du lait à l'acte 1
+  const perEach = t===act().tiers[0] ? `${fmt(t.rate*globalMult())} ${t0unit}/s` : `${fmt(t.rate)} ${tierCfg(act().tiers[act().tiers.indexOf(t)-1].id).name.toLowerCase()}/s`;
   div.innerHTML=`
     <div class="item-emoji">${t.emoji}</div>
     <div class="item-name">${t.name}</div>
@@ -559,7 +600,40 @@ function renderShop(){
 }
 function renderAll(){
   actNameEl.textContent = act().title;
-  updateHUD(); renderShop();
+  updateHUD(); renderShop(); updateBadge();
+}
+
+/* ---- INDICATEUR "ACHAT POSSIBLE" ---- */
+const shopBadge = document.getElementById('shop-badge');
+let announced = new Set();  // ids déjà signalés dans l'acte courant
+function isAffordable(t){ return isRevealed(t) && costOf(t)<=curVal(); }
+function affordableCount(){
+  const a=act(); let n=0;
+  a.tiers.forEach(t=>{ if(isAffordable(t)) n++; });
+  if(a.bonus){ const b=a.bonus; if(b.base*Math.pow(b.mul,S.bonus[b.id]||0)<=curVal()) n++; }
+  if(a.next && curVal()>=a.next.cost) n++;
+  return n;
+}
+function updateBadge(){
+  if(shopEl.classList.contains('open')){ shopBadge.classList.remove('on'); return; }
+  const n=affordableCount();
+  if(n>0){ shopBadge.textContent=n; shopBadge.classList.add('on'); }
+  else shopBadge.classList.remove('on');
+}
+/* popup la 1re fois qu'un truc devient achetable */
+function checkAnnounce(silent){
+  const a=act();
+  const items=[...a.tiers.map(t=>({id:t.id, ok:isAffordable(t), emoji:t.emoji, name:t.name}))];
+  if(a.bonus){ const b=a.bonus; items.push({id:b.id, ok:b.base*Math.pow(b.mul,S.bonus[b.id]||0)<=curVal(), emoji:b.emoji, name:b.name}); }
+  if(a.next){ items.push({id:'__next', ok:curVal()>=a.next.cost, emoji:'🚀', name:a.next.title}); }
+  items.forEach(it=>{
+    if(it.ok && !announced.has(it.id)){
+      announced.add(it.id);
+      if(!silent) showMilestone(it.emoji, it.name+' disponible !');
+    } else if(!it.ok){
+      announced.delete(it.id); // redeviendra signalable si on redescend sous le prix
+    }
+  });
 }
 
 /* ---- BOUTIQUE UI ---- */
@@ -569,19 +643,20 @@ document.querySelectorAll('.buy-mode').forEach(btn=>{
   btn.onclick=()=>{ document.querySelectorAll('.buy-mode').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); buyMode=btn.dataset.mode; renderShop(); };
 });
 document.getElementById('reset-btn').onclick=()=>{
-  if(confirm('Tout effacer et repartir de zéro ?')){ localStorage.removeItem(SAVE_KEY); S=freshState(); document.body.className=''; clearFloaters(); endgameEl.classList.remove('on'); renderAll(); }
+  if(confirm('Tout effacer et repartir de zéro ?')){ localStorage.removeItem(SAVE_KEY); S=freshState(); announced=new Set(); document.body.className=''; clearFloaters(); endgameEl.classList.remove('on'); renderAll(); }
 };
 
 /* ---- PROGRESSION HORS-LIGNE ---- */
 (function offline(){
   const dt=Math.min((Date.now()-(S.lastTs||Date.now()))/1000, 8*3600);
-  if(dt>5){ tick(dt); showMilestone('💤', 'De retour ! +'+fmt(perSecond()*dt)+' '+act().cur.emoji+' pendant ton absence'); }
+  if(dt>5){ const em=act().sub?act().sub.emoji:act().cur.emoji; tick(dt); showMilestone('💤', 'De retour ! +'+fmt(perSecond()*dt)+' '+em+' pendant ton absence'); }
 })();
 
 /* ---- BOUCLE ---- */
 document.body.className = S.act===1?'act-1':S.act===2?'act-2':'';
 renderAll();
-let last=performance.now(), acc=0, shopAcc=0;
+checkAnnounce(true);   // ne pas spammer au chargement : on marque ce qui est déjà achetable
+let last=performance.now(), acc=0, shopAcc=0, badgeAcc=0;
 function loop(now){
   const dt=Math.min((now-last)/1000,0.25); last=now;
   tick(dt);
@@ -589,6 +664,7 @@ function loop(now){
   // auto-collect en endgame
   if(autoCollect>=0.5){ autoCollect=0; const f=pasture.querySelector('.floater'); if(f){ collect(f,null); f.remove(); } }
   shopAcc+=dt; if(shopAcc>=0.4 && shopEl.classList.contains('open')){ shopAcc=0; renderShop(); }
+  badgeAcc+=dt; if(badgeAcc>=0.3){ badgeAcc=0; checkAnnounce(false); updateBadge(); }
   acc+=dt; if(acc>=5){ acc=0; save(); }
   requestAnimationFrame(loop);
 }
