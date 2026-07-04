@@ -9,7 +9,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-TRQZWVGP');</script>
 <!-- End Google Tag Manager -->
 <meta charset="UTF-8">
-<meta name="description" content="Des vaches traversent l'écran, tu cliques, elles font meuh. Un mini-jeu absurde et reposant.">
+<meta name="description" content="Vaches : un jeu incrémental absurde. Clique les vaches pour des steaks, achète des fermiers, des fermes, Monsanto… puis les puces NVIDIA et l'IA. Le jeu finit par se construire tout seul.">
 <link rel="canonical" href="https://tete-vide.fr/vaches.html">
 <link rel="icon" type="image/png" href="/vache.png">
 <link rel="apple-touch-icon" href="/vache.png">
@@ -17,15 +17,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Tête vide">
 <meta property="og:locale" content="fr_FR">
-<meta property="og:title" content="Vaches — mini-jeu absurde">
-<meta property="og:description" content="Des vaches traversent l'écran, tu cliques, elles font meuh. Un mini-jeu absurde et reposant.">
+<meta property="og:title" content="Vaches — jeu incrémental absurde">
+<meta property="og:description" content="Clique les vaches pour des steaks, monte un empire (fermiers, fermes, Monsanto), passe aux puces NVIDIA puis à l'IA. Un idle game gratuit et absurde.">
 <meta property="og:url" content="https://tete-vide.fr/vaches.html">
 <meta property="og:image" content="https://tete-vide.fr/fond.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Vaches — mini-jeu absurde">
-<meta name="twitter:description" content="Des vaches traversent l'écran, tu cliques, elles font meuh. Un mini-jeu absurde et reposant.">
+<meta name="twitter:title" content="Vaches — jeu incrémental absurde">
+<meta name="twitter:description" content="Clique les vaches pour des steaks, monte un empire (fermiers, fermes, Monsanto), passe aux puces NVIDIA puis à l'IA. Un idle game gratuit et absurde.">
 <meta name="twitter:image" content="https://tete-vide.fr/fond.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"VideoGame","name":"Vaches","url":"https://tete-vide.fr/vaches.html","inLanguage":"fr","genre":"Décontracté","applicationCategory":"Game","gamePlatform":"Navigateur web","image":"https://tete-vide.fr/fond.png","description":"Des vaches traversent l'écran, tu cliques, elles font meuh. Un mini-jeu absurde et reposant.","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"publisher":{"@type":"Organization","name":"Tête vide","url":"https://tete-vide.fr/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"VideoGame","name":"Vaches","url":"https://tete-vide.fr/vaches.html","inLanguage":"fr","genre":"Incrémental","applicationCategory":"Game","gamePlatform":"Navigateur web","image":"https://tete-vide.fr/fond.png","description":"Un jeu incrémental absurde : clique les vaches pour des steaks, monte un empire agricole puis technologique jusqu'à l'IA.","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"},"publisher":{"@type":"Organization","name":"Tête vide","url":"https://tete-vide.fr/"}}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vaches — Tête vide</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -36,6 +36,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     --cream:#FBF7F0;--ink:#2e2218;--ink-soft:#5b4a39;
     --orange:#D43030;--orange-deep:#B02020;
     --rule:#e0cfb0;
+    --nvidia:#76b900;--ai:#6a5acd;
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   html,body{height:100%;overflow:hidden;}
@@ -43,157 +44,159 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     font-family:'Spectral',Georgia,serif;color:var(--ink);
     background:url('fond.png') center/cover no-repeat fixed;
     -webkit-font-smoothing:antialiased;
+    transition:background .8s ease;
   }
+  body.act-1{background:radial-gradient(circle at 50% 30%, #12331a, #071108);}
+  body.act-2{background:radial-gradient(circle at 50% 30%, #241a44, #0a0616);}
 
-  /* HEADER */
   header.site{
     position:fixed;top:0;left:0;right:0;z-index:200;
-    background:rgba(251,247,240,0.88);
-    backdrop-filter:blur(6px);
-    border-bottom:1.5px solid rgba(46,34,24,0.18);
-    padding:0 28px;
+    background:rgba(251,247,240,0.88);backdrop-filter:blur(6px);
+    border-bottom:1.5px solid rgba(46,34,24,0.18);padding:0 20px;
   }
-  .topbar{display:flex;justify-content:space-between;align-items:center;height:52px;}
-  .brand{font-family:'Fraunces',serif;font-weight:600;font-size:1.05rem;text-decoration:none;color:var(--ink);}
+  .topbar{display:flex;justify-content:space-between;align-items:center;height:52px;gap:12px;}
+  .brand{font-family:'Fraunces',serif;font-weight:600;font-size:1.05rem;text-decoration:none;color:var(--ink);white-space:nowrap;}
   .brand b{color:var(--orange-deep);}
-  .sitenav{display:flex;gap:0;}
-  .sitenav-link{font-family:'Fraunces',serif;font-size:0.85rem;font-weight:500;color:var(--ink-soft);text-decoration:none;padding:0 10px 2px;border-bottom:2px solid transparent;transition:color .2s,border-color .2s;}
-  .sitenav-link:hover,.sitenav-link.current{color:var(--orange-deep);border-bottom-color:var(--orange-deep);}
-
-  /* STATS HUD */
-  #hud{
-    position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:200;
-    background:rgba(251,247,240,0.92);
-    backdrop-filter:blur(6px);
-    border:1.5px solid rgba(46,34,24,0.2);
-    border-radius:100px;
-    padding:10px 28px;
-    display:flex;align-items:center;gap:24px;
-    font-family:'Fraunces',serif;font-size:0.88rem;color:var(--ink-soft);
-    pointer-events:none;
+  #act-name{font-family:'Fraunces',serif;font-style:italic;font-size:.9rem;color:var(--ink-soft);text-align:center;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  #shop-toggle{
+    font-family:'Fraunces',serif;font-size:.8rem;font-weight:600;letter-spacing:.5px;
+    background:var(--orange-deep);color:var(--cream);border:none;border-radius:100px;
+    padding:8px 18px;cursor:pointer;white-space:nowrap;transition:opacity .2s;
   }
-  #hud .hud-count{font-size:1.3rem;font-weight:600;color:var(--orange-deep);}
-  #hud .hud-label{font-style:italic;}
+  #shop-toggle:hover{opacity:.9;}
 
-  /* PASTURE */
-  #pasture{position:fixed;inset:0;top:52px;}
+  #pasture{position:fixed;inset:0;top:52px;overflow:hidden;}
 
-  /* VACHE */
-  .cow{
-    position:absolute;
-    cursor:pointer;
-    filter:drop-shadow(0 6px 14px rgba(0,0,0,.22));
-    user-select:none;
-  }
-  .cow img{width:100%;height:auto;display:block;pointer-events:none;}
+  /* FLOATERS (vache / puce / code) */
+  .floater{position:absolute;cursor:pointer;user-select:none;-webkit-user-select:none;z-index:20;}
+  .floater img{width:100%;height:auto;display:block;pointer-events:none;}
+  .cow{filter:drop-shadow(0 6px 14px rgba(0,0,0,.22));}
   .cow.ltr img{transform:scaleX(-1);}
+  @keyframes move-ltr{from{left:-16vw}to{left:116vw}}
+  @keyframes move-rtl{from{left:116vw}to{left:-16vw}}
+  .floater.ltr{animation:move-ltr linear forwards;}
+  .floater.rtl{animation:move-rtl linear forwards;}
 
-  @keyframes move-ltr{from{left:-15vw}to{left:115vw}}
-  @keyframes move-rtl{from{left:115vw}to{left:-15vw}}
-  .cow.ltr{animation:move-ltr linear forwards;}
-  .cow.rtl{animation:move-rtl linear forwards;}
+  .chip{
+    background:linear-gradient(145deg,#1a1a1a,#111);border:2px solid var(--nvidia);
+    border-radius:8px;padding:12px 16px;color:var(--nvidia);
+    font-family:'Courier New',monospace;font-weight:700;font-size:1rem;letter-spacing:1px;
+    box-shadow:0 0 18px rgba(118,185,0,.4),inset 0 0 8px rgba(118,185,0,.15);
+    display:flex;align-items:center;gap:8px;white-space:nowrap;
+  }
+  .chip::before{content:"";width:22px;height:22px;border:2px solid var(--nvidia);border-radius:3px;background:repeating-linear-gradient(90deg,transparent 0 2px,rgba(118,185,0,.4) 2px 4px);}
+  .code{
+    background:#0d1117;border:1.5px solid #30363d;border-radius:6px;padding:10px 14px;
+    color:#7ee787;font-family:'Courier New',monospace;font-size:.92rem;
+    box-shadow:0 0 16px rgba(106,90,205,.35);white-space:nowrap;
+  }
+  .code .k{color:#ff7b72;} .code .f{color:#d2a8ff;} .code .s{color:#a5d6ff;}
 
-  /* SPEECH BUBBLE */
+  /* BUBBLE */
   .bubble{
-    position:absolute;
-    bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);
-    background:white;border:2px solid var(--ink);border-radius:12px;
-    padding:5px 12px;
-    font-family:'Fraunces',serif;font-weight:600;font-style:italic;font-size:1rem;
-    white-space:nowrap;pointer-events:none;
-    animation:bubble-pop .9s ease forwards;
-  }
-  .bubble::after{
-    content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%);
-    border:6px solid transparent;border-top-color:var(--ink);
-  }
-  .bubble::before{
-    content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%) translateY(-1px);
-    border:6px solid transparent;border-top-color:white;z-index:1;
+    position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);
+    background:white;border:2px solid var(--ink);border-radius:12px;padding:4px 11px;
+    font-family:'Fraunces',serif;font-weight:600;font-style:italic;font-size:.95rem;
+    white-space:nowrap;pointer-events:none;animation:bubble-pop .9s ease forwards;z-index:5;
   }
   @keyframes bubble-pop{
-    0%{opacity:0;transform:translateX(-50%) scale(0.7);}
+    0%{opacity:0;transform:translateX(-50%) scale(.7);}
     15%{opacity:1;transform:translateX(-50%) scale(1.08);}
     25%{transform:translateX(-50%) scale(1);}
     70%{opacity:1;}
     100%{opacity:0;transform:translateX(-50%) translateY(-20px);}
   }
+  .gain-pop{
+    position:fixed;z-index:250;pointer-events:none;
+    font-family:'Fraunces',serif;font-weight:700;font-size:1.1rem;color:var(--orange-deep);
+    text-shadow:0 1px 3px rgba(255,255,255,.8);animation:gain 0.8s ease-out forwards;
+  }
+  body.act-1 .gain-pop,body.act-2 .gain-pop{color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.6);}
+  @keyframes gain{from{opacity:1;transform:translateY(0);}to{opacity:0;transform:translateY(-38px);}}
 
-  /* MILESTONE POPUP */
+  /* MILESTONE */
   .milestone-popup{
-    position:fixed;top:50%;left:50%;
-    transform:translate(-50%,-50%);
-    font-size:3.5rem;text-align:center;
-    pointer-events:none;z-index:300;
-    animation:ms-pop 2.5s ease forwards;
+    position:fixed;top:44%;left:50%;transform:translate(-50%,-50%);
+    font-size:3rem;text-align:center;pointer-events:none;z-index:300;
+    animation:ms-pop 2.8s ease forwards;
   }
-  .milestone-popup span{
-    display:block;font-family:'Fraunces',serif;
-    font-size:1.1rem;color:var(--ink);margin-top:8px;
-  }
+  .milestone-popup span{display:block;font-family:'Fraunces',serif;font-size:1.05rem;color:var(--ink);margin-top:8px;background:rgba(251,247,240,.9);padding:4px 14px;border-radius:100px;}
+  body.act-1 .milestone-popup span,body.act-2 .milestone-popup span{color:var(--ink);}
   @keyframes ms-pop{
-    0%  {opacity:0;transform:translate(-50%,-35%) scale(.85);}
-    20% {opacity:1;transform:translate(-50%,-50%) scale(1.1);}
-    30% {transform:translate(-50%,-50%) scale(1);}
-    70% {opacity:1;}
+    0%{opacity:0;transform:translate(-50%,-35%) scale(.85);}
+    18%{opacity:1;transform:translate(-50%,-50%) scale(1.1);}
+    28%{transform:translate(-50%,-50%) scale(1);}
+    75%{opacity:1;}
     100%{opacity:0;transform:translate(-50%,-65%);}
   }
 
-  /* HOF OVERLAY */
-  #hof-overlay{
-    position:fixed;inset:0;
-    background:rgba(251,247,240,.96);backdrop-filter:blur(6px);
-    display:none;flex-direction:column;
-    align-items:center;justify-content:center;
-    z-index:500;padding:24px;
+  /* HUD */
+  #hud{
+    position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:200;
+    background:rgba(251,247,240,0.94);backdrop-filter:blur(6px);
+    border:1.5px solid rgba(46,34,24,0.22);border-radius:100px;
+    padding:9px 26px;display:flex;flex-direction:column;align-items:center;
+    font-family:'Fraunces',serif;color:var(--ink-soft);pointer-events:none;min-width:180px;text-align:center;
   }
-  #hof-box{
-    text-align:center;max-width:400px;width:100%;
-    border:2px solid var(--ink);background:white;padding:40px 32px;
-  }
-  .hof-icon{font-size:3rem;margin-bottom:12px;}
-  #hof-box h2{
-    font-family:'Fraunces',serif;font-weight:300;font-style:italic;
-    font-size:1.8rem;letter-spacing:-.5px;margin-bottom:8px;color:var(--ink);
-  }
-  #hof-box h2 b{font-style:normal;font-weight:600;color:var(--orange-deep);}
-  .hof-sub{
-    font-style:italic;color:var(--ink-soft);font-size:.9rem;
-    margin-bottom:28px;line-height:1.5;
-  }
-  #hof-input{
-    display:block;width:100%;padding:12px 16px;
-    border:1.5px solid var(--rule);background:var(--cream);
-    font-family:'Fraunces',serif;font-size:1.05rem;text-align:center;
-    outline:none;margin-bottom:16px;
-  }
-  #hof-input:focus{border-color:var(--ink);}
-  #hof-btn{
-    font-family:'Fraunces',serif;font-size:.82rem;letter-spacing:1.5px;
-    text-transform:uppercase;color:var(--cream);background:var(--orange-deep);
-    border:none;padding:12px 32px;cursor:pointer;transition:opacity .2s;
-  }
-  #hof-btn:hover{opacity:.88;}
+  #hud .cur{font-size:1.5rem;font-weight:600;color:var(--orange-deep);line-height:1.1;}
+  #hud .rate{font-size:.78rem;font-style:italic;margin-top:1px;}
 
-  /* NAME TAG (Hall of Fame flottant) */
-  .name-tag{
-    position:absolute;cursor:pointer;z-index:50;
-    background:white;border:2px solid var(--ink);border-radius:8px;
-    padding:6px 16px;
-    font-family:'Fraunces',serif;font-weight:600;font-size:.88rem;color:var(--ink);
-    white-space:nowrap;user-select:none;
-    filter:drop-shadow(0 4px 8px rgba(0,0,0,.18));
+  /* SHOP */
+  #shop{
+    position:fixed;top:52px;right:0;bottom:0;width:340px;max-width:90vw;z-index:210;
+    background:rgba(251,247,240,0.97);backdrop-filter:blur(8px);
+    border-left:1.5px solid var(--ink);
+    transform:translateX(100%);transition:transform .28s cubic-bezier(.3,.7,.3,1);
+    display:flex;flex-direction:column;
   }
-  .name-tag.ltr{animation:name-ltr linear forwards;}
-  .name-tag.rtl{animation:name-rtl linear forwards;}
-  @keyframes name-ltr{from{left:-22%}to{left:122%}}
-  @keyframes name-rtl{from{left:122%}to{left:-22%}}
+  #shop.open{transform:translateX(0);}
+  .shop-head{padding:16px 20px 12px;border-bottom:1.5px solid var(--rule);display:flex;align-items:center;justify-content:space-between;}
+  .shop-head h2{font-family:'Fraunces',serif;font-weight:300;font-style:italic;font-size:1.4rem;color:var(--ink);}
+  .shop-head h2 b{font-style:normal;font-weight:600;color:var(--orange-deep);}
+  #shop-close{background:none;border:none;font-size:1.6rem;cursor:pointer;color:var(--ink-soft);line-height:1;}
+  .buy-modes{display:flex;gap:0;padding:10px 20px 0;}
+  .buy-mode{flex:1;font-family:'Fraunces',serif;font-size:.78rem;letter-spacing:1px;text-transform:uppercase;padding:7px 0;border:1.5px solid var(--rule);background:none;color:var(--ink-soft);cursor:pointer;}
+  .buy-mode:not(:last-child){border-right:none;}
+  .buy-mode.active{background:var(--ink);color:var(--cream);border-color:var(--ink);}
+  #shop-list{flex:1;overflow-y:auto;padding:14px 16px 24px;}
+  .item{
+    border:1.5px solid var(--rule);background:var(--cream);
+    padding:12px 14px;margin-bottom:10px;cursor:pointer;transition:border-color .15s,background .15s;
+    display:grid;grid-template-columns:auto 1fr auto;gap:4px 12px;align-items:center;
+  }
+  .item.affordable:hover{border-color:var(--ink);}
+  .item.locked{opacity:.5;filter:grayscale(.4);cursor:default;}
+  .item.cant{opacity:.85;cursor:not-allowed;}
+  .item-emoji{grid-row:1/3;font-size:1.9rem;line-height:1;}
+  .item-name{font-family:'Fraunces',serif;font-weight:600;font-size:1rem;color:var(--ink);}
+  .item-owned{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:600;color:var(--ink-soft);text-align:right;grid-row:1/3;align-self:center;}
+  .item-desc{font-size:.8rem;color:var(--ink-soft);font-style:italic;grid-column:2/4;line-height:1.3;}
+  .item-cost{grid-column:2/4;font-family:'Fraunces',serif;font-size:.85rem;font-weight:600;color:var(--orange-deep);margin-top:2px;}
+  .item.cant .item-cost{color:#b06a6a;}
+  .item.bonus{border-color:#5a9bd4;background:#eef5fb;}
+  .item.next{border:2px solid var(--orange-deep);background:#fbeee9;text-align:center;display:block;padding:16px 14px;}
+  .item.next .n-title{font-family:'Fraunces',serif;font-weight:600;font-size:1.05rem;color:var(--orange-deep);}
+  .item.next .n-flavor{font-size:.82rem;font-style:italic;color:var(--ink-soft);margin:5px 0 8px;line-height:1.4;}
+  .item.next .n-cost{font-family:'Fraunces',serif;font-weight:600;color:var(--ink);}
+  .shop-foot{padding:10px 20px;border-top:1px solid var(--rule);text-align:center;}
+  #reset-btn{background:none;border:none;font-family:'Fraunces',serif;font-size:.72rem;letter-spacing:1px;text-transform:uppercase;color:var(--ink-soft);cursor:pointer;opacity:.6;}
+  #reset-btn:hover{opacity:1;color:var(--orange-deep);}
+
+  /* ENDGAME BANNER */
+  #endgame{
+    position:fixed;top:60px;left:50%;transform:translateX(-50%);z-index:190;
+    background:rgba(106,90,205,.92);color:#fff;font-family:'Fraunces',serif;
+    padding:8px 22px;border-radius:100px;font-size:.88rem;display:none;
+    box-shadow:0 4px 20px rgba(106,90,205,.5);text-align:center;
+  }
+  #endgame.on{display:block;animation:pulse 2s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{transform:translateX(-50%) scale(1);}50%{transform:translateX(-50%) scale(1.04);}}
 
   @media(max-width:600px){
-    .topbar{flex-wrap:wrap;padding-bottom:6px;}
-    .sitenav{width:100%;border-top:1px solid var(--rule);padding-top:8px;margin-top:6px;justify-content:center;flex-wrap:wrap;gap:4px;}
-    .sitenav-link{font-size:0.65rem;padding:4px 8px;border:1px solid var(--rule);border-bottom:1px solid var(--rule);}
-    .sitenav-link.current{background:var(--ink);color:var(--cream);border-color:var(--ink);}
+    .brand{font-size:.9rem;} #act-name{display:none;}
+    #shop{width:100%;max-width:100%;top:auto;bottom:0;height:72vh;border-left:none;border-top:1.5px solid var(--ink);border-radius:18px 18px 0 0;transform:translateY(100%);}
+    #shop.open{transform:translateY(0);}
+    #hud{bottom:14px;}
   }
 </style>
 <!-- Google Analytics -->
@@ -213,207 +216,393 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <header class="site">
   <div class="topbar">
     <a class="brand" href="jeux.html">← Minis <b>jeux</b></a>
+    <span id="act-name"></span>
+    <button id="shop-toggle">🛒 Boutique</button>
   </div>
 </header>
 
 <main id="pasture"></main>
 
+<div id="endgame">🤖 Le jeu se construit tout seul…</div>
+
 <div id="hud">
-  <span class="hud-label">vaches cliquées</span>
-  <span class="hud-count" id="score">0</span>
-  <span style="opacity:.3"> · </span>
-  <span id="hud-prog" style="font-family:'Fraunces',serif;font-size:.82rem;color:var(--ink-soft)">🥛 0/10</span>
+  <span class="cur" id="hud-cur">0</span>
+  <span class="rate" id="hud-rate"></span>
 </div>
 
-<div id="hof-overlay">
-  <div id="hof-box">
-    <div class="hof-icon">🏆</div>
-    <h2>Hall of <b>vache</b></h2>
-    <p class="hof-sub">Tu as cliqué 1000 vaches.<br>Entre ton nom pour rejoindre les légendes.</p>
-    <input id="hof-input" type="text" maxlength="32" placeholder="Ton nom…" autocomplete="off">
-    <button id="hof-btn">Rejoindre le Hall ★</button>
+<aside id="shop">
+  <div class="shop-head">
+    <h2 id="shop-title">Boutique <b>·</b></h2>
+    <button id="shop-close">×</button>
   </div>
-</div>
+  <div class="buy-modes">
+    <button class="buy-mode active" data-mode="1">×1</button>
+    <button class="buy-mode" data-mode="10">×10</button>
+    <button class="buy-mode" data-mode="max">MAX</button>
+  </div>
+  <div id="shop-list"></div>
+  <div class="shop-foot"><button id="reset-btn">↺ Tout recommencer</button></div>
+</aside>
 
 <script>
-const pasture = document.getElementById('pasture');
-const scoreEl = document.getElementById('score');
-const progEl  = document.getElementById('hud-prog');
+/* =====================================================================
+   VACHES — jeu incrémental (3 actes)
+   Modèle "dimensions" : chaque étage produit l'étage du dessous.
+   ===================================================================== */
+const pasture   = document.getElementById('pasture');
+const hudCur     = document.getElementById('hud-cur');
+const hudRate    = document.getElementById('hud-rate');
+const actNameEl  = document.getElementById('act-name');
+const shopEl     = document.getElementById('shop');
+const shopList   = document.getElementById('shop-list');
+const shopTitle  = document.getElementById('shop-title');
+const endgameEl  = document.getElementById('endgame');
+const SOUNDS = ["meuh1.mp3","meuh2.mp3","meuh3.mp3","meuh4.mp3"];
+const MEUHS  = ["Meuh !","MEUH !!","meuuh…","Mooooh","Meuh ?","Meuh meuh","Muh."];
 
-const HOF_KEY  = 'tete-vide-hof-v1';
-const FOUNDERS = ['Meuh McGee', 'Bovinia', 'Jean-Lait'];
-const SOUNDS   = ["meuh1.mp3","meuh2.mp3","meuh3.mp3","meuh4.mp3"];
-const MEUHS    = ["Meuh !","MEUH !!","meuuh…","Mooooh","Meuh ?","MEEUH !","Meuh meuh","Muh."];
+/* ---- CONFIG DES ACTES ----
+   tiers : du bas (produit la monnaie) vers le haut (produit le tier du dessous)
+   revealAt : nombre du tier précédent (ou de la monnaie totale gagnée) pour débloquer */
+const ACTS = [
+  {
+    key:'steak', title:'L\'empire du steak', theme:0,
+    cur:{emoji:'🥩', name:'steaks'},
+    entity:'cow', clickBase:1,
+    tiers:[
+      {id:'fermier',  emoji:'🧑‍🌾', name:'Fermier',  desc:'Rapporte des vaches (steaks).',         base:15,     mul:1.13, rate:1,   revealBy:null},
+      {id:'ferme',    emoji:'🚜',   name:'Ferme',    desc:'Produit des fermiers toute seule.',       base:1100,   mul:1.16, rate:0.5, revealBy:{tier:'fermier', n:100}},
+      {id:'monsanto', emoji:'🏭',   name:'Monsanto', desc:'Rachète des fermes en série.',            base:130000, mul:1.19, rate:0.25,revealBy:{tier:'ferme', n:10}},
+    ],
+    bonus:{id:'eaux', emoji:'💧', name:'Compagnie des eaux', desc:'Fait grimper le prix du lait : +30% à toute la production.', base:50000, mul:2.4, boost:0.30},
+    next:{cost:2.5e8, title:'Investir chez NVIDIA', flavor:'Tu revends le troupeau et tu mises tout sur les puces graphiques…'}
+  },
+  {
+    key:'puce', title:'La ruée vers les puces', theme:1,
+    cur:{emoji:'🟩', name:'puces'},
+    entity:'chip', clickBase:1,
+    tiers:[
+      {id:'ordi',      emoji:'🖥️', name:'Ordinateur', desc:'Mine des puces en continu.',           base:20,     mul:1.14, rate:1,   revealBy:null},
+      {id:'datacenter',emoji:'🏢',  name:'Data center', desc:'Assemble des ordinateurs.',           base:2600,   mul:1.17, rate:0.5, revealBy:{tier:'ordi', n:10}},
+    ],
+    bonus:{id:'cloud', emoji:'☁️', name:'Contrat Cloud', desc:'Revends ta puissance : +30% à toute la production.', base:120000, mul:2.4, boost:0.30},
+    next:{cost:5e8, title:'Investir dans l\'IA', flavor:'Assez de matériel. Il est temps de faire pousser de l\'intelligence…'}
+  },
+  {
+    key:'code', title:'La singularité', theme:2,
+    cur:{emoji:'📄', name:'lignes de code'},
+    entity:'code', clickBase:1,
+    tiers:[
+      {id:'model', emoji:'🧠', name:'Modèle d\'IA', desc:'Écrit du code tout seul.',        base:25,   mul:1.15, rate:1,   revealBy:null},
+      {id:'robot', emoji:'🤖', name:'Robot',        desc:'Entraîne des modèles d\'IA.',     base:3400, mul:1.18, rate:0.5, revealBy:{tier:'model', n:10}},
+    ],
+    bonus:{id:'gpu', emoji:'⚡', name:'Ferme de GPU', desc:'Overclocke tout : +40% à toute la production.', base:200000, mul:2.5, boost:0.40},
+    next:null,
+    endgame:{tier:'robot', n:10}
+  }
+];
 
-let score = 0, lait = 0, steak = 0, hofDone = false;
-
-/* ---- SAVE ---- */
-function loadSave(){
-  try{ return JSON.parse(localStorage.getItem(HOF_KEY)) || {}; } catch(e){ return {}; }
+/* ---- ÉTAT ---- */
+const SAVE_KEY = 'vaches-idle-v2';
+let S; // état courant
+function freshState(){
+  const st = {act:0, buildings:{}, bonus:{}, lastTs:Date.now()};
+  ACTS.forEach(a=>{
+    st['cur_'+a.key]=0; st['earned_'+a.key]=0;
+    a.tiers.forEach(t=> st.buildings[t.id]={bought:0, amount:0});
+    if(a.bonus) st.bonus[a.bonus.id]=0;
+  });
+  return st;
 }
-function writeSave(extra){
-  localStorage.setItem(HOF_KEY, JSON.stringify({...loadSave(), ...extra}));
+function load(){
+  try{ const raw=JSON.parse(localStorage.getItem(SAVE_KEY)); if(raw&&raw.buildings) return raw; }catch(e){}
+  return freshState();
 }
-function getNames(){ return [...FOUNDERS, ...(loadSave().names || [])]; }
+function save(){ S.lastTs=Date.now(); localStorage.setItem(SAVE_KEY, JSON.stringify(S)); }
+S = load();
 
-/* ---- RESTORE ---- */
-(function(){
-  const s = loadSave();
-  score   = s.score   || 0;
-  lait    = Math.floor(score / 10);
-  steak   = Math.floor(score / 100);
-  hofDone = !!s.hofDone;
-  scoreEl.textContent = score;
-  updateProgHUD();
-})();
+/* ---- HELPERS ---- */
+const UNITS=['','K','M','B','T','Qa','Qi','Sx','Sp','Oc','No','Dc'];
+function fmt(n){
+  if(n<1000) return (n%1===0? n : (Math.floor(n*10)/10)).toString();
+  let u=0; while(n>=1000 && u<UNITS.length-1){ n/=1000; u++; }
+  if(u>=UNITS.length-1 && n>=1000) return n.toExponential(2);
+  return (n<10? n.toFixed(2): n<100? n.toFixed(1): Math.floor(n)) + UNITS[u];
+}
+function act(){ return ACTS[S.act]; }
+function curVal(){ return S['cur_'+act().key]; }
+function setCur(v){ S['cur_'+act().key]=v; }
+function tierCfg(id){ for(const a of ACTS) for(const t of a.tiers) if(t.id===id) return t; }
+function globalMult(){
+  const b=act().bonus; if(!b) return 1;
+  return 1 + (S.bonus[b.id]||0)*b.boost;
+}
+function costOf(t){ const st=S.buildings[t.id]; return t.base * Math.pow(t.mul, st.bought); }
+/* coût cumulé pour acheter k exemplaires à partir de "bought" */
+function bulkCost(t, k){
+  const st=S.buildings[t.id];
+  return t.base * Math.pow(t.mul, st.bought) * (Math.pow(t.mul,k)-1)/(t.mul-1);
+}
+function maxAffordable(t){
+  const st=S.buildings[t.id], money=curVal();
+  const c0 = t.base*Math.pow(t.mul, st.bought);
+  if(money < c0) return 0;
+  // money >= c0*(mul^k -1)/(mul-1)  ->  k = log(1 + money*(mul-1)/c0)/log(mul)
+  return Math.floor(Math.log(1 + money*(t.mul-1)/c0)/Math.log(t.mul));
+}
 
-/* ---- HUD ---- */
-function updateProgHUD(){
-  if(hofDone || steak >= 10){
-    progEl.textContent = '🏆';
-  } else if(steak > 0){
-    progEl.textContent = `🥛 ${lait % 10}/10 · 🥩 ${steak}/10`;
+/* ---- REVEAL / UNLOCK ---- */
+function amountOf(id){ return S.buildings[id]? S.buildings[id].amount : 0; }
+function isRevealed(t){
+  if(!t.revealBy) return true;
+  return amountOf(t.revealBy.tier) >= t.revealBy.n || S.buildings[t.id].bought>0;
+}
+
+/* ---- PRODUCTION ---- */
+function tick(dt){
+  const a=act(), mult=globalMult();
+  // du haut vers le bas : chaque tier alimente le tier du dessous
+  for(let i=a.tiers.length-1;i>=1;i--){
+    const up=a.tiers[i], down=a.tiers[i-1];
+    S.buildings[down.id].amount += S.buildings[up.id].amount * up.rate * dt;
+  }
+  // tier 0 -> monnaie
+  const t0=a.tiers[0];
+  const gain = S.buildings[t0.id].amount * t0.rate * dt * mult;
+  setCur(curVal()+gain);
+  S['earned_'+a.key]+=gain;
+
+  // endgame : auto-clic des floaters
+  if(a.endgame && amountOf(a.endgame.tier)>=a.endgame.n){
+    endgameEl.classList.add('on');
+    autoCollect+=dt;
+  }
+}
+function perSecond(){
+  const a=act(), t0=a.tiers[0];
+  return S.buildings[t0.id].amount * t0.rate * globalMult();
+}
+
+/* ---- ACHATS ---- */
+let buyMode='1';
+function buy(t){
+  if(!isRevealed(t)) return;
+  let k = buyMode==='max' ? maxAffordable(t) : parseInt(buyMode);
+  if(k<1) return;
+  if(buyMode!=='max'){ // vérifie qu'on peut payer les k
+    while(k>0 && bulkCost(t,k)>curVal()) k--;
+  }
+  if(k<1) return;
+  const cost=bulkCost(t,k);
+  if(cost>curVal()) return;
+  setCur(curVal()-cost);
+  S.buildings[t.id].bought+=k;
+  S.buildings[t.id].amount+=k;
+  renderShop(); save();
+}
+function buyBonus(){
+  const b=act().bonus; if(!b) return;
+  const lvl=S.bonus[b.id]||0;
+  const cost=b.base*Math.pow(b.mul,lvl);
+  if(cost>curVal()) return;
+  setCur(curVal()-cost);
+  S.bonus[b.id]=lvl+1;
+  renderShop(); save();
+}
+function investNext(){
+  const nx=act().next; if(!nx) return;
+  if(curVal()<nx.cost) return;
+  S.act++;
+  document.body.className = S.act===1?'act-1':S.act===2?'act-2':'';
+  clearFloaters();
+  showMilestone(ACTS[S.act].cur.emoji, ACTS[S.act].title);
+  renderAll(); save();
+}
+
+/* ---- FLOATERS (vache/puce/code qui traversent) ---- */
+let autoCollect=0;
+function clearFloaters(){ pasture.querySelectorAll('.floater').forEach(f=>f.remove()); }
+function rand(a,b){ return Math.random()*(b-a)+a; }
+function playMoo(){ try{ new Audio(SOUNDS[Math.floor(Math.random()*SOUNDS.length)]).play().catch(()=>{}); }catch(e){} }
+
+const CODE_SNIPPETS=[
+  '<span class="k">def</span> <span class="f">train</span>():',
+  '<span class="k">while</span> <span class="k">True</span>:',
+  '<span class="k">import</span> <span class="s">torch</span>',
+  'model.<span class="f">fit</span>(x, y)',
+  '<span class="k">return</span> steak',
+  'AGI = <span class="k">True</span>',
+];
+
+function spawnFloater(){
+  const a=act();
+  const ltr=Math.random()<0.5;
+  const el=document.createElement('div');
+  el.className='floater '+(ltr?'ltr':'rtl');
+  const top=rand(4,80);
+  const dur=rand(13,25);
+  el.style.cssText=`top:${top}vh;animation-duration:${dur}s;`;
+
+  if(a.entity==='cow'){
+    el.classList.add('cow');
+    el.style.width=rand(8,15)+'vw';
+    const img=document.createElement('img'); img.src='vache.png'; img.alt='Vache'; img.draggable=false;
+    el.appendChild(img);
+  } else if(a.entity==='chip'){
+    el.classList.add('chip'); el.textContent='NVIDIA';
   } else {
-    progEl.textContent = `🥛 ${lait % 10}/10`;
+    el.classList.add('code');
+    el.innerHTML=CODE_SNIPPETS[Math.floor(Math.random()*CODE_SNIPPETS.length)];
   }
-}
 
-/* ---- MILESTONE POPUP ---- */
-function showMilestone(emoji, label){
-  const el = document.createElement('div');
-  el.className = 'milestone-popup';
-  el.innerHTML = `${emoji}<br><span>${label}</span>`;
-  document.body.appendChild(el);
-  el.addEventListener('animationend', ()=>el.remove());
-}
-
-function checkMilestones(){
-  const newLait  = Math.floor(score / 10);
-  const newSteak = Math.floor(score / 100);
-
-  if(newLait > lait){
-    lait = newLait;
-    const l = lait % 10 || 10;
-    showMilestone('🥛', l === 10 ? '10 bouteilles !' : `${l} bouteille${l > 1 ? 's' : ''} de lait`);
-  }
-  if(newSteak > steak){
-    steak = newSteak;
-    setTimeout(() => showMilestone('🥩', `${steak}/10 steaks`), 600);
-    if(steak >= 10 && !hofDone){
-      setTimeout(showHOFForm, 1800);
-    }
-  }
-  updateProgHUD();
-  writeSave({score, hofDone});
-}
-
-/* ---- SOUNDS ---- */
-function playMoo(){
-  const s = new Audio(SOUNDS[Math.floor(Math.random() * SOUNDS.length)]);
-  s.play().catch(()=>{});
-}
-function rand(a, b){ return Math.random() * (b - a) + a; }
-
-/* ---- COW ---- */
-function spawnCow(){
-  const ltr = Math.random() < 0.5;
-  const cow = document.createElement('div');
-  cow.className = 'cow ' + (ltr ? 'ltr' : 'rtl');
-
-  const top = rand(5, 78);
-  const w   = rand(8, 15);
-  const dur = rand(13, 26);
-  cow.style.cssText = `top:${top}vh;width:${w}vw;animation-duration:${dur}s;`;
-
-  const img = document.createElement('img');
-  img.src = 'vache.png'; img.alt = 'Vache';
-  cow.appendChild(img);
-
-  cow.addEventListener('click', e => {
-    e.stopPropagation();
-    playMoo();
-    score++;
-    scoreEl.textContent = score;
-
-    const old = cow.querySelector('.bubble');
-    if(old) old.remove();
-    const b = document.createElement('div');
-    b.className = 'bubble';
-    b.textContent = MEUHS[Math.floor(Math.random() * MEUHS.length)];
-    cow.appendChild(b);
-    b.addEventListener('animationend', ()=>b.remove());
-
-    cow.style.filter = 'drop-shadow(0 6px 14px rgba(0,0,0,.22)) brightness(1.15)';
-    setTimeout(()=>{ cow.style.filter = 'drop-shadow(0 6px 14px rgba(0,0,0,.22))'; }, 150);
-
-    checkMilestones();
-  });
-
-  cow.addEventListener('animationend', ()=>cow.remove());
-  pasture.appendChild(cow);
-}
-
-/* ---- NAME TAG ---- */
-function spawnNameTag(name){
-  const ltr = Math.random() < 0.5;
-  const el = document.createElement('div');
-  el.className = 'name-tag ' + (ltr ? 'ltr' : 'rtl');
-  el.textContent = '★ ' + name;
-
-  const top = rand(10, 80);
-  const dur = rand(14, 24);
-  el.style.cssText = `top:${top}vh;animation-duration:${dur}s;`;
-
-  el.addEventListener('click', e => {
-    e.stopPropagation();
-    const old = el.querySelector('.bubble');
-    if(old) old.remove();
-    const b = document.createElement('div');
-    b.className = 'bubble';
-    b.textContent = `Bravo ${name} !`;
-    el.appendChild(b);
-    b.addEventListener('animationend', ()=>b.remove());
-  });
-
+  el.addEventListener('click', e=>{ e.stopPropagation(); collect(el, e.clientX, e.clientY); });
   el.addEventListener('animationend', ()=>el.remove());
   pasture.appendChild(el);
 }
 
-function scheduleNameTag(){
-  const names = getNames();
-  if(names.length) spawnNameTag(names[Math.floor(Math.random() * names.length)]);
-  setTimeout(scheduleNameTag, rand(9000, 18000));
+function collect(el, x, y){
+  const a=act();
+  const reward = Math.max(a.clickBase, Math.floor(perSecond()*0.05)); // le clic reste utile
+  setCur(curVal()+reward);
+  S['earned_'+a.key]+=reward;
+
+  if(a.entity==='cow') playMoo();
+
+  // bulle
+  const old=el.querySelector('.bubble'); if(old) old.remove();
+  const b=document.createElement('div'); b.className='bubble';
+  b.textContent = a.entity==='cow' ? MEUHS[Math.floor(Math.random()*MEUHS.length)] : (a.entity==='chip'?'⚙️ +'+fmt(reward):'</> +'+fmt(reward));
+  el.appendChild(b);
+  b.addEventListener('animationend',()=>b.remove());
+
+  // +gain flottant
+  if(x!=null){
+    const g=document.createElement('div'); g.className='gain-pop';
+    g.textContent='+'+fmt(reward)+' '+a.cur.emoji;
+    g.style.left=x+'px'; g.style.top=y+'px';
+    document.body.appendChild(g);
+    g.addEventListener('animationend',()=>g.remove());
+  }
+  updateHUD();
 }
 
-/* ---- HOF FORM ---- */
-function showHOFForm(){
-  document.getElementById('hof-overlay').style.display = 'flex';
+/* ---- MILESTONE ---- */
+function showMilestone(emoji,label){
+  const el=document.createElement('div'); el.className='milestone-popup';
+  el.innerHTML=`${emoji}<br><span>${label}</span>`;
+  document.body.appendChild(el);
+  el.addEventListener('animationend',()=>el.remove());
 }
 
-document.getElementById('hof-btn').addEventListener('click', ()=>{
-  const input = document.getElementById('hof-input');
-  const name  = input.value.trim().slice(0, 32);
-  if(!name) return;
+/* ---- RENDU ---- */
+function updateHUD(){
+  const a=act();
+  hudCur.textContent = fmt(Math.floor(curVal()))+' '+a.cur.emoji;
+  const ps=perSecond();
+  hudRate.textContent = ps>0 ? ('+'+fmt(ps)+' '+a.cur.name+'/s') : ('clique les '+(a.entity==='cow'?'vaches':a.entity==='chip'?'puces':'lignes de code'));
+}
+function itemRow(t){
+  const st=S.buildings[t.id];
+  if(!isRevealed(t)){
+    const need=t.revealBy;
+    const needCfg=tierCfg(need.tier);
+    const div=document.createElement('div'); div.className='item locked';
+    div.innerHTML=`<div class="item-emoji">🔒</div><div class="item-name">???</div><div class="item-owned"></div><div class="item-desc">Débloqué à ${need.n} ${needCfg.name.toLowerCase()}${need.n>1?'s':''}</div>`;
+    return div;
+  }
+  let k = buyMode==='max'? Math.max(1,maxAffordable(t)) : parseInt(buyMode);
+  const cost = bulkCost(t, Math.max(1,k));
+  const can = cost<=curVal() && (buyMode!=='max'||maxAffordable(t)>=1);
+  const div=document.createElement('div');
+  div.className='item '+(can?'affordable':'cant');
+  const perEach = t===act().tiers[0] ? `${fmt(t.rate*globalMult())} ${act().cur.name}/s` : `${fmt(t.rate)} ${tierCfg(act().tiers[act().tiers.indexOf(t)-1].id).name.toLowerCase()}/s`;
+  div.innerHTML=`
+    <div class="item-emoji">${t.emoji}</div>
+    <div class="item-name">${t.name}</div>
+    <div class="item-owned">${fmt(Math.floor(st.amount))}</div>
+    <div class="item-desc">${t.desc} <b style="color:var(--ink-soft)">(${perEach} chacun)</b></div>
+    <div class="item-cost">${buyMode==='max'?'Max '+k+' · ':''}${fmt(Math.ceil(cost))} ${act().cur.emoji}</div>`;
+  if(can) div.onclick=()=>buy(t);
+  return div;
+}
+function bonusRow(){
+  const b=act().bonus; if(!b) return null;
+  const lvl=S.bonus[b.id]||0;
+  const cost=b.base*Math.pow(b.mul,lvl);
+  const can=cost<=curVal();
+  const div=document.createElement('div');
+  div.className='item bonus '+(can?'affordable':'cant');
+  div.innerHTML=`
+    <div class="item-emoji">${b.emoji}</div>
+    <div class="item-name">${b.name} <span style="font-weight:400;color:var(--ink-soft)">niv. ${lvl}</span></div>
+    <div class="item-owned">×${(globalMult()).toFixed(2)}</div>
+    <div class="item-desc">${b.desc}</div>
+    <div class="item-cost">${fmt(Math.ceil(cost))} ${act().cur.emoji}</div>`;
+  if(can) div.onclick=buyBonus;
+  return div;
+}
+function nextRow(){
+  const nx=act().next; if(!nx) return null;
+  const can=curVal()>=nx.cost;
+  const div=document.createElement('div');
+  div.className='item next '+(can?'affordable':'cant');
+  div.innerHTML=`<div class="n-title">${nx.title}</div><div class="n-flavor">${nx.flavor}</div><div class="n-cost">${fmt(Math.ceil(nx.cost))} ${act().cur.emoji}</div>`;
+  if(can) div.onclick=investNext;
+  return div;
+}
+function renderShop(){
+  const a=act();
+  shopTitle.innerHTML = a.cur.emoji+' Boutique <b>·</b>';
+  shopList.innerHTML='';
+  a.tiers.forEach(t=> shopList.appendChild(itemRow(t)));
+  const br=bonusRow(); if(br) shopList.appendChild(br);
+  const nr=nextRow(); if(nr) shopList.appendChild(nr);
+}
+function renderAll(){
+  actNameEl.textContent = act().title;
+  updateHUD(); renderShop();
+}
 
-  const prev  = loadSave();
-  const names = prev.names || [];
-  if(!names.includes(name)) names.push(name);
-  writeSave({hofDone: true, names});
-  hofDone = true;
-
-  document.getElementById('hof-overlay').style.display = 'none';
-  updateProgHUD();
-  spawnNameTag(name);
+/* ---- BOUTIQUE UI ---- */
+document.getElementById('shop-toggle').onclick=()=>{ shopEl.classList.toggle('open'); renderShop(); };
+document.getElementById('shop-close').onclick=()=>shopEl.classList.remove('open');
+document.querySelectorAll('.buy-mode').forEach(btn=>{
+  btn.onclick=()=>{ document.querySelectorAll('.buy-mode').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); buyMode=btn.dataset.mode; renderShop(); };
 });
+document.getElementById('reset-btn').onclick=()=>{
+  if(confirm('Tout effacer et repartir de zéro ?')){ localStorage.removeItem(SAVE_KEY); S=freshState(); document.body.className=''; clearFloaters(); endgameEl.classList.remove('on'); renderAll(); }
+};
 
-document.getElementById('hof-input').addEventListener('keydown', e =>{
-  if(e.key === 'Enter') document.getElementById('hof-btn').click();
-});
+/* ---- PROGRESSION HORS-LIGNE ---- */
+(function offline(){
+  const dt=Math.min((Date.now()-(S.lastTs||Date.now()))/1000, 8*3600);
+  if(dt>5){ tick(dt); showMilestone('💤', 'De retour ! +'+fmt(perSecond()*dt)+' '+act().cur.emoji+' pendant ton absence'); }
+})();
 
-/* ---- DÉMARRAGE ---- */
-setTimeout(scheduleNameTag, 5000);
-for(let i = 0; i < 5; i++) setTimeout(spawnCow, i * 600);
-setInterval(spawnCow, 2200);
+/* ---- BOUCLE ---- */
+document.body.className = S.act===1?'act-1':S.act===2?'act-2':'';
+renderAll();
+let last=performance.now(), acc=0, shopAcc=0;
+function loop(now){
+  const dt=Math.min((now-last)/1000,0.25); last=now;
+  tick(dt);
+  updateHUD();
+  // auto-collect en endgame
+  if(autoCollect>=0.5){ autoCollect=0; const f=pasture.querySelector('.floater'); if(f){ collect(f,null); f.remove(); } }
+  shopAcc+=dt; if(shopAcc>=0.4 && shopEl.classList.contains('open')){ shopAcc=0; renderShop(); }
+  acc+=dt; if(acc>=5){ acc=0; save(); }
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+
+/* ---- SPAWN ---- */
+function scheduleSpawn(){
+  spawnFloater();
+  const gap = act().endgame && amountOf(act().endgame.tier)>=act().endgame.n ? rand(500,1000) : rand(1400,2600);
+  setTimeout(scheduleSpawn, gap);
+}
+for(let i=0;i<4;i++) setTimeout(spawnFloater, i*500);
+setTimeout(scheduleSpawn, 1500);
+window.addEventListener('beforeunload', save);
 </script>
 </body>
 </html>
