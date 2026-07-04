@@ -459,7 +459,14 @@ const texClic = spriteTex('CLIC!', '#fff3c8', '#ffd866', 58);
 ============================================================ */
 const MAP_X1 = -25, MAP_X2 = 25, MAP_Z1 = -14, MAP_Z2 = 14;
 const colliders = [];
-function addCollider(x, z, sx, sz) { colliders.push({ x1:x-sx/2, x2:x+sx/2, z1:z-sz/2, z2:z+sz/2 }); }
+function addCollider(x, z, sx, sz, isWall) { colliders.push({ x1:x-sx/2, x2:x+sx/2, z1:z-sz/2, z2:z+sz/2, wall:!!isWall }); }
+/* un point est-il dans un mur pleine hauteur ? (pour bloquer les balles) */
+function pointInWall(x, z) {
+  for (const c of colliders) {
+    if (c.wall && x >= c.x1 && x <= c.x2 && z >= c.z1 && z <= c.z2) return true;
+  }
+  return false;
+}
 
 const matWall   = new THREE.MeshLambertMaterial({ map:texWall });
 const matWallCafe = new THREE.MeshLambertMaterial({ color:0xc9a37a });
@@ -490,7 +497,7 @@ for (let x = -21; x <= 21; x += 7) for (let z = -9; z <= 9; z += 9) {
 function wallSeg(x, z, sx, sz, mat) {
   const m = new THREE.Mesh(new THREE.BoxGeometry(sx, 3.6, sz), mat||matWall);
   m.position.set(x, 1.8, z); m.receiveShadow = true; m.castShadow = true; scene.add(m);
-  addCollider(x, z, sx, sz);
+  addCollider(x, z, sx, sz, true);
 }
 /* murs extérieurs */
 wallSeg(0, MAP_Z1-.3, (MAP_X2-MAP_X1)+1.2, .6);
@@ -1238,9 +1245,16 @@ function loop(now) {
   /* --- projectiles du joueur --- */
   for (let i = projectiles.length-1; i >= 0; i--) {
     const p = projectiles[i], u = p.userData;
+    const px0 = p.position.x, pz0 = p.position.z;
     p.position.addScaledVector(u.vel, dt);
     p.material.rotation += u.spin*dt;
     u.life -= dt;
+    /* mur touché ? on échantillonne le trajet pour éviter de traverser un mur fin */
+    let wall = false;
+    for (let s = 1; s <= 4; s++) {
+      const t = s/4;
+      if (pointInWall(px0+(p.position.x-px0)*t, pz0+(p.position.z-pz0)*t)) { wall = true; break; }
+    }
     let hit = false;
     for (const e of enemies) {
       if (e.userData.state !== 'alive') continue;
@@ -1250,7 +1264,7 @@ function loop(now) {
         hit = true; damageEnemy(e, u.dmg); break;
       }
     }
-    if (hit || u.life <= 0 ||
+    if (hit || wall || u.life <= 0 ||
         p.position.x < MAP_X1 || p.position.x > MAP_X2 ||
         p.position.z < MAP_Z1 || p.position.z > MAP_Z2) {
       scene.remove(p); projectiles.splice(i,1);
