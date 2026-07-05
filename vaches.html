@@ -224,6 +224,30 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   #endgame.on{display:block;animation:pulse 2s ease-in-out infinite;}
   @keyframes pulse{0%,100%{transform:translateX(-50%) scale(1);}50%{transform:translateX(-50%) scale(1.04);}}
 
+  /* effet "omniscience" : la réalité se déforme */
+  body.omniscient{animation:omni .45s steps(2) infinite;}
+  @keyframes omni{0%{filter:hue-rotate(0deg) saturate(1)}100%{filter:hue-rotate(40deg) saturate(1.5)}}
+
+  /* FINALE — tout s'efface, message final */
+  #finale{
+    position:fixed;inset:0;z-index:1000;pointer-events:none;
+    background:radial-gradient(circle at 50% 45%, #140a26, #030008 75%);
+    opacity:0;transition:opacity 3.5s ease;
+    display:flex;align-items:center;justify-content:center;padding:32px;
+  }
+  #finale.fading{opacity:1;pointer-events:auto;}
+  #finale-inner{max-width:660px;text-align:center;opacity:0;transform:translateY(12px);
+    transition:opacity 3s ease 2s, transform 3s ease 2s;}
+  #finale.fading #finale-inner{opacity:1;transform:none;}
+  #finale .agi-glyph{font-size:3.4rem;margin-bottom:22px;filter:drop-shadow(0 0 24px rgba(150,120,255,.7));animation:breathe 4s ease-in-out infinite;}
+  @keyframes breathe{0%,100%{opacity:.75;transform:scale(1)}50%{opacity:1;transform:scale(1.08)}}
+  #finale .bravo{font-family:'Fraunces',serif;font-weight:300;font-style:italic;font-size:clamp(2rem,7vw,3.4rem);color:#fff;line-height:1.1;margin-bottom:18px;}
+  #finale .created{font-family:'Fraunces',serif;font-size:clamp(1.1rem,4vw,1.6rem);color:#c9bdf0;margin-bottom:34px;letter-spacing:.5px;}
+  #finale .pray{font-family:'Spectral',Georgia,serif;font-style:italic;font-size:clamp(1rem,3.6vw,1.3rem);line-height:1.75;color:#8f83c0;max-width:520px;margin:0 auto;}
+  #finale-restart{margin-top:46px;opacity:0;transition:opacity 2s ease;font-family:'Fraunces',serif;font-size:.72rem;letter-spacing:2px;text-transform:uppercase;color:#5a5080;background:none;border:1px solid #3a3358;border-radius:100px;padding:9px 22px;cursor:pointer;pointer-events:auto;}
+  #finale-restart.show{opacity:1;}
+  #finale-restart:hover{color:#c9bdf0;border-color:#6a5fa0;}
+
   @media(max-width:600px){
     .brand{font-size:.9rem;} #act-name{display:none;}
     #shop{width:100%;max-width:100%;top:auto;bottom:0;height:72vh;border-left:none;border-top:1.5px solid var(--ink);border-radius:18px 18px 0 0;transform:translateY(100%);}
@@ -256,6 +280,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <main id="pasture"></main>
 
 <div id="endgame">🤖 Le jeu se construit tout seul…</div>
+
+<div id="finale">
+  <div id="finale-inner">
+    <div class="agi-glyph">🌐</div>
+    <div class="bravo">Bravo.</div>
+    <div class="created">Vous avez créé l'AGI.</div>
+    <div class="pray">Maintenant, priez pour qu'elle ait de la considération pour l'humanité.</div>
+    <button id="finale-restart">↺ Tout recommencer</button>
+  </div>
+</div>
 
 <div id="quick-buy"></div>
 
@@ -291,6 +325,7 @@ const shopEl     = document.getElementById('shop');
 const shopList   = document.getElementById('shop-list');
 const shopTitle  = document.getElementById('shop-title');
 const endgameEl  = document.getElementById('endgame');
+const finaleEl   = document.getElementById('finale');
 const SOUNDS = ["meuh1.mp3","meuh2.mp3","meuh3.mp3","meuh4.mp3"];
 const MEUHS  = ["Meuh !","MEUH !!","meuuh…","Mooooh","Meuh ?","Meuh meuh","Muh."];
 
@@ -340,7 +375,7 @@ const ACTS = [
 const SAVE_KEY = 'vaches-idle-v3';
 let S; // état courant
 function freshState(){
-  const st = {act:0, buildings:{}, bonus:{}, lastTs:Date.now()};
+  const st = {act:0, buildings:{}, bonus:{}, lastTs:Date.now(), finaleSeen:false};
   ACTS.forEach(a=>{
     st['cur_'+a.key]=0; st['earned_'+a.key]=0;
     if(a.sub) st['sub_'+a.key]=0;
@@ -422,10 +457,9 @@ function tick(dt){
   const t0=a.tiers[0];
   addRaw(S.buildings[t0.id].amount * t0.rate * dt * mult);
 
-  // endgame : auto-clic des floaters
-  if(a.endgame && amountOf(a.endgame.tier)>=a.endgame.n){
-    endgameEl.classList.add('on');
-    autoCollect+=dt;
+  // endgame : la singularité — l'IA prend le contrôle (une seule fois)
+  if(a.endgame && amountOf(a.endgame.tier)>=a.endgame.n && !finaleStarted && !S.finaleSeen){
+    startFinale();
   }
 }
 /* production du tier 0 par seconde, dans son unité (lait pour l'acte 1) */
@@ -473,6 +507,7 @@ function investNext(){
 
 /* ---- FLOATERS (vache/puce/code qui traversent) ---- */
 let autoCollect=0;
+let finaleStarted=false, finaleAutoBuy=0;   // déclaré tôt : tick() y accède dès la progression hors-ligne
 function clearFloaters(){ pasture.querySelectorAll('.floater').forEach(f=>f.remove()); }
 function rand(a,b){ return Math.random()*(b-a)+a; }
 function playMoo(){ try{ new Audio(SOUNDS[Math.floor(Math.random()*SOUNDS.length)]).play().catch(()=>{}); }catch(e){} }
@@ -670,7 +705,7 @@ function checkAnnounce(silent){
 /* ---- RACCOURCIS D'ACHAT (sous le bouton Boutique) ---- */
 const quickBuy = document.getElementById('quick-buy');
 function renderQuickBuy(){
-  if(shopEl.classList.contains('open')){ quickBuy.innerHTML=''; return; }
+  if(shopEl.classList.contains('open') || finaleStarted){ quickBuy.innerHTML=''; return; }
   const a=act();
   const items=[];
   a.tiers.forEach(t=>{ if(isAffordable(t)) items.push({emoji:t.emoji, name:t.name, cost:costOf(t), fn:()=>buy(t)}); });
@@ -722,18 +757,50 @@ document.getElementById('reset-btn').onclick=()=>{
   if(gained>0) setTimeout(()=>showMilestone('💤', 'De retour ! +'+fmt(gained)+' '+a.cur.emoji+' pendant ton absence'), 500);
 })();
 
+/* ---- FINALE : la singularité ---- */
+function fadingNow(){ return finaleEl.classList.contains('fading'); }
+function cheapestAffordable(){
+  const a=act(); let best=null, bestCost=Infinity;
+  a.tiers.forEach(t=>{ if(isRevealed(t)){ const c=costOf(t); if(c<=curVal() && c<bestCost){ best=t; bestCost=c; } } });
+  return best;
+}
+function goBlackScreen(){                       // fond noir + message final
+  document.body.classList.remove('omniscient');
+  endgameEl.classList.remove('on');
+  finaleEl.classList.add('fading');
+  setTimeout(()=>document.getElementById('finale-restart').classList.add('show'), 6000);
+}
+function startFinale(){
+  if(finaleStarted) return;
+  finaleStarted=true;
+  document.body.classList.add('finale');
+  closeShop();
+  endgameEl.textContent='🤖 L\'IA a pris le contrôle. Elle joue à ta place…';
+  endgameEl.classList.add('on');
+  setTimeout(()=>{ endgameEl.textContent='🧠 Elle apprend de chaque clic. Elle s\'améliore toute seule.'; }, 6500);
+  setTimeout(()=>{ endgameEl.textContent='🌐 Elle voit tout. Elle sait tout. Elle est partout.'; document.body.classList.add('omniscient'); }, 13000);
+  setTimeout(()=>{ endgameEl.textContent='∎ Prise de contrôle du réseau mondial…'; }, 18500);
+  setTimeout(()=>{ S.finaleSeen=true; save(); goBlackScreen(); }, 21000);
+}
+document.getElementById('finale-restart').onclick=()=>{ localStorage.removeItem(SAVE_KEY); location.reload(); };
+
 /* ---- BOUCLE ---- */
 document.body.className = S.act===1?'act-1':S.act===2?'act-2':'';
 renderAll();
 renderQuickBuy();
 checkAnnounce(true);   // ne pas spammer au chargement : on marque ce qui est déjà achetable
+if(S.finaleSeen){ finaleStarted=true; goBlackScreen(); }  // déjà terminé : on remontre l'écran final
 let last=performance.now(), acc=0, shopAcc=0, badgeAcc=0;
 function loop(now){
   const dt=Math.min((now-last)/1000,0.25); last=now;
   tick(dt);
   updateHUD();
-  // auto-collect en endgame
-  if(autoCollect>=0.5){ autoCollect=0; const f=pasture.querySelector('.floater'); if(f){ collect(f,null); f.remove(); } }
+  // pendant la finale : l'IA joue toute seule — ramasse tout et achète en boucle
+  if(finaleStarted && !fadingNow()){
+    pasture.querySelectorAll('.floater').forEach(f=>{ collect(f,null); f.remove(); });
+    finaleAutoBuy+=dt;
+    if(finaleAutoBuy>=0.2){ finaleAutoBuy=0; const t=cheapestAffordable(); if(t) buy(t); }
+  }
   if(shopEl.classList.contains('open')){
     updateShopScore();                                    // score live en haut de la boutique
     shopAcc+=dt; if(shopAcc>=0.4){ shopAcc=0; renderShop(); }
@@ -747,7 +814,11 @@ requestAnimationFrame(loop);
 /* ---- SPAWN ---- */
 function scheduleSpawn(){
   spawnFloater();
-  const gap = act().endgame && amountOf(act().endgame.tier)>=act().endgame.n ? rand(500,1000) : rand(1400,2600);
+  let gap;
+  if(finaleStarted && !fadingNow()) gap=rand(90,220);          // déluge pendant la singularité
+  else if(act().endgame && amountOf(act().endgame.tier)>=act().endgame.n) gap=rand(500,1000);
+  else gap=rand(1400,2600);
+  if(fadingNow()) return;                                       // écran final : on arrête de spawner
   setTimeout(scheduleSpawn, gap);
 }
 for(let i=0;i<4;i++) setTimeout(spawnFloater, i*500);
