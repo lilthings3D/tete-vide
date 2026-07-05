@@ -65,30 +65,30 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   /* ---------- MOBILE TEXT SCALE (multiplié par --ts, réglage "taille du texte") ---------- */
   @media(pointer:coarse){
-    #health { font-size:calc(24px*var(--ts,1)); }
-    #healthbar { width:calc(200px*var(--ts,1)); height:calc(22px*var(--ts,1)); }
-    #ammo { font-size:calc(50px*var(--ts,1)); }
-    #ammo small { font-size:calc(20px*var(--ts,1)); }
-    #weaponName { font-size:calc(24px*var(--ts,1)); }
-    #round { font-size:calc(64px*var(--ts,1)); top:112px; }
-    #round small { font-size:calc(21px*var(--ts,1)); }
-    #score { font-size:calc(36px*var(--ts,1)); top:118px; }
-    #zone { font-size:calc(19px*var(--ts,1)); top:170px; }
-    #msg { font-size:calc(28px*var(--ts,1)); max-width:94%; }
-    #shopPrompt { font-size:calc(24px*var(--ts,1)); padding:16px 28px; }
-    .shop-buy-btn { font-size:calc(22px*var(--ts,1)); padding:18px 30px; }
-    .screen h1 { font-size:calc(46px*var(--ts,1)); letter-spacing:2px; }
-    .screen h2 { font-size:calc(28px*var(--ts,1)); margin-bottom:26px; }
-    .screen .keys { font-size:calc(26px*var(--ts,1)); line-height:2; margin-bottom:32px; max-width:92%; }
-    .screen button { font-size:calc(32px*var(--ts,1)); padding:22px 60px; }
-    #gameover .stats, #pause .stats { font-size:calc(30px*var(--ts,1)); }
+    #health { font-size:calc(15px*var(--ts,1)); }
+    #healthbar { width:calc(150px*var(--ts,1)); height:calc(14px*var(--ts,1)); }
+    #ammo { font-size:calc(30px*var(--ts,1)); }
+    #ammo small { font-size:calc(12px*var(--ts,1)); }
+    #weaponName { font-size:calc(14px*var(--ts,1)); }
+    #round { font-size:calc(38px*var(--ts,1)); top:64px; }
+    #round small { font-size:calc(13px*var(--ts,1)); }
+    #score { font-size:calc(22px*var(--ts,1)); top:70px; }
+    #zone { font-size:calc(13px*var(--ts,1)); top:108px; }
+    #msg { font-size:calc(17px*var(--ts,1)); max-width:94%; }
+    #shopPrompt { font-size:calc(15px*var(--ts,1)); padding:10px 18px; }
+    .shop-buy-btn { font-size:calc(15px*var(--ts,1)); padding:12px 22px; }
+    .screen h1 { font-size:calc(30px*var(--ts,1)); letter-spacing:2px; }
+    .screen h2 { font-size:calc(17px*var(--ts,1)); margin-bottom:16px; }
+    .screen .keys { font-size:calc(15px*var(--ts,1)); line-height:1.9; margin-bottom:22px; max-width:92%; }
+    .screen button { font-size:calc(19px*var(--ts,1)); padding:13px 38px; }
+    #gameover .stats, #pause .stats { font-size:calc(18px*var(--ts,1)); }
   }
 
   /* ---------- BACK BUTTON ---------- */
   #back-btn { position:fixed; top:16px; left:16px; z-index:9999; pointer-events:all; background:rgba(10,12,14,.75); color:rgba(232,244,232,.75); border:1px solid rgba(232,244,232,.25); font-family:'Courier New',monospace; font-size:12px; letter-spacing:1px; padding:7px 14px; cursor:pointer; transition:background .2s,color .2s,border-color .2s; text-decoration:none; display:inline-block; }
   #back-btn:hover { background:rgba(232,244,232,.15); color:#e8f4e8; border-color:rgba(232,244,232,.6); }
   @media(pointer:coarse){
-    #back-btn { font-size:24px; padding:20px 28px; }
+    #back-btn { font-size:14px; padding:9px 14px; }
   }
 
   /* ---------- PAUSE ---------- */
@@ -103,7 +103,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   #pause-btn.on { display:flex; }
   #pause-btn:hover { background:rgba(232,244,232,.15); color:#e8f4e8; }
   @media(pointer:coarse){
-    #pause-btn { width:80px; height:80px; font-size:34px; }
+    #pause-btn { width:48px; height:48px; font-size:20px; }
   }
   #pause { display:none; z-index:9997; }
   #pause h1 { color:#9fffc0; text-shadow:0 0 24px rgba(120,255,170,.5); }
@@ -111,10 +111,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* ---------- SETTINGS ---------- */
   @media(pointer:fine){#settings-btn,#settings-panel{display:none!important;}}
   #settings-btn {
-    position:fixed; top:16px; right:108px; z-index:9999;
+    position:fixed; top:16px; right:72px; z-index:9999;
     background:rgba(10,12,14,.75); color:rgba(232,244,232,.75);
     border:1px solid rgba(232,244,232,.25); border-radius:50%;
-    width:80px; height:80px; font-size:38px; cursor:pointer;
+    width:48px; height:48px; font-size:22px; cursor:pointer;
     display:flex; align-items:center; justify-content:center;
     transition:background .2s,color .2s;
   }
@@ -252,7 +252,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
   <div class="sett-row">
     <label>Taille du texte</label>
-    <input type="range" id="sett-txtscale" min="1" max="1.6" step="0.05" value="1">
+    <input type="range" id="sett-txtscale" min="0.6" max="1.6" step="0.05" value="1">
     <div class="sett-val" id="sett-txtscale-val">100%</div>
   </div>
 </div>
