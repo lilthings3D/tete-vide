@@ -149,10 +149,28 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     background:rgba(251,247,240,0.94);backdrop-filter:blur(6px);
     border:1.5px solid rgba(46,34,24,0.22);border-radius:100px;
     padding:9px 26px;display:flex;flex-direction:column;align-items:center;
-    font-family:'Fraunces',serif;color:var(--ink-soft);pointer-events:none;min-width:180px;text-align:center;
+    font-family:'Fraunces',serif;color:var(--ink-soft);pointer-events:auto;cursor:pointer;min-width:180px;text-align:center;
   }
   #hud .cur{font-size:1.5rem;font-weight:600;color:var(--orange-deep);line-height:1.1;}
   #hud .rate{font-size:.78rem;font-style:italic;margin-top:1px;}
+  /* quand la boutique est ouverte, le score remonte en haut (la boutique couvre le bas sur mobile) */
+  body.shop-open #hud{top:60px;bottom:auto;}
+
+  /* raccourcis d'achat sous le bouton Boutique — un par truc achetable, même taille */
+  #quick-buy{position:fixed;top:58px;right:16px;z-index:150;display:flex;flex-direction:column;gap:6px;align-items:flex-end;}
+  body.shop-open #quick-buy{display:none;}
+  .qbtn{
+    width:170px;font-family:'Fraunces',serif;font-size:.85rem;font-weight:600;
+    background:rgba(251,247,240,0.96);border:1.5px solid #2ec16b;color:var(--ink);
+    border-radius:100px;padding:8px 14px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.14);
+    display:flex;align-items:center;justify-content:space-between;gap:8px;
+    animation:badge-pulse 1.5s ease-in-out infinite;
+  }
+  .qbtn .qn{display:flex;align-items:center;gap:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .qbtn .qc{font-size:.72rem;color:var(--orange-deep);font-weight:600;white-space:nowrap;flex-shrink:0;}
+  .qbtn:active{background:#dff5e7;}
+  .qbtn.qnext{border-color:var(--orange-deep);}
+  @media(max-width:600px){ .qbtn{width:150px;font-size:.8rem;} }
 
   /* SHOP */
   #shop{
@@ -237,6 +255,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <main id="pasture"></main>
 
 <div id="endgame">🤖 Le jeu se construit tout seul…</div>
+
+<div id="quick-buy"></div>
 
 <div id="hud">
   <span class="cur" id="hud-cur">0</span>
@@ -594,7 +614,7 @@ function nextRow(){
 }
 function renderShop(){
   const a=act();
-  shopTitle.innerHTML = a.cur.emoji+' Boutique <b>·</b>';
+  updateShopScore();   /* l'entête affiche le score live au lieu du mot "Boutique" */
   shopList.innerHTML='';
   a.tiers.forEach(t=> shopList.appendChild(itemRow(t)));
   const br=bonusRow(); if(br) shopList.appendChild(br);
@@ -638,9 +658,42 @@ function checkAnnounce(silent){
   });
 }
 
+/* ---- RACCOURCIS D'ACHAT (sous le bouton Boutique) ---- */
+const quickBuy = document.getElementById('quick-buy');
+function renderQuickBuy(){
+  if(shopEl.classList.contains('open')){ quickBuy.innerHTML=''; return; }
+  const a=act();
+  const items=[];
+  a.tiers.forEach(t=>{ if(isAffordable(t)) items.push({emoji:t.emoji, name:t.name, cost:costOf(t), fn:()=>buy(t)}); });
+  if(a.bonus){ const b=a.bonus, c=b.base*Math.pow(b.mul,S.bonus[b.id]||0); if(c<=curVal()) items.push({emoji:b.emoji, name:b.name, cost:c, fn:buyBonus}); }
+  let nextItem=null;
+  if(a.next && curVal()>=a.next.cost) nextItem={emoji:'🚀', name:a.next.title, cost:a.next.cost, fn:investNext};
+  quickBuy.innerHTML='';
+  items.forEach(it=>{
+    const btn=document.createElement('button'); btn.className='qbtn';
+    btn.innerHTML=`<span class="qn">${it.emoji} ${it.name}</span><span class="qc">${fmt(Math.ceil(it.cost))} ${a.cur.emoji}</span>`;
+    btn.onclick=()=>{ it.fn(); renderQuickBuy(); };
+    quickBuy.appendChild(btn);
+  });
+  if(nextItem){
+    const btn=document.createElement('button'); btn.className='qbtn qnext';
+    btn.innerHTML=`<span class="qn">${nextItem.emoji} ${nextItem.name}</span><span class="qc">${fmt(Math.ceil(nextItem.cost))} ${a.cur.emoji}</span>`;
+    btn.onclick=()=>{ nextItem.fn(); renderQuickBuy(); };
+    quickBuy.appendChild(btn);
+  }
+}
+
 /* ---- BOUTIQUE UI ---- */
-document.getElementById('shop-toggle').onclick=()=>{ shopEl.classList.toggle('open'); renderShop(); };
-document.getElementById('shop-close').onclick=()=>shopEl.classList.remove('open');
+function updateShopScore(){
+  const a=act();
+  const sub = a.sub ? ` <b style="font-weight:400;font-style:italic;font-size:.72rem;color:var(--ink-soft)">${a.sub.emoji} ${Math.floor(S['sub_'+a.key])}/${a.sub.per}</b>` : '';
+  shopTitle.innerHTML = fmt(Math.floor(curVal()))+' '+a.cur.emoji+sub;
+}
+function openShop(){ shopEl.classList.add('open'); document.body.classList.add('shop-open'); renderShop(); updateShopScore(); updateBadge(); }
+function closeShop(){ shopEl.classList.remove('open'); document.body.classList.remove('shop-open'); }
+document.getElementById('shop-toggle').onclick=()=>{ shopEl.classList.contains('open') ? closeShop() : openShop(); };
+document.getElementById('shop-close').onclick=closeShop;
+document.getElementById('hud').onclick=openShop;   /* cliquer le score ouvre la boutique */
 document.querySelectorAll('.buy-mode').forEach(btn=>{
   btn.onclick=()=>{ document.querySelectorAll('.buy-mode').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); buyMode=btn.dataset.mode; renderShop(); };
 });
@@ -648,15 +701,22 @@ document.getElementById('reset-btn').onclick=()=>{
   if(confirm('Tout effacer et repartir de zéro ?')){ localStorage.removeItem(SAVE_KEY); S=freshState(); announced=new Set(); document.body.className=''; clearFloaters(); endgameEl.classList.remove('on'); renderAll(); }
 };
 
-/* ---- PROGRESSION HORS-LIGNE ---- */
+/* ---- PROGRESSION HORS-LIGNE (marche sur ordinateur ET téléphone) ---- */
 (function offline(){
-  const dt=Math.min((Date.now()-(S.lastTs||Date.now()))/1000, 8*3600);
-  if(dt>5){ const em=act().sub?act().sub.emoji:act().cur.emoji; tick(dt); showMilestone('💤', 'De retour ! +'+fmt(perSecond()*dt)+' '+em+' pendant ton absence'); }
+  const dt=Math.min((Date.now()-(S.lastTs||Date.now()))/1000, 8*3600); // plafonné à 8 h
+  if(dt<=5) return;
+  const a=act(), key=a.key, before=S['earned_'+key];
+  const steps=Math.min(600, Math.max(1, Math.round(dt)));  // on simule par petits pas → la production à étages se compose correctement
+  const sdt=dt/steps;
+  for(let i=0;i<steps;i++) tick(sdt);
+  const gained=S['earned_'+key]-before;
+  if(gained>0) setTimeout(()=>showMilestone('💤', 'De retour ! +'+fmt(gained)+' '+a.cur.emoji+' pendant ton absence'), 500);
 })();
 
 /* ---- BOUCLE ---- */
 document.body.className = S.act===1?'act-1':S.act===2?'act-2':'';
 renderAll();
+renderQuickBuy();
 checkAnnounce(true);   // ne pas spammer au chargement : on marque ce qui est déjà achetable
 let last=performance.now(), acc=0, shopAcc=0, badgeAcc=0;
 function loop(now){
@@ -665,8 +725,11 @@ function loop(now){
   updateHUD();
   // auto-collect en endgame
   if(autoCollect>=0.5){ autoCollect=0; const f=pasture.querySelector('.floater'); if(f){ collect(f,null); f.remove(); } }
-  shopAcc+=dt; if(shopAcc>=0.4 && shopEl.classList.contains('open')){ shopAcc=0; renderShop(); }
-  badgeAcc+=dt; if(badgeAcc>=0.3){ badgeAcc=0; checkAnnounce(false); updateBadge(); }
+  if(shopEl.classList.contains('open')){
+    updateShopScore();                                    // score live en haut de la boutique
+    shopAcc+=dt; if(shopAcc>=0.4){ shopAcc=0; renderShop(); }
+  }
+  badgeAcc+=dt; if(badgeAcc>=0.3){ badgeAcc=0; checkAnnounce(false); updateBadge(); renderQuickBuy(); }
   acc+=dt; if(acc>=5){ acc=0; save(); }
   requestAnimationFrame(loop);
 }
@@ -681,6 +744,7 @@ function scheduleSpawn(){
 for(let i=0;i<4;i++) setTimeout(spawnFloater, i*500);
 setTimeout(scheduleSpawn, 1500);
 window.addEventListener('beforeunload', save);
+document.addEventListener('visibilitychange', ()=>{ if(document.hidden) save(); }); /* sauve à chaque fois qu'on quitte l'onglet */
 </script>
 <script>
 /* Bloque le zoom à deux doigts (pinch) sur mobile, sans empêcher le défilement à un doigt.
