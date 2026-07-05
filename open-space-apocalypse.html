@@ -12,6 +12,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
 <meta name="description" content="Un FPS de bureau où tu survis aux imprimantes zombies et machines à café à coups d'agrafeuse. Gratuit dans le navigateur.">
 <link rel="canonical" href="https://tete-vide.fr/open-space-apocalypse.html">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="icon" type="image/png" href="/vache.png">
 <link rel="apple-touch-icon" href="/vache.png">
 <meta name="theme-color" content="#FBF7F0">
@@ -162,7 +163,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* joysticks — taille de base pensée pour mobile, ×--bs (réglage "taille des boutons") */
   .mob-joy{
     position:absolute;bottom:16px;
-    width:calc(120px*var(--bs,1));height:calc(120px*var(--bs,1));border-radius:50%;
+    width:calc(96px*var(--bs,1));height:calc(96px*var(--bs,1));border-radius:50%;
     background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.3);
     pointer-events:auto;touch-action:none;
     display:flex;align-items:center;justify-content:center;
@@ -170,17 +171,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   #mob-joy-left{left:10px;}
   #mob-joy-right{right:10px;}
   .mob-knob{
-    width:calc(52px*var(--bs,1));height:calc(52px*var(--bs,1));border-radius:50%;
+    width:calc(42px*var(--bs,1));height:calc(42px*var(--bs,1));border-radius:50%;
     background:rgba(255,255,255,.5);border:2px solid rgba(255,255,255,.8);
     pointer-events:none;transition:transform .05s;
   }
 
   /* fire — à gauche, au-dessus du joystick gauche */
   #mob-fire{
-    position:absolute;left:10px;bottom:calc(26px + 120px*var(--bs,1));
-    width:calc(84px*var(--bs,1));height:calc(84px*var(--bs,1));border-radius:50%;
+    position:absolute;left:10px;bottom:calc(22px + 96px*var(--bs,1));
+    width:calc(66px*var(--bs,1));height:calc(66px*var(--bs,1));border-radius:50%;
     background:rgba(212,60,60,.7);border:2px solid rgba(255,100,100,.8);
-    color:#fff;font-size:calc(30px*var(--bs,1));
+    color:#fff;font-size:calc(24px*var(--bs,1));
     display:flex;align-items:center;justify-content:center;
     pointer-events:auto;touch-action:none;cursor:pointer;
   }
@@ -188,10 +189,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   /* reload — à droite du feu */
   #mob-reload{
-    position:absolute;left:calc(20px + 84px*var(--bs,1));bottom:calc(26px + 120px*var(--bs,1));
-    width:calc(60px*var(--bs,1));height:calc(60px*var(--bs,1));border-radius:50%;
+    position:absolute;left:calc(20px + 66px*var(--bs,1));bottom:calc(22px + 96px*var(--bs,1));
+    width:calc(48px*var(--bs,1));height:calc(48px*var(--bs,1));border-radius:50%;
     background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.35);
-    color:#e8f4e8;font-size:calc(18px*var(--bs,1));
+    color:#e8f4e8;font-size:calc(15px*var(--bs,1));
     display:flex;align-items:center;justify-content:center;
     pointer-events:auto;touch-action:none;cursor:pointer;
   }
@@ -199,17 +200,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   /* bouton action (⚔ ☕ 🏃) — à droite, au-dessus du joystick droit */
   #mob-action{
-    position:absolute;right:10px;bottom:calc(26px + 120px*var(--bs,1));
-    width:calc(84px*var(--bs,1));height:calc(84px*var(--bs,1));border-radius:50%;
+    position:absolute;right:10px;bottom:calc(22px + 96px*var(--bs,1));
+    width:calc(66px*var(--bs,1));height:calc(66px*var(--bs,1));border-radius:50%;
     background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.35);
-    color:#e8f4e8;font-size:calc(11px*var(--bs,1));line-height:1.2;text-align:center;
+    color:#e8f4e8;font-size:calc(10px*var(--bs,1));line-height:1.2;text-align:center;
     display:flex;align-items:center;justify-content:center;
     pointer-events:auto;touch-action:none;cursor:pointer;
     flex-direction:column;
   }
   #mob-action:active{background:rgba(255,255,255,.35);}
-  #mob-action span:first-child{font-size:calc(20px*var(--bs,1)) !important;}
-  #mob-action span:last-child{font-size:calc(9px*var(--bs,1)) !important;}
+  #mob-action span:first-child{font-size:calc(16px*var(--bs,1)) !important;}
+  #mob-action span:last-child{font-size:calc(8px*var(--bs,1)) !important;}
 
   @media(max-width:600px){
     .topbar{flex-wrap:wrap;padding-bottom:6px;}
@@ -246,7 +247,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
   <div class="sett-row">
     <label>Taille des boutons</label>
-    <input type="range" id="sett-btnscale" min="1" max="1.6" step="0.05" value="1">
+    <input type="range" id="sett-btnscale" min="0.6" max="1.6" step="0.05" value="1">
     <div class="sett-val" id="sett-btnscale-val">100%</div>
   </div>
   <div class="sett-row">

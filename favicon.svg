@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <rect width="32" height="32" rx="7" fill="#2e2218"/>
+  <!-- oreilles -->
+  <ellipse cx="6.5" cy="12" rx="3.4" ry="2.1" fill="#FBF7F0" transform="rotate(-28 6.5 12)"/>
+  <ellipse cx="25.5" cy="12" rx="3.4" ry="2.1" fill="#FBF7F0" transform="rotate(28 25.5 12)"/>
+  <!-- cornes -->
+  <path d="M9 8.5 Q8 5.5 10.5 5" stroke="#e7d9c2" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+  <path d="M23 8.5 Q24 5.5 21.5 5" stroke="#e7d9c2" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+  <!-- tête -->
+  <ellipse cx="16" cy="16.5" rx="9.2" ry="8.4" fill="#FBF7F0"/>
+  <!-- tache noire (façon Holstein) -->
+  <path d="M9.5 11 Q13 9 13.5 13 Q11 15.5 9 14 Q7.8 12 9.5 11 Z" fill="#2e2218"/>
+  <!-- yeux -->
+  <ellipse cx="12.4" cy="15" rx="1.5" ry="1.8" fill="#2e2218"/>
+  <ellipse cx="19.6" cy="15" rx="1.5" ry="1.8" fill="#2e2218"/>
+  <!-- museau -->
+  <ellipse cx="16" cy="21.4" rx="6" ry="4" fill="#e79aa0"/>
+  <ellipse cx="13.6" cy="21.3" rx="1.05" ry="1.5" fill="#7a4d52"/>
+  <ellipse cx="18.4" cy="21.3" rx="1.05" ry="1.5" fill="#7a4d52"/>
+</svg>

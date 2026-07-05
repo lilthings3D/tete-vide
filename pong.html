@@ -11,6 +11,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta charset="UTF-8">
 <meta name="description" content="Pong : le classique de 1974, en solo contre l'IA ou à deux sur le même clavier. Gratuit dans le navigateur.">
 <link rel="canonical" href="https://tete-vide.fr/pong.html">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="icon" type="image/png" href="/vache.png">
 <link rel="apple-touch-icon" href="/vache.png">
 <meta name="theme-color" content="#FBF7F0">
@@ -140,9 +141,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     font-family:'Fraunces',serif;font-size:.65rem;letter-spacing:1.5px;
     text-transform:uppercase;color:var(--ink-soft);
   }
+  /* SOLO : barres tactiles pleine largeur, au-dessus et en dessous du jeu */
+  .touch-bar{
+    display:none;width:100%;max-width:520px;justify-content:center;
+    padding:8px 12px;z-index:20;
+  }
+  .touch-bar button{
+    width:100%;height:56px;border:2px solid var(--ink);background:rgba(251,247,240,0.8);
+    font-size:1.8rem;color:var(--ink);border-radius:10px;
+    cursor:pointer;user-select:none;-webkit-user-select:none;touch-action:none;
+  }
+  .touch-bar button:active{background:var(--rule);}
   @media(pointer:coarse){
-    .touch-side{ display:flex; }
-    canvas{ max-width:calc(100% - 136px)!important; }
+    body.mode-duo .touch-side{ display:flex; }
+    body.mode-duo canvas{ max-width:calc(100% - 136px)!important; }
+    body.mode-solo .touch-bar{ display:flex; }
   }
 
   @media(max-width:600px){
@@ -184,7 +197,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <span id="ctrl-hint">Joueur : <strong>↑ ↓</strong> &nbsp;·&nbsp; IA joue à gauche (clavier : <strong>A Q</strong>)</span>
     &nbsp;&nbsp;·&nbsp;&nbsp; Match en 7 points
   </div>
+  <div id="touch-top" class="touch-bar"><button id="tt-up" aria-label="Monter">▲</button></div>
   <canvas id="c"></canvas>
+  <div id="touch-bottom" class="touch-bar"><button id="tb-down" aria-label="Descendre">▼</button></div>
 
   <div id="touch-right" class="touch-side">
     <div class="touch-label">J2</div>
@@ -427,10 +442,15 @@ bindTouch(document.getElementById('tl-up'),   'a');
 bindTouch(document.getElementById('tl-down'),  'q');
 bindTouch(document.getElementById('tr-up'),   'ArrowUp');
 bindTouch(document.getElementById('tr-down'), 'ArrowDown');
+/* solo : barres pleine largeur au-dessus/en dessous du jeu (raquette du joueur) */
+bindTouch(document.getElementById('tt-up'),   'ArrowUp');
+bindTouch(document.getElementById('tb-down'), 'ArrowDown');
 
 function updateTouchLabels(){
   const lbl=document.getElementById('label-left');
   const side=document.getElementById('touch-left');
+  document.body.classList.toggle('mode-solo', mode==='solo');
+  document.body.classList.toggle('mode-duo',  mode==='duo');
   if(mode==='solo'){
     lbl.textContent='IA'; side.style.opacity='0.3'; side.style.pointerEvents='none';
   } else {

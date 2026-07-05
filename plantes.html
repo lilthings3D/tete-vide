@@ -11,6 +11,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta charset="UTF-8">
 <meta name="description" content="Calendrier du jardinier mois par mois, fiches de 21 plantes, compagnonnage, diagnostic des maladies et quiz. Pour ne plus se planter, selon la saison.">
 <link rel="canonical" href="https://tete-vide.fr/plantes.html">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="icon" type="image/png" href="/vache.png">
 <link rel="apple-touch-icon" href="/vache.png">
 <meta name="theme-color" content="#FBF7F0">
@@ -266,6 +267,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .diag-cause-t{font-family:'Fraunces',serif;font-weight:600;color:var(--green);font-size:0.92rem;margin-bottom:3px;}
   .diag-cause-s{font-size:0.92rem;color:var(--ink-soft);line-height:1.6;}
 
+  /* PERMACULTURE */
+  .perma-intro{font-size:0.95rem;color:var(--ink-soft);margin-bottom:24px;max-width:660px;line-height:1.6;font-style:italic;}
+  .cours-list{border-top:1.5px solid var(--ink);}
+  .cours{border-bottom:1px solid var(--rule);}
+  .cours summary{list-style:none;cursor:pointer;padding:20px 42px 20px 0;font-family:'Fraunces',serif;font-size:1.05rem;font-weight:600;color:var(--ink);position:relative;transition:color .2s;display:flex;gap:14px;align-items:baseline;}
+  .cours summary::-webkit-details-marker{display:none;}
+  .cours summary:hover{color:var(--green);}
+  .cours-num{font-family:'Fraunces',serif;font-size:0.85rem;color:var(--green-light);font-weight:600;flex-shrink:0;}
+  .cours summary::after{content:"+";position:absolute;right:6px;top:18px;font-size:1.4rem;color:var(--green-mid);font-weight:400;}
+  .cours[open] summary::after{content:"–";}
+  .cours-body{padding:0 0 24px;font-size:0.95rem;line-height:1.7;color:var(--ink-soft);}
+  .cours-body b{color:var(--ink);font-weight:600;}
+  .cours-body .pt{display:block;margin-top:8px;padding-left:16px;border-left:2px solid var(--green-light);}
+
   footer.site{border-top:3px double var(--ink);padding:46px 0 70px;text-align:center;}
   footer .f-brand{font-family:'Fraunces',serif;font-style:italic;font-size:1.6rem;color:var(--green);}
   footer p{color:var(--ink-soft);font-size:0.9rem;margin-top:12px;max-width:460px;margin-left:auto;margin-right:auto;}
@@ -375,6 +390,52 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- DIAGNOSTIC -->
   <div class="sec-label" style="margin-top:56px;">Au secours, ma plante…</div>
   <div class="diag-list" id="diag-list"></div>
+
+  <!-- PERMACULTURE -->
+  <div class="sec-label" style="margin-top:56px;">Petits cours de permaculture</div>
+  <p class="perma-intro">La permaculture, ce n'est pas une technique de jardinage : c'est une façon de concevoir un jardin (ou une vie) qui imite le fonctionnement d'un écosystème. Neuf leçons pour commencer.</p>
+  <div class="cours-list">
+    <details class="cours">
+      <summary><span class="cours-num">01</span> Les trois éthiques</summary>
+      <div class="cours-body">Tout part de trois principes qui servent de boussole : <b>prendre soin de la Terre</b> (sols, eau, vivant), <b>prendre soin des humains</b>, et <b>partager équitablement</b> — c'est-à-dire redistribuer les surplus au lieu d'accumuler. Chaque décision au jardin peut se tester à l'aune de ces trois questions.</div>
+    </details>
+    <details class="cours">
+      <summary><span class="cours-num">02</span> Observer avant d'agir</summary>
+      <div class="cours-body">La première année, on regarde plus qu'on ne plante. Où passe le soleil selon la saison ? D'où vient le vent dominant ? Où l'eau stagne après la pluie ? Quelles herbes poussent spontanément (elles renseignent sur le sol) ?
+      <span class="pt">On conçoit ensuite <b>en fonction du terrain réel</b>, pas d'un plan idéal plaqué dessus.</span></div>
+    </details>
+    <details class="cours">
+      <summary><span class="cours-num">03</span> On ne retourne pas le sol</summary>
+      <div class="cours-body">Bêcher retourne et détruit la vie du sol : réseaux de champignons, vers de terre, bactéries, tout un monde qui fabrique la fertilité. En permaculture, on nourrit le sol <b>par le dessus</b> — compost, paillis, matière organique — et ce sont les organismes qui l'incorporent. C'est le principe du sol vivant : moins de travail, plus de vie.</div>
+    </details>
+    <details class="cours">
+      <summary><span class="cours-num">04</span> Un sol toujours couvert</summary>
+      <div class="cours-body">Un sol nu est une blessure : il se dessèche au soleil, se tasse sous la pluie, se lessive de ses nutriments. On le garde couvert en permanence — paillis (paille, feuilles, tontes), engrais verts, plantes couvre-sol.
+      <span class="pt">Règle simple : <b>si tu vois de la terre nue, couvre-la</b>. La nature ne la laisse jamais à découvert.</span></div>
+    </details>
+    <details class="cours">
+      <summary><span class="cours-num">05</span> Associer plutôt qu'aligner : les guildes</summary>
+      <div class="cours-body">Au lieu de rangs mono-espèces, on regroupe des plantes qui se rendent service. Une <b>guilde</b> typique : une grande plante qui structure et donne de l'ombre, une légumineuse qui fixe l'azote de l'air, une aromatique qui repousse les ravageurs, une couvre-sol qui garde l'humidité, une à fleurs qui attire les pollinisateurs. Un mini-écosystème qui s'auto-entretient. Voir la section « Bons et mauvais voisins ».</div>
+    </details>
+    <details class="cours">
+      <summary><span class="cours-num">06</span> Capter et ralentir l'eau</summary>
+      <div class="cours-body">L'eau qui ruisselle est de l'eau perdue. On la capte (cuves de récupération) et on la <b>ralentit</b> pour qu'elle s'infiltre sur place : noues (fossés peu profonds tracés le long des courbes de niveau), paillage épais, sols riches en matière organique qui font éponge.
+      <span class="pt">Objectif : que chaque goutte reste le plus longtemps possible sur le terrain.</span></div>
+    </details>
+    <details class="cours">
+      <summary><span class="cours-num">07</span> Le bord est le plus riche</summary>
+      <div class="cours-body">La lisière entre deux milieux — la berge entre l'eau et la terre, l'orée entre forêt et prairie — est la zone la plus vivante et la plus productive. C'est « l'effet de bordure ». En permaculture on <b>multiplie les bords</b> : massifs aux contours ondulés plutôt que rectangulaires, mares, haies, spirales d'aromatiques.</div>
+    </details>
+    <details class="cours">
+      <summary><span class="cours-num">08</span> Le problème est la solution</summary>
+      <div class="cours-body">Un excès quelque part révèle souvent un maillon manquant. Trop de limaces ? Il manque leurs prédateurs (canards, hérissons, carabes). Trop de vent ? Une haie brise-vent devient une ressource. Trop d'eau à un endroit ? Une mare.
+      <span class="pt">On cherche à <b>transformer la contrainte en fonction utile</b> plutôt qu'à la combattre.</span></div>
+    </details>
+    <details class="cours">
+      <summary><span class="cours-num">09</span> Zones et étages</summary>
+      <div class="cours-body">On range le jardin par <b>fréquence de visite</b> : les aromatiques et salades qu'on cueille tous les jours juste devant la porte (zone 1), le potager un peu plus loin, le verger encore au-delà, et la zone sauvage laissée à la biodiversité tout au fond (zone 5). Et on empile les <b>étages</b> comme dans une forêt : grands arbres, petits arbres, arbustes, vivaces, couvre-sol, grimpantes et racines — sept étages sur la même surface.</div>
+    </details>
+  </div>
 
   <!-- BIO -->
   <div class="sec-label" style="margin-top:56px;">Biologie végétale</div>
