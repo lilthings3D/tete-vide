@@ -234,7 +234,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <ul class="clues-list" id="clues-list"></ul>
       <div class="action-bar">
         <button class="btn-action" onclick="checkAnswers()">Vérifier</button>
-        <button class="btn-action danger" onclick="revealAll()">Révéler</button>
+        <button class="btn-action" onclick="revealCell()">💡 Indice</button>
+        <button class="btn-action danger" onclick="revealAll()">Tout révéler</button>
         <button class="btn-action" onclick="resetGrid()">Effacer</button>
       </div>
     </div>
@@ -842,6 +843,35 @@ function revealAll(){
       const l=el.querySelector('.cell-letter'); if(l) l.textContent=cell.letter;
     }
   }
+}
+
+// Indice : révèle UNE seule case (la case sélectionnée, sinon une case vide au hasard)
+function revealCell(){
+  if(!crossword) return;
+  if(checked) clearCheck();
+  let r=activeCellR, c=activeCellC;
+  const isEmptyTarget = (rr,cc)=>{
+    const cell=crossword.cells[rr] && crossword.cells[rr][cc];
+    return cell && cell.letter && (userInput[key(rr,cc)]||'')!==cell.letter;
+  };
+  // si aucune case active (ou déjà correcte), on prend une case non résolue au hasard
+  if(r<0 || c<0 || !isEmptyTarget(r,c)){
+    const targets=[];
+    for(let rr=0;rr<crossword.gridHeight;rr++)
+      for(let cc=0;cc<crossword.gridWidth;cc++)
+        if(isEmptyTarget(rr,cc)) targets.push([rr,cc]);
+    if(!targets.length) return;                 // grille déjà remplie correctement
+    [r,c]=targets[Math.floor(Math.random()*targets.length)];
+  }
+  const cell=crossword.cells[r][c];
+  userInput[key(r,c)]=cell.letter;
+  const el=cellEl(r,c);
+  if(el){
+    el.classList.remove('correct','wrong');
+    el.classList.add('revealed');
+    const l=el.querySelector('.cell-letter'); if(l) l.textContent=cell.letter;
+  }
+  advanceCursor();
 }
 
 function resetGrid(){
