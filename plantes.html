@@ -231,6 +231,28 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .now-col li::before{content:"—";position:absolute;left:0;color:var(--green-light);}
   .now-note{margin-top:20px;padding-top:16px;border-top:1px solid var(--green-light);font-style:italic;font-size:0.92rem;color:var(--ink-soft);}
 
+  /* SOMMAIRE (accès rapide aux sections) */
+  .sommaire{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:26px 0 2px;}
+  .som-link{font-family:'Fraunces',serif;font-size:0.82rem;font-weight:500;letter-spacing:0.3px;color:var(--ink-soft);text-decoration:none;border:1.5px solid var(--rule-strong);border-radius:100px;padding:7px 15px;background:var(--paper);transition:background .18s,color .18s,border-color .18s;}
+  .som-link:hover{border-color:var(--green);color:var(--green);background:var(--green-pale);}
+  /* décalage pour que le header collant ne masque pas les titres de section */
+  .sec-label,.now-band{scroll-margin-top:96px;}
+
+  /* FRUITS & LÉGUMES DE SAISON */
+  .saison-switch{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:24px;}
+  .saison-m{font-family:'Fraunces',serif;font-size:0.72rem;letter-spacing:1px;text-transform:uppercase;color:var(--ink-soft);border:1px solid var(--rule);background:none;padding:6px 11px;cursor:pointer;transition:background .15s,color .15s,border-color .15s;}
+  .saison-m:hover{border-color:var(--green);color:var(--green);}
+  .saison-m.active{background:var(--green);color:var(--cream);border-color:var(--green);}
+  .saison-cols{display:grid;grid-template-columns:1fr 1fr;gap:30px;}
+  @media(max-width:640px){.saison-cols{grid-template-columns:1fr;gap:24px;}}
+  .saison-h{font-family:'Fraunces',serif;font-size:0.95rem;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:8px;padding-bottom:9px;border-bottom:1px solid var(--rule);}
+  .saison-h.leg{color:var(--green);} .saison-h.fru{color:var(--rust);}
+  .saison-chips{display:flex;flex-wrap:wrap;gap:7px;}
+  .saison-chip{font-size:0.9rem;padding:6px 13px;border-radius:2px;}
+  .saison-chip.leg{background:var(--green-pale);color:var(--green);}
+  .saison-chip.fru{background:#f7e2df;color:var(--rust);}
+  .saison-note{margin-top:22px;font-size:0.92rem;font-style:italic;color:var(--ink-soft);line-height:1.6;border-top:1px solid var(--rule);padding-top:16px;}
+
   /* COMPAGNONNAGE */
   .compa-intro{font-size:0.95rem;color:var(--ink-soft);margin-bottom:22px;max-width:660px;line-height:1.6;}
   .compa-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px;}
@@ -322,11 +344,33 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p class="tagline">Pour pas se planter, selon la saison.</p>
   </section>
 
+  <!-- SOMMAIRE -->
+  <nav class="sommaire" aria-label="Sommaire de la page">
+    <a class="som-link" href="#sec-saison">🍓 De saison</a>
+    <a class="som-link" href="#sec-calendrier">📅 Calendrier</a>
+    <a class="som-link" href="#sec-plante">🔍 Ma plante</a>
+    <a class="som-link" href="#sec-voisins">🤝 Voisins</a>
+    <a class="som-link" href="#sec-astuces">💡 Astuces</a>
+    <a class="som-link" href="#sec-diagnostic">🚑 Diagnostic</a>
+    <a class="som-link" href="#sec-permaculture">🌱 Permaculture</a>
+    <a class="som-link" href="#sec-quiz">🧠 Quiz</a>
+  </nav>
+
   <!-- EN CE MOMENT -->
   <section class="now-band" id="now-band"></section>
 
+  <!-- FRUITS & LÉGUMES DE SAISON -->
+  <div class="sec-label" id="sec-saison" style="margin-top:56px;">Fruits &amp; légumes de saison</div>
+  <p class="perma-intro">Manger de saison, c'est meilleur au goût, moins cher et plus écologique. Voici ce qui est à son sommet ce mois-ci — change de mois pour anticiper tes courses.</p>
+  <div class="saison-switch" id="saison-switch"></div>
+  <div class="saison-cols">
+    <div><div class="saison-h leg">🥬 Légumes</div><div class="saison-chips" id="saison-leg"></div></div>
+    <div><div class="saison-h fru">🍎 Fruits</div><div class="saison-chips" id="saison-fru"></div></div>
+  </div>
+  <div class="saison-note" id="saison-note"></div>
+
   <!-- CALENDRIER -->
-  <div class="sec-label" style="margin-top:56px;">Calendrier du jardinier</div>
+  <div class="sec-label" id="sec-calendrier" style="margin-top:56px;">Calendrier du jardinier</div>
   <div class="cal-months" id="cal-months"></div>
   <div class="cal-panel" id="cal-panel">
     <div class="cal-panel-head">
@@ -337,7 +381,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 
   <!-- RECHERCHE PLANTE -->
-  <div class="sec-label" style="margin-top:56px;">Cherche ta plante</div>
+  <div class="sec-label" id="sec-plante" style="margin-top:56px;">Cherche ta plante</div>
   <div class="plant-search-wrap">
     <input class="plant-search-input" id="plant-input" type="text" placeholder="Tomate, basilic, lavande…" autocomplete="off">
     <div class="plant-results" id="plant-results"></div>
@@ -345,7 +389,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="plant-card" id="plant-card"></div>
 
   <!-- COMPAGNONNAGE -->
-  <div class="sec-label" style="margin-top:56px;">Bons et mauvais voisins</div>
+  <div class="sec-label" id="sec-voisins" style="margin-top:56px;">Bons et mauvais voisins</div>
   <p class="compa-intro">Au potager, certaines plantes s'entraident — elles repoussent les parasites de leurs voisines ou améliorent leur goût. D'autres se gênent. Choisis une plante pour voir avec qui l'installer, et qui éloigner.</p>
   <div class="compa-chips" id="compa-chips"></div>
   <div class="compa-panel" id="compa-panel"></div>
@@ -376,7 +420,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 
   <!-- TIPS -->
-  <div class="sec-label" style="margin-top:56px;">Ce qu’on apprend à ses dépens</div>
+  <div class="sec-label" id="sec-astuces" style="margin-top:56px;">Ce qu’on apprend à ses dépens</div>
   <div class="tips">
     <div class="tip"><div class="tip-num">01</div><div class="tip-body"><div class="tip-titre">Arroser le matin, jamais le soir</div><div class="tip-texte">L’eau stagnante sur les feuilles la nuit est un buffet pour les champignons. Le matin, la chaleur du jour assèche rapidement. Et les racines ont toute la journée pour boire.</div></div></div>
     <div class="tip"><div class="tip-num">02</div><div class="tip-body"><div class="tip-titre">Un sol vivant sent la forêt après la pluie</div><div class="tip-texte">Cette odeur, c’est la géosmine — un composé produit par les bactéries du sol en bonne santé. Si ta terre est inodore, elle est appauvrie. Ajoute du compost, pas des engrais chimiques.</div></div></div>
@@ -388,11 +432,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 
   <!-- DIAGNOSTIC -->
-  <div class="sec-label" style="margin-top:56px;">Au secours, ma plante…</div>
+  <div class="sec-label" id="sec-diagnostic" style="margin-top:56px;">Au secours, ma plante…</div>
   <div class="diag-list" id="diag-list"></div>
 
   <!-- PERMACULTURE -->
-  <div class="sec-label" style="margin-top:56px;">Petits cours de permaculture</div>
+  <div class="sec-label" id="sec-permaculture" style="margin-top:56px;">Petits cours de permaculture</div>
   <p class="perma-intro">La permaculture, ce n'est pas une technique de jardinage : c'est une façon de concevoir un jardin (ou une vie) qui imite le fonctionnement d'un écosystème. Neuf leçons pour commencer.</p>
   <div class="cours-list">
     <details class="cours">
@@ -448,7 +492,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="bio-card"><div class="bio-kicker">Défense</div><div class="bio-titre">Les plantes se défendent en silence</div><div class="bio-texte">Attaquées par des insectes, certaines plantes émettent des composés volatils qui <em>attirent les prédateurs naturels</em> de leurs agresseurs. D’autres envoient des signaux chimiques aux plantes voisines qui se défendent en prévention.</div></div>
   </div>
   <!-- QUIZ -->
-  <div class="sec-label" style="margin-top:56px;">Quiz — tu as suivi ?</div>
+  <div class="sec-label" id="sec-quiz" style="margin-top:56px;">Quiz — tu as suivi ?</div>
   <div class="quiz-wrap">
     <div class="quiz-progress" id="quiz-progress"></div>
     <div id="quiz-area">
@@ -862,6 +906,58 @@ const MOIS_NOTES=[
        ${col('À faire', cap(d.entretien,4))}
      </div>
      <div class="now-note">${MOIS_NOTES[currentMonth]}</div>`;
+})();
+
+/* ---- FRUITS & LÉGUMES DE SAISON (France) ---- */
+const SAISON_LEG=[
+  ["Betterave","Carotte","Chou","Chou de Bruxelles","Endive","Épinard","Mâche","Navet","Oignon","Panais","Poireau","Potiron","Salsifis","Topinambour"],
+  ["Betterave","Carotte","Chou","Endive","Épinard","Mâche","Navet","Oignon","Panais","Poireau","Salsifis","Topinambour"],
+  ["Betterave","Carotte","Chou","Cresson","Endive","Épinard","Navet","Oignon","Poireau","Radis"],
+  ["Asperge","Betterave","Blette","Carotte","Chou","Cresson","Épinard","Laitue","Navet","Oignon nouveau","Radis"],
+  ["Artichaut","Asperge","Aubergine","Betterave","Blette","Carotte","Concombre","Courgette","Épinard","Fève","Laitue","Navet","Petit pois","Radis"],
+  ["Artichaut","Asperge","Aubergine","Betterave","Blette","Carotte","Concombre","Courgette","Fève","Haricot vert","Laitue","Petit pois","Poivron","Radis","Tomate"],
+  ["Artichaut","Aubergine","Betterave","Blette","Brocoli","Carotte","Concombre","Courgette","Fenouil","Haricot vert","Laitue","Maïs","Poivron","Radis","Tomate"],
+  ["Aubergine","Betterave","Blette","Brocoli","Carotte","Concombre","Courgette","Fenouil","Haricot vert","Maïs","Poireau","Poivron","Tomate"],
+  ["Aubergine","Betterave","Blette","Brocoli","Carotte","Céleri","Concombre","Courge","Courgette","Épinard","Fenouil","Haricot","Maïs","Poireau","Poivron","Tomate"],
+  ["Betterave","Blette","Brocoli","Carotte","Céleri","Chou","Courge","Épinard","Fenouil","Mâche","Navet","Panais","Poireau","Potiron","Radis"],
+  ["Betterave","Carotte","Céleri","Chou","Courge","Endive","Épinard","Mâche","Navet","Panais","Poireau","Potiron","Salsifis","Topinambour"],
+  ["Betterave","Carotte","Céleri","Chou","Chou de Bruxelles","Endive","Épinard","Mâche","Navet","Panais","Poireau","Potiron","Salsifis","Topinambour"]
+];
+const SAISON_FRU=[
+  ["Citron","Clémentine","Kiwi","Mandarine","Orange","Poire","Pomme"],
+  ["Citron","Clémentine","Kiwi","Mandarine","Orange","Poire","Pomme"],
+  ["Citron","Kiwi","Orange","Poire","Pomme"],
+  ["Kiwi","Pomme","Rhubarbe"],
+  ["Cerise","Fraise","Rhubarbe"],
+  ["Abricot","Cassis","Cerise","Fraise","Framboise","Groseille","Melon","Pêche","Rhubarbe"],
+  ["Abricot","Cassis","Cerise","Figue","Fraise","Framboise","Groseille","Melon","Mirabelle","Myrtille","Nectarine","Pastèque","Pêche","Prune"],
+  ["Abricot","Figue","Framboise","Melon","Mirabelle","Mûre","Myrtille","Nectarine","Pastèque","Pêche","Prune","Raisin"],
+  ["Figue","Framboise","Melon","Mûre","Noisette","Poire","Pomme","Prune","Raisin"],
+  ["Châtaigne","Coing","Figue","Noix","Poire","Pomme","Raisin"],
+  ["Châtaigne","Clémentine","Coing","Kiwi","Mandarine","Noix","Orange","Poire","Pomme"],
+  ["Citron","Clémentine","Kiwi","Mandarine","Orange","Poire","Pomme"]
+];
+const MOIS_COURTS_S=["Jan","Fév","Mar","Avr","Mai","Juin","Juil","Août","Sep","Oct","Nov","Déc"];
+(function(){
+  const sw=document.getElementById('saison-switch');
+  const legEl=document.getElementById('saison-leg');
+  const fruEl=document.getElementById('saison-fru');
+  const noteEl=document.getElementById('saison-note');
+  let sel=currentMonth;
+  function renderSaison(){
+    legEl.innerHTML=SAISON_LEG[sel].map(x=>`<span class="saison-chip leg">${x}</span>`).join('');
+    fruEl.innerHTML=SAISON_FRU[sel].map(x=>`<span class="saison-chip fru">${x}</span>`).join('');
+    noteEl.textContent= sel===currentMonth
+      ? `En ${MOIS_LONGS[sel].toLowerCase()}, ce sont ces produits qu'on trouve le plus frais, les plus savoureux et les moins chers sur les étals.`
+      : `Aperçu de ${MOIS_LONGS[sel].toLowerCase()} — pour planifier tes courses et ton potager à l'avance.`;
+    sw.querySelectorAll('.saison-m').forEach((b,i)=>b.classList.toggle('active',i===sel));
+  }
+  MOIS_COURTS_S.forEach((m,i)=>{
+    const b=document.createElement('button'); b.className='saison-m'; b.textContent=m;
+    b.onclick=()=>{ sel=i; renderSaison(); };
+    sw.appendChild(b);
+  });
+  renderSaison();
 })();
 
 /* ---- BONS ET MAUVAIS VOISINS (compagnonnage) ---- */
