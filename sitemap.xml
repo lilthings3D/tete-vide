@@ -79,6 +79,12 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://tete-vide.fr/chasse.html</loc>
+    <lastmod>2026-07-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://tete-vide.fr/lilthings3d.html</loc>
     <lastmod>2026-07-03</lastmod>
     <changefreq>monthly</changefreq>
