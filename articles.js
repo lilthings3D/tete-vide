@@ -1,5 +1,299 @@
 const ARTICLES = [
   {
+    id: "chemin-nulle-part",
+    titre: "Seul sur un chemin qui ne mène nulle part",
+    sousTitre: "Sur ces moments où on avance sans savoir vers quoi",
+    cat: "Vivre",
+    tweet: "« Je suis tout seul sur un chemin qui ne va nulle part. » Parfois c'est le constat le plus lucide qu'on puisse faire. Reste à savoir ce qu'on en fait.",
+    minutes: 2,
+    brouillon: true,
+    corps: `<p>Je me suis noté ça un soir : <em>je suis tout seul sur un chemin qui ne va nulle part</em>. Sur le moment c'est glaçant à écrire. Mais en le relisant je me demande si ce n'est pas la phrase la plus honnête que je me sois dite depuis longtemps.</p>
+
+<p>On passe notre temps à faire semblant du contraire. On se raconte qu'on a un cap, un plan, une destination — parce qu'avouer qu'on avance à l'aveugle, entouré de personne, ça fait peur. Mais la plupart des chemins ne mènent nulle part de précis. On marche, c'est tout. Et le fait de ne pas savoir où on va ne veut pas dire qu'on s'est perdu ; ça veut peut-être juste dire qu'on n'a pas encore inventé la raison de marcher.</p>
+
+<p>La solitude, elle, est plus dure à retourner. Mais je remarque un truc : c'est souvent dans ces moments-là, seul sur le chemin qui ne va nulle part, que je pense le plus clairement. Comme si le vide autour laissait enfin de la place. Je ne sais pas si le chemin mène quelque part. Je sais juste que pour l'instant, c'est le mien, et que je suis encore dessus.</p>`
+  },
+  {
+    id: "touche-a-tout-marche",
+    titre: "Fait pour toucher à tout, sommé de me spécialiser",
+    sousTitre: "Sur la mécanique qui va de la performance à l'ennui",
+    cat: "Société",
+    tweet: "L'humain est fait pour toucher à plein de choses. Le marché, lui, récompense la spécialisation. Et de la spécialisation à l'ennui, il n'y a qu'une pente.",
+    minutes: 2,
+    brouillon: true,
+    corps: `<p>Une idée qui me trotte : <em>l'humain est fait pour toucher à plein de choses, mais le marché pousse à la performance, donc à la spécialisation, donc à la monotonie, donc à l'ennui.</em> C'est une petite chaîne logique et chaque maillon me paraît solide.</p>
+
+<p>Regarde un gamin. Il veut tout essayer : grimper, dessiner, casser, chanter faux, comprendre comment marche une fourmi. C'est ça, être vivant — se disperser dans le monde. Puis on grandit et on nous explique gentiment qu'il faut « choisir une voie ». Traduction : deviens excellent dans une chose et abandonne les neuf autres. Le marché ne paie pas la polyvalence, il paie l'expertise. Alors on se rétrécit pour valoir plus cher.</p>
+
+<p>Le problème c'est qu'au bout de la spécialisation, il y a la répétition. Faire la même chose, de mieux en mieux, de plus en plus vite. Et la répétition, aussi rentable soit-elle, ça a un nom : l'ennui. On a échangé notre curiosité contre de la performance, et personne ne nous a prévenus que le change se faisait à perte. J'ai pas de solution propre. Juste l'envie de garder, à côté de la voie qu'on m'a demandé de choisir, une poignée de trucs où je reste volontairement mauvais. Juste pour continuer de toucher à tout.</p>`
+  },
+  {
+    id: "vie-vide-anesthesiants",
+    titre: "Remplir le vide avec des anesthésiants",
+    sousTitre: "Sur ce qu'on met dans nos vies quand elles sonnent creux",
+    cat: "Vivre",
+    tweet: "Si ta vie est vide, tu cherches à la remplir — alcool, drogue, écrans, n'importe quel anesthésiant. Mais on n'a jamais rempli un vide en l'endormant.",
+    minutes: 2,
+    brouillon: true,
+    corps: `<p><em>Si ta vie est vide, tu cherches à la remplir avec l'alcool, la drogue ou toutes sortes d'anesthésiants.</em> Je me suis noté ça, et le mot qui compte c'est « anesthésiant ». Parce qu'un anesthésiant, par définition, ne remplit rien. Il endort. Ce n'est pas le contraire du vide, c'est le contraire de la douleur.</p>
+
+<p>Et je crois que c'est là qu'on se trompe. On croit qu'on cherche à remplir quelque chose, alors qu'on cherche juste à ne plus le sentir. Le verre, la taffe, le scroll infini : ça ne comble pas, ça met en sourdine. Le vide est toujours là après, un peu plus grand même, parce qu'on lui a ajouté la honte du lendemain.</p>
+
+<p>Ce qui remplit vraiment une vie, c'est bizarrement des trucs qui font un peu mal au début : apprendre un truc difficile, tenir une relation, créer quelque chose de moche avant qu'il devienne bien. Rien d'anesthésiant là-dedans, au contraire — ça réveille. Peut-être que le vrai signe qu'on remplit sa vie plutôt qu'on l'endort, c'est qu'on sent les choses plus fort, pas moins.</p>`
+  },
+  {
+    id: "argent-questions",
+    titre: "Sans argent on questionne le monde, avec on questionne son compte",
+    sousTitre: "Sur ce que l'argent fait au type de questions qu'on se pose",
+    cat: "Société",
+    tweet: "Ne pas avoir d'argent mène à se poser des questions sur le monde. En avoir mène à se demander comment en avoir toujours plus. Le confort rétrécit le champ des questions.",
+    minutes: 2,
+    brouillon: true,
+    corps: `<p>Une observation qui me revient : <em>ne pas avoir d'argent mène à se poser des questions sur le monde ; en avoir amène à se demander comment faire pour en avoir toujours.</em> Ce n'est pas une critique des riches, c'est une remarque sur ce que fait le confort à notre tête.</p>
+
+<p>Quand tu manques, tu es forcé de regarder le système en face. Pourquoi c'est si cher de vivre, pourquoi certains ont tout, qui décide, comment on en est arrivé là. Le manque rend philosophe, presque malgré lui. Tu poses de grandes questions parce que ta situation t'y oblige.</p>
+
+<p>Et puis l'argent arrive, et quelque chose se referme. Les questions ne disparaissent pas, elles changent d'échelle : elles rétrécissent. On passe de « comment marche le monde ? » à « comment sécuriser ce que j'ai et en tirer plus ? ». La curiosité pour le tout devient un souci de gestion du sien. Je ne sais pas si c'est évitable. Mais ça m'aide de le savoir : le jour où j'aurai de quoi, il faudra que je me force à garder les grandes questions ouvertes, parce que le confort, lui, va tout faire pour me les faire oublier.</p>`
+  },
+  {
+    id: "alcool-personnalite",
+    titre: "L'alcool n'est pas un trait de personnalité",
+    sousTitre: "Sur ce qu'on prend pour un caractère et qui n'est qu'une habitude",
+    cat: "Société",
+    tweet: "« L'alcool, c'est pas un trait de personnalité. » On a tellement mélangé les deux qu'on ne sait plus dire qui est drôle et qui est juste bourré.",
+    minutes: 2,
+    brouillon: true,
+    corps: `<p>Il faut que je le pose quelque part : <em>l'alcool, c'est pas un trait de personnalité.</em> On a fini par confondre les deux à un point qui me sidère. « Lui c'est un bon vivant », « elle est marrante en soirée » — la moitié du temps on décrit une substance, pas une personne.</p>
+
+<p>Le truc pervers, c'est que la boisson emprunte les habits du caractère. Elle rend bavard, désinhibé, tactile, léger. Tout ce qu'on aimerait être. Alors on s'attache à la version alcoolisée de soi comme si c'était la vraie, la bonne, la fun — et on commence à se méfier de soi à jeun, jugé trop terne à côté.</p>
+
+<p>Sauf que ta personnalité, c'est ce qui reste quand rien ne t'aide. Le sens de l'humour qui tient sans verre, la douceur qui n'a pas besoin de trois bières pour sortir. Je ne fais pas la morale, je bois aussi. Je note juste que le jour où on croit que notre intérêt tient dans un verre, on a arrêté de croire à ce qu'on est vraiment. Et ça, c'est plus triste qu'une gueule de bois.</p>`
+  },
+  {
+    id: "moi-ou-le-marche",
+    titre: "Est-ce moi qui veux, ou le marché qui me souffle ?",
+    sousTitre: "Sur l'impossibilité de distinguer ses désirs de ceux qu'on nous vend",
+    cat: "Monde moderne",
+    tweet: "Comment je sais si c'est vraiment moi qui veux quelque chose, ou si c'est le marché qui m'a soufflé l'envie ? La question la plus dérangeante que je me pose.",
+    minutes: 2,
+    brouillon: true,
+    corps: `<p>La question qui me poursuit : <em>comment je sais si c'est moi qui veux quelque chose, ou si c'est le marché qui me souffle l'idée ?</em> Et le plus flippant, c'est que je n'arrive pas à trancher. À chaque désir, il y a un doute : est-ce vraiment le mien, ou est-ce qu'on me l'a installé ?</p>
+
+<p>Le voyage, la montre, la vie « libre » de freelance sur une plage, la maison, même l'idée de ce qui est « une belle vie » — je peux retracer, pour presque chacun, une pub, un film, un feed qui me l'a vendu bien avant que je le « veuille ». Le marché ne se contente pas de répondre à nos envies, il les fabrique en amont, puis nous vend la solution. C'est un système qui te crée une soif pour te vendre de l'eau.</p>
+
+<p>Je ne crois pas qu'on puisse s'en extraire complètement — on baigne dedans depuis l'enfance. Mais j'ai trouvé un petit test imparfait : est-ce que je voudrais encore ce truc si personne ne pouvait le voir ? Si l'envie survit sans le regard des autres, elle a des chances d'être un peu à moi. Si elle s'effondre dès qu'il n'y a plus de public, c'est qu'elle ne m'a jamais appartenu.</p>`
+  },
+  {
+    id: "fatigue-de-la-route",
+    titre: "Pourquoi la route fatigue",
+    sousTitre: "Sur cet épuisement particulier qui n'a rien à voir avec l'effort",
+    cat: "Penser",
+    tweet: "Pourquoi c'est fatigant, la route ? On est assis, on ne fait rien, et pourtant on arrive vidé. Petite enquête sur une fatigue qui ne vient pas des muscles.",
+    minutes: 2,
+    brouillon: true,
+    corps: `<p>Une question bête qui me travaille : <em>pourquoi c'est fatigant, la route ?</em> Tu es assis, immobile, tu ne portes rien, tu ne cours pas. Et pourtant, au bout de quelques heures, tu es lessivé comme après une journée de travail. La fatigue ne vient pas du corps. Alors elle vient d'où ?</p>
+
+<p>Je crois qu'elle vient de la vigilance. Conduire, c'est laisser tourner en fond une petite alarme permanente : cette voiture, ce panneau, ce type qui déboîte, cette sortie à ne pas rater. Rien de dramatique, mais rien qui s'arrête non plus. Le cerveau ne se pose jamais complètement. Et cette tension basse, continue, invisible, use bien plus qu'un gros effort ponctuel.</p>
+
+<p>Et je me demande si beaucoup de nos fatigues ne sont pas de ce genre-là. Pas la fatigue de ce qu'on fait, mais de tout ce qu'on surveille en même temps. Les mails à moitié lus, les relations à gérer, les cent petites vigilances de fond. On croit être crevé par nos actes, alors qu'on est crevé par notre attention qui ne se coupe jamais. La route, c'est peut-être juste la version visible de ça.</p>`
+  },
+  {
+    id: "ia-partout-place-humain",
+    titre: "Si les IA gèrent tout, où est la place de l'humain ?",
+    sousTitre: "Expérience de pensée sur une administration parfaite",
+    cat: "Monde moderne",
+    tweet: "Expérience de pensée : les IA occupent tous les postes de gestion, l'administration tourne presque à la perfection. Alors qu'est-ce qui compte, et où est la place de l'humain ?",
+    minutes: 2,
+    brouillon: true,
+    corps: `<p>Petite expérience de pensée. <em>Les IA sont à tous les postes de gestion, l'administration fonctionne quasiment à la perfection.</em> Plus d'erreurs de dossier, plus d'attente, plus de décisions absurdes. Tout est optimisé. Et là, la vraie question tombe : <em>qu'est-ce qui est important ? Où est la place de l'humain ?</em></p>
+
+<p>Parce qu'on a passé des siècles à définir notre valeur par notre utilité. Je vaux parce que je produis, je gère, je décide, je répare. Or dans ce scénario, tout ça est fait mieux que nous, sans nous. Si on n'est plus utiles, on découvre soudain qu'on ne sait plus très bien pourquoi on est là. C'est vertigineux, et un peu humiliant.</p>
+
+<p>Mais peut-être que c'est une bonne nouvelle déguisée. Si la machine gère l'utile, il ne nous reste que l'inutile — et l'inutile, c'est exactement là où vit tout ce qui compte. Aimer, créer pour rien, traîner avec des gens, s'émerveiller, se raconter des histoires. Rien de tout ça n'a jamais servi à faire tourner une administration. La place de l'humain, dans ce monde-là, ce ne serait plus de faire marcher les choses. Ce serait de leur donner un sens. Et ça, aucune gestion parfaite ne saura jamais le faire à notre place.</p>`
+  },
+  {
+    id: "croissant-enfer-invisible",
+    titre: "Il propose un croissant, il ignore l'enfer que je traverse",
+    sousTitre: "Sur tout ce qui se passe en nous et que personne ne voit",
+    cat: "Émotions",
+    tweet: "Dans ma tête c'était la panique totale, je voyais noir comme rarement. Mon pote dit « on va se prendre un croissant ». Il n'a aucune idée de l'enfer que je traverse.",
+    minutes: 2,
+    brouillon: true,
+    corps: `<p>Je veux me souvenir de ce moment. <em>Dans ma tête c'était la panique totale, je voyais noir comme rarement. Puis j'entends mon pote dire « on va se prendre un croissant », et là je dis t'as raison, j'ai un peu faim peut-être. Il n'a aucune idée de l'enfer que je traverse.</em></p>
+
+<p>Ce qui me frappe, ce n'est pas la panique. C'est l'écart. À l'intérieur, tout s'effondre ; à l'extérieur, je parle viennoiseries d'une voix normale. Et l'autre, en face, de la meilleure foi du monde, ne voit rien. Comment il verrait ? Rien ne dépasse. On peut se tenir juste à côté de quelqu'un qui brûle et lui proposer un café.</p>
+
+<p>Depuis, je regarde les gens différemment. Ce type dans le métro au visage neutre, la caissière, le pote qui rigole : je n'ai aucune idée de ce qui se joue dans leur tête à cet instant. Peut-être rien. Peut-être un enfer complet, tenu à bout de bras derrière un visage normal. On croise chaque jour des dizaines d'enfers invisibles et on leur propose des croissants. Ce n'est pas de l'indifférence. C'est juste qu'on ne voit pas. Alors autant partir du principe que tout le monde porte quelque chose — et être un peu plus doux, au cas où.</p>`
+  },
+  {
+    id: "dystopie-ascenseurs",
+    titre: "La dystopie commence par couper les ascenseurs",
+    sousTitre: "Sur ces renoncements présentés comme du bon sens",
+    cat: "Société",
+    tweet: "Dans une dystopie, on arrête les « dépenses inutiles ». Comme les ascenseurs. Et le plus effrayant, c'est que ça se présente toujours comme raisonnable.",
+    minutes: 2,
+    brouillon: true,
+    corps: `<p>Une image qui me reste : <em>dans une dystopie, on arrête les dépenses inutiles, comme les ascenseurs.</em> Je trouve ça juste parce que ce n'est pas spectaculaire. On imagine toujours la dystopie avec des drones et des uniformes. Alors qu'elle arrive plutôt par petites coupes « de bon sens ».</p>
+
+<p>L'ascenseur, c'est le parfait exemple. C'est cher, ça consomme, ça tombe en panne. Pour un esprit purement comptable, c'est un luxe. Sauf que sans lui, la personne âgée du cinquième ne sort plus, celle en fauteuil est piégée, la mère avec la poussette renonce. Un truc qu'on croyait « inutile » tenait en fait tout un pan de vie possible pour les plus faibles. On ne le voit qu'une fois coupé.</p>
+
+<p>Et c'est ça qui me fait peur : la dystopie ne se présente jamais comme telle. Elle se présente comme de la rigueur, de l'efficacité, du réalisme. « On ne peut plus se permettre. » Chaque renoncement, pris seul, semble raisonnable. C'est la somme qui devient un cauchemar. Alors quand j'entends « dépense inutile », j'essaie maintenant de demander : inutile pour qui, exactement ? Parce que c'est souvent le confort des uns qu'on appelle un luxe, et c'est toujours par eux qu'on commence à couper.</p>`
+  },
+  {
+    id: "personne-ne-va-bien",
+    titre: "Personne ne va vraiment, profondément bien",
+    sousTitre: "Sur une phrase de Will Smith qui ne me lâche pas",
+    cat: "Émotions",
+    tweet: "« J'ai le sentiment que personne ne va vraiment, totalement, profondément bien. » L'idée est déprimante au premier abord. Et étrangement, elle console.",
+    minutes: 2,
+    brouillon: true,
+    corps: `<p>Une phrase attribuée à Will Smith m'a cueilli : <em>j'ai le sentiment que personne ne va vraiment, totalement, profondément bien.</em> Dit comme ça, ça a l'air d'un constat de déprime. Mais plus j'y pense, plus j'y trouve autre chose : une forme de soulagement.</p>
+
+<p>Parce qu'on passe notre vie à comparer notre intérieur au tumulte des autres, à leur façade. On voit des gens qui rient, qui postent, qui avancent, et on se dit qu'eux vont bien, que le problème c'est nous. On se sent en défaut d'un bonheur que tout le monde semble avoir sauf soi.</p>
+
+<p>Or si personne ne va profondément bien — pas le voisin lisse, pas la star, pas le pote solide — alors ce n'est plus un échec personnel. C'est juste la condition. On porte tous quelque chose, même les plus souriants, surtout eux parfois. Ça ne rend pas les choses roses. Mais ça enlève la solitude et la honte. On n'est pas le seul bateau qui prend l'eau au milieu d'une flotte impeccable. La flotte entière tangue, discrètement. Et on peut au moins tanguer ensemble.</p>`
+  },
+  {
+    id: "survie-du-plus-grand-nombre",
+    titre: "La force d'une société, c'est de protéger ses faibles",
+    sousTitre: "Sur ce qui découle vraiment de vouloir la survie du plus grand nombre",
+    cat: "Société",
+    tweet: "On veut la survie du plus grand nombre. Alors c'est logique : une société qui réussit produit des gens de plus en plus « faibles », parce qu'elle les garde en vie. C'est peut-être ça, la civilisation.",
+    minutes: 2,
+    brouillon: true,
+    corps: `<p>Je me suis noté une idée qui m'a d'abord dérangé : <em>on veut la survie du plus grand nombre, donc c'est logique qu'on voie une société d'aide, avec des gens de plus en plus faibles.</em> Formulé comme ça, ça sonne presque cynique. Mais en le déroulant, j'arrive à l'inverse de ce que je craignais.</p>
+
+<p>Dans la nature, le faible meurt. La force d'un groupe animal, c'est la force de ses individus. Une société humaine fait exactement le contraire : elle garde en vie ceux que la nature aurait éliminés — le malade, le vieux, le fragile, celui qui ne « produit » rien. Donc oui, mécaniquement, plus une société protège, plus elle compte de gens qui, seuls, ne survivraient pas. Ce n'est pas un bug. C'est le but.</p>
+
+<p>Et c'est peut-être la définition la plus simple de la civilisation : un endroit où ta survie ne dépend plus de ta force individuelle. Ça a un prix, et un revers — à force d'être protégés, on peut s'atrophier, oublier ce qu'on savait faire seuls. Mais je préfère mille fois une société de gens « faibles » qu'on soutient à une société de gens « forts » qu'on laisse s'entretuer. La vraie puissance d'un groupe, ce n'est pas la robustesse de chacun. C'est le soin que chacun peut recevoir sans avoir à le mériter.</p>`
+  },
+  {
+    id: "raison-de-raler",
+    titre: "Je cherche une raison de râler",
+    sousTitre: "Sur ces jours où on veut être de mauvaise humeur",
+    cat: "Soi",
+    tweet: "Certains jours, je cherche activement une raison de râler. Comme si la mauvaise humeur était déjà là, et qu'il ne lui manquait qu'un prétexte.",
+    minutes: 2,
+    brouillon: true,
+    corps: `<p>Aveu pas glorieux : <em>je cherche une raison de râler.</em> Certains matins, l'humeur est déjà pourrie avant le moindre événement, et je me surprends à fouiller le réel pour lui trouver une justification. Un feu rouge, un message, une contrariété minuscule — je saute dessus, presque soulagé : « ah, voilà pourquoi je suis énervé ».</p>
+
+<p>Ce qui est troublant, c'est l'ordre des choses. Je croyais que le prétexte venait d'abord et l'humeur ensuite. En réalité c'est l'inverse : l'humeur est là en premier, et elle se cherche une cause après coup, pour se rendre respectable. La mauvaise foi ne ment pas sur ce qui l'énerve, elle ment sur le fait que c'est ça qui l'énerve.</p>
+
+<p>Depuis que je l'ai repéré, ça marche un peu moins. Quand je me sens partir à la chasse au motif, je me demande : est-ce que ce truc m'aurait vraiment agacé un jour où je vais bien ? Le plus souvent, non. Alors ce n'est pas le monde qui déconne, c'est moi qui suis mal luné et qui lui cherche des poux. Ça ne dissout pas la mauvaise humeur. Mais ça évite au moins de la déverser sur des innocents — le feu rouge n'y était pour rien.</p>`
+  },
+  {
+    id: "envie-d-etre-different",
+    titre: "On veut tous être différents (et on se justifie)",
+    sousTitre: "Sur nos choix de vie et les histoires qu'on se raconte dessus",
+    cat: "Soi",
+    tweet: "On a tous envie d'être différents. Et on passe un temps fou à trouver des justifications à nos choix de vie — comme si vivre ne suffisait pas, il fallait aussi avoir raison de vivre comme ça.",
+    minutes: 2,
+    brouillon: true,
+    corps: `<p>Un constat sur nous tous : <em>on a tous envie d'être différents, on cherche des justifications pour nos choix de vie.</em> Le sédentaire justifie sa stabilité, le nomade justifie sa liberté, celui qui a des enfants et celui qui n'en veut pas ont chacun leur petit discours prêt. Comme si le choix ne suffisait pas : il faudrait en plus prouver qu'on a eu raison.</p>
+
+<p>Et il y a une contradiction marrante là-dedans. On veut être différent — donc singulier, à part — mais on a besoin que les autres valident cette différence. On veut se démarquer <em>et</em> être approuvé. Du coup on ne fait pas vraiment nos choix : on construit un dossier de défense au cas où on nous demanderait des comptes. On vit une vie plaidoirie.</p>
+
+<p>Ce qui me fait envie, à l'inverse, c'est les rares personnes qui ne justifient rien. Qui vivent comme elles vivent sans mode d'emploi ni argumentaire. Pas par arrogance — juste parce que la question « pourquoi tu vis comme ça ? » ne leur semble pas mériter de procès. Je crois que le vrai signe qu'un choix est vraiment le tien, c'est le jour où tu n'as plus besoin de le défendre.</p>`
+  },
+  {
+    id: "bientot-mourir",
+    titre: "L'impression que je vais bientôt mourir",
+    sousTitre: "Sur ce pressentiment qui débarque sans prévenir",
+    cat: "Émotions",
+    tweet: "« J'ai l'impression que je vais bientôt mourir. » Ça débarque sans raison, ça serre la poitrine. Et parfois, à défaut d'être vrai, ça remet drôlement les choses en place.",
+    minutes: 2,
+    brouillon: true,
+    corps: `<p>Ça me tombe dessus parfois, sans crier gare : <em>j'ai l'impression que je vais bientôt mourir.</em> Aucun signe, aucune raison, juste une certitude sourde qui s'installe dans la poitrine. Ça n'a rien de rationnel, et pourtant sur le moment c'est plus réel que tout le reste.</p>
+
+<p>Je ne sais pas d'où ça vient. De l'angoisse déguisée, sûrement — le cerveau qui prend une peur diffuse et lui colle l'étiquette la plus grosse qu'il trouve. Mais je remarque que ce pressentiment, aussi désagréable soit-il, fait un drôle de travail. Il balaie d'un coup tout ce qui m'obsédait cinq minutes avant. Les petits soucis, les rancunes, les listes de choses à faire : plus rien ne pèse en face de « et si c'était bientôt fini ».</p>
+
+<p>Alors je ne sais pas quoi en faire, de cette impression. Je n'y crois pas vraiment et je n'arrive pas à la chasser non plus. Je me contente de l'écouter un instant, comme un rappel un peu brutal : puisque je ne sais pas combien il m'en reste, autant ne pas gâcher celui d'aujourd'hui à ruminer des broutilles. C'est peut-être ça, sa seule utilité. Me faire regarder ma vie comme si elle était comptée. Parce qu'au fond, elle l'est.</p>`
+  },
+  {
+    id: "valeur-par-rapport-aux-femmes",
+    titre: "J'ai toujours mesuré ma valeur à l'aune des femmes",
+    sousTitre: "Sur une jauge intérieure qu'on n'a pas choisie",
+    cat: "Soi",
+    tweet: "J'ai toujours mesuré ma valeur par rapport aux femmes. Comme si tout le reste — ce que je fais, ce que je pense — ne comptait que pour ce que ça rapporte de ce côté-là.",
+    minutes: 2,
+    brouillon: true,
+    corps: `<p>Un truc que je m'avoue à moitié : <em>j'ai toujours mesuré ma valeur par rapport aux femmes.</em> Le regard d'une femme, son intérêt ou son indifférence, a longtemps été mon vrai bulletin de notes. Le reste — ce que je crée, ce que je comprends, les gens que j'aide — ne comptait un peu que dans la mesure où ça pouvait, indirectement, jouer là-dessus.</p>
+
+<p>Le problème d'une jauge pareille, c'est qu'elle est entièrement dehors, entre les mains de quelqu'un d'autre. Ma valeur monte ou s'effondre selon un signal que je ne contrôle pas. Un silence, et je ne vaux plus rien. Une attention, et je me sens exister. C'est une vie de yo-yo, suspendue à des gens qui, eux, ne se doutent même pas qu'ils tiennent la corde.</p>
+
+<p>Je ne sais pas bien d'où ça vient — l'éducation, les films, une manière très ancienne de faire du désir d'une femme la preuve qu'on est un homme « validé ». Ce que je sais, c'est que tant que ma valeur se mesure là, elle ne m'appartiendra jamais. Le travail, j'imagine, c'est de déplacer lentement la jauge à l'intérieur. Valoir à mes propres yeux, pour des raisons qui tiennent même quand personne ne regarde. Je n'y suis pas. Mais au moins, maintenant, je vois la jauge. C'est déjà moins la subir.</p>`
+  },
+  {
+    id: "aimer-pour-ce-qu-il-est",
+    titre: "Aimer quelqu'un pour ce qu'il est, ça veut dire quoi ?",
+    sousTitre: "Sur une phrase qu'on répète sans jamais l'ouvrir",
+    cat: "Émotions",
+    tweet: "« Aimer quelqu'un pour ce qu'il est. » On le dit tout le temps. Mais ça veut dire quoi, au juste ? Parce que ce qu'il « est » change tout le temps.",
+    minutes: 2,
+    brouillon: true,
+    corps: `<p>Une question toute simple me bloque : <em>ça veut dire quoi, en fait, aimer quelqu'un pour ce qu'il est ?</em> On répète la phrase comme une évidence, le sommet de l'amour vrai, par opposition à aimer pour ce qu'on retire de l'autre. Sauf que dès que j'essaie de la définir, elle me file entre les doigts.</p>
+
+<p>Parce que « ce qu'il est » n'est pas un objet fixe. Les gens changent, se contredisent, ont de bons et de mauvais jours, deviennent quelqu'un d'autre sur dix ans. Alors aimer quelqu'un « pour ce qu'il est », c'est aimer quoi, exactement ? Une photo à un instant T ? Le noyau qui reste sous les changements ? Et si ce noyau se met, lui aussi, à bouger ?</p>
+
+<p>Je crois de plus en plus que ce n'est pas aimer une <em>chose</em> chez l'autre. C'est autre chose : rester tourné vers cette personne pendant qu'elle change, continuer de la choisir dans ses versions successives. Aimer pour ce qu'il est, ce serait moins un constat qu'un mouvement — pas « je t'aime parce que tu es ceci », mais « quel que soit ce que tu deviens, je te regarde encore ». Aimer, ce n'est peut-être pas aimer un être figé. C'est accompagner quelqu'un dans le fait qu'il n'est jamais tout à fait le même.</p>`
+  },
+  {
+    id: "invitations-mariage",
+    titre: "Je ne veux pas d'amis retenus par la culpabilité",
+    sousTitre: "Sur les invitations qu'on lance et celles qu'on subit",
+    cat: "Vivre",
+    tweet: "Le vrai problème des invitations aux mariages : je ne veux pas forcer les gens à être mes amis par la culpabilisation. Une présence obtenue par obligation, ça ne vaut rien.",
+    minutes: 2,
+    brouillon: true,
+    corps: `<p>Un truc que j'ai en tête à propos des grands événements : <em>je ne veux pas forcer les gens à être mes amis par la culpabilisation.</em> C'est le malaise des invitations aux mariages, aux anniversaires, à tout ce qui se répond « oui » par peur de mal faire. On invite large, l'autre vient parce qu'il n'ose pas dire non, et tout le monde fait semblant que c'est de l'amitié.</p>
+
+<p>Or une présence arrachée par la culpabilité, ça ne me réchauffe pas, ça me refroidit. Je préfère mille fois cinq personnes qui avaient vraiment envie d'être là que cinquante qui n'osaient pas se défiler. La quantité de gens qu'on peut réunir n'a jamais rien prouvé sur la qualité des liens. Elle prouve juste qu'on sait bien manier l'obligation sociale.</p>
+
+<p>Alors j'aimerais faire l'inverse, même si c'est vertigineux : inviter en donnant vraiment le droit de dire non. « Viens si tu en as envie, et si tu n'en as pas, ce sera OK. » Le risque, c'est que peu de monde vienne. Mais au moins, ceux qui seront là, je saurai qu'ils l'ont choisi. Je crois que je préfère une petite table de vrais présents à une grande salle de culpabilisés. Une amitié qu'on doit forcer n'en est déjà plus une.</p>`
+  },
+  {
+    id: "pinaillage-administratif",
+    titre: "Le pinaillage fabrique de l'administratif",
+    sousTitre: "Sur la façon dont la méfiance se transforme en paperasse",
+    cat: "Société",
+    tweet: "Le pinaillage rajoute des couches administratives. Chaque cas particulier qu'on veut « traiter équitablement » devient une règle, un formulaire, un contrôle. La complexité, c'est de la méfiance solidifiée.",
+    minutes: 2,
+    brouillon: true,
+    corps: `<p>Une petite loi que j'observe partout : <em>le pinaillage rajoute des couches administratives.</em> À chaque fois qu'on veut couvrir un cas particulier, empêcher un abus, être parfaitement juste avec tout le monde, on crée une règle. Et chaque règle demande un formulaire, un contrôle, une exception, puis une règle sur l'exception. La paperasse ne tombe pas du ciel : on la sécrète, cas par cas, à force de vouloir tout border.</p>
+
+<p>Ce qui est perfide, c'est que chaque couche est justifiable. Personne ne se lève un matin pour « ajouter de la bureaucratie ». On ajoute une case parce qu'un jour, quelqu'un a triché, ou parce qu'un cas n'était pas prévu. Le pinaillage part toujours d'une bonne intention : la précision, l'équité. Mais mis bout à bout, ça donne un système où plus personne ne comprend rien, où le temps passe en justificatifs, et où l'énergie va à la procédure au lieu d'aller à ce qu'on voulait faire.</p>
+
+<p>Au fond, l'administratif, c'est de la méfiance solidifiée. Chaque formulaire dit : « on ne te fait pas confiance, prouve-le ». Et je me demande combien de couches on pourrait retirer d'un coup si on acceptait qu'un petit pourcentage abuse, plutôt que d'emmerder les cent pour cent pour rattraper les trois. Parfois, la simplicité coûte moins cher que le contrôle. Encore faut-il accepter de lâcher un peu de prise.</p>`
+  },
+  {
+    id: "changer-de-dieu",
+    titre: "Sommes-nous en train de changer de dieu ?",
+    sousTitre: "Sur ce qui a pris la place du sacré",
+    cat: "Penser",
+    tweet: "Sommes-nous en train de changer de dieu ? On a rangé les anciens au placard — mais la ferveur, elle, n'a pas disparu. Elle a juste changé d'autel.",
+    minutes: 2,
+    brouillon: true,
+    corps: `<p>Une question qui me dépasse un peu mais que je pose quand même : <em>sommes-nous en train de changer de dieu ?</em> On se croit sortis du religieux, débarrassés des vieilles croyances. Mais la ferveur, le besoin de croire, l'envie de s'en remettre à plus grand que soi — tout ça n'a pas disparu. Ça a juste déménagé.</p>
+
+<p>Regarde nos nouveaux absolus. La science comme parole vraie, le Marché comme main invisible qui « sait » mieux que nous, le Progrès comme sens de l'Histoire, et maintenant les technologies, l'IA, à qui on prête déjà des airs d'oracle. On leur voue le même mélange qu'aux anciens dieux : de l'espoir, de la crainte, de la soumission, et la conviction qu'ils nous dépassent. On a rangé les statues, mais on a gardé les autels.</p>
+
+<p>Je ne dis pas que c'est mal, ni que l'ancien valait mieux. Je remarque juste qu'on a peut-être moins arrêté de croire qu'on n'a changé d'objet de croyance. Et si c'est vrai, alors la vraie question n'est pas « faut-il croire ou pas », mais « à quoi choisit-on de confier le sacré ? ». Parce que ce qu'on met à la place de dieu finit toujours par nous gouverner. Autant regarder de près ce qu'on est en train d'installer sur l'autel.</p>`
+  },
+  {
+    id: "beaute-gachee-mechancete",
+    titre: "La beauté gâchée par la méchanceté de l'âme",
+    sousTitre: "Sur ce moment où un beau visage cesse d'être beau",
+    cat: "Penser",
+    tweet: "La beauté est gâchée par la méchanceté de l'âme. Un très beau visage, dès qu'on sent la cruauté derrière, se met à nous répugner. Comme si l'intérieur finissait toujours par transpercer.",
+    minutes: 2,
+    brouillon: true,
+    corps: `<p>Un constat qui me revient : <em>la beauté est gâchée par la méchanceté de l'âme.</em> Tu croises quelqu'un de vraiment beau, tout est là, les traits, l'allure. Et puis la personne dit un truc cruel, méprise quelqu'un, et en une seconde le charme se casse. Le visage n'a pas bougé d'un millimètre, mais il ne t'attire plus. Il te repousse presque.</p>
+
+<p>Ce qui est fascinant, c'est la vitesse et la totalité du basculement. Ce n'est pas « il est beau mais un peu méchant ». C'est que la méchanceté contamine rétroactivement toute la beauté, la rend fausse, glaçante. Comme si notre œil ne regardait jamais seulement la surface, mais essayait en permanence de deviner ce qu'il y a derrière — et que dès qu'il perçoit la cruauté, il réévalue tout.</p>
+
+<p>Ça marche dans l'autre sens aussi, et c'est plus doux. Des gens qu'on ne trouvait « pas spécialement beaux » deviennent magnifiques dès qu'on découvre leur douceur, leur attention, leur âme. Le visage se met à rayonner d'un truc qui n'était pas dans les traits. Je crois de plus en plus que la beauté qu'on voit vraiment est celle qui vient du dedans, et que la surface n'est qu'un écran sur lequel l'intérieur finit toujours par s'afficher. On ne regarde jamais un visage. On regarde quelqu'un.</p>`
+  },
+  {
     id: "sur-de-soi-stagner",
     titre: "Être sûr de soi, c'est peut-être juste stagner",
     sousTitre: "Sur le calme trompeur de ceux qu'on croisent dans leur zone de confort",
