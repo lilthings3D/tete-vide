@@ -15,7 +15,7 @@ const ARTICLES = [
     
     <p>Alors j'ai arrêté de chercher des réponses. Il n'y a pas de guide suprême, il n'y a aucun dessein. Une simple ligne dans le code du vivant qui dit : « Reste en vie, coûte que coûte », et qui dérive petit à petit pour créer ce que nous sommes aujourd'hui.</p>
     
-    <p>Ma seule crainte, c'est que la conscience de soi, l'ego, surpasse la volonté de survie du vivant et détruise tout ce qui existe au profit d'un individu éphémère. Espérons que je me trompe.</p>`
+    <p>Ma seule crainte, c'est que la conscience de soi, l'ego, surpasse la volonté de survie du vivant et détruise tout ce qui existe au profit d'un individu éphémère. Espérons que je me trompe.</p>`,
   },
   {
     id: "touche-a-tout-marche",
