@@ -7,7 +7,7 @@ const ARTICLES = [
     tweet: "« Je suis tout seul sur un chemin qui ne va nulle part. » Parfois c'est le constat le plus lucide qu'on puisse faire. Reste à savoir ce qu'on en fait.",
     minutes: 2,
     brouillon: true,
-    corps: `<p>Je me suis noté ça un soir : <em>je suis tout seul sur un chemin qui ne va nulle part</em>. Sur le moment c'est glaçant à écrire. Mais en le relisant je me demande si ce n'est pas la phrase la plus honnête que je me sois dite depuis longtemps.</p>
+    corps: `<p>Je suis tout seul sur un chemin qui ne va nulle part. Sur le moment c'est glaçant à écrire. Mais en le relisant je me demande si ce n'est pas la phrase la plus honnête que je me sois dite depuis longtemps.</p>
 
 <p>On passe notre temps à faire semblant du contraire. On se raconte qu'on a un cap, un plan, une destination — parce qu'avouer qu'on avance à l'aveugle, entouré de personne, ça fait peur. Mais la plupart des chemins ne mènent nulle part de précis. On marche, c'est tout. Et le fait de ne pas savoir où on va ne veut pas dire qu'on s'est perdu ; ça veut peut-être juste dire qu'on n'a pas encore inventé la raison de marcher.</p>
 
