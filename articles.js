@@ -7,12 +7,16 @@ const ARTICLES = [
     tweet: "« Je suis tout seul sur un chemin qui ne va nulle part. » Parfois c'est le constat le plus lucide qu'on puisse faire. Reste à savoir ce qu'on en fait.",
     minutes: 2,
     brouillon: true,
-    corps: `<p>Je suis tout seul sur un chemin qui ne va nulle part. Sur le moment c'est glaçant à écrire. Mais en le relisant je me demande si ce n'est pas la phrase la plus honnête que je me sois dite depuis longtemps.</p>
+    corps: `<p>Je sais pas si je comprends rien ou si y'a rien a comprendre. Chaque fois que je creuse une idée elle me mène à la conclusion que c'est pas ça qui est important. J'essaie de trouver un sens à tout ça, cette course folle sans destination. L'humanité, c'est ça qui est important ? Conserver la conscience coûte que coûte ? Ou bien protéger le vivant dans sa globalité ? la valeur dieu qu'il nous faudrait suivre devrais se baser sur un combat universel, mais lequel ?</p>
 
-<p>On passe notre temps à faire semblant du contraire. On se raconte qu'on a un cap, un plan, une destination — parce qu'avouer qu'on avance à l'aveugle, entouré de personne, ça fait peur. Mais la plupart des chemins ne mènent nulle part de précis. On marche, c'est tout. Et le fait de ne pas savoir où on va ne veut pas dire qu'on s'est perdu ; ça veut peut-être juste dire qu'on n'a pas encore inventé la raison de marcher.</p>
+<p>Sans réponse pour le moment, on avance à l'aveugle, on place notre foi dans nos dirigeants, nos croyances, on s'invente des buts des projets pour avancer, mais on sait même pas où on va !</p>
 
-<p>La solitude, elle, est plus dure à retourner. Mais je remarque un truc : c'est souvent dans ces moments-là, seul sur le chemin qui ne va nulle part, que je pense le plus clairement. Comme si le vide autour laissait enfin de la place. Je ne sais pas si le chemin mène quelque part. Je sais juste que pour l'instant, c'est le mien, et que je suis encore dessus.</p>`
-  },
+<p>C'est peut être ça la réponse. Le vivant part dans toutes les directions et conserve seulement celles qui fonctionnent, sélection naturelle. Peut être qu'il n'y a aucune réponse, la vie cherche seulement de continuer d'exister pour la simple raison que c'est cette particularité qui la maintient en vie.</p>
+
+<p>Alors j'ai arrêté de chercher des réponses. Il n'y a pas de guide suprême, il n'y a aucun dessein. Une simple ligne dans le code du vivant qui dit reste en vie coute que coûte qui dérive petit à petit poir créér ce que nous sommes aujourd'hui.</p>
+
+<p>Ma seule crainte c'est que la conscience de soi, l'égo, surpasse la volonté de survie du vivant, et détruisent tout ce qui existe au profit de l'individu éphémère. Espérons que je me trompe.</p>'
+ },
   {
     id: "touche-a-tout-marche",
     titre: "Fait pour toucher à tout, sommé de me spécialiser",
