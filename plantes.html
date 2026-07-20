@@ -30,7 +30,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <title>Plantes — Tête vide</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600;6..72,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600;6..72,700&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --cream:#FBF7F0;--paper:#fbf6ec;
@@ -75,7 +75,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   @media(max-width:600px){.wrap{padding:0 20px;}.date-long{display:none;}.date-short{display:inline;}header.site{padding:10px 0 0;}.brand{font-size:0.92rem;}.topbar{padding-bottom:8px;}.topbar{flex-wrap:wrap;}.brand{order:1;}.topdate{order:2;margin-left:auto;}.sitenav{order:3;width:100%;border-top:1px solid var(--rule);padding-top:8px;margin-top:6px;justify-content:center;flex-wrap:wrap;gap:4px;}.sitenav-link{font-size:0.7rem;padding:5px 11px;border:1px solid var(--rule);border-bottom:1px solid var(--rule);}.sitenav-link.current{background:var(--ink);color:var(--cream);border-color:var(--ink);}}
 
   .masthead{text-align:center;padding:60px 0 30px;border-bottom:1px solid var(--ink);}
-  .masthead .kicker{display:none;}
+  .masthead .kicker{font-family:'Caveat',cursive;font-size:1.4rem;color:var(--ink-soft);transform:rotate(-2deg);margin-bottom:6px;}
   .masthead h1{font-family:'Newsreader',Georgia,serif;font-weight:600;font-size:clamp(2.8rem,7vw,5rem);line-height:0.95;letter-spacing:-1px;}
   .masthead h1 b{font-style:normal;font-weight:600;color:var(--green);}
   .masthead .tagline{max-width:480px;margin:18px auto 0;font-size:1rem;color:var(--ink-soft);}
@@ -306,7 +306,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   footer.site{border-top:1px solid var(--ink);padding:46px 0 70px;text-align:center;}
   footer .f-brand{font-family:'Newsreader',Georgia,serif;font-style:italic;font-size:1.6rem;color:var(--green);}
   footer p{color:var(--ink-soft);font-size:0.9rem;margin-top:12px;max-width:460px;margin-left:auto;margin-right:auto;}
-  footer .sig{margin-top:24px;font-family:'Newsreader',Georgia,serif;font-size:1.1rem;letter-spacing:.2px;}
+  footer .sig{margin-top:20px;font-family:'Caveat',cursive;font-size:2rem;color:var(--ink);display:inline-block;transform:rotate(-4deg);}
+
+  /* ============ VACHE-MASCOTTE ============ */
+  #cow-buddy{position:fixed;right:18px;bottom:16px;z-index:150;width:74px;cursor:pointer;user-select:none;-webkit-user-select:none;}
+  #cow-buddy .cow-img{width:100%;display:block;filter:drop-shadow(0 4px 8px rgba(0,0,0,.2));transition:transform .2s;}
+  #cow-buddy:hover .cow-img{transform:translateY(-2px) rotate(-4deg);}
+  #cow-buddy.moo .cow-img{animation:cow-jump .45s;}
+  @keyframes cow-jump{0%,100%{transform:none}40%{transform:translateY(-12px) rotate(5deg)}}
+  .cow-bubble{position:absolute;bottom:100%;right:0;margin-bottom:12px;min-width:170px;max-width:250px;width:max-content;background:#fff;border:1.5px solid var(--ink);border-radius:16px;padding:10px 15px;font-family:'Caveat',cursive;font-size:1.25rem;line-height:1.05;color:var(--ink);text-align:left;opacity:0;transform:translateY(8px) scale(.96);transform-origin:bottom right;transition:opacity .3s ease,transform .3s ease;pointer-events:none;box-shadow:0 6px 18px rgba(0,0,0,.12);}
+  .cow-bubble.show{opacity:1;transform:none;}
+  .cow-bubble::after{content:"";position:absolute;top:100%;right:24px;border:9px solid transparent;border-top-color:var(--ink);}
+  .cow-bubble::before{content:"";position:absolute;top:100%;right:25px;border:8px solid transparent;border-top-color:#fff;margin-top:-1px;z-index:1;}
+  @media(max-width:600px){#cow-buddy{width:52px;right:10px;bottom:10px;}.cow-bubble{font-size:1.05rem;min-width:140px;}}
 </style>
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-TBJXMCC70W"></script>
@@ -1066,5 +1078,40 @@ const DIAGNOSTICS=[
   </div>
 </div>
 
+<div id="cow-buddy" aria-label="La vache de la maison" title="Clique-moi">
+  <div class="cow-bubble" id="cow-bubble"></div>
+  <img src="vache.png" alt="Une vache" class="cow-img" draggable="false">
+</div>
+<script>
+(function(){
+  const cow=document.getElementById('cow-buddy'), bubble=document.getElementById('cow-bubble');
+  if(!cow) return;
+  const PENSEES=[
+    "L'alcool, c'est pas un trait de personnalité.",
+    "Seul sur un chemin qui ne va nulle part.",
+    "Personne ne va vraiment, profondément bien.",
+    "C'est moi qui veux ça, ou le marché qui me le souffle ?",
+    "La beauté est gâchée par la méchanceté de l'âme.",
+    "Être sûr de soi, c'est peut-être juste stagner.",
+    "Un conseil ne sert à rien tant qu'il vient de l'extérieur.",
+    "On veut tous être différents. Et on se justifie.",
+    "Pourquoi c'est fatigant, la route ?",
+    "Sommes-nous en train de changer de dieu ?",
+    "Je cherche une raison de râler.",
+    "Aimer quelqu'un pour ce qu'il est… ça veut dire quoi ?",
+    "On endort le vide, on croit le remplir.",
+    "T'as un peu faim, peut-être ?",
+    "Reviens quand tu veux.",
+    "Meuh."
+  ];
+  const MOOS=["meuh1.mp3","meuh2.mp3","meuh3.mp3","meuh4.mp3"];
+  let i=Math.floor(Math.random()*PENSEES.length), timer;
+  function say(t){ bubble.textContent=t; bubble.classList.add('show'); clearTimeout(timer); timer=setTimeout(()=>bubble.classList.remove('show'), 6500); }
+  function next(){ i=(i + 1 + Math.floor(Math.random()*(PENSEES.length-1))) % PENSEES.length; say(PENSEES[i]); }
+  cow.addEventListener('click', ()=>{ cow.classList.remove('moo'); void cow.offsetWidth; cow.classList.add('moo'); try{ new Audio(MOOS[Math.floor(Math.random()*MOOS.length)]).play().catch(()=>{}); }catch(e){} next(); });
+  setTimeout(()=>say(PENSEES[i]), 2600);
+  setInterval(()=>{ if(!document.hidden) next(); }, 15000);
+})();
+</script>
 </body>
 </html>
