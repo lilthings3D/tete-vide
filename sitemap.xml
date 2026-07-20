@@ -25,6 +25,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://tete-vide.fr/ecologie.html</loc>
+    <lastmod>2026-07-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://tete-vide.fr/snake.html</loc>
     <lastmod>2026-07-03</lastmod>
     <changefreq>monthly</changefreq>
