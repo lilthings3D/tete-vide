@@ -6,17 +6,17 @@ const ARTICLES = [
     cat: "Vivre",
     tweet: "« Je suis tout seul sur un chemin qui ne va nulle part. » Parfois c'est le constat le plus lucide qu'on puisse faire. Reste à savoir ce qu'on en fait.",
     minutes: 2,
-    brouillon: true,
-    corps: `<p>Je sais pas si je comprends rien ou si y'a rien a comprendre. Chaque fois que je creuse une idée elle me mène à la conclusion que c'est pas ça qui est important. J'essaie de trouver un sens à tout ça, cette course folle sans destination. L'humanité, c'est ça qui est important ? Conserver la conscience coûte que coûte ? Ou bien protéger le vivant dans sa globalité ? la valeur dieu qu'il nous faudrait suivre devrais se baser sur un combat universel, mais lequel ?</p>
-
-<p>Sans réponse pour le moment, on avance à l'aveugle, on place notre foi dans nos dirigeants, nos croyances, on s'invente des buts des projets pour avancer, mais on sait même pas où on va !</p>
-
-<p>C'est peut être ça la réponse. Le vivant part dans toutes les directions et conserve seulement celles qui fonctionnent, sélection naturelle. Peut être qu'il n'y a aucune réponse, la vie cherche seulement de continuer d'exister pour la simple raison que c'est cette particularité qui la maintient en vie.</p>
-
-<p>Alors j'ai arrêté de chercher des réponses. Il n'y a pas de guide suprême, il n'y a aucun dessein. Une simple ligne dans le code du vivant qui dit reste en vie coute que coûte qui dérive petit à petit poir créér ce que nous sommes aujourd'hui.</p>
-
-<p>Ma seule crainte c'est que la conscience de soi, l'égo, surpasse la volonté de survie du vivant, et détruisent tout ce qui existe au profit de l'individu éphémère. Espérons que je me trompe.</p>'
- },
+    brouillon: false,
+    corps: `<p>Je ne sais pas si je ne comprends rien ou s'il n'y a rien à comprendre. Chaque fois que je creuse une idée, elle me mène à la conclusion que ce n'est pas ça qui est important. J'essaie de trouver un sens à tout ça, cette course folle sans destination. L'humanité, est-ce ça qui est important ? Conserver la conscience coûte que coûte ? Ou bien protéger le vivant dans sa globalité ? La valeur, le dieu qu'il nous faudrait suivre, devrait se baser sur un combat universel, mais lequel ?</p>
+    
+    <p>Sans réponse pour le moment, on avance à l'aveugle. On place notre foi dans nos dirigeants, nos croyances. On s'invente des buts, des projets pour avancer, mais on ne sait même pas où l'on va !</p>
+    
+    <p>C'est peut-être ça, la réponse. Le vivant part dans toutes les directions et ne conserve que celles qui fonctionnent : la sélection naturelle. Peut-être qu'il n'y a aucune réponse. La vie cherche seulement à continuer d'exister, pour la simple raison que c'est cette particularité qui la maintient en vie.</p>
+    
+    <p>Alors j'ai arrêté de chercher des réponses. Il n'y a pas de guide suprême, il n'y a aucun dessein. Une simple ligne dans le code du vivant qui dit : « Reste en vie, coûte que coûte », et qui dérive petit à petit pour créer ce que nous sommes aujourd'hui.</p>
+    
+    <p>Ma seule crainte, c'est que la conscience de soi, l'ego, surpasse la volonté de survie du vivant et détruise tout ce qui existe au profit d'un individu éphémère. Espérons que je me trompe.</p>
+     },
   {
     id: "touche-a-tout-marche",
     titre: "Fait pour toucher à tout, sommé de me spécialiser",
