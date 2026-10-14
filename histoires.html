@@ -183,6 +183,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     max-width:420px;margin-left:auto;margin-right:auto;
   }
   footer .sig{margin-top:20px;font-family:'Caveat',cursive;font-size:2rem;color:var(--ink);display:inline-block;transform:rotate(-4deg);}
+  footer .f-nav{margin-top:22px;font-size:0.82rem;}
+  footer .f-nav a{color:var(--ink-soft);text-decoration:none;margin:0 9px;border-bottom:1px dotted var(--rule-strong);}
+  footer .f-nav a:hover{color:var(--ink);}
 
   /* ============ VUE HISTOIRE ============ */
   .story-view{display:none;position:relative;z-index:2;}
@@ -291,7 +294,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
 
   /* ============ VACHE-MASCOTTE ============ */
-  #cow-buddy{position:fixed;right:18px;bottom:16px;z-index:150;width:74px;cursor:pointer;user-select:none;-webkit-user-select:none;}
+  #cow-buddy{position:fixed;right:18px;bottom:16px;z-index:150;width:74px;cursor:pointer;user-select:none;-webkit-user-select:none;transition:opacity .25s ease;}
+  #cow-buddy.dodge{opacity:.18;pointer-events:none;}
   #cow-buddy .cow-img{width:100%;display:block;filter:drop-shadow(0 4px 8px rgba(0,0,0,.2));transition:transform .2s;}
   #cow-buddy:hover .cow-img{transform:translateY(-2px) rotate(-4deg);}
   #cow-buddy.moo .cow-img{animation:cow-jump .45s;}
@@ -300,7 +304,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .cow-bubble.show{opacity:1;transform:none;}
   .cow-bubble::after{content:"";position:absolute;top:100%;right:24px;border:9px solid transparent;border-top-color:var(--ink);}
   .cow-bubble::before{content:"";position:absolute;top:100%;right:25px;border:8px solid transparent;border-top-color:#fff;margin-top:-1px;z-index:1;}
-  @media(max-width:600px){#cow-buddy{width:52px;right:10px;bottom:10px;}.cow-bubble{font-size:1.05rem;min-width:140px;}}
+  @media(max-width:600px){#cow-buddy{width:46px;right:8px;bottom:8px;}.cow-bubble{font-size:1.05rem;min-width:140px;}}
 </style>
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-TBJXMCC70W"></script>
@@ -348,6 +352,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="f-brand">Histoires</div>
       <p>Écrire c'est inventer une histoire qu'on connait déjà.</p>
       <div class="sig">— A.</div>
+      <nav class="f-nav"><a href="index.html">Réflexions</a><a href="histoires.html">Histoires</a><a href="jeux.html">Jeux</a><a href="plantes.html">Plantes</a><a href="ecologie.html">Écologie</a><a href="lilthings3d.html">Impressions 3D</a><a href="apropos.html">À propos</a></nav>
     </div>
   </footer>
 </div>
@@ -575,6 +580,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   cow.addEventListener('click', ()=>{ cow.classList.remove('moo'); void cow.offsetWidth; cow.classList.add('moo'); try{ new Audio(MOOS[Math.floor(Math.random()*MOOS.length)]).play().catch(()=>{}); }catch(e){} next(); });
   setTimeout(()=>say(PENSEES[i]), 2600);
   setInterval(()=>{ if(!document.hidden) next(); }, 15000);
+  let _cowST;
+  window.addEventListener('scroll',()=>{ cow.classList.add('dodge'); clearTimeout(_cowST); _cowST=setTimeout(()=>cow.classList.remove('dodge'),450); },{passive:true});
 })();
 </script>
 </body>
