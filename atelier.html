@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#2e2218">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Atelier">
+<link rel="icon" type="image/png" href="/vache.png">
+<link rel="apple-touch-icon" href="/vache.png">
+<title>Atelier — Tête vide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600;6..72,700&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FBF7F0; --paper:#fff; --ink:#2e2218; --ink-soft:#5b4a39;
+    --orange:#a2472b; --orange-deep:#8a3a22; --orange-bright:#b85a35;
+    --rule:#e0cfb0; --rule-strong:#c9b189; --ok:#2f7d4f; --danger:#b23b2e;
+    --bg-soft:#f4ecdd;
+    --safe-b:env(safe-area-inset-bottom,0px);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  [hidden]{display:none!important;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--cream);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden;padding-bottom:var(--safe-b);}
+  .serif{font-family:'Newsreader',Georgia,serif;}
+  button{font-family:inherit;font-size:1rem;cursor:pointer;border:none;background:none;color:inherit;}
+  input,textarea,select{font-family:inherit;font-size:16px;color:var(--ink);background:var(--paper);border:1.5px solid var(--rule-strong);border-radius:12px;padding:12px 14px;width:100%;}
+  input:focus,textarea:focus,select:focus{outline:none;border-color:var(--orange);}
+  textarea{resize:vertical;line-height:1.6;}
+  label{display:block;font-size:0.82rem;color:var(--ink-soft);margin:0 0 6px 2px;font-weight:600;}
+  .wrap{max-width:720px;margin:0 auto;padding:0 16px;}
+
+  /* ---- GATE ---- */
+  .gate{min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:24px 16px calc(24px + var(--safe-b));}
+  .gate-card{width:100%;max-width:400px;background:var(--paper);border:1.5px solid var(--ink);border-radius:20px;padding:30px 24px 26px;box-shadow:0 10px 40px rgba(120,70,20,.12);}
+  .gate-logo{font-family:'Caveat',cursive;font-size:1.5rem;color:var(--ink-soft);transform:rotate(-2deg);text-align:center;}
+  .gate h1{font-family:'Newsreader',Georgia,serif;font-size:2rem;font-weight:600;text-align:center;margin:2px 0 4px;}
+  .gate h1 b{color:var(--orange-deep);}
+  .gate .sub{text-align:center;color:var(--ink-soft);font-size:0.9rem;margin-bottom:22px;line-height:1.4;}
+  .field{margin-bottom:16px;}
+  .btn-primary{width:100%;background:var(--ink);color:var(--cream);padding:14px;border-radius:12px;font-size:1.02rem;font-weight:600;transition:background .2s;}
+  .btn-primary:hover{background:var(--orange-deep);}
+  .btn-primary:disabled{opacity:.5;}
+  .link-btn{display:block;margin:14px auto 0;color:var(--ink-soft);font-size:0.84rem;text-decoration:underline;text-align:center;background:none;}
+  .msg{font-size:0.86rem;padding:10px 12px;border-radius:10px;margin-top:4px;display:none;}
+  .msg.show{display:block;}
+  .msg.err{background:#fbeae7;color:var(--danger);}
+  .msg.ok{background:#e7f3ec;color:var(--ok);}
+  .hint{font-size:0.78rem;color:var(--ink-soft);margin:6px 2px 0;line-height:1.4;}
+  .hint a{color:var(--orange-deep);}
+
+  /* ---- APP ---- */
+  .topbar{position:sticky;top:0;z-index:30;background:var(--cream);border-bottom:1.5px solid var(--ink);padding-top:env(safe-area-inset-top,0px);}
+  .topbar-in{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;max-width:720px;margin:0 auto;}
+  .topbar .brand{font-family:'Newsreader',Georgia,serif;font-weight:600;font-size:1.1rem;}
+  .topbar .brand b{color:var(--orange-deep);}
+  .icon-btn{font-size:1.3rem;padding:6px 10px;border-radius:10px;color:var(--ink-soft);}
+  .icon-btn:hover{background:var(--bg-soft);}
+
+  .tabs{display:flex;gap:8px;max-width:720px;margin:14px auto 0;padding:0 16px;}
+  .tab{flex:1;text-align:center;padding:11px;border-radius:12px;background:var(--bg-soft);color:var(--ink-soft);font-weight:600;font-size:0.95rem;border:1.5px solid transparent;}
+  .tab.active{background:var(--paper);color:var(--ink);border-color:var(--ink);}
+  .tab .n{font-size:0.75rem;color:var(--ink-soft);font-weight:500;}
+
+  .toolbar{max-width:720px;margin:14px auto 0;padding:0 16px;display:flex;gap:10px;}
+  .toolbar input{flex:1;}
+  .btn-new{white-space:nowrap;background:var(--orange);color:#fff;padding:12px 16px;border-radius:12px;font-weight:600;}
+  .btn-new:hover{background:var(--orange-deep);}
+
+  .list{max-width:720px;margin:14px auto 40px;padding:0 16px;}
+  .item{background:var(--paper);border:1.5px solid var(--rule);border-radius:14px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:flex-start;gap:12px;transition:border-color .15s;}
+  .item:active{border-color:var(--rule-strong);}
+  .item-main{flex:1;min-width:0;}
+  .item-title{font-family:'Newsreader',Georgia,serif;font-weight:600;font-size:1.12rem;line-height:1.25;}
+  .item-sub{color:var(--ink-soft);font-size:0.86rem;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .item-meta{display:flex;gap:8px;align-items:center;margin-top:7px;flex-wrap:wrap;}
+  .pill{font-size:0.7rem;padding:3px 9px;border-radius:999px;background:var(--bg-soft);color:var(--ink-soft);font-weight:600;}
+  .pill.draft{background:#fbefe0;color:var(--orange-deep);}
+  .pill.live{background:#e7f3ec;color:var(--ok);}
+  .item-edit{color:var(--rule-strong);font-size:1.3rem;align-self:center;}
+  .empty{text-align:center;color:var(--ink-soft);font-style:italic;padding:40px 10px;}
+
+  /* ---- EDITOR ---- */
+  #editor{position:fixed;inset:0;z-index:60;background:var(--cream);display:flex;flex-direction:column;}
+  .ed-top{position:sticky;top:0;background:var(--cream);border-bottom:1.5px solid var(--ink);padding-top:env(safe-area-inset-top,0px);}
+  .ed-top-in{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;max-width:720px;margin:0 auto;}
+  .ed-top .t{font-family:'Newsreader',Georgia,serif;font-weight:600;font-size:1.05rem;}
+  .ed-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:18px 0 150px;}
+  .ed-body .wrap > .field{margin-bottom:18px;}
+  .corps-tools{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 0;}
+  .tool{font-size:0.82rem;padding:8px 12px;border-radius:10px;background:var(--bg-soft);color:var(--ink);font-weight:600;border:1.5px solid var(--rule-strong);}
+  .tool:hover{border-color:var(--orange);color:var(--orange-deep);}
+  .tool:disabled{opacity:.5;}
+  .counter{font-size:0.78rem;color:var(--ink-soft);margin-top:8px;}
+  .counter b{color:var(--ink);}
+
+  .issues{margin-top:12px;}
+  .issue{background:var(--paper);border:1.5px solid var(--rule);border-left:4px solid var(--orange-bright);border-radius:10px;padding:11px 13px;margin-bottom:9px;}
+  .issue-txt{font-size:0.9rem;}
+  .issue-txt .bad{background:#fbe3dc;color:var(--danger);border-radius:4px;padding:0 3px;font-weight:600;}
+  .issue-msg{font-size:0.78rem;color:var(--ink-soft);margin:5px 0 8px;}
+  .issue-acts{display:flex;gap:7px;flex-wrap:wrap;}
+  .sugg{font-size:0.82rem;padding:6px 11px;border-radius:999px;background:#e7f3ec;color:var(--ok);font-weight:600;border:1px solid #bfe0cc;}
+  .sugg:hover{background:#d6ecde;}
+  .ignore{font-size:0.82rem;padding:6px 11px;border-radius:999px;background:var(--bg-soft);color:var(--ink-soft);}
+  .spell-note{font-size:0.82rem;padding:9px 12px;border-radius:10px;background:var(--bg-soft);color:var(--ink-soft);margin-top:10px;}
+
+  /* preview */
+  #preview-pane{display:none;background:var(--paper);border:1.5px solid var(--rule);border-radius:14px;padding:18px;margin-top:14px;}
+  #preview-pane.show{display:block;}
+  #preview-pane .pv-cat{font-family:'Newsreader',Georgia,serif;font-size:0.72rem;letter-spacing:.3px;text-transform:uppercase;color:var(--orange-deep);}
+  #preview-pane h3{font-family:'Newsreader',Georgia,serif;font-weight:600;font-size:1.55rem;line-height:1.1;margin:5px 0 4px;}
+  #preview-pane .pv-sub{font-style:italic;color:var(--ink-soft);margin-bottom:12px;}
+  #preview-pane .pv-body p{margin-bottom:12px;}
+
+  .ed-actions{position:fixed;left:0;right:0;bottom:0;z-index:62;background:var(--paper);border-top:1.5px solid var(--ink);padding:12px 16px calc(12px + var(--safe-b));display:flex;gap:10px;max-width:720px;margin:0 auto;}
+  .ed-actions .btn-save{flex:1;background:var(--ink);color:var(--cream);padding:14px;border-radius:12px;font-weight:600;}
+  .ed-actions .btn-save:hover{background:var(--orange-deep);}
+  .ed-actions .btn-save:disabled{opacity:.55;}
+  .ed-actions .btn-del{background:#fbeae7;color:var(--danger);padding:14px 16px;border-radius:12px;font-weight:600;}
+
+  .toast{position:fixed;left:50%;bottom:calc(84px + var(--safe-b));transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--cream);padding:12px 20px;border-radius:999px;font-size:0.9rem;z-index:90;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;max-width:90%;text-align:center;}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+  .spin{display:inline-block;width:15px;height:15px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px;margin-right:6px;}
+  @keyframes sp{to{transform:rotate(360deg);}}
+
+  .switch{display:flex;align-items:center;gap:12px;background:var(--paper);border:1.5px solid var(--rule-strong);border-radius:12px;padding:12px 14px;}
+  .switch-label{flex:1;}
+  .switch-label .st{font-weight:600;}
+  .switch-label .sd{font-size:0.78rem;color:var(--ink-soft);}
+  .track{width:52px;height:30px;border-radius:999px;background:var(--rule-strong);position:relative;transition:background .2s;flex:none;}
+  .track.on{background:var(--ok);}
+  .knob{position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.25);}
+  .track.on .knob{left:25px;}
+</style>
+</head>
+<body>
+
+<!-- ============ GATE : SETUP ============ -->
+<div class="gate" id="gate-setup" hidden>
+  <div class="gate-card">
+    <div class="gate-logo">ton atelier secret</div>
+    <h1>Tête <b>vide</b></h1>
+    <p class="sub">Première fois ici. Connecte ton site une seule fois, puis choisis un mot de passe pour protéger l'accès sur ce téléphone.</p>
+    <div class="field">
+      <label>Jeton d'accès GitHub (commence par <code>github_pat_</code> ou <code>ghp_</code>)</label>
+      <input type="password" id="su-token" placeholder="colle ton jeton ici" autocomplete="off" autocapitalize="off" spellcheck="false">
+      <p class="hint">À créer sur <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com → fine-grained token</a> : accès au dépôt <b>tete-vide</b>, permission <b>Contents : Read and write</b>. Je t'explique dans le chat.</p>
+    </div>
+    <div class="field">
+      <label>Choisis un mot de passe (pour cet atelier)</label>
+      <input type="password" id="su-pass" placeholder="ton mot de passe" autocomplete="new-password">
+    </div>
+    <div class="field">
+      <label>Confirme le mot de passe</label>
+      <input type="password" id="su-pass2" placeholder="encore une fois" autocomplete="new-password">
+    </div>
+    <button class="btn-primary" id="su-go">Connecter l'atelier</button>
+    <div class="msg err" id="su-msg"></div>
+  </div>
+</div>
+
+<!-- ============ GATE : UNLOCK ============ -->
+<div class="gate" id="gate-unlock" hidden>
+  <div class="gate-card">
+    <div class="gate-logo">rebonjour</div>
+    <h1>Tête <b>vide</b></h1>
+    <p class="sub">Entre ton mot de passe pour ouvrir l'atelier.</p>
+    <div class="field">
+      <label>Mot de passe</label>
+      <input type="password" id="un-pass" placeholder="ton mot de passe" autocomplete="current-password" autofocus>
+    </div>
+    <button class="btn-primary" id="un-go">Ouvrir</button>
+    <div class="msg err" id="un-msg"></div>
+    <button class="link-btn" id="un-reset">Oublier ce téléphone / changer de jeton</button>
+  </div>
+</div>
+
+<!-- ============ APP ============ -->
+<div id="app" hidden>
+  <div class="topbar">
+    <div class="topbar-in">
+      <div class="brand">Atelier · Tête <b>vide</b></div>
+      <button class="icon-btn" id="app-lock" title="Verrouiller">🔒</button>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-col="articles" id="tab-articles">Réflexions <span class="n" id="cnt-articles"></span></button>
+    <button class="tab" data-col="histoires" id="tab-histoires">Histoires <span class="n" id="cnt-histoires"></span></button>
+  </div>
+
+  <div class="toolbar">
+    <input type="search" id="search" placeholder="Rechercher…" autocapitalize="off">
+    <button class="btn-new" id="btn-new">+ Écrire</button>
+  </div>
+
+  <div class="list" id="list"></div>
+</div>
+
+<!-- ============ EDITOR ============ -->
+<div id="editor" hidden>
+  <div class="ed-top">
+    <div class="ed-top-in">
+      <button class="icon-btn" id="ed-cancel">← Retour</button>
+      <div class="t" id="ed-title">Nouveau</div>
+      <span style="width:46px"></span>
+    </div>
+  </div>
+  <div class="ed-body" id="ed-body">
+    <div class="wrap">
+      <div class="field">
+        <label>Titre</label>
+        <input type="text" id="f-titre" placeholder="Le titre">
+      </div>
+      <div class="field">
+        <label>Sous-titre</label>
+        <input type="text" id="f-sous" placeholder="Une phrase qui résume">
+      </div>
+      <div class="field" id="field-cat">
+        <label>Catégorie</label>
+        <select id="f-cat">
+          <option>Vivre</option><option>Soi</option><option>Émotions</option>
+          <option>Penser</option><option>Société</option><option>Monde moderne</option>
+        </select>
+      </div>
+      <div class="field" id="field-tweet">
+        <label>Accroche courte (optionnel — s'affiche en avant-première)</label>
+        <textarea id="f-tweet" rows="2" placeholder="Une phrase d'accroche"></textarea>
+      </div>
+
+      <div class="field">
+        <label>Texte</label>
+        <textarea id="f-corps" rows="12" placeholder="Écris ici. Laisse une ligne vide entre deux paragraphes."></textarea>
+        <div class="counter" id="counter"></div>
+        <div class="corps-tools">
+          <button class="tool" id="tool-format">✦ Mettre en forme</button>
+          <button class="tool" id="tool-spell">🔤 Orthographe</button>
+          <button class="tool" id="tool-preview">👁 Aperçu</button>
+        </div>
+        <div class="issues" id="issues"></div>
+        <div id="preview-pane"></div>
+      </div>
+
+      <div class="field">
+        <div class="switch" id="draft-switch">
+          <div class="switch-label">
+            <div class="st" id="draft-st">Brouillon</div>
+            <div class="sd" id="draft-sd">Visible seulement par toi. Personne ne le voit sur le site.</div>
+          </div>
+          <div class="track" id="draft-track"><div class="knob"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ed-actions">
+    <button class="btn-del" id="ed-delete" hidden>Supprimer</button>
+    <button class="btn-save" id="ed-save">Publier</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   Tête vide — Atelier (éditeur privé, publie sur GitHub)
+   ============================================================ */
+const OWNER="lilthings3D", REPO="tete-vide", BRANCH="main";
+const VAULT_KEY="atelier-vault-v1";
+const COLLECTIONS={
+  articles:{ path:"articles.js", varName:"ARTICLES", label:"réflexion", hasCat:true },
+  histoires:{ path:"histoires.js", varName:"HISTOIRES", label:"histoire", hasCat:false }
+};
+let TOKEN=null;
+let CUR="articles";          // collection courante
+let EDITING=null;            // objet en cours d'édition (ou null = nouveau)
+let ISSUES=[];               // résultats orthographe
+
+/* ---------- utils base64 / utf8 ---------- */
+const $=id=>document.getElementById(id);
+function bytesToB64(bytes){ let s=""; bytes.forEach(b=>s+=String.fromCharCode(b)); return btoa(s); }
+function b64ToBytes(str){ const bin=atob(str.replace(/\s/g,"")); return Uint8Array.from(bin,c=>c.charCodeAt(0)); }
+function utf8ToB64(str){ return bytesToB64(new TextEncoder().encode(str)); }
+function b64ToUtf8(b64){ return new TextDecoder("utf-8").decode(b64ToBytes(b64)); }
+
+/* ---------- chiffrement du jeton ---------- */
+async function deriveKey(pass,salt){
+  const base=await crypto.subtle.importKey("raw",new TextEncoder().encode(pass),"PBKDF2",false,["deriveKey"]);
+  return crypto.subtle.deriveKey({name:"PBKDF2",salt,iterations:160000,hash:"SHA-256"},base,{name:"AES-GCM",length:256},false,["encrypt","decrypt"]);
+}
+async function encryptToken(token,pass){
+  const salt=crypto.getRandomValues(new Uint8Array(16));
+  const iv=crypto.getRandomValues(new Uint8Array(12));
+  const key=await deriveKey(pass,salt);
+  const ct=await crypto.subtle.encrypt({name:"AES-GCM",iv},key,new TextEncoder().encode(token));
+  return {salt:bytesToB64(salt),iv:bytesToB64(iv),ct:bytesToB64(new Uint8Array(ct))};
+}
+async function decryptToken(v,pass){
+  const key=await deriveKey(pass,b64ToBytes(v.salt));
+  const pt=await crypto.subtle.decrypt({name:"AES-GCM",iv:b64ToBytes(v.iv)},key,b64ToBytes(v.ct));
+  return new TextDecoder().decode(pt);
+}
+function loadVault(){ try{ return JSON.parse(localStorage.getItem(VAULT_KEY)); }catch(e){ return null; } }
+function saveVault(v){ localStorage.setItem(VAULT_KEY,JSON.stringify(v)); }
+
+/* ---------- GitHub API ---------- */
+async function gh(path,opts={}){
+  const res=await fetch(`https://api.github.com/repos/${OWNER}/${REPO}${path}`,{
+    ...opts,
+    headers:{Authorization:`Bearer ${TOKEN}`,Accept:"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28",...(opts.headers||{})}
+  });
+  if(!res.ok){ let d=""; try{d=(await res.json()).message;}catch(e){} throw new Error(`${res.status} ${d||res.statusText}`); }
+  return res.json();
+}
+async function loadCollection(key){
+  const c=COLLECTIONS[key];
+  const data=await gh(`/contents/${c.path}?ref=${BRANCH}&t=${Date.now()}`,{headers:{Accept:"application/vnd.github.object+json"}});
+  c.sha=data.sha;
+  const text=b64ToUtf8(data.content);
+  c.items=new Function(text+`;return ${c.varName};`)();
+}
+async function commitCollection(key,message){
+  const c=COLLECTIONS[key];
+  const content=utf8ToB64(serialize(c.items,c.varName));
+  const res=await gh(`/contents/${c.path}`,{method:"PUT",body:JSON.stringify({message,content,sha:c.sha,branch:BRANCH})});
+  c.sha=res.content.sha;
+}
+function serialize(items,varName){
+  const body=items.map(o=>{
+    const lines=Object.keys(o).map(k=>{
+      const v=o[k]; let out;
+      if(typeof v==="string"&&(k==="corps"||v.includes("\n"))){
+        out="`"+v.replace(/\\/g,"\\\\").replace(/`/g,"\\`").replace(/\$\{/g,"\\${")+"`";
+      } else if(typeof v==="string"){ out=JSON.stringify(v); }
+      else { out=String(v); }
+      return `    ${k}: ${out}`;
+    });
+    return `  {\n${lines.join(",\n")}\n  }`;
+  }).join(",\n");
+  return `const ${varName} = [\n${body}\n];\n`;
+}
+
+/* ---------- texte : html <-> plein ---------- */
+function htmlToPlain(html){
+  if(!html) return "";
+  let t=html.replace(/<\/p>\s*<p[^>]*>/gi,"\n\n").replace(/<\/?p[^>]*>/gi,"").replace(/<br\s*\/?>/gi,"\n");
+  t=t.replace(/<[^>]+>/g,"");
+  const ta=document.createElement("textarea"); ta.innerHTML=t; t=ta.value;
+  return t.replace(/\n{3,}/g,"\n\n").trim();
+}
+function typo(s){
+  return s
+    .replace(/"([^"]*)"/g,"« $1 »")
+    .replace(/(\w)'(\w)/g,"$1’$2")
+    .replace(/ ?([;:!?])/g," $1")
+    .replace(/ +/g," ");
+}
+function plainToHtml(plain){
+  return plain.split(/\n{2,}/).map(b=>b.trim()).filter(Boolean)
+    .map(b=>`<p>${typo(b).replace(/\n/g,"<br>")}</p>`).join("\n\n");
+}
+function wordCount(s){ const m=s.trim().match(/\S+/g); return m?m.length:0; }
+function readMinutes(s){ return Math.max(1,Math.round(wordCount(s)/180)); }
+function slugify(s){
+  return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"")
+    .replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,50)||"texte";
+}
+function uniqueId(base,items,skipId){
+  let id=base,n=2;
+  while(items.some(it=>it.id===id&&it.id!==skipId)){ id=base+"-"+n; n++; }
+  return id;
+}
+
+/* ---------- écrans ---------- */
+function show(el){ ["gate-setup","gate-unlock","app"].forEach(x=>$(x).hidden=true); el.hidden=false; }
+function toast(msg,ms=2200){ const t=$("toast"); t.innerHTML=msg; t.classList.add("show"); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove("show"),ms); }
+
+/* ---------- init ---------- */
+window.addEventListener("DOMContentLoaded",()=>{
+  if(!("crypto"in window&&crypto.subtle)){ alert("Ce navigateur ne supporte pas le chiffrement nécessaire. Utilise Safari ou Chrome récent."); return; }
+  show(loadVault()?$("gate-unlock"):$("gate-setup"));
+  $("un-pass")&&$("un-pass").focus();
+});
+
+/* ---------- SETUP ---------- */
+$("su-go").addEventListener("click",async()=>{
+  const token=$("su-token").value.trim(), p1=$("su-pass").value, p2=$("su-pass2").value;
+  const msg=$("su-msg"); msg.classList.remove("show");
+  const fail=t=>{ msg.textContent=t; msg.classList.add("show"); };
+  if(!token) return fail("Colle d'abord ton jeton GitHub.");
+  if(p1.length<4) return fail("Choisis un mot de passe d'au moins 4 caractères.");
+  if(p1!==p2) return fail("Les deux mots de passe ne correspondent pas.");
+  $("su-go").disabled=true; $("su-go").innerHTML='<span class="spin"></span>Vérification…';
+  TOKEN=token;
+  try{
+    await gh(`/contents/articles.js?ref=${BRANCH}`); // test d'accès
+    const vault=await encryptToken(token,p1);
+    saveVault(vault);
+    await bootApp();
+  }catch(e){
+    TOKEN=null; $("su-go").disabled=false; $("su-go").textContent="Connecter l'atelier";
+    fail("Le jeton ne fonctionne pas ("+e.message+"). Vérifie qu'il a bien accès au dépôt tete-vide avec la permission Contents: Read and write.");
+  }
+});
+
+/* ---------- UNLOCK ---------- */
+$("un-go").addEventListener("click",unlock);
+$("un-pass").addEventListener("keydown",e=>{ if(e.key==="Enter") unlock(); });
+async function unlock(){
+  const pass=$("un-pass").value, msg=$("un-msg"); msg.classList.remove("show");
+  if(!pass) return;
+  $("un-go").disabled=true; $("un-go").innerHTML='<span class="spin"></span>Ouverture…';
+  try{
+    TOKEN=await decryptToken(loadVault(),pass);
+    await bootApp();
+  }catch(e){
+    TOKEN=null; $("un-go").disabled=false; $("un-go").textContent="Ouvrir";
+    msg.textContent="Mot de passe incorrect."; msg.classList.add("show");
+    $("un-pass").value=""; $("un-pass").focus();
+  }
+}
+$("un-reset").addEventListener("click",()=>{
+  if(confirm("Oublier le jeton enregistré sur ce téléphone ? Tu devras le recoller.")){
+    localStorage.removeItem(VAULT_KEY); location.reload();
+  }
+});
+$("app-lock").addEventListener("click",()=>{ TOKEN=null; location.reload(); });
+
+/* ---------- BOOT APP ---------- */
+async function bootApp(){
+  show($("app"));
+  $("list").innerHTML='<p class="empty">Chargement…</p>';
+  try{
+    await Promise.all([loadCollection("articles"),loadCollection("histoires")]);
+    renderCounts(); renderList();
+  }catch(e){
+    $("list").innerHTML='<p class="empty">Erreur de chargement : '+e.message+"</p>";
+  }
+}
+function renderCounts(){
+  $("cnt-articles").textContent="("+COLLECTIONS.articles.items.length+")";
+  $("cnt-histoires").textContent="("+COLLECTIONS.histoires.items.length+")";
+}
+
+/* ---------- TABS ---------- */
+document.querySelectorAll(".tab").forEach(t=>t.addEventListener("click",()=>{
+  CUR=t.dataset.col;
+  document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x===t));
+  $("search").value=""; renderList();
+}));
+$("search").addEventListener("input",renderList);
+
+/* ---------- LISTE ---------- */
+function renderList(){
+  const c=COLLECTIONS[CUR], q=$("search").value.trim().toLowerCase();
+  const items=c.items.filter(it=>!q||(it.titre+" "+(it.sousTitre||"")).toLowerCase().includes(q));
+  const box=$("list");
+  if(!items.length){ box.innerHTML='<p class="empty">'+(q?"Rien trouvé.":"Rien encore. Appuie sur « + Écrire ».")+"</p>"; return; }
+  box.innerHTML="";
+  items.forEach(it=>{
+    const el=document.createElement("div"); el.className="item";
+    const draft=!!it.brouillon;
+    el.innerHTML=`<div class="item-main">
+        <div class="item-title">${esc(it.titre)}</div>
+        <div class="item-sub">${esc(it.sousTitre||"")}</div>
+        <div class="item-meta">
+          <span class="pill ${draft?"draft":"live"}">${draft?"Brouillon":"En ligne"}</span>
+          ${it.cat?`<span class="pill">${esc(it.cat)}</span>`:""}
+          <span class="pill">${it.minutes||readMinutes(htmlToPlain(it.corps))} min</span>
+        </div>
+      </div><div class="item-edit">✎</div>`;
+    el.addEventListener("click",()=>openEditor(it));
+    box.appendChild(el);
+  });
+}
+function esc(s){ return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+
+/* ---------- EDITEUR ---------- */
+function openEditor(item){
+  EDITING=item; ISSUES=[]; $("issues").innerHTML=""; $("preview-pane").className=""; $("preview-pane").innerHTML="";
+  const c=COLLECTIONS[CUR];
+  $("field-cat").style.display=c.hasCat?"block":"none";
+  $("field-tweet").style.display=c.hasCat?"block":"none";
+  $("ed-title").textContent=item?"Modifier":("Nouvelle "+c.label);
+  $("ed-delete").hidden=!item;
+  $("f-titre").value=item?.titre||"";
+  $("f-sous").value=item?.sousTitre||"";
+  $("f-cat").value=item?.cat||"Vivre";
+  $("f-tweet").value=item?.tweet||"";
+  $("f-corps").value=item?htmlToPlain(item.corps):"";
+  setDraft(item?!!item.brouillon:true);
+  updateCounter();
+  $("editor").hidden=false;
+  document.body.style.overflow="hidden";
+  $("ed-body").scrollTop=0;
+}
+function closeEditor(){ $("editor").hidden=true; document.body.style.overflow=""; EDITING=null; }
+$("ed-cancel").addEventListener("click",()=>{
+  if($("f-corps").value.trim()&&!EDITING){ if(!confirm("Abandonner ce texte ?")) return; }
+  closeEditor();
+});
+$("btn-new").addEventListener("click",()=>openEditor(null));
+
+/* draft toggle */
+let DRAFT=true;
+function setDraft(on){
+  DRAFT=on;
+  $("draft-track").classList.toggle("on",on); // piste verte = brouillon actif
+  $("draft-st").textContent=on?"Brouillon":"Publié";
+  $("draft-sd").textContent=on?"Visible seulement par toi. Personne ne le voit sur le site.":"Sera visible par tout le monde sur le site.";
+  $("ed-save").textContent=on?"Enregistrer le brouillon":"Publier";
+}
+$("draft-switch").addEventListener("click",()=>setDraft(!DRAFT));
+
+/* compteur */
+$("f-corps").addEventListener("input",updateCounter);
+function updateCounter(){ const w=wordCount($("f-corps").value); $("counter").innerHTML=`<b>${w}</b> mot${w>1?"s":""} · ~<b>${readMinutes($("f-corps").value)} min</b> de lecture`; }
+
+/* mise en forme */
+$("tool-format").addEventListener("click",()=>{
+  const ta=$("f-corps"); const plain=htmlToPlain(plainToHtml(ta.value));
+  ta.value=plain.split(/\n{2,}/).map(b=>typo(b.trim())).filter(Boolean).join("\n\n");
+  updateCounter(); toast("Typographie française appliquée ✦");
+});
+
+/* aperçu */
+$("tool-preview").addEventListener("click",()=>{
+  const pv=$("preview-pane");
+  if(pv.classList.contains("show")){ pv.classList.remove("show"); return; }
+  const cat=COLLECTIONS[CUR].hasCat?`<div class="pv-cat">${esc($("f-cat").value)}</div>`:"";
+  pv.innerHTML=cat+`<h3>${esc($("f-titre").value||"Sans titre")}</h3><div class="pv-sub">${esc($("f-sous").value)}</div><div class="pv-body">${plainToHtml($("f-corps").value)}</div>`;
+  pv.classList.add("show"); pv.scrollIntoView({behavior:"smooth",block:"nearest"});
+});
+
+/* orthographe (LanguageTool) */
+$("tool-spell").addEventListener("click",runSpell);
+async function runSpell(){
+  const ta=$("f-corps"), text=ta.value;
+  if(!text.trim()) return;
+  const box=$("issues");
+  if(text.length>19000){ box.innerHTML='<div class="spell-note">Texte un peu long pour la vérif gratuite. Coupe-le en deux pour vérifier, ou publie tel quel.</div>'; return; }
+  $("tool-spell").disabled=true; $("tool-spell").innerHTML='<span class="spin" style="border-top-color:var(--orange)"></span>Analyse…';
+  try{
+    const res=await fetch("https://api.languagetool.org/v2/check",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:new URLSearchParams({text,language:"fr"})});
+    if(!res.ok) throw new Error(res.status);
+    const data=await res.json();
+    ISSUES=data.matches.map(m=>({offset:m.offset,length:m.length,msg:m.message,repl:(m.replacements||[]).slice(0,4).map(r=>r.value)}));
+    renderIssues();
+  }catch(e){
+    box.innerHTML='<div class="spell-note">Le correcteur n\'a pas répondu (réseau ou limite). Réessaie dans un instant.</div>';
+  }finally{
+    $("tool-spell").disabled=false; $("tool-spell").textContent="🔤 Orthographe";
+  }
+}
+function renderIssues(){
+  const box=$("issues"), text=$("f-corps").value;
+  if(!ISSUES.length){ box.innerHTML='<div class="spell-note">Aucune faute détectée. 👌</div>'; return; }
+  box.innerHTML=`<div class="spell-note">${ISSUES.length} point${ISSUES.length>1?"s":""} à vérifier :</div>`;
+  ISSUES.forEach((is,i)=>{
+    const bad=esc(text.substr(is.offset,is.length))||"(espace)";
+    const before=esc(text.substr(Math.max(0,is.offset-18),Math.min(18,is.offset)));
+    const after=esc(text.substr(is.offset+is.length,18));
+    const el=document.createElement("div"); el.className="issue";
+    el.innerHTML=`<div class="issue-txt">…${before}<span class="bad">${bad}</span>${after}…</div>
+      <div class="issue-msg">${esc(is.msg)}</div>
+      <div class="issue-acts">
+        ${is.repl.map(r=>`<button class="sugg">${esc(r)||"(supprimer)"}</button>`).join("")}
+        <button class="ignore">Ignorer</button>
+      </div>`;
+    el.querySelectorAll(".sugg").forEach((b,j)=>b.addEventListener("click",()=>applyFix(i,is.repl[j])));
+    el.querySelector(".ignore").addEventListener("click",()=>{ ISSUES.splice(i,1); renderIssues(); });
+    box.appendChild(el);
+  });
+}
+function applyFix(i,value){
+  const ta=$("f-corps"), is=ISSUES[i], t=ta.value;
+  ta.value=t.slice(0,is.offset)+value+t.slice(is.offset+is.length);
+  const delta=value.length-is.length;
+  ISSUES.forEach(o=>{ if(o.offset>is.offset) o.offset+=delta; });
+  ISSUES.splice(i,1);
+  renderIssues(); updateCounter();
+}
+
+/* ---------- SAUVEGARDE (commit) ---------- */
+$("ed-save").addEventListener("click",save);
+async function save(){
+  const titre=$("f-titre").value.trim();
+  if(!titre){ toast("Il faut au moins un titre."); return; }
+  const c=COLLECTIONS[CUR];
+  const corpsHtml=plainToHtml($("f-corps").value);
+  if(!corpsHtml){ toast("Le texte est vide."); return; }
+  const btn=$("ed-save"); btn.disabled=true; const lbl=btn.textContent;
+  btn.innerHTML='<span class="spin"></span>Publication…';
+  try{
+    let obj;
+    if(EDITING){
+      obj=EDITING;
+      obj.titre=titre; obj.sousTitre=$("f-sous").value.trim();
+      obj.corps=corpsHtml; obj.minutes=readMinutes($("f-corps").value); obj.brouillon=DRAFT;
+      if(c.hasCat){ obj.cat=$("f-cat").value; obj.tweet=$("f-tweet").value.trim(); }
+    } else {
+      obj={ id:uniqueId(slugify(titre),c.items), titre, sousTitre:$("f-sous").value.trim() };
+      if(c.hasCat){ obj.cat=$("f-cat").value; obj.tweet=$("f-tweet").value.trim(); }
+      obj.minutes=readMinutes($("f-corps").value); obj.brouillon=DRAFT; obj.corps=corpsHtml;
+      c.items.unshift(obj);
+    }
+    const verb=DRAFT?"brouillon":"publication";
+    await commitCollection(CUR,`Atelier: ${EDITING?"maj":"nouvelle"} ${c.label} « ${titre} » (${verb})`);
+    renderCounts(); renderList(); closeEditor();
+    toast(DRAFT?"Brouillon enregistré ✓":"Publié ✓ · en ligne dans ~1-2 min");
+  }catch(e){
+    btn.disabled=false; btn.textContent=lbl;
+    if(String(e.message).startsWith("409")){ toast("Le site a changé entre-temps. Recharge l'atelier."); }
+    else toast("Échec : "+e.message,3500);
+  }
+}
+
+/* ---------- SUPPRESSION ---------- */
+$("ed-delete").addEventListener("click",async()=>{
+  if(!EDITING) return;
+  if(!confirm(`Supprimer définitivement « ${EDITING.titre} » ?`)) return;
+  const c=COLLECTIONS[CUR], btn=$("ed-delete");
+  btn.disabled=true; btn.innerHTML='<span class="spin"></span>';
+  try{
+    c.items=c.items.filter(it=>it!==EDITING);
+    await commitCollection(CUR,`Atelier: suppression « ${EDITING.titre} »`);
+    renderCounts(); renderList(); closeEditor();
+    toast("Supprimé ✓");
+  }catch(e){
+    btn.disabled=false; btn.textContent="Supprimer";
+    toast("Échec : "+e.message,3500);
+  }
+});
+</script>
+</body>
+</html>

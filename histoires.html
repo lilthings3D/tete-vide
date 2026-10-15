@@ -409,7 +409,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       return;
     }
     list.innerHTML = "";
-    HISTOIRES.forEach((h, i) => {
+    HISTOIRES.filter(h => !h.brouillon).forEach((h, i) => {
       const firstP = h.corps.match(/<p>(.*?)<\/p>/s);
       const excerpt = firstP
         ? firstP[1].replace(/<[^>]+>/g, "").slice(0, 160) + "…"
@@ -484,7 +484,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   function openStory(id) {
     const h = HISTOIRES.find(x => x.id === id);
     if (!h) return;
-    const others = HISTOIRES.filter(x => x.id !== id);
+    const others = HISTOIRES.filter(x => x.id !== id && !x.brouillon);
     const nextBtn = others.length > 0
       ? `<button class="next-story" onclick="openStory('${others[0].id}')">Lire ensuite : « ${others[0].titre} » →</button>`
       : "";
