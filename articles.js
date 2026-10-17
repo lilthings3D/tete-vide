@@ -1,5 +1,145 @@
 const ARTICLES = [
   {
+    id: "vexe-reaction-ressenti",
+    titre: "Ta réaction trahit ce que tu as ressenti",
+    sousTitre: "Sur le fait qu'on ne réagit jamais à côté de la plaque",
+    cat: "Émotions",
+    tweet: "Quand tu es vexé, la taille de ta réaction mesure exactement la taille de ce que tu as encaissé. Une réaction, c'est un aveu.",
+    minutes: 1,
+    brouillon: true,
+    corps: `<p>Un truc qui me revient : <em>quand tu es vexé, ta réaction est égale à ce que tu as ressenti.</em> Autrement dit, les réactions sont égales au ressenti. On ne réagit jamais à côté de la plaque — on réagit à la hauteur de ce qui nous a touchés.</p>
+
+<p>Si une remarque te traverse sans rien accrocher, tu ne bronches pas. Si elle te fait exploser, c'est qu'elle a trouvé quelque chose à l'intérieur. Le truc gênant, c'est que ça se voit. Ma colère dit à l'autre, sans mon autorisation, l'endroit précis où ça fait mal.</p>
+
+<p>Du coup je me méfie de mes propres éclats. Quand je réagis trop fort à un détail, ce n'est presque jamais le détail le problème. C'est une vieille blessure qu'on vient de frôler. La réaction, c'est la jauge. Reste à oser lire ce qu'elle indique.</p>`
+  },
+  {
+    id: "reseaux-espoir-attention",
+    titre: "On poste de l'espoir, on cherche de l'attention",
+    sousTitre: "Sur ce que cache une vie heureuse affichée",
+    cat: "Monde moderne",
+    tweet: "Les belles vies qui donnent de l'espoir aux autres sont souvent postées par des gens qui vont mal. On admire un rôle, pas une vie.",
+    minutes: 1,
+    brouillon: true,
+    corps: `<p>Une idée un peu cynique mais qui me colle : <em>les gens sur les réseaux postent leur vie, ça donne de l'espoir aux autres, mais s'ils publient c'est pour avoir de l'attention, parce qu'ils sont malheureux. On joue un rôle.</em></p>
+
+<p>Le paradoxe est cruel. Ce qui inspire les autres vient d'un manque. On met en scène un bonheur qu'on n'a pas tout à fait, justement parce qu'on en manque, et des inconnus envient une vie qui n'existe que le temps du post. L'espoir qu'on distribue est fabriqué à partir de notre propre vide.</p>
+
+<p>Je ne jette la pierre à personne, je fais pareil. Mais ça change ma façon de scroller. Derrière chaque vie parfaite, je me demande maintenant : qu'est-ce que tu es en train de combler, là, en appuyant sur « publier » ?</p>`
+  },
+  {
+    id: "simulation-telephones-memoire",
+    titre: "La simulation, c'est juste nos téléphones",
+    sousTitre: "Sur une mémoire coupée en deux",
+    cat: "Monde moderne",
+    tweet: "Si on a l'impression de vivre dans une simulation, pas besoin de métaphysique : notre mémoire est scindée entre le monde réel et l'écran.",
+    minutes: 1,
+    brouillon: true,
+    corps: `<p>Ma théorie du moment : <em>si on a l'impression de vivre dans une simulation, c'est à cause des téléphones. La mémoire est scindée entre le monde réel et l'informatique.</em></p>
+
+<p>Pas besoin de convoquer des extraterrestres ou un code cosmique. On passe la moitié de nos journées dans un monde fait de pixels, de notifications, de vies filmées. Nos souvenirs se mélangent : est-ce que j'ai vécu ça, ou est-ce que je l'ai vu sur un écran ? La frontière devient floue, et c'est ce flou qui donne cette sensation d'irréalité.</p>
+
+<p>On a deux mémoires qui tournent en parallèle et qui ne se recoupent pas. Forcément, à un moment, le réel paraît moins solide. La simulation, ce n'est pas le monde qui est faux. C'est notre tête qui ne sait plus trier.</p>`
+  },
+  {
+    id: "cerveau-avance-sans-solution",
+    titre: "Mon cerveau avance sans voir qu'il n'y a pas d'issue",
+    sousTitre: "Sur la différence entre régler et planifier",
+    cat: "Penser",
+    tweet: "Je règle les problèmes au fur et à mesure sans voir qu'il n'y a pas de solution. Ça marche quand je suis seul. Avec les autres, ça coince.",
+    minutes: 1,
+    brouillon: true,
+    corps: `<p>Je me suis fait une remarque sur ma façon de fonctionner : <em>mon cerveau ne voit pas qu'il n'y a pas de solution, il avance et règle les problèmes au fur et à mesure. Ça marche si je suis seul sur un problème, mais avec des gens ça ne marche pas : ils veulent le plan global.</em></p>
+
+<p>Tout seul, c'est une force. Je ne me paralyse pas à contempler l'ampleur du truc, j'attaque le premier bout, puis le suivant, et de proche en proche le mur finit par tomber. Ne pas voir l'impossible, ça permet souvent de le dépasser.</p>
+
+<p>Mais dès qu'il y a des gens, ça coince. Eux veulent la carte entière avant de faire un pas. Ils ont besoin de savoir où on va, et moi je ne sais que comment avancer. On ne parle pas la même langue : je pense en pas, ils pensent en plan. Je n'ai pas tranché qui a raison. Peut-être qu'à plusieurs, il faut effectivement une carte — et que ma méthode ne vaut que pour les solitaires.</p>`
+  },
+  {
+    id: "tuer-quelquun-films",
+    titre: "Est-ce que je serais à l'envers, moi ?",
+    sousTitre: "Sur la violence qu'on regarde sans la sentir",
+    cat: "Soi",
+    tweet: "Les films nous montrent mille morts sans qu'on sente rien. Je me demande, bêtement, ce que ça ferait pour de vrai à quelqu'un de normal.",
+    minutes: 1,
+    brouillon: true,
+    corps: `<p>Une question bizarre que je n'ose dire à personne : <em>est-ce que je suis le seul à me demander ce que ça ferait de tuer quelqu'un ? Est-ce que j'aurais autant de crises de panique que les mecs dans les films ?</em></p>
+
+<p>Ce n'est pas une envie, c'est une vertige. On passe nos vies à regarder des gens mourir à l'écran, des dizaines par soirée, et ça ne nous fait plus rien. La fiction a anesthésié quelque chose. Alors je me demande à quoi ressemblerait le vrai — pas le geste, mais le contrecoup. Les films montrent parfois le héros qui vomit, qui tremble, qui ne dort plus. Est-ce que ce serait moi ? Ou est-ce que je me suis tellement habitué aux images que même ça serait fade ?</p>
+
+<p>Au fond, la question n'est pas sur le meurtre. Elle est sur moi : est-ce qu'il me reste assez d'humanité pour être dévasté par ce qui devrait dévaster ? J'aime autant ne jamais avoir la réponse. Mais le fait de me la poser me rassure un peu — un monstre ne se demanderait pas s'il tremblerait.</p>`
+  },
+  {
+    id: "etre-oubliable",
+    titre: "Ma plus grande peur, c'est d'être oubliable",
+    sousTitre: "Sur ce qui fait plus mal que d'être détesté",
+    cat: "Émotions",
+    tweet: "Ce n'est pas la mort qui me fait peur, c'est de ne laisser aucune trace. Être détesté, au moins, ça veut dire qu'on a compté.",
+    minutes: 1,
+    brouillon: true,
+    corps: `<p>Je l'ai compris récemment : <em>ce qui me fait le plus mal, c'est d'être oubliable.</em> Pas d'être détesté, pas même de mourir. D'être le genre de personne dont on ne se souvient pas.</p>
+
+<p>Être détesté, au fond, c'est encore exister pour quelqu'un. Ça veut dire qu'on a laissé une marque, même moche. L'oubli, lui, c'est l'effacement total : comme si on n'avait jamais traversé la vie de l'autre. C'est la version douce du néant, et elle me terrifie plus que la vraie.</p>
+
+<p>Je crois que beaucoup de choses que je fais, sans l'avouer, servent juste à ne pas disparaître des mémoires. Écrire ici, par exemple. Déposer des mots quelque part pour que, même après, il reste la preuve que j'ai pensé à voix haute. Ce n'est pas très glorieux comme moteur. Mais c'est honnête.</p>`
+  },
+  {
+    id: "hommes-femmes-regles",
+    titre: "S'adapter ou rester seul",
+    sousTitre: "Sur un choix que je vis comme une impasse",
+    cat: "Société",
+    tweet: "J'ai parfois l'impression d'un marché : accepter les codes de l'autre, ou vivre seul. Mais ces codes sont-ils vraiment une question d'hommes et de femmes ?",
+    minutes: 1,
+    brouillon: true,
+    corps: `<p>Une pensée amère qui me traverse les mauvais jours : <em>les hommes, soit on accepte les règles des femmes, soit on vit seul et triste.</em> Je l'écris telle qu'elle vient, même si je sais qu'elle est bancale.</p>
+
+<p>Bancale, parce que ce n'est sans doute pas une histoire d'hommes et de femmes. C'est l'équation de toute relation : à deux, il faut renoncer à une partie de ses règles à soi. S'adapter, se plier, lâcher du terrain. Et celui qui refuse absolument de bouger finit effectivement seul. Ça vaut pour tout le monde, pas pour un genre.</p>
+
+<p>Ce qui me reste de vrai dans cette phrase, c'est la solitude qu'elle décrit. La peur de me dissoudre si je m'adapte, et la tristesse si je ne le fais pas. Peut-être que grandir, c'est comprendre que s'adapter à quelqu'un qu'on aime n'est pas se trahir — mais ce jour-là n'est pas encore arrivé.</p>`
+  },
+  {
+    id: "cerveau-banalise-dose",
+    titre: "Tout est devenu fade",
+    sousTitre: "Sur une tolérance à l'émerveillement qui ne cesse de monter",
+    cat: "Monde moderne",
+    tweet: "À force de voir des trucs incroyables toute la journée, plus rien ne me fait d'effet. Un drogué qui court après une dose qui ne vient plus.",
+    minutes: 1,
+    brouillon: true,
+    corps: `<p>Un constat qui ne me lâche pas : <em>mon cerveau a tout banalisé. Vu que je vois toute la journée des trucs incroyables sur les réseaux, tout est fade. Je suis un héroïnomane qui cherche une nouvelle dose en permanence, et plus rien ne me satisfait.</em></p>
+
+<p>C'est le piège de l'abondance. Des exploits, des paysages de rêve, des vies hors norme défilent par milliers sous mon pouce. À ce régime, le réel ne peut plus rivaliser. Un vrai coucher de soleil paraît presque décevant à côté des mille que j'ai vus en story. On a relevé la barre de l'émerveillement si haut que la vie, la vraie, passe en dessous.</p>
+
+<p>Et comme un drogué, j'en veux toujours plus fort. La tolérance monte, la dose ne suffit plus, je scrolle pour retrouver un frisson qui s'éloigne à chaque fois. Le plus triste, ce n'est pas de ne plus être émerveillé. C'est de sentir que l'organe qui servait à ça est en train de s'éteindre.</p>`
+  },
+  {
+    id: "vie-davant-me-manque",
+    titre: "Ma vie d'avant me manque, sans raison",
+    sousTitre: "Sur une nostalgie qui ne mène nulle part",
+    cat: "Vivre",
+    tweet: "Je sais que cette époque ne faisait rien avancer, qu'elle ne menait nulle part. On rigolait bien, c'est tout. Et pourtant elle me manque.",
+    minutes: 1,
+    brouillon: true,
+    corps: `<p>Un truc que j'ai du mal à m'expliquer : <em>ma vie d'avant me manque de façon bizarre. Je sais que ça mène nulle part et que ça ne fait pas avancer ma vie. On rigolait bien, et c'est tout.</em></p>
+
+<p>Bizarre, parce que rationnellement il n'y a rien à regretter. Pas de grande réussite, pas de projet, aucune de ces choses dont on est censé être fier. Juste des gens, des heures qui ne servaient à rien, des fous rires sans objet. Sur le papier, du temps perdu.</p>
+
+<p>Mais peut-être que c'est exactement ça qui manque : du temps qui ne servait à rien. Aujourd'hui tout doit avancer, construire, rapporter. « On rigolait bien, c'est tout » — et si ce « c'est tout » était le plus précieux ? On ne regrette pas ce qui nous a fait progresser. On regrette ce qui nous a fait du bien.</p>`
+  },
+  {
+    id: "dos-a-l-amour",
+    titre: "Le chercher partout, ou le trouver partout",
+    sousTitre: "Sur l'amour comme une décision",
+    cat: "Vivre",
+    tweet: "Tu peux passer ta vie à chercher l'amour partout — ou à le trouver partout. C'est la même phrase, ou presque. Et pourtant tout se joue là.",
+    minutes: 1,
+    brouillon: true,
+    corps: `<p>Une phrase qui tourne dans ma tête comme une petite loi : <em>si tu tournes le dos à l'amour, tu n'as rien à faire ici. Tu peux passer ton temps à le chercher partout, ou bien le trouver partout : à toi de choisir.</em></p>
+
+<p>Chercher et trouver, à une lettre près, c'est deux mondes. Chercher, c'est partir du manque : courir, réclamer, espérer que ça vienne enfin de l'extérieur. On peut y user sa vie entière sans jamais être rassasié. Trouver, c'est partir de la présence : décider de le voir là où il est déjà, dans des gestes minuscules, chez des inconnus, dans une lumière.</p>
+
+<p>Ce n'est pas une question de chance, c'est une question de posture. L'amour n'est peut-être pas une chose à dénicher, mais une façon de regarder. Et tourner le dos à ça — faire semblant que ça n'existe pas, par orgueil ou par peur — c'est effectivement n'avoir rien à faire ici. Alors, à moi de choisir. Tous les jours, apparemment.</p>`
+  },
+  {
     id: "chemin-nulle-part",
     titre: "Seul sur un chemin qui ne mène nulle part",
     sousTitre: "Sur ces moments où on avance sans savoir vers quoi",
