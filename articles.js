@@ -1,5 +1,15 @@
 const ARTICLES = [
   {
+    id: "l-ignorance-mene-au-cote-obscur",
+    titre: "L'ignorance mène au côté obscur",
+    sousTitre: "Yoda n'a pas tout révélé",
+    cat: "Vivre",
+    tweet: "L'ignorance est le chemin vers le côté obscur : l'ignorance mène à la peur, la peur mène à la colère, la colère mène à la haine, la haine… mène à la souffrance.",
+    minutes: 1,
+    brouillon: true,
+    corps: `<p>« La peur est le chemin vers le côté obscur : la peur mène à la colère, la colère mène à la haine, la haine… mène à la souffrance. »<br>Cependant on peut ajouter une autre itération, car l’ignorance mène à la peur</p>`
+  },
+  {
     id: "vexe-reaction-ressenti",
     titre: "Ta réaction trahit ce que tu as ressenti",
     sousTitre: "Sur le fait qu'on ne réagit jamais à côté de la plaque",
@@ -155,7 +165,7 @@ const ARTICLES = [
     
     <p>Alors j'ai arrêté de chercher des réponses. Il n'y a pas de guide suprême, il n'y a aucun dessein. Une simple ligne dans le code du vivant qui dit : « Reste en vie, coûte que coûte », et qui dérive petit à petit pour créer ce que nous sommes aujourd'hui.</p>
     
-    <p>Ma seule crainte, c'est que la conscience de soi, l'ego, surpasse la volonté de survie du vivant et détruise tout ce qui existe au profit d'un individu éphémère. Espérons que je me trompe.</p>`,
+    <p>Ma seule crainte, c'est que la conscience de soi, l'ego, surpasse la volonté de survie du vivant et détruise tout ce qui existe au profit d'un individu éphémère. Espérons que je me trompe.</p>`
   },
   {
     id: "touche-a-tout-marche",
@@ -444,14 +454,14 @@ const ARTICLES = [
     cat: "Soi",
     tweet: "Et si la confiance en soi qu'on admire chez les autres n'était que le confort de ne jamais quitter ce qu'on maîtrise déjà ?",
     minutes: 2,
-  corps: `<p>Imagine que tu es au bar, tu regardes un match de foot tranquillement, et les types à côté de toi ont une conversation super poussée sur la technique et la tactique de chaque équipe. Ils connaissent le nom des joueurs, et presque leur régime alimentaire. Toi, tu es juste venu boire une bière, mais une petite voix dans ta tête commence à s'éveiller : tu n'es pas au niveau, tu n'es peut-être même pas légitime pour regarder un match de foot, et tu devrais sans doute rentrer chez toi et regarder des vidéos YouTube pour comprendre les tactiques et apprendre le nom des joueurs par cœur — le minimum pour avoir le droit d'apprécier un match. Alors qu'on s'en fiche complètement. Ces mecs-là ne connaissent sans doute rien à ton domaine à toi, et c'est pas un jugement : on a une capacité limitée, cérébrale et temporelle, on ne peut pas tout connaître. Mais toi, sur le moment, tu t'imagines que tu n'es pas à la hauteur.</p>
+    corps: `<p>Imagine que tu es au bar, tu regardes un match de foot tranquillement, et les types à côté de toi ont une conversation super poussée sur la technique et la tactique de chaque équipe. Ils connaissent le nom des joueurs, et presque leur régime alimentaire. Toi, tu es juste venu boire une bière, mais une petite voix dans ta tête commence à s'éveiller : tu n'es pas au niveau, tu n'es peut-être même pas légitime pour regarder un match de foot, et tu devrais sans doute rentrer chez toi et regarder des vidéos YouTube pour comprendre les tactiques et apprendre le nom des joueurs par cœur — le minimum pour avoir le droit d'apprécier un match. Alors qu'on s'en fiche complètement. Ces mecs-là ne connaissent sans doute rien à ton domaine à toi, et c'est pas un jugement : on a une capacité limitée, cérébrale et temporelle, on ne peut pas tout connaître. Mais toi, sur le moment, tu t'imagines que tu n'es pas à la hauteur.</p>
 
 <p>Ils sont dans leur zone de confort, tu ressens leur aura, elle leur donne un aspect de maîtrise totale de leur environnement, qu'ils doivent sûrement maîtriser…Ils sont dans leur zone de confort, tu ressens leur aura, elle leur donne un aspect de maîtrise totale de leur environnement, qu'ils doivent sûrement maîtriser des vérités que tu ignores, et dans un sens c'est vrai. Mais ça ne fait pas d'eux des êtres supérieurs à toi. C'est juste des gars que tu as croisés dans leur domaine d'expertise.</p>
 
 <p>Pour moi, cette sensation de stabilité, de maîtrise d'un sujet, ne devrait pas être un indicateur de force ou de puissance. Un homme que tu croises toujours dans cet état de maîtrise de son monde ne sort en fait jamais de sa zone de confort, et donc finit par stagner. Tu te mesures à quelqu'un sur son terrain, tu te trouves nul, et t'oublies que tu compares ta polyvalence à sa spécialité. Lui ne brille que là ; toi tu te balades sur dix terrains où t'es moyen — mais au moins tu bouges. Ce malaise de te sentir largué dans un truc nouveau, c'est pas la preuve que t'es nul, c'est la preuve que t'as pas arrêté d'explorer.</p>
 
 <p>Du coup, je sais plus trop quoi penser quand je croise quelqu'un de super sûr de lui. Une partie de moi l'envie, et une autre se demande depuis combien de temps il a pas mis les pieds dehors. Et quand c'est moi qui patauge dans un truc que je découvre, j'essaie de me rappeler que cette sensation m'indique que je suis en train d'évoluer.</p>`,
-     brouillon: false
+    brouillon: false
   },
   {
     id: "conseils-viennent-de-toi",
@@ -489,7 +499,7 @@ const ARTICLES = [
 <p>Et il y a un truc marrant là-dedans : on n'est jamais aussi unique que quand on arrête d'essayer de l'être. Le personnage qu'on se fabrique, il ressemble toujours à quelqu'un qui nous inspire, mais du coup c'est du déjà-vu. Alors que toi, le vrai toi, n'as pas d'équivalent. À condition d'arrêter de te maquiller pour ressembler à l'idée que tu te fais de quelqu'un de bien.</p>`,
     brouillon: false
   },
-{
+  {
     id: "vis-rouillee-echelle",
     titre: "La valeur est relative",
     sousTitre: "Sur ce qui devient soudain le plus important au monde",
@@ -516,7 +526,7 @@ const ARTICLES = [
 <p>Je dis pas ça pour trancher. Je n'ai pas de réponse, et je me méfie des gens qui en ont une toute prête sur ce sujet. Ce que je retiens, c'est surtout que cette question, on préfère ne pas la regarder. On vénère la longévité sans jamais demander : longévité de quoi ? Et je crois que c'est ça qui m'a remué, ce qui fait qu'une vie reste une vie.</p>`,
     brouillon: false
   },
-    {
+  {
     id: "colere-cest-la-peur",
     titre: "Quand tu es en colère, c'est que tu as peur",
     sousTitre: "Sur ce qui se cache vraiment sous l'agacement quotidien",
@@ -852,7 +862,7 @@ const ARTICLES = [
 <p>Changer d'idoles, alors, ce serait choisir d'admirer autre chose : plus ceux qui ont tout sacrifié pour un nom, mais ceux qui ont réussi à vivre bien. Des modèles de joie tenable plutôt que de gloire douloureuse. C'est moins spectaculaire, ça fait pas de légende. Mais c'est peut-être exactement ce dont on a besoin pour avancer sans se détruire en croyant s'élever.</p>`,
     brouillon: true
   },
-    {
+  {
     id: "bon-sens-bonne-direction",
     titre: "Toujours dans le bon sens, jamais dans la bonne direction TEST",
     sousTitre: "Sur un monde devenu trop complexe pour qu'on puisse bien y agir",
