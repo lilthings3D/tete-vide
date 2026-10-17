@@ -7,7 +7,7 @@ const ARTICLES = [
     tweet: "L'ignorance est le chemin vers le côté obscur : l'ignorance mène à la peur, la peur mène à la colère, la colère mène à la haine, la haine… mène à la souffrance.",
     minutes: 1,
     brouillon: true,
-    corps: `<p>« La peur est le chemin vers le côté obscur : la peur mène à la colère, la colère mène à la haine, la haine… mène à la souffrance. »<br>Cependant on peut ajouter une autre itération, car l’ignorance mène à la peur</p>`
+    corps: `<p>« La peur est le chemin vers le côté obscur : la peur mène à la colère, la colère mène à la haine, la haine… mène à la souffrance. »<br>Cependant on peut ajouter une autre itération. Il ne t’es jamais arrivé de détester une personne, puis d’apprendre à la connaître et qu’elle devienne un de t’es plus proche amis ? Ou de refuser catégoriquement une activité, avant d’accepter finalement cette randonnée et de t’apercevoir que c'était pas si mal ? Que ça valait le coup de marché un peu pour voir ce panorama ? L’ignora</p>`
   },
   {
     id: "vexe-reaction-ressenti",
