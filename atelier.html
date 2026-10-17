@@ -69,6 +69,12 @@
   .toolbar input{flex:1;}
   .btn-new{white-space:nowrap;background:var(--orange);color:#fff;padding:12px 16px;border-radius:12px;font-weight:600;}
   .btn-new:hover{background:var(--orange-deep);}
+  .filters{max-width:720px;margin:10px auto 0;padding:0 16px;display:flex;gap:8px;}
+  .fchip{flex:1;text-align:center;padding:9px 6px;border-radius:999px;background:var(--bg-soft);color:var(--ink-soft);font-weight:600;font-size:0.86rem;border:1.5px solid transparent;}
+  .fchip .fc{font-weight:500;opacity:.7;font-size:0.8rem;}
+  .fchip.active{background:var(--paper);color:var(--ink);border-color:var(--rule-strong);}
+  .fchip[data-f="live"].active{color:var(--ok);border-color:#bfe0cc;}
+  .fchip[data-f="draft"].active{color:var(--orange-deep);border-color:var(--rule-strong);}
 
   .list{max-width:720px;margin:14px auto 40px;padding:0 16px;}
   .item{background:var(--paper);border:1.5px solid var(--rule);border-radius:14px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:flex-start;gap:12px;transition:border-color .15s;}
@@ -198,6 +204,12 @@
     <button class="btn-new" id="btn-new">+ Écrire</button>
   </div>
 
+  <div class="filters" id="filters">
+    <button class="fchip active" data-f="all">Tout <span class="fc" id="fc-all"></span></button>
+    <button class="fchip" data-f="live">Publiés <span class="fc" id="fc-live"></span></button>
+    <button class="fchip" data-f="draft">Brouillons <span class="fc" id="fc-draft"></span></button>
+  </div>
+
   <div class="list" id="list"></div>
 </div>
 
@@ -276,6 +288,7 @@ const COLLECTIONS={
 };
 let TOKEN=null;
 let CUR="articles";          // collection courante
+let FILTER="all";            // all | live | draft
 let EDITING=null;            // objet en cours d'édition (ou null = nouveau)
 let ISSUES=[];               // résultats orthographe
 
@@ -453,12 +466,28 @@ document.querySelectorAll(".tab").forEach(t=>t.addEventListener("click",()=>{
 }));
 $("search").addEventListener("input",renderList);
 
+/* ---------- FILTRE publié / brouillon ---------- */
+document.querySelectorAll(".fchip").forEach(ch=>ch.addEventListener("click",()=>{
+  FILTER=ch.dataset.f;
+  document.querySelectorAll(".fchip").forEach(x=>x.classList.toggle("active",x===ch));
+  renderList();
+}));
+
 /* ---------- LISTE ---------- */
 function renderList(){
   const c=COLLECTIONS[CUR], q=$("search").value.trim().toLowerCase();
-  const items=c.items.filter(it=>!q||(it.titre+" "+(it.sousTitre||"")).toLowerCase().includes(q));
+  // compteurs des filtres (sur toute la collection)
+  $("fc-all").textContent=c.items.length;
+  $("fc-live").textContent=c.items.filter(x=>!x.brouillon).length;
+  $("fc-draft").textContent=c.items.filter(x=>x.brouillon).length;
+  let items=c.items.filter(it=>!q||(it.titre+" "+(it.sousTitre||"")).toLowerCase().includes(q));
+  if(FILTER==="live") items=items.filter(it=>!it.brouillon);
+  else if(FILTER==="draft") items=items.filter(it=>it.brouillon);
   const box=$("list");
-  if(!items.length){ box.innerHTML='<p class="empty">'+(q?"Rien trouvé.":"Rien encore. Appuie sur « + Écrire ».")+"</p>"; return; }
+  if(!items.length){
+    const m=q?"Rien trouvé.":FILTER==="live"?"Aucun texte publié ici.":FILTER==="draft"?"Aucun brouillon ici.":"Rien encore. Appuie sur « + Écrire ».";
+    box.innerHTML='<p class="empty">'+m+"</p>"; return;
+  }
   box.innerHTML="";
   items.forEach(it=>{
     const el=document.createElement("div"); el.className="item";
