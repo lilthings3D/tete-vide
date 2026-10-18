@@ -156,9 +156,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   <div id="controls" hidden>
     <div class="dpad">
-      <button class="sp"></button><button data-dir="up">▲</button><button class="sp"></button>
-      <button data-dir="left">◀</button><button class="sp"></button><button data-dir="right">▶</button>
-      <button class="sp"></button><button data-dir="down">▼</button><button class="sp"></button>
+      <button class="sp"></button><button data-k="fwd">▲</button><button class="sp"></button>
+      <button data-k="tl">↰</button><button data-k="bk">▼</button><button data-k="tr">↱</button>
+      <button class="sp"></button><button class="sp"></button><button class="sp"></button>
     </div>
     <div class="act">
       <button class="a-btn" id="btn-action">Action</button>
@@ -168,7 +168,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       </div>
     </div>
   </div>
-  <div class="hint-kb" id="hint-kb" hidden>Flèches / WASD pour bouger · Espace pour agir</div>
+  <div class="hint-kb" id="hint-kb" hidden>↰ ↱ tourner · ▲ avancer · ▼ reculer · Espace pour agir</div>
 </div>
 
 <!-- ===== INTRO ===== -->
@@ -229,7 +229,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 /* =========================================================
    RAGE DE DENT — tranche « Hôpital »
    ========================================================= */
-const SAVE="rage-de-dent-v1";
+const SAVE="rage-de-dent-v2";
 const $=id=>document.getElementById(id);
 const cv=$("cv"), ctx=cv.getContext("2d");
 const COLS=13, ROWS=14, TILE=34;
@@ -267,7 +267,7 @@ const BEST={
 let P, ENT, scr="intro";
 
 function freshGame(){
-  P={ x:2,y:2, niv:1,xp:0,xpNext:12, pvMax:30,pv:30, force:5,intel:1,
+  P={ x:2,y:2, dir:2, niv:1,xp:0,xpNext:12, pvMax:30,pv:30, force:5,intel:1,
       rage:0,rageMax:100, deg:0, pts:0,
       skills:{}, booksRead:0, bossDown:false };
   ENT=[
@@ -291,30 +291,68 @@ function entAt(x,y){ return ENT.find(e=>e.x===x&&e.y===y&&!(e.t==="enemy"&&!e.al
 function save(){ try{ localStorage.setItem(SAVE,JSON.stringify({P,ENT,scr})); }catch(e){} }
 function load(){ try{ const d=JSON.parse(localStorage.getItem(SAVE)); if(d&&d.P){P=d.P;ENT=d.ENT;return true;} }catch(e){} return false; }
 
-/* ======================= RENDU CARTE ======================= */
+/* ======================= RENDU PREMIÈRE PERSONNE ======================= */
+const DIRS=[[0,-1],[1,0],[0,1],[-1,0]]; // N, E, S, O
+const DEPTH=4;
+function relCell(f,s){ // f = devant, s = à droite (repère du joueur)
+  const F=DIRS[P.dir], R=DIRS[(P.dir+1)%4];
+  return [P.x+F[0]*f+R[0]*s, P.y+F[1]*f+R[1]*s];
+}
+function wallRel(f,s){ const [x,y]=relCell(f,s); return wall(x,y); }
+function entRel(f,s){ const [x,y]=relCell(f,s); return entAt(x,y); }
+function spriteOf(e){
+  if(!e) return null;
+  if(e.t==="enemy"){ if(!e.alive) return null; return BEST[e.k].emoji; }
+  if(e.t==="book"){ return e.used?null:e.emoji; }
+  if(e.t==="smash"){ return e.broken?null:e.emoji; }
+  if(e.t==="exit"){ return e.emoji; }
+  return null;
+}
+function frameAt(d){
+  const s=Math.pow(0.58,d);
+  const W=cv.width,H=cv.height, cx=W/2, cy=H*0.47;
+  const hw=W*0.52*s, hh=H*0.54*s;
+  return {l:cx-hw,r:cx+hw,t:cy-hh,b:cy+hh};
+}
+function poly(pts,fill){ ctx.fillStyle=fill; ctx.beginPath(); ctx.moveTo(pts[0][0],pts[0][1]); for(let i=1;i<pts.length;i++) ctx.lineTo(pts[i][0],pts[i][1]); ctx.closePath(); ctx.fill(); }
+function sh(base,lit){ return `rgb(${Math.round(base[0]*lit)},${Math.round(base[1]*lit)},${Math.round(base[2]*lit)})`; }
+
 function draw(){
-  ctx.clearRect(0,0,cv.width,cv.height);
-  for(let y=0;y<ROWS;y++)for(let x=0;x<COLS;x++){
-    const w=wall(x,y);
-    ctx.fillStyle=w?"#2a2033":"#1b1525";
-    ctx.fillRect(x*TILE,y*TILE,TILE-1,TILE-1);
-    if(!w){ ctx.fillStyle="#241c30"; ctx.fillRect(x*TILE+TILE-3,y*TILE+TILE-3,2,2); }
+  if(typeof P==="undefined"||!P) return;
+  const W=cv.width,H=cv.height, horizon=H*0.47;
+  // ciel / plafond lointain
+  let g=ctx.createLinearGradient(0,0,0,horizon); g.addColorStop(0,"#07060b"); g.addColorStop(1,"#1a1526");
+  ctx.fillStyle=g; ctx.fillRect(0,0,W,horizon);
+  // sol lointain (lino d'hôpital verdâtre)
+  let g2=ctx.createLinearGradient(0,horizon,0,H); g2.addColorStop(0,"#223029"); g2.addColorStop(1,"#0b100d");
+  ctx.fillStyle=g2; ctx.fillRect(0,horizon,W,H-horizon);
+
+  const WALL=[92,104,120], WALLS=[64,74,90], FLO=[40,58,48], CEI=[30,26,40];
+  for(let k=DEPTH-1;k>=0;k--){
+    if(k>0 && wallRel(k,0)) continue;           // cellule occupée par un mur → on ne voit pas au-delà
+    const near=frameAt(k), far=frameAt(k+1);
+    const lit=Math.max(.22, 1-k*0.19);
+    // sol & plafond de ce segment
+    poly([[near.l,near.b],[near.r,near.b],[far.r,far.b],[far.l,far.b]], sh(FLO,lit));
+    poly([[near.l,near.t],[near.r,near.t],[far.r,far.t],[far.l,far.t]], sh(CEI,lit));
+    // murs latéraux de la cellule à distance k
+    if(wallRel(k,-1)) poly([[near.l,near.t],[far.l,far.t],[far.l,far.b],[near.l,near.b]], sh(WALLS,lit));
+    if(wallRel(k,1))  poly([[near.r,near.t],[far.r,far.t],[far.r,far.b],[near.r,near.b]], sh(WALLS,lit));
+    // mur frontal : la cellule à distance k+1 est un mur
+    if(wallRel(k+1,0)) poly([[far.l,far.t],[far.r,far.t],[far.r,far.b],[far.l,far.b]], sh(WALL,Math.max(.22,1-(k+1)*0.19)));
+    // sprite droit devant (billboard) à distance k+1
+    const sp=spriteOf(entRel(k+1,0));
+    if(sp){
+      const hgt=far.b-far.t, size=Math.max(12,hgt*0.62);
+      ctx.textAlign="center"; ctx.textBaseline="alphabetic";
+      ctx.font=Math.floor(size)+"px serif";
+      ctx.fillText(sp,(far.l+far.r)/2, far.b-size*0.12);
+    }
   }
-  ctx.textAlign="center"; ctx.textBaseline="middle";
-  ctx.font=Math.floor(TILE*0.66)+"px serif";
-  for(const e of ENT){
-    if(e.t==="enemy"&&!e.alive) continue;
-    if(e.t==="book"&&e.used) continue;
-    if(e.t==="smash"&&e.broken) continue;
-    const cx=e.x*TILE+TILE/2, cy=e.y*TILE+TILE/2;
-    let em=e.emoji|| (e.t==="enemy"?BEST[e.k].emoji:"?");
-    if(e.t==="enemy"&&BEST[e.k].boss){ ctx.font=Math.floor(TILE*0.78)+"px serif"; }
-    ctx.fillText(em,cx,cy+1);
-    if(e.t==="enemy"&&BEST[e.k].boss){ ctx.font=Math.floor(TILE*0.66)+"px serif"; }
-  }
-  // joueur
-  ctx.font=Math.floor(TILE*0.7)+"px serif";
-  ctx.fillText("🧍",P.x*TILE+TILE/2,P.y*TILE+TILE/2+1);
+  // boussole discrète
+  ctx.textAlign="left"; ctx.textBaseline="top"; ctx.font="12px -apple-system,sans-serif";
+  ctx.fillStyle="rgba(182,169,189,.7)";
+  ctx.fillText(["Nord","Est","Sud","Ouest"][P.dir], 8, 8);
 }
 
 /* ======================= HUD ======================= */
@@ -329,29 +367,31 @@ function hud(){
   $("btn-skills").style.opacity=P.pts>0?"1":".5";
 }
 
-/* ======================= DÉPLACEMENT ======================= */
-function tryMove(dx,dy){
+/* ======================= DÉPLACEMENT (1re personne) ======================= */
+function handleEnt(e){
+  if(e.t==="enemy") startCombat(e);
+  else if(e.t==="book") readBook(e);
+  else if(e.t==="smash") smash(e);
+  else if(e.t==="exit") tryExit();
+}
+function turn(d){ if(scr!=="play") return; P.dir=(P.dir+d+4)%4; draw(); save(); }
+function step(sign){ // sign +1 avancer, -1 reculer
   if(scr!=="play") return;
-  const nx=P.x+dx, ny=P.y+dy;
-  if(wall(nx,ny)) return;
+  const F=DIRS[P.dir];
+  const nx=P.x+F[0]*sign, ny=P.y+F[1]*sign;
+  if(wall(nx,ny)){ toast("🧱 Un mur."); return; }
   const e=entAt(nx,ny);
   if(e){
-    if(e.t==="enemy"){ startCombat(e); return; }
-    if(e.t==="book"){ readBook(e); return; }
-    if(e.t==="smash"){ smash(e); return; }
-    if(e.t==="exit"){ tryExit(); return; }
+    if(sign>0){ handleEnt(e); } else { toast("Quelque chose te bloque."); }
+    return;
   }
   P.x=nx; P.y=ny; draw(); save();
-  if(Math.random()<0.06) toast("🦷 Ta dent t'élance un coup…");
+  if(sign>0 && Math.random()<0.06) toast("🦷 Ta dent t'élance un coup…");
 }
-function interact(){ // bouton Action : agit sur une case adjacente si entité
+function interactFront(){ // bouton Action : interagit avec la case devant
   if(scr!=="play") return;
-  for(const [dx,dy] of [[0,0],[0,-1],[0,1],[-1,0],[1,0]]){
-    const e=entAt(P.x+dx,P.y+dy);
-    if(e&&e.t!=="exit"){ tryMove(dx,dy); return; }
-    if(e&&e.t==="exit"){ tryExit(); return; }
-  }
-  toast("Rien à faire ici.");
+  const e=entRel(1,0);
+  if(e) handleEnt(e); else toast("Rien devant toi.");
 }
 
 /* ---- livres ---- */
@@ -590,7 +630,7 @@ function beginGame(){
     <p>Tu attrapes son poignet. « Pas aujourd'hui. » Tu arraches les perfusions une par une, tu balances les draps et tu poses tes pieds nus sur le lino glacé.</p>
     <p>Debout. En blouse ouverte dans le dos. Le cul à l'air et plus rien à perdre.</p>
     <p><em>Objectif : sortir de cet hôpital. En cassant tout ce qui se met en travers.</em></p>
-    <p style="color:var(--ink-soft);font-size:.84rem">Bouge avec les flèches (ou le pavé tactile). Fonce dans les gens pour les combattre, dans les objets pour les défoncer. Lis les livres 📖 pour l'Intelligence, puis 🔮 transmute-la en Force.</p>
+    <p style="color:var(--ink-soft);font-size:.84rem">Vue à la 1re personne. <b>↰ ↱</b> pour tourner, <b>▲</b> pour avancer. Avance dans un soignant ou un malade pour le combattre, dans un objet pour le défoncer. Lis les livres 📖 pour l'Intelligence, puis 🔮 transmute-la en Force.</p>
     <div class="choices"><button class="btn primary" id="go">Se lever ✊</button></div>`);
   $("go").onclick=()=>{ closeScreen(); enterPlay(); };
 }
@@ -631,18 +671,20 @@ function gameOver(){
 /* ======================= ENTRÉES ======================= */
 document.addEventListener("keydown",e=>{
   const k=e.key.toLowerCase();
-  if(["arrowup","w","z"].includes(k)){ e.preventDefault(); tryMove(0,-1); }
-  else if(["arrowdown","s"].includes(k)){ e.preventDefault(); tryMove(0,1); }
-  else if(["arrowleft","a","q"].includes(k)){ e.preventDefault(); tryMove(-1,0); }
-  else if(["arrowright","d"].includes(k)){ e.preventDefault(); tryMove(1,0); }
-  else if(k===" "||k==="enter"){ e.preventDefault(); interact(); }
+  if(["arrowup","w","z"].includes(k)){ e.preventDefault(); step(1); }
+  else if(["arrowdown","s"].includes(k)){ e.preventDefault(); step(-1); }
+  else if(["arrowleft","a","q"].includes(k)){ e.preventDefault(); turn(-1); }
+  else if(["arrowright","d"].includes(k)){ e.preventDefault(); turn(1); }
+  else if(k===" "||k==="enter"){ e.preventDefault(); interactFront(); }
 });
-document.querySelectorAll(".dpad button[data-dir]").forEach(b=>{
-  const dir={up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]}[b.dataset.dir];
-  const go=ev=>{ ev.preventDefault(); tryMove(dir[0],dir[1]); };
-  b.addEventListener("click",go);
+document.querySelectorAll(".dpad button[data-k]").forEach(b=>{
+  b.addEventListener("click",ev=>{ ev.preventDefault();
+    const k=b.dataset.k;
+    if(k==="fwd") step(1); else if(k==="bk") step(-1);
+    else if(k==="tl") turn(-1); else if(k==="tr") turn(1);
+  });
 });
-$("btn-action").onclick=interact;
+$("btn-action").onclick=interactFront;
 $("btn-trans").onclick=transmute;
 $("btn-skills").onclick=()=>{ if(P&&P.pts>0) openSkills(); else toast("Aucun point de compétence pour l'instant."); };
 $("sk-close").onclick=()=>$("skills").hidden=true;
