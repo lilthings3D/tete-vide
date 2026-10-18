@@ -10,20 +10,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- End Google Tag Manager -->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<meta name="description" content="Rage de dent : un petit RPG où Gérard se réveille à l'hôpital le pire dimanche de sa vie. Casse tout, lis, deviens fort. Boss final : sa propre rage de dent.">
+<meta name="description" content="Rage de dent : un RPG-FPS en 3D où Gérard se réveille à l'hôpital le pire dimanche de sa vie. Déplacement libre en 3D, combats au tour par tour. Casse tout, lis, deviens fort. Boss final : sa propre rage de dent.">
 <link rel="canonical" href="https://tete-vide.fr/rage-de-dent.html">
 <link rel="icon" type="image/png" href="/vache.png">
-<meta name="theme-color" content="#1a1420">
+<meta name="theme-color" content="#0b0810">
 <title>Rage de dent — Tête vide</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600;6..72,700&family=Caveat:wght@700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
   :root{
     --bg:#15111b; --bg2:#1f1826; --panel:#271f30; --panel2:#322740;
     --ink:#f3ebe0; --ink-soft:#b6a9bd; --line:#4a3d57;
     --red:#d64545; --red-deep:#b23232; --rage:#e8663a;
-    --gold:#e8c06a; --green:#6fbf73; --blue:#6aa9e8; --intel:#9b7fe0;
+    --gold:#e8c06a; --green:#6fbf73; --intel:#9b7fe0;
     --safe-t:env(safe-area-inset-top,0px); --safe-b:env(safe-area-inset-bottom,0px);
   }
   *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;}
@@ -33,47 +34,50 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .serif{font-family:'Newsreader',Georgia,serif;}
   button{font-family:inherit;color:inherit;cursor:pointer;border:none;background:none;}
 
-  /* ===== top bar ===== */
-  .topbar{width:100%;max-width:460px;display:flex;align-items:center;justify-content:space-between;padding:8px 12px;}
+  .topbar{width:100%;max-width:520px;display:flex;align-items:center;justify-content:space-between;padding:7px 12px;}
   .topbar a{color:var(--ink-soft);text-decoration:none;font-size:0.82rem;}
   .topbar .ttl{font-family:'Newsreader',Georgia,serif;font-weight:600;font-size:1rem;letter-spacing:.5px;}
   .topbar .ttl b{color:var(--rage);}
 
-  /* ===== game frame ===== */
-  #frame{width:100%;max-width:460px;flex:1;display:flex;flex-direction:column;position:relative;min-height:0;}
-
-  /* HUD */
-  #hud{padding:6px 12px 2px;font-size:0.8rem;}
-  .bars{display:flex;gap:8px;margin-bottom:5px;}
+  #frame{width:100%;max-width:520px;flex:1;display:flex;flex-direction:column;position:relative;min-height:0;}
+  #hud{padding:5px 12px 3px;}
+  .bars{display:flex;gap:8px;margin-bottom:4px;}
   .bar{flex:1;}
-  .bar .lab{display:flex;justify-content:space-between;font-size:0.68rem;color:var(--ink-soft);margin-bottom:2px;}
-  .bar .track{height:9px;background:var(--panel);border-radius:5px;overflow:hidden;}
+  .bar .lab{display:flex;justify-content:space-between;font-size:0.66rem;color:var(--ink-soft);margin-bottom:2px;}
+  .bar .track{height:8px;background:var(--panel);border-radius:5px;overflow:hidden;}
   .bar .fill{height:100%;transition:width .25s;}
   .fill.pv{background:linear-gradient(90deg,var(--red-deep),var(--red));}
   .fill.rage{background:linear-gradient(90deg,#c23,var(--rage));}
-  .stats{display:flex;gap:10px;flex-wrap:wrap;font-size:0.76rem;color:var(--ink-soft);}
-  .stats b{color:var(--ink);}
-  .stats .deg b{color:var(--rage);}
+  .stats{display:flex;gap:10px;flex-wrap:wrap;font-size:0.74rem;color:var(--ink-soft);}
+  .stats b{color:var(--ink);} .stats .deg b{color:var(--rage);}
 
-  /* canvas */
-  #stage{flex:1;display:flex;align-items:center;justify-content:center;min-height:0;padding:4px 0;}
-  canvas{background:#0e0a12;border-radius:10px;image-rendering:auto;max-width:100%;max-height:100%;box-shadow:0 8px 30px rgba(0,0,0,.5);}
+  #stage{flex:1;position:relative;min-height:0;margin:3px 10px 8px;border-radius:12px;overflow:hidden;background:#0b0810;box-shadow:0 8px 30px rgba(0,0,0,.5);touch-action:none;}
+  #stage canvas{width:100%!important;height:100%!important;display:block;}
+  #crosshair{position:absolute;left:50%;top:50%;width:5px;height:5px;margin:-2.5px;border-radius:50%;background:rgba(255,255,255,.35);z-index:3;pointer-events:none;}
 
-  /* controls */
-  #controls{display:flex;align-items:center;justify-content:space-between;padding:6px 16px 10px;gap:12px;}
-  .dpad{display:grid;grid-template-columns:repeat(3,44px);grid-template-rows:repeat(3,44px);gap:4px;}
-  .dpad button{background:var(--panel2);border:1px solid var(--line);border-radius:10px;font-size:1.2rem;color:var(--ink);display:flex;align-items:center;justify-content:center;}
-  .dpad button:active{background:var(--rage);}
-  .dpad .sp{visibility:hidden;}
-  .act{display:flex;flex-direction:column;gap:8px;align-items:flex-end;}
-  .act .a-btn{width:70px;height:48px;border-radius:12px;background:var(--rage);color:#fff;font-weight:700;font-size:0.92rem;box-shadow:0 3px 0 #a3421f;}
-  .act .a-btn:active{transform:translateY(2px);box-shadow:0 1px 0 #a3421f;}
-  .act .mini{display:flex;gap:6px;}
-  .act .mini button{width:46px;height:34px;border-radius:9px;background:var(--panel2);border:1px solid var(--line);font-size:0.7rem;color:var(--ink-soft);font-weight:600;}
-  .hint-kb{text-align:center;font-size:0.68rem;color:var(--ink-soft);padding-bottom:6px;}
-  @media(hover:none){.hint-kb{display:none;}}
+  #joy{position:absolute;left:14px;bottom:14px;width:104px;height:104px;border-radius:50%;background:rgba(40,30,55,.42);border:1.5px solid rgba(120,100,150,.4);touch-action:none;z-index:5;}
+  #joy-knob{position:absolute;left:50%;top:50%;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:rgba(232,102,58,.85);box-shadow:0 2px 8px rgba(0,0,0,.4);}
+  #joy-hint{position:absolute;left:0;right:0;bottom:-17px;text-align:center;font-size:0.6rem;color:var(--ink-soft);}
+  .fps-act{position:absolute;right:14px;bottom:14px;display:flex;flex-direction:column;align-items:center;gap:8px;z-index:5;}
+  .fps-act .a-btn{width:80px;height:80px;border-radius:50%;background:rgba(232,102,58,.92);color:#fff;font-weight:700;font-size:0.9rem;box-shadow:0 3px 10px rgba(0,0,0,.4);}
+  .fps-act .a-btn:active{transform:scale(.94);}
+  .fps-act .mini{display:flex;gap:7px;}
+  .fps-act .mini button{width:50px;height:38px;border-radius:10px;background:rgba(50,39,64,.9);border:1px solid var(--line);font-size:0.68rem;color:var(--ink-soft);font-weight:600;}
+  #prompt{position:absolute;left:50%;bottom:112px;transform:translateX(-50%);background:rgba(20,15,26,.92);border:1px solid var(--line);color:var(--ink);padding:7px 14px;border-radius:999px;font-size:0.82rem;z-index:5;white-space:nowrap;}
+  #look-hint{position:absolute;left:50%;top:10px;transform:translateX(-50%);font-size:0.68rem;color:rgba(182,169,189,.7);z-index:4;text-align:center;}
 
-  /* ===== overlays ===== */
+  /* ===== CINÉMATIQUE ===== */
+  #cine{position:fixed;inset:0;z-index:60;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;}
+  #cine .bar-top,#cine .bar-bot{position:absolute;left:0;right:0;height:9%;background:#000;z-index:3;}
+  #cine .bar-top{top:0;} #cine .bar-bot{bottom:0;}
+  #cine-scene{position:absolute;inset:0;transition:background 1.2s ease;display:flex;align-items:center;justify-content:center;}
+  #cine-emoji{font-size:28vmin;line-height:1;filter:drop-shadow(0 10px 30px rgba(0,0,0,.6));}
+  #cine-cap{position:absolute;bottom:14%;left:0;right:0;text-align:center;padding:0 24px;font-family:'Newsreader',Georgia,serif;font-size:clamp(1.1rem,4.4vw,1.7rem);color:#f3ebe0;text-shadow:0 2px 12px #000;}
+  #cine-skip{position:absolute;bottom:11%;right:18px;z-index:5;color:rgba(243,235,224,.7);font-size:0.82rem;border:1px solid rgba(243,235,224,.3);padding:6px 14px;border-radius:999px;background:rgba(0,0,0,.3);}
+  @keyframes cine-in{0%{opacity:0;transform:scale(.86)}18%{opacity:1}100%{opacity:1;transform:scale(1.14)}}
+  @keyframes cap-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  #cine-flash{position:absolute;inset:0;background:#fff;opacity:0;z-index:4;pointer-events:none;}
+
   .ov{position:fixed;inset:0;z-index:50;background:rgba(10,7,14,.82);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:18px;}
   .card{width:100%;max-width:420px;background:var(--bg2);border:1.5px solid var(--line);border-radius:18px;padding:22px;max-height:90vh;overflow-y:auto;}
   .card h2{font-family:'Newsreader',Georgia,serif;font-weight:600;font-size:1.5rem;margin-bottom:8px;line-height:1.1;}
@@ -81,18 +85,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .card p{color:var(--ink-soft);font-size:0.94rem;line-height:1.55;margin-bottom:12px;}
   .card p em{color:var(--ink);font-style:italic;}
   .choices{display:flex;flex-direction:column;gap:10px;margin-top:6px;}
-  .btn{display:block;width:100%;text-align:center;padding:14px;border-radius:12px;font-weight:600;font-size:0.98rem;border:1.5px solid var(--line);background:var(--panel2);color:var(--ink);transition:background .15s,border-color .15s;}
+  .btn{display:block;width:100%;text-align:center;padding:14px;border-radius:12px;font-weight:600;font-size:0.98rem;border:1.5px solid var(--line);background:var(--panel2);color:var(--ink);}
   .btn:hover{border-color:var(--rage);}
   .btn.primary{background:var(--rage);color:#fff;border-color:var(--rage);}
   .btn.ghost{background:none;color:var(--ink-soft);border-color:transparent;font-size:0.84rem;padding:8px;}
   .big-emoji{font-size:3rem;text-align:center;margin-bottom:6px;}
 
-  /* intro crawl */
-  #intro .card{text-align:left;}
-  .intro-line{opacity:0;animation:fade .6s forwards;}
-  @keyframes fade{to{opacity:1;}}
-
-  /* combat */
   #combat .card{max-width:430px;}
   .enemy-zone{text-align:center;margin-bottom:10px;}
   .enemy-emoji{font-size:3.4rem;line-height:1;}
@@ -114,22 +112,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .move .mn{font-weight:700;font-size:0.92rem;display:block;}
   .move .md{font-size:0.7rem;color:var(--ink-soft);}
 
-  /* skills */
   .skill{display:flex;gap:12px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:12px;margin-bottom:9px;background:var(--panel);}
-  .skill .se{font-size:1.6rem;}
-  .skill .si{flex:1;}
-  .skill .sn{font-weight:700;font-size:0.92rem;}
-  .skill .sd{font-size:0.74rem;color:var(--ink-soft);}
+  .skill .se{font-size:1.6rem;} .skill .si{flex:1;}
+  .skill .sn{font-weight:700;font-size:0.92rem;} .skill .sd{font-size:0.74rem;color:var(--ink-soft);}
   .skill button{padding:9px 12px;border-radius:9px;background:var(--rage);color:#fff;font-weight:700;font-size:0.8rem;white-space:nowrap;}
   .skill button:disabled{background:var(--panel2);color:var(--ink-soft);}
   .skill.owned{opacity:.6;}
   .pts{text-align:center;font-size:0.9rem;color:var(--gold);margin-bottom:12px;}
 
-  .toast{position:fixed;left:50%;top:calc(12px + var(--safe-t));transform:translateX(-50%) translateY(-16px);background:var(--panel2);border:1px solid var(--line);color:var(--ink);padding:9px 16px;border-radius:999px;font-size:0.84rem;z-index:80;opacity:0;transition:.25s;pointer-events:none;max-width:92%;text-align:center;}
+  .toast{position:fixed;left:50%;top:calc(10px + var(--safe-t));transform:translateX(-50%) translateY(-16px);background:var(--panel2);border:1px solid var(--line);color:var(--ink);padding:9px 16px;border-radius:999px;font-size:0.84rem;z-index:80;opacity:0;transition:.25s;pointer-events:none;max-width:92%;text-align:center;}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+  .spin{display:inline-block;width:15px;height:15px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px;margin-right:6px;}
+  @keyframes sp{to{transform:rotate(360deg);}}
+  #loading{position:fixed;inset:0;z-index:70;background:#0b0810;display:flex;align-items:center;justify-content:center;color:var(--ink-soft);font-family:'Newsreader',Georgia,serif;}
 </style>
 </head>
-<body><!-- GTM noscript --><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TRQZWVGP" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<body><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TRQZWVGP" height="0" width="0" style="display:none"></iframe></noscript>
 
 <div class="topbar">
   <a href="jeux.html">← Jeux</a>
@@ -144,117 +142,84 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <div class="bar"><div class="lab"><span>Rage</span><span id="rage-txt"></span></div><div class="track"><div class="fill rage" id="rage-bar"></div></div></div>
     </div>
     <div class="stats">
-      <span>Niv. <b id="s-niv"></b></span>
-      <span>💪 <b id="s-force"></b></span>
-      <span>🧠 <b id="s-intel"></b></span>
-      <span class="deg">💥 <b id="s-deg"></b> dégâts</span>
-      <span id="s-pts" hidden style="color:var(--gold)">★ <b id="s-pts-n"></b> pts</span>
+      <span>Niv. <b id="s-niv"></b></span><span>💪 <b id="s-force"></b></span>
+      <span>🧠 <b id="s-intel"></b></span><span class="deg">💥 <b id="s-deg"></b></span>
+      <span id="s-pts" hidden style="color:var(--gold)">★ <b id="s-pts-n"></b></span>
     </div>
   </div>
 
-  <div id="stage"><canvas id="cv" width="442" height="476"></canvas></div>
-
-  <div id="controls" hidden>
-    <div class="dpad">
-      <button class="sp"></button><button data-k="fwd">▲</button><button class="sp"></button>
-      <button data-k="tl">↰</button><button data-k="bk">▼</button><button data-k="tr">↱</button>
-      <button class="sp"></button><button class="sp"></button><button class="sp"></button>
-    </div>
-    <div class="act">
+  <div id="stage" hidden>
+    <div id="crosshair"></div>
+    <div id="look-hint">glisse pour regarder autour</div>
+    <div id="prompt" hidden></div>
+    <div id="joy"><div id="joy-knob"></div><div id="joy-hint">se déplacer</div></div>
+    <div class="fps-act">
+      <div class="mini"><button id="btn-trans">🔮 Magie</button><button id="btn-skills">★ Comp.</button></div>
       <button class="a-btn" id="btn-action">Action</button>
-      <div class="mini">
-        <button id="btn-trans">🔮 Magie</button>
-        <button id="btn-skills">★ Comp.</button>
-      </div>
     </div>
   </div>
-  <div class="hint-kb" id="hint-kb" hidden>↰ ↱ tourner · ▲ avancer · ▼ reculer · Espace pour agir</div>
 </div>
 
-<!-- ===== INTRO ===== -->
-<div class="ov" id="intro">
-  <div class="card">
-    <div id="intro-body"></div>
-    <div class="choices" id="intro-next"><button class="btn primary" id="intro-go">Continuer</button></div>
-  </div>
+<!-- CINÉMATIQUE -->
+<div id="cine">
+  <div class="bar-top"></div><div class="bar-bot"></div>
+  <div id="cine-scene"><div id="cine-emoji"></div></div>
+  <div id="cine-cap"></div>
+  <div id="cine-flash"></div>
+  <button id="cine-skip">Passer ▸</button>
 </div>
 
-<!-- ===== generic screen (choice / ending) ===== -->
+<div id="loading" hidden><div>Chargement du monde…</div></div>
+
+<!-- SCREEN générique -->
 <div class="ov" id="screen" hidden><div class="card" id="screen-card"></div></div>
 
-<!-- ===== COMBAT ===== -->
-<div class="ov" id="combat" hidden>
-  <div class="card">
-    <div class="enemy-zone">
-      <div class="enemy-emoji" id="c-emoji"></div>
-      <div class="enemy-name" id="c-name"></div>
-      <div class="enemy-tag" id="c-tag"></div>
-      <div class="ehp"><div class="fill" id="c-hp"></div></div>
-    </div>
-    <div class="log" id="c-log"></div>
-    <div class="pstat">
-      <div class="b"><div class="lab"><span>Tes PV</span><span id="c-pv-txt"></span></div><div class="track"><div class="fill pv" id="c-pv"></div></div></div>
-      <div class="b"><div class="lab"><span>Rage</span><span id="c-rage-txt"></span></div><div class="track"><div class="fill rage" id="c-rage"></div></div></div>
-    </div>
-    <div class="moves" id="c-moves"></div>
+<!-- COMBAT -->
+<div class="ov" id="combat" hidden><div class="card">
+  <div class="enemy-zone">
+    <div class="enemy-emoji" id="c-emoji"></div>
+    <div class="enemy-name" id="c-name"></div>
+    <div class="enemy-tag" id="c-tag"></div>
+    <div class="ehp"><div class="fill" id="c-hp"></div></div>
   </div>
-</div>
+  <div class="log" id="c-log"></div>
+  <div class="pstat">
+    <div class="b"><div class="lab"><span>Tes PV</span><span id="c-pv-txt"></span></div><div class="track"><div class="fill pv" id="c-pv"></div></div></div>
+    <div class="b"><div class="lab"><span>Rage</span><span id="c-rage-txt"></span></div><div class="track"><div class="fill rage" id="c-rage"></div></div></div>
+  </div>
+  <div class="moves" id="c-moves"></div>
+</div></div>
 
-<!-- ===== SKILLS ===== -->
-<div class="ov" id="skills" hidden>
-  <div class="card">
-    <h2>Arbre de <b>compétences</b></h2>
-    <div class="pts" id="sk-pts"></div>
-    <div id="sk-list"></div>
-    <button class="btn ghost" id="sk-close">Fermer</button>
-  </div>
-</div>
+<!-- SKILLS -->
+<div class="ov" id="skills" hidden><div class="card">
+  <h2>Arbre de <b>compétences</b></h2><div class="pts" id="sk-pts"></div>
+  <div id="sk-list"></div><button class="btn ghost" id="sk-close">Fermer</button>
+</div></div>
 
-<!-- ===== MENU ===== -->
-<div class="ov" id="menu" hidden>
-  <div class="card">
-    <h2>Pause</h2>
-    <p id="menu-stats"></p>
-    <div class="choices">
-      <button class="btn primary" id="menu-resume">Reprendre</button>
-      <button class="btn" id="menu-restart">Recommencer à zéro</button>
-    </div>
+<!-- MENU -->
+<div class="ov" id="menu" hidden><div class="card">
+  <h2>Pause</h2><p id="menu-stats"></p>
+  <div class="choices">
+    <button class="btn primary" id="menu-resume">Reprendre</button>
+    <button class="btn" id="menu-restart">Recommencer à zéro</button>
   </div>
-</div>
+</div></div>
 
 <div class="toast" id="toast"></div>
 
 <script>
 "use strict";
-/* =========================================================
-   RAGE DE DENT — tranche « Hôpital »
-   ========================================================= */
-const SAVE="rage-de-dent-v2";
+const SAVE="rage-de-dent-3d1";
 const $=id=>document.getElementById(id);
-const cv=$("cv"), ctx=cv.getContext("2d");
-const COLS=13, ROWS=14, TILE=34;
-cv.width=COLS*TILE; cv.height=ROWS*TILE;
-
-/* ---- carte (# mur, . sol) ---- */
+const COLS=13, ROWS=14, WALLH=3.0;
 const MAP=[
- "#############",
- "#...........#",
- "#...........#",
- "#....###....#",
- "#....#.#....#",
- "#......#....#",
- "#...........#",
- "#...........#",
- "#....###....#",
- "#...........#",
- "#...........#",
- "#...........#",
- "#####...#####",
- "######.######",
+ "#############","#...........#","#...........#","#....###....#",
+ "#....#.#....#","#......#....#","#...........#","#...........#",
+ "#....###....#","#...........#","#...........#","#...........#",
+ "#####...#####","######.######",
 ].map(r=>r.split(""));
-function wall(x,y){ return !MAP[y]||!MAP[y][x]||MAP[y][x]==="#"; }
+function wall(x,y){ x=Math.floor(x);y=Math.floor(y); return !MAP[y]||!MAP[y][x]||MAP[y][x]==="#"; }
 
-/* ---- bestiaire ---- */
 const BEST={
  mamie:{nom:"Mamie en déambulateur",emoji:"👵",pv:14,force:4,xp:4,deg:10,fort:false,cri:"« POUSSEZ-VOUS, bon sang ! »"},
  perf:{nom:"Patient sous perfusion",emoji:"🤕",pv:12,force:3,xp:4,deg:8,fort:false,cri:"Il traîne sa potence à roulettes vers toi."},
@@ -263,200 +228,198 @@ const BEST={
  medecin:{nom:"Le Médecin",emoji:"👨‍⚕️",pv:58,force:10,xp:30,deg:60,fort:true,boss:true,cri:"« On va vous garder… pour des examens. »"},
 };
 
-/* ---- état ---- */
-let P, ENT, scr="intro";
-
+let P, ENT, scr="cine";
 function freshGame(){
-  P={ x:2,y:2, dir:2, niv:1,xp:0,xpNext:12, pvMax:30,pv:30, force:5,intel:1,
-      rage:0,rageMax:100, deg:0, pts:0,
-      skills:{}, booksRead:0, bossDown:false };
+  P={ px:2.5,pz:2.5,yaw:Math.PI,pitch:0, niv:1,xp:0,xpNext:12, pvMax:30,pv:30, force:5,intel:1,
+      rage:0,rageMax:100, deg:0, pts:0, skills:{}, bossDown:false, sortCd:0 };
   ENT=[
     {t:"enemy",k:"mamie",x:6,y:2,alive:true},
     {t:"enemy",k:"perf",x:3,y:6,alive:true},
     {t:"enemy",k:"aide",x:9,y:7,alive:true},
     {t:"enemy",k:"infirmier",x:6,y:9,alive:true},
     {t:"enemy",k:"medecin",x:6,y:11,alive:true},
-    {t:"book",x:10,y:2,used:false,emoji:"📖",
-      titre:"« Vaincre sa colère en 7 étapes »", gain:3},
-    {t:"book",x:2,y:10,used:false,emoji:"📕",
-      titre:"« Le grand livre des insultes fleuries »", gain:3},
+    {t:"book",x:10,y:2,used:false,emoji:"📖",titre:"« Vaincre sa colère en 7 étapes »",gain:3},
+    {t:"book",x:2,y:10,used:false,emoji:"📕",titre:"« Le grand livre des insultes fleuries »",gain:3},
     {t:"smash",x:10,y:10,broken:false,emoji:"🥤",nom:"Distributeur de boissons",force:6,deg:40,soin:10},
     {t:"smash",x:2,y:4,broken:false,emoji:"🧺",nom:"Chariot de linge sale",force:4,deg:18,soin:0},
     {t:"exit",x:6,y:13,emoji:"🚪"},
   ];
 }
-function entAt(x,y){ return ENT.find(e=>e.x===x&&e.y===y&&!(e.t==="enemy"&&!e.alive)&&!(e.t==="book"&&e.used)&&!(e.t==="smash"&&e.broken)); }
-
-/* ---- save ---- */
+function alive(e){
+  if(e.t==="enemy") return e.alive;
+  if(e.t==="book") return !e.used;
+  if(e.t==="smash") return !e.broken;
+  return true;
+}
+function emOf(e){ return e.t==="enemy"?BEST[e.k].emoji:e.emoji; }
 function save(){ try{ localStorage.setItem(SAVE,JSON.stringify({P,ENT,scr})); }catch(e){} }
 function load(){ try{ const d=JSON.parse(localStorage.getItem(SAVE)); if(d&&d.P){P=d.P;ENT=d.ENT;return true;} }catch(e){} return false; }
 
-/* ======================= RENDU PREMIÈRE PERSONNE ======================= */
-const DIRS=[[0,-1],[1,0],[0,1],[-1,0]]; // N, E, S, O
-const DEPTH=4;
-function relCell(f,s){ // f = devant, s = à droite (repère du joueur)
-  const F=DIRS[P.dir], R=DIRS[(P.dir+1)%4];
-  return [P.x+F[0]*f+R[0]*s, P.y+F[1]*f+R[1]*s];
+/* ===================== MONDE 3D (Three.js) ===================== */
+let renderer, scene, camera, torch, raf=0;
+const texCache={};
+function emojiTexture(em){
+  if(texCache[em]) return texCache[em];
+  const c=document.createElement("canvas"); c.width=c.height=128;
+  const g=c.getContext("2d"); g.clearRect(0,0,128,128);
+  g.textAlign="center"; g.textBaseline="middle"; g.font="100px serif";
+  g.fillText(em,64,72);
+  const t=new THREE.CanvasTexture(c); t.anisotropy=1; texCache[em]=t; return t;
 }
-function wallRel(f,s){ const [x,y]=relCell(f,s); return wall(x,y); }
-function entRel(f,s){ const [x,y]=relCell(f,s); return entAt(x,y); }
-function spriteOf(e){
-  if(!e) return null;
-  if(e.t==="enemy"){ if(!e.alive) return null; return BEST[e.k].emoji; }
-  if(e.t==="book"){ return e.used?null:e.emoji; }
-  if(e.t==="smash"){ return e.broken?null:e.emoji; }
-  if(e.t==="exit"){ return e.emoji; }
-  return null;
-}
-function frameAt(d){
-  const s=Math.pow(0.58,d);
-  const W=cv.width,H=cv.height, cx=W/2, cy=H*0.47;
-  const hw=W*0.52*s, hh=H*0.54*s;
-  return {l:cx-hw,r:cx+hw,t:cy-hh,b:cy+hh};
-}
-function poly(pts,fill){ ctx.fillStyle=fill; ctx.beginPath(); ctx.moveTo(pts[0][0],pts[0][1]); for(let i=1;i<pts.length;i++) ctx.lineTo(pts[i][0],pts[i][1]); ctx.closePath(); ctx.fill(); }
-function sh(base,lit){ return `rgb(${Math.round(base[0]*lit)},${Math.round(base[1]*lit)},${Math.round(base[2]*lit)})`; }
+function buildWorld(){
+  const stage=$("stage");
+  renderer=new THREE.WebGLRenderer({antialias:true});
+  renderer.setPixelRatio(Math.min(1.6,window.devicePixelRatio||1));
+  renderer.setClearColor(0x0a0812,1);
+  stage.insertBefore(renderer.domElement, stage.firstChild);
 
-function draw(){
-  if(typeof P==="undefined"||!P) return;
-  const W=cv.width,H=cv.height, horizon=H*0.47;
-  // ciel / plafond lointain
-  let g=ctx.createLinearGradient(0,0,0,horizon); g.addColorStop(0,"#07060b"); g.addColorStop(1,"#1a1526");
-  ctx.fillStyle=g; ctx.fillRect(0,0,W,horizon);
-  // sol lointain (lino d'hôpital verdâtre)
-  let g2=ctx.createLinearGradient(0,horizon,0,H); g2.addColorStop(0,"#223029"); g2.addColorStop(1,"#0b100d");
-  ctx.fillStyle=g2; ctx.fillRect(0,horizon,W,H-horizon);
+  scene=new THREE.Scene();
+  scene.fog=new THREE.FogExp2(0x0a0812, 0.14);
+  camera=new THREE.PerspectiveCamera(72, 1, 0.05, 60);
+  camera.rotation.order="YXZ";
 
-  const WALL=[92,104,120], WALLS=[64,74,90], FLO=[40,58,48], CEI=[30,26,40];
-  for(let k=DEPTH-1;k>=0;k--){
-    if(k>0 && wallRel(k,0)) continue;           // cellule occupée par un mur → on ne voit pas au-delà
-    const near=frameAt(k), far=frameAt(k+1);
-    const lit=Math.max(.22, 1-k*0.19);
-    // sol & plafond de ce segment
-    poly([[near.l,near.b],[near.r,near.b],[far.r,far.b],[far.l,far.b]], sh(FLO,lit));
-    poly([[near.l,near.t],[near.r,near.t],[far.r,far.t],[far.l,far.t]], sh(CEI,lit));
-    // murs latéraux de la cellule à distance k
-    if(wallRel(k,-1)) poly([[near.l,near.t],[far.l,far.t],[far.l,far.b],[near.l,near.b]], sh(WALLS,lit));
-    if(wallRel(k,1))  poly([[near.r,near.t],[far.r,far.t],[far.r,far.b],[near.r,near.b]], sh(WALLS,lit));
-    // mur frontal : la cellule à distance k+1 est un mur
-    if(wallRel(k+1,0)) poly([[far.l,far.t],[far.r,far.t],[far.r,far.b],[far.l,far.b]], sh(WALL,Math.max(.22,1-(k+1)*0.19)));
-    // sprite droit devant (billboard) à distance k+1
-    const sp=spriteOf(entRel(k+1,0));
-    if(sp){
-      const hgt=far.b-far.t, size=Math.max(12,hgt*0.62);
-      ctx.textAlign="center"; ctx.textBaseline="alphabetic";
-      ctx.font=Math.floor(size)+"px serif";
-      ctx.fillText(sp,(far.l+far.r)/2, far.b-size*0.12);
-    }
+  // lumières
+  scene.add(new THREE.AmbientLight(0x48506b, 0.75));
+  const hemi=new THREE.HemisphereLight(0x8fa0c0, 0x1a2018, 0.5); scene.add(hemi);
+  torch=new THREE.PointLight(0xffe6c0, 0.9, 10, 2); scene.add(torch);
+
+  // sol (lino verdâtre) + plafond
+  const floorMat=new THREE.MeshLambertMaterial({color:0x2c4336});
+  const floor=new THREE.Mesh(new THREE.PlaneGeometry(COLS,ROWS), floorMat);
+  floor.rotation.x=-Math.PI/2; floor.position.set(COLS/2,0,ROWS/2); scene.add(floor);
+  const ceilMat=new THREE.MeshLambertMaterial({color:0x16121f});
+  const ceil=new THREE.Mesh(new THREE.PlaneGeometry(COLS,ROWS), ceilMat);
+  ceil.rotation.x=Math.PI/2; ceil.position.set(COLS/2,WALLH,ROWS/2); scene.add(ceil);
+
+  // murs (InstancedMesh)
+  let n=0; for(let y=0;y<ROWS;y++)for(let x=0;x<COLS;x++) if(MAP[y][x]==="#") n++;
+  const wgeo=new THREE.BoxGeometry(1,WALLH,1);
+  const wmat=new THREE.MeshLambertMaterial({color:0x6e7d92});
+  const inst=new THREE.InstancedMesh(wgeo,wmat,n);
+  const dummy=new THREE.Object3D(); let i=0;
+  for(let y=0;y<ROWS;y++)for(let x=0;x<COLS;x++) if(MAP[y][x]==="#"){
+    dummy.position.set(x+0.5,WALLH/2,y+0.5); dummy.updateMatrix(); inst.setMatrixAt(i++,dummy.matrix);
   }
-  // boussole discrète
-  ctx.textAlign="left"; ctx.textBaseline="top"; ctx.font="12px -apple-system,sans-serif";
-  ctx.fillStyle="rgba(182,169,189,.7)";
-  ctx.fillText(["Nord","Est","Sud","Ouest"][P.dir], 8, 8);
-}
+  scene.add(inst);
 
-/* ======================= HUD ======================= */
-function hud(){
-  $("pv-bar").style.width=Math.max(0,P.pv/P.pvMax*100)+"%";
-  $("pv-txt").textContent=Math.max(0,P.pv)+"/"+P.pvMax;
-  $("rage-bar").style.width=(P.rage/P.rageMax*100)+"%";
-  $("rage-txt").textContent=Math.round(P.rage);
-  $("s-niv").textContent=P.niv; $("s-force").textContent=P.force;
-  $("s-intel").textContent=P.intel; $("s-deg").textContent=P.deg;
-  $("s-pts").hidden=P.pts<=0; $("s-pts-n").textContent=P.pts;
-  $("btn-skills").style.opacity=P.pts>0?"1":".5";
-}
-
-/* ======================= DÉPLACEMENT (1re personne) ======================= */
-function handleEnt(e){
-  if(e.t==="enemy") startCombat(e);
-  else if(e.t==="book") readBook(e);
-  else if(e.t==="smash") smash(e);
-  else if(e.t==="exit") tryExit();
-}
-function turn(d){ if(scr!=="play") return; P.dir=(P.dir+d+4)%4; draw(); save(); }
-function step(sign){ // sign +1 avancer, -1 reculer
-  if(scr!=="play") return;
-  const F=DIRS[P.dir];
-  const nx=P.x+F[0]*sign, ny=P.y+F[1]*sign;
-  if(wall(nx,ny)){ toast("🧱 Un mur."); return; }
-  const e=entAt(nx,ny);
-  if(e){
-    if(sign>0){ handleEnt(e); } else { toast("Quelque chose te bloque."); }
-    return;
+  // éléments (billboards)
+  for(const e of ENT){
+    const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:emojiTexture(emOf(e)),transparent:true,depthWrite:false}));
+    const boss=e.t==="enemy"&&BEST[e.k].boss;
+    const sc=boss?1.9:(e.t==="enemy"?1.45:1.1);
+    sp.scale.set(sc,sc,sc);
+    sp.position.set(e.x+0.5, e.t==="enemy"?0.95:0.7, e.y+0.5);
+    sp.visible=alive(e);
+    e._sp=sp; scene.add(sp);
   }
-  P.x=nx; P.y=ny; draw(); save();
-  if(sign>0 && Math.random()<0.06) toast("🦷 Ta dent t'élance un coup…");
+  fitRenderer();
 }
-function interactFront(){ // bouton Action : interagit avec la case devant
-  if(scr!=="play") return;
-  const e=entRel(1,0);
-  if(e) handleEnt(e); else toast("Rien devant toi.");
+function fitRenderer(){
+  if(!renderer) return;
+  const r=$("stage").getBoundingClientRect();
+  const w=Math.max(200,Math.round(r.width)), h=Math.max(200,Math.round(r.height));
+  renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix();
+}
+addEventListener("resize",fitRenderer);
+function syncSprites(){ for(const e of ENT){ if(e._sp) e._sp.visible=alive(e); } }
+function render3D(){
+  camera.rotation.y=P.yaw; camera.rotation.x=P.pitch;
+  camera.position.set(P.px,1.55,P.pz);
+  torch.position.set(P.px,1.7,P.pz);
+  renderer.render(scene,camera);
 }
 
-/* ---- livres ---- */
+/* ===================== DÉPLACEMENT ===================== */
+const keys={}; let joyF=0,joyS=0;
+const SPEED=2.7, TURN=2.3;
+function canStand(x,z){ const r=0.26; return !wall(x-r,z)&&!wall(x+r,z)&&!wall(x,z-r)&&!wall(x,z+r); }
+function update(dt){
+  let f=joyF,s=joyS,t=0;
+  if(keys["w"]||keys["z"]) f+=1; if(keys["s"]) f-=1;
+  if(keys["a"]||keys["q"]) s-=1; if(keys["d"]) s+=1;
+  if(keys["arrowleft"]) t+=1; if(keys["arrowright"]) t-=1;
+  if(keys["arrowup"]) f+=1; if(keys["arrowdown"]) f-=1;
+  f=Math.max(-1,Math.min(1,f)); s=Math.max(-1,Math.min(1,s));
+  if(t) P.yaw+=t*TURN*dt;
+  if(f||s){
+    // forward sur le plan XZ selon yaw (caméra regarde -Z à yaw=0)
+    const fx=-Math.sin(P.yaw), fz=-Math.cos(P.yaw);
+    const rx=Math.cos(P.yaw), rz=-Math.sin(P.yaw);
+    const sp=SPEED*dt;
+    const nx=P.px+(fx*f+rx*s)*sp, nz=P.pz+(fz*f+rz*s)*sp;
+    if(canStand(nx,P.pz)) P.px=nx;
+    if(canStand(P.px,nz)) P.pz=nz;
+    if(Math.random()<0.004) toast("🦷 Ta dent t'élance un coup…");
+  }
+  // rencontre / interaction
+  const foe=nearest(["enemy"],0.8);
+  if(foe){ startCombat(foe); return; }
+  const it=nearest(["book","smash","exit"],1.25);
+  const pr=$("prompt");
+  if(it){ pr.hidden=false;
+    pr.textContent = it.t==="book"?"Action : lire "+it.emoji : it.t==="smash"?"Action : défoncer "+it.emoji : "Action : franchir la porte 🚪";
+    P._near=it;
+  } else { pr.hidden=true; P._near=null; }
+}
+function nearest(types,maxd){
+  let best=null,bd=maxd*maxd;
+  for(const e of ENT){ if(!alive(e))continue; if(!types.includes(e.t))continue;
+    const dx=(e.x+0.5)-P.px, dz=(e.y+0.5)-P.pz, d=dx*dx+dz*dz; if(d<bd){bd=d;best=e;} }
+  return best;
+}
+function doAction(){
+  if(scr!=="play") return;
+  const e=P._near; if(!e){ toast("Rien à portée."); return; }
+  if(e.t==="book") readBook(e); else if(e.t==="smash") smash(e); else if(e.t==="exit") tryExit();
+}
+let last=0,acc=0;
+function loop(ts){
+  raf=requestAnimationFrame(loop);
+  const dt=Math.min(0.05,((ts-last)||16)/1000); last=ts;
+  if(scr==="play"){ update(dt); if(scr==="play"){ render3D(); acc+=dt; if(acc>2){acc=0;save();} } }
+}
+
+/* ===================== OBJETS ===================== */
 function readBook(b){
-  b.used=true;
-  let g=b.gain + (P.skills.lecture?Math.ceil(b.gain*0.5):0);
-  P.intel+=g;
-  draw(); hud(); save();
+  b.used=true; syncSprites();
+  let g=b.gain+(P.skills.lecture?Math.ceil(b.gain*0.5):0);
+  P.intel+=g; hud(); save(); $("prompt").hidden=true; P._near=null;
   showScreen(`<div class="big-emoji">${b.emoji}</div><h2>Tu lis ${b.titre}</h2>
     <p>Tu ne comprends pas tout, mais quelque chose infuse. <em>+${g} Intelligence.</em></p>
-    <p style="color:var(--intel)">💡 Astuce : transforme ton Intelligence en Force pure avec le bouton <b>🔮 Magie</b>. Plus tu lis, plus tu cognes, plus tu casses.</p>
+    <p style="color:var(--intel)">💡 Transforme ton Intelligence en Force pure avec 🔮 <b>Magie</b>. Plus tu lis, plus tu cognes, plus tu casses.</p>
     <div class="choices"><button class="btn primary" onclick="closeScreen()">OK</button></div>`);
 }
-
-/* ---- casser ---- */
 function smash(o){
-  if(P.force<o.force){
-    toast("💪 Trop costaud (Force "+o.force+" requise). Lis, muscle-toi.");
-    return;
-  }
-  o.broken=true; P.deg+=o.deg;
-  if(o.soin){ P.pv=Math.min(P.pvMax,P.pv+o.soin); }
-  draw(); hud(); save();
+  if(P.force<o.force){ toast("💪 Trop costaud (Force "+o.force+" requise). Lis, muscle-toi."); return; }
+  o.broken=true; syncSprites(); P.deg+=o.deg; if(o.soin) P.pv=Math.min(P.pvMax,P.pv+o.soin);
+  hud(); save(); $("prompt").hidden=true; P._near=null;
   toast("💥 "+o.nom+" explosé ! +"+o.deg+" dégâts"+(o.soin?" · +"+o.soin+" PV":""));
 }
-
-/* ---- sortie / fin de tranche ---- */
-function tryExit(){
-  if(!P.bossDown){ toast("🚪 Le Médecin te barre la route. Occupe-toi de lui d'abord."); return; }
-  endSlice();
-}
-
-/* ---- transmutation ---- */
+function tryExit(){ if(!P.bossDown){ toast("🚪 Le Médecin te barre la route."); return; } endSlice(); }
 function transmute(){
   if(scr!=="play") return;
-  const cost=3, gain=2;
-  if(P.intel<cost){ toast("🧠 Pas assez d'Intelligence (il en faut "+cost+"). Lis un bouquin."); return; }
-  P.intel-=cost; P.force+=gain; hud(); save();
-  toast("🔮 "+cost+" 🧠 → +"+gain+" 💪 Force. Tu sens tes bras gonfler.");
+  if(P.intel<3){ toast("🧠 Pas assez d'Intelligence (il en faut 3). Lis un bouquin."); return; }
+  P.intel-=3; P.force+=2; hud(); save(); toast("🔮 3 🧠 → +2 💪 Force. Tu sens tes bras gonfler.");
 }
 
-/* ======================= COMBAT ======================= */
+/* ===================== COMBAT ===================== */
 let C=null;
 function startCombat(e){
-  scr="combat";
+  scr="combat"; joyF=joyS=0; $("joy-knob").style.transform="";
   const b=BEST[e.k];
-  C={ ref:e, k:e.k, nom:b.nom, emoji:b.emoji, fort:b.fort, boss:!!b.boss,
-      pvMax:b.pv, pv:b.pv, force:b.force, xp:b.xp, deg:b.deg, buff:0, turn:0, debuff:0 };
-  $("c-emoji").textContent=b.emoji;
-  $("c-name").textContent=b.nom;
+  C={ ref:e, k:e.k, nom:b.nom, emoji:b.emoji, fort:b.fort, boss:!!b.boss, pvMax:b.pv, pv:b.pv, force:b.force, xp:b.xp, deg:b.deg, buff:0, turn:0 };
+  if(P.skills.sangchaud) P.rage=Math.min(P.rageMax,P.rage+25);
+  $("c-emoji").textContent=b.emoji; $("c-name").textContent=b.nom;
   $("c-tag").textContent=(b.boss?"BOSS · ":"")+(b.fort?"Ennemi coriace":"Ennemi faible");
-  log(b.cri);
-  $("combat").hidden=false;
-  renderCombat();
+  log(b.cri); $("prompt").hidden=true; $("combat").hidden=false; renderCombat();
 }
 function log(t){ $("c-log").innerHTML=t; }
 function renderCombat(){
   $("c-hp").style.width=Math.max(0,C.pv/C.pvMax*100)+"%";
-  $("c-pv").style.width=Math.max(0,P.pv/P.pvMax*100)+"%";
-  $("c-pv-txt").textContent=Math.max(0,P.pv)+"/"+P.pvMax;
-  $("c-rage").style.width=(P.rage/P.rageMax*100)+"%";
-  $("c-rage-txt").textContent=Math.round(P.rage);
-  const canSort=P.sortCd? false:true;
+  $("c-pv").style.width=Math.max(0,P.pv/P.pvMax*100)+"%"; $("c-pv-txt").textContent=Math.max(0,P.pv)+"/"+P.pvMax;
+  $("c-rage").style.width=(P.rage/P.rageMax*100)+"%"; $("c-rage-txt").textContent=Math.round(P.rage);
   const moves=[
-    {id:"patate",n:"👊 Patate",d:"Force +rage"},
+    {id:"patate",n:"👊 Patate",d:"Force + rage"},
     {id:"insulte",n:"🗯️ Insulte sismique",d:"40 rage · gros dégâts",dis:P.rage<40},
     {id:"regard",n:"👁️ Regard noir",d:C.fort?"risqué sur les forts":"fait fuir les faibles"},
     {id:"sort",n:"✨ Sort (Intelligence)",d:P.sortCd?"recharge…":"dégâts = 🧠×3",dis:!!P.sortCd},
@@ -466,249 +429,212 @@ function renderCombat(){
   $("c-moves").querySelectorAll(".move").forEach(b=>b.onclick=()=>playerMove(b.dataset.m));
 }
 function rnd(n){ return Math.floor(Math.random()*n); }
-function hitAnim(){ $("c-emoji").classList.remove("hit"); void $("c-emoji").offsetWidth; $("c-emoji").classList.add("hit"); }
-
+function hitAnim(){ const el=$("c-emoji"); el.classList.remove("hit"); void el.offsetWidth; el.classList.add("hit"); }
+function disableMoves(){ $("c-moves").querySelectorAll(".move").forEach(b=>b.disabled=true); }
 function playerMove(m){
   if(scr!=="combat") return;
-  // rage de dent : peut sauter le tour
-  if(Math.random()<0.1){
-    log("🦷 Ta rage de dent t'élance ! Tu te masses la mâchoire et perds ton tour…");
-    disableMoves(); setTimeout(enemyTurn,900); return;
-  }
-  let dmg=0, txt="";
-  if(m==="patate"){
-    dmg=P.force+rnd(4); P.rage=Math.min(P.rageMax,P.rage+15);
-    txt="👊 Tu balances une grosse patate. "+dmg+" dégâts.";
-  } else if(m==="insulte"){
-    P.rage-=40; dmg=Math.round(P.force*2.2)+rnd(5)+(P.skills.sangchaud?6:0);
-    txt="🗯️ Tu hurles une insulte si fort que l'air tremble ! "+dmg+" dégâts.";
-  } else if(m==="regard"){
-    const fortEnnemi=C.fort && !(P.skills.sangfroid && C.k==="aide");
-    if(!fortEnnemi){ log("👁️ Ton regard noir le glace. Il s'enfuit en couinant.");
-      endCombat(false,true); return; }
-    else { C.buff+=3; P.rage=Math.min(P.rageMax,P.rage+25);
-      txt="👁️ Tu le fixes… mais ça le rend FURIEUX (+force). Tu encaisses la pression (+rage)."; dmg=0; }
-  } else if(m==="sort"){
-    dmg=P.intel*3+rnd(3); P.sortCd=2;
-    txt="✨ Tu transmutes ta pensée en déflagration. "+dmg+" dégâts.";
-  } else if(m==="fuir"){
-    if(Math.random()<0.55){ log("🏃 Tu détales dans le couloir !"); endCombat(false,true); return; }
-    txt="🏃 Raté ! Il te rattrape."; dmg=0;
-  }
-  if(dmg>0) hitAnim();
-  C.pv-=dmg;
+  if(Math.random()<0.1){ log("🦷 Ta rage de dent t'élance ! Tu te masses la mâchoire et perds ton tour…"); disableMoves(); setTimeout(enemyTurn,900); return; }
+  let dmg=0,txt="";
+  if(m==="patate"){ dmg=P.force+rnd(4); P.rage=Math.min(P.rageMax,P.rage+15); txt="👊 Grosse patate. "+dmg+" dégâts."; }
+  else if(m==="insulte"){ P.rage-=40; dmg=Math.round(P.force*2.2)+rnd(5)+(P.skills.sangchaud?6:0); txt="🗯️ Une insulte si forte que l'air tremble ! "+dmg+" dégâts."; }
+  else if(m==="regard"){ const fortE=C.fort && !(P.skills.sangfroid && C.k==="aide");
+    if(!fortE){ log("👁️ Ton regard noir le glace. Il s'enfuit en couinant."); endCombat(false,true); return; }
+    C.buff+=3; P.rage=Math.min(P.rageMax,P.rage+25); txt="👁️ Tu le fixes… ça le rend FURIEUX (+force), mais tu encaisses (+rage)."; }
+  else if(m==="sort"){ dmg=P.intel*3+rnd(3); P.sortCd=2; txt="✨ Tu transmutes ta pensée en déflagration. "+dmg+" dégâts."; }
+  else if(m==="fuir"){ if(Math.random()<0.55){ log("🏃 Tu détales dans le couloir !"); endCombat(false,true); return; } txt="🏃 Raté ! Il te rattrape."; }
+  if(dmg>0){ hitAnim(); C.pv-=dmg; }
   log(txt); renderCombat(); disableMoves();
   if(C.pv<=0){ setTimeout(()=>endCombat(true),650); return; }
   setTimeout(enemyTurn,750);
 }
-function disableMoves(){ $("c-moves").querySelectorAll(".move").forEach(b=>b.disabled=true); }
 function enemyTurn(){
   if(scr!=="combat") return;
   if(P.sortCd) P.sortCd--;
   let txt="", dmg=C.force+C.buff+rnd(3);
-  if(C.boss){
-    C.turn++;
-    if(C.turn%3===0){ P.rage=Math.max(0,P.rage-20); txt="📋 Le Médecin te tend une ordonnance : « du calme ». Ta rage retombe un peu (−20)."; dmg=Math.round(dmg*0.6); }
-  }
-  const def=(P.skills.sangfroid?2:0);
-  dmg=Math.max(1,dmg-def);
-  P.pv-=dmg;
-  txt=(txt?txt+" ":"")+C.emoji+" riposte : −"+dmg+" PV.";
-  log(txt); renderCombat();
+  if(C.boss){ C.turn++; if(C.turn%3===0){ P.rage=Math.max(0,P.rage-20); txt="📋 Le Médecin te tend une ordonnance : « du calme ». Rage −20."; dmg=Math.round(dmg*0.6); } }
+  const def=(P.skills.sangfroid?2:0); dmg=Math.max(1,dmg-def); P.pv-=dmg;
+  log((txt?txt+" ":"")+C.emoji+" riposte : −"+dmg+" PV."); renderCombat();
   if(P.pv<=0){ setTimeout(gameOver,700); return; }
-  setTimeout(()=>{ if(scr==="combat") renderCombat(); },300);
 }
 function endCombat(win,fled){
-  const e=C.ref;
-  $("combat").hidden=true; scr="play";
-  if(win){
-    e.alive=false;
-    P.deg+=C.deg; gainXp(C.xp);
-    if(C.boss){ P.bossDown=true; }
-    toast("✅ "+C.nom+" à terre ! +"+C.xp+" XP · +"+C.deg+" dégâts");
-    if(C.boss){ setTimeout(bossBeaten,500); }
-  } else if(fled){
-    // fui ou effrayé : l'ennemi disparaît sans récompense d'xp
-    e.alive=false; toast("L'ennemi a dégagé. (pas d'XP)");
-  }
-  P.sortCd=0;
-  draw(); hud(); save();
+  const e=C.ref; $("combat").hidden=true; scr="play"; P.sortCd=0;
+  if(win){ e.alive=false; P.deg+=C.deg; gainXp(C.xp);
+    if(C.boss){ P.bossDown=true; } else { toast("✅ "+C.nom+" à terre ! +"+C.xp+" XP · +"+C.deg+" dégâts"); }
+    if(C.boss){ setTimeout(bossBeaten,450); } }
+  else if(fled){ e.alive=false; toast("L'ennemi a dégagé. (pas d'XP)"); }
+  syncSprites(); hud(); save(); last=performance.now();
 }
 function gainXp(n){
   P.xp+=n;
-  while(P.xp>=P.xpNext){
-    P.xp-=P.xpNext; P.niv++; P.xpNext=Math.round(P.xpNext*1.5);
-    P.pvMax+=6; P.pv=P.pvMax; P.force+=1; P.pts+=1;
-    if(P.niv%2===0) P.intel+=1;
-    toast("⭐ Niveau "+P.niv+" ! +6 PV, +1 Force, +1 point de compétence");
-  }
+  while(P.xp>=P.xpNext){ P.xp-=P.xpNext; P.niv++; P.xpNext=Math.round(P.xpNext*1.5);
+    P.pvMax+=6; P.pv=P.pvMax; P.force+=1; P.pts+=1; if(P.niv%2===0) P.intel+=1;
+    toast("⭐ Niveau "+P.niv+" ! +6 PV, +1 Force, +1 point"); }
 }
 
-/* ======================= COMPÉTENCES ======================= */
+/* ===================== COMPÉTENCES ===================== */
 const SKILLS=[
   {id:"grosbras",e:"💪",n:"Gros bras",d:"+3 Force tout de suite."},
   {id:"lecture",e:"🧠",n:"Lecture rapide",d:"Les livres rapportent +50% d'Intelligence. (+2 maintenant)"},
-  {id:"sangchaud",e:"🔥",n:"Sang chaud",d:"Insulte sismique frappe plus fort. Tu démarres chaque combat avec +25 rage."},
-  {id:"sangfroid",e:"🧊",n:"Sang-froid",d:"+10 PV, −2 dégâts subis, et ton Regard noir fait aussi fuir les aides-soignants."},
+  {id:"sangchaud",e:"🔥",n:"Sang chaud",d:"Insulte plus forte. Tu démarres chaque combat avec +25 rage."},
+  {id:"sangfroid",e:"🧊",n:"Sang-froid",d:"+10 PV, −2 dégâts subis, Regard noir fait aussi fuir les aides-soignants."},
 ];
 function openSkills(){
   $("sk-pts").textContent="★ "+P.pts+" point"+(P.pts>1?"s":"")+" à dépenser";
-  $("sk-list").innerHTML=SKILLS.map(s=>{
-    const owned=!!P.skills[s.id];
-    return `<div class="skill ${owned?"owned":""}"><div class="se">${s.e}</div>
-      <div class="si"><div class="sn">${s.n}</div><div class="sd">${s.d}</div></div>
-      <button data-s="${s.id}" ${owned||P.pts<=0?"disabled":""}>${owned?"Acquis":"1 ★"}</button></div>`;
-  }).join("");
+  $("sk-list").innerHTML=SKILLS.map(s=>{ const o=!!P.skills[s.id];
+    return `<div class="skill ${o?"owned":""}"><div class="se">${s.e}</div><div class="si"><div class="sn">${s.n}</div><div class="sd">${s.d}</div></div><button data-s="${s.id}" ${o||P.pts<=0?"disabled":""}>${o?"Acquis":"1 ★"}</button></div>`; }).join("");
   $("sk-list").querySelectorAll("button[data-s]").forEach(b=>b.onclick=()=>buySkill(b.dataset.s));
   $("skills").hidden=false;
 }
 function buySkill(id){
   if(P.skills[id]||P.pts<=0) return;
   P.pts--; P.skills[id]=true;
-  if(id==="grosbras") P.force+=3;
-  if(id==="lecture") P.intel+=2;
-  if(id==="sangchaud") P.rageMax=100;
+  if(id==="grosbras") P.force+=3; if(id==="lecture") P.intel+=2;
   if(id==="sangfroid"){ P.pvMax+=10; P.pv+=10; }
   hud(); save(); openSkills();
 }
 
-/* ======================= ÉCRANS / HISTOIRE ======================= */
-function toast(t){ const el=$("toast"); el.textContent=t; el.classList.add("show"); clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove("show"),2100); }
-function showScreen(html){ $("screen-card").innerHTML=html; $("screen").hidden=false; }
+/* ===================== HUD / ÉCRANS ===================== */
+function hud(){
+  $("pv-bar").style.width=Math.max(0,P.pv/P.pvMax*100)+"%"; $("pv-txt").textContent=Math.max(0,P.pv)+"/"+P.pvMax;
+  $("rage-bar").style.width=(P.rage/P.rageMax*100)+"%"; $("rage-txt").textContent=Math.round(P.rage);
+  $("s-niv").textContent=P.niv; $("s-force").textContent=P.force; $("s-intel").textContent=P.intel; $("s-deg").textContent=P.deg;
+  $("s-pts").hidden=P.pts<=0; $("s-pts-n").textContent=P.pts;
+}
+function toast(t){ const el=$("toast"); el.textContent=t; el.classList.add("show"); clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove("show"),2000); }
+function showScreen(h){ $("screen-card").innerHTML=h; $("screen").hidden=false; }
 function closeScreen(){ $("screen").hidden=true; }
 window.closeScreen=closeScreen;
 
-const INTRO=[
- "Dimanche. 8 h 02.",
- "Le chien vient de crotter au milieu du salon.",
- "Il pleut. Ta femme te rappelle qu'on mange chez la belle-famille à midi.",
- "Tu ouvres ton téléphone : notification de la banque.",
- "<em>« Découvert autorisé dépassé : −29 000 €. »</em>",
- "Une rage de dent te vrille la mâchoire. Tu te la masses.",
- "Tout devient noir.",
+/* ===================== CINÉMATIQUE ===================== */
+const CINE=[
+ {bg:"#1a1522", em:"🛋️", cap:"Dimanche. 8 h 02.", dur:2200},
+ {bg:"#201a16", em:"🐕💩", cap:"Le chien a encore crotté au milieu du salon.", dur:2800},
+ {bg:"#141a22", em:"🌧️", cap:"Il pleut. « On mange chez ma mère à midi », te rappelle ta femme.", dur:3200},
+ {bg:"#2a0f10", em:"📱", cap:"Ton téléphone vibre. Banque : découvert de −29 000 €.", dur:3200},
+ {bg:"#360a0a", em:"🦷", cap:"Une rage de dent te vrille la mâchoire…", dur:2600, flash:true},
+ {bg:"#000000", em:"⚫", cap:"Tout devient noir.", dur:2200},
 ];
-function runIntro(){
-  let body=$("intro-body"), i=0;
-  body.innerHTML="<h2 class='serif'>Rage de <b>dent</b></h2>";
-  $("intro-go").textContent="…";
-  const tick=()=>{
-    if(i<INTRO.length){
-      const p=document.createElement("p"); p.className="intro-line";
-      p.innerHTML=INTRO[i]; p.style.animationDelay="0s"; body.appendChild(p);
-      i++; setTimeout(tick,900);
-    } else { $("intro-go").textContent="Ouvrir les yeux →"; }
-  };
-  tick();
-  $("intro-go").onclick=()=>{ if(i<INTRO.length) return; $("intro").hidden=true; wakeUp(); };
+let cineT=0;
+function runCine(){
+  $("cine").hidden=false; let i=0;
+  const sc=$("cine-scene"), em=$("cine-emoji"), cap=$("cine-cap");
+  function show(){
+    if(i>=CINE.length){ endCine(); return; }
+    const s=CINE[i];
+    sc.style.background=s.bg; em.textContent=s.em; cap.textContent=s.cap;
+    em.style.animation="none"; void em.offsetWidth; em.style.animation=`cine-in ${(s.dur)/1000}s ease forwards`;
+    cap.style.animation="none"; void cap.offsetWidth; cap.style.animation="cap-in .8s ease forwards";
+    if(s.flash){ const fl=$("cine-flash"); fl.style.transition="none"; fl.style.opacity="0"; setTimeout(()=>{ fl.style.transition="opacity .5s"; fl.style.opacity=".8"; setTimeout(()=>fl.style.opacity="0",120); }, s.dur-500); }
+    i++; clearTimeout(cineT); cineT=setTimeout(show, s.dur);
+  }
+  show();
 }
+function endCine(){ clearTimeout(cineT); $("cine").hidden=true; wakeUp(); }
+$("cine-skip").onclick=endCine;
 
 function wakeUp(){
-  showScreen(`<div class="big-emoji">🛏️</div>
-    <h2>Chambre d'hôpital</h2>
+  showScreen(`<div class="big-emoji">🛏️</div><h2>Chambre d'hôpital</h2>
     <p>Tu te réveilles sous un néon qui grésille. Des tubes dans le bras, un bip lancinant. Une infirmière s'approche, seringue à la main :</p>
-    <p><em>« Vous avez fait un malaise. Tenez, une petite piqûre de calmant, vous allez vous rendormir tranquillement… »</em></p>
-    <div class="choices">
-      <button class="btn" id="accept">💉 Accepter la piqûre</button>
-      <button class="btn primary" id="refuse">✊ Refuser</button>
-    </div>`);
-  $("accept").onclick=sleepEnding;
-  $("refuse").onclick=beginGame;
+    <p><em>« Vous avez fait un malaise. Tenez, une petite piqûre de calmant, vous allez vous rendormir… »</em></p>
+    <div class="choices"><button class="btn" id="accept">💉 Accepter la piqûre</button><button class="btn primary" id="refuse">✊ Refuser</button></div>`);
+  $("accept").onclick=sleepEnding; $("refuse").onclick=beginGame;
 }
 function sleepEnding(){
-  showScreen(`<div class="big-emoji">😴</div>
-    <h2>FIN.</h2>
+  showScreen(`<div class="big-emoji">😴</div><h2>FIN.</h2>
     <p>La piqûre fait effet. Tes paupières tombent. Tout se calme. Tu te rendors d'un sommeil profond et sans rêves.</p>
-    <p><em>Vous avez bien dormi. Dégâts causés : 0. Belle-famille : jamais affrontée. Rage : intacte, pour une prochaine fois.</em></p>
-    <p style="color:var(--gold)">🥚 (Tu viens de trouver la fin secrète. La sagesse, peut-être. Ou la lâcheté.)</p>
+    <p><em>Vous avez bien dormi. Dégâts : 0. Belle-famille : jamais affrontée. Rage : intacte, pour une prochaine fois.</em></p>
+    <p style="color:var(--gold)">🥚 (Tu viens de trouver la fin secrète.)</p>
     <div class="choices"><button class="btn primary" onclick="location.reload()">Recommencer</button></div>`);
 }
 function beginGame(){
-  freshGame();
-  closeScreen();
-  showScreen(`<div class="big-emoji">✊</div>
-    <h2><b>NON.</b></h2>
-    <p>Tu attrapes son poignet. « Pas aujourd'hui. » Tu arraches les perfusions une par une, tu balances les draps et tu poses tes pieds nus sur le lino glacé.</p>
+  freshGame(); closeScreen();
+  if(!renderer){ $("loading").hidden=false; setTimeout(()=>{ try{buildWorld();}catch(err){ $("loading").innerHTML="<div>Erreur 3D : "+err.message+"</div>"; return; } $("loading").hidden=true; afterBuild(); }, 30); }
+  else { rebuildSprites(); afterBuild(); }
+}
+function rebuildSprites(){
+  for(const e of ENT){ if(e._sp){ scene.remove(e._sp); } }
+  for(const e of ENT){
+    const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:emojiTexture(emOf(e)),transparent:true,depthWrite:false}));
+    const boss=e.t==="enemy"&&BEST[e.k].boss; const scl=boss?1.9:(e.t==="enemy"?1.45:1.1);
+    sp.scale.set(scl,scl,scl); sp.position.set(e.x+0.5, e.t==="enemy"?0.95:0.7, e.y+0.5); sp.visible=alive(e);
+    e._sp=sp; scene.add(sp);
+  }
+}
+function afterBuild(){
+  showScreen(`<div class="big-emoji">✊</div><h2><b>NON.</b></h2>
+    <p>Tu attrapes son poignet. « Pas aujourd'hui. » Tu arraches les perfusions, tu balances les draps et tu poses tes pieds nus sur le lino glacé.</p>
     <p>Debout. En blouse ouverte dans le dos. Le cul à l'air et plus rien à perdre.</p>
-    <p><em>Objectif : sortir de cet hôpital. En cassant tout ce qui se met en travers.</em></p>
-    <p style="color:var(--ink-soft);font-size:.84rem">Vue à la 1re personne. <b>↰ ↱</b> pour tourner, <b>▲</b> pour avancer. Avance dans un soignant ou un malade pour le combattre, dans un objet pour le défoncer. Lis les livres 📖 pour l'Intelligence, puis 🔮 transmute-la en Force.</p>
+    <p style="color:var(--ink-soft);font-size:.86rem"><b>Joystick</b> (bas-gauche) pour avancer, <b>glisse l'écran</b> pour regarder. Clavier : <b>ZQSD</b> + souris. Approche-toi d'un soignant/malade pour le combattre, d'un objet pour appuyer sur <b>Action</b>.</p>
     <div class="choices"><button class="btn primary" id="go">Se lever ✊</button></div>`);
   $("go").onclick=()=>{ closeScreen(); enterPlay(); };
 }
 function enterPlay(){
-  scr="play";
-  $("hud").hidden=false; $("controls").hidden=false; $("hint-kb").hidden=false;
-  draw(); hud(); save();
+  scr="play"; $("hud").hidden=false; $("stage").hidden=false;
+  fitRenderer(); hud(); save(); last=performance.now();
+  setTimeout(()=>{ const lh=$("look-hint"); lh.style.transition="opacity 1s"; lh.style.opacity="0"; },3500);
 }
-
 function bossBeaten(){
-  showScreen(`<div class="big-emoji">👨‍⚕️💫</div>
-    <h2>Le Médecin s'effondre</h2>
+  showScreen(`<div class="big-emoji">👨‍⚕️💫</div><h2>Le Médecin s'effondre</h2>
     <p>« Les examens… attendront… » Il glisse le long du mur. La double-porte vitrée du hall est juste derrière lui.</p>
-    <p><em>La sortie est libre. Marche jusqu'à la porte 🚪.</em></p>
+    <p><em>La sortie est libre. Marche jusqu'à la porte 🚪 et appuie sur Action.</em></p>
     <div class="choices"><button class="btn primary" onclick="closeScreen()">Y aller</button></div>`);
 }
 function endSlice(){
-  scr="end"; save();
-  showScreen(`<div class="big-emoji">🚪🌧️</div>
-    <h2>Dehors.</h2>
+  scr="end"; try{localStorage.removeItem(SAVE);}catch(e){}
+  showScreen(`<div class="big-emoji">🚪🌧️</div><h2>Dehors.</h2>
     <p>Les portes s'ouvrent dans un soupir. L'air froid te gifle, la pluie aussi. Pieds nus sur le parking, Gérard respire un grand coup.</p>
-    <p>Devant lui : la ville. Un dimanche gris. Une banque qui ouvre jamais le week-end mais qu'il compte bien défoncer quand même. Et, quelque part au fond de sa mâchoire, <em>la vraie boss qui l'attend.</em></p>
-    <p style="color:var(--rage)"><b>Fin de l'épisode 1 — « L'Hôpital »</b><br>Niveau ${P.niv} · 💥 ${P.deg} dégâts · 💪 Force ${P.force} · 🧠 ${P.intel}</p>
-    <p style="color:var(--ink-soft);font-size:.84rem">À suivre : « La Rue ». (En construction — reviens bientôt.)</p>
+    <p>Devant lui : la ville, un dimanche gris. Et quelque part au fond de sa mâchoire, <em>la vraie boss qui l'attend.</em></p>
+    <p style="color:var(--rage)"><b>Fin de l'épisode 1 — « L'Hôpital »</b><br>Niveau ${P.niv} · 💥 ${P.deg} dégâts · 💪 ${P.force} · 🧠 ${P.intel}</p>
+    <p style="color:var(--ink-soft);font-size:.84rem">À suivre : « La Rue » (en construction).</p>
     <div class="choices"><button class="btn primary" onclick="location.reload()">Rejouer l'épisode</button></div>`);
-  try{ localStorage.removeItem(SAVE); }catch(e){}
 }
 function gameOver(){
-  scr="over"; $("combat").hidden=true;
-  showScreen(`<div class="big-emoji">💀</div>
-    <h2>K.O.</h2>
+  scr="over"; $("combat").hidden=true; try{localStorage.removeItem(SAVE);}catch(e){}
+  showScreen(`<div class="big-emoji">💀</div><h2>K.O.</h2>
     <p>Gérard s'écroule. On le recouche. On lui remet les tubes. Le bip reprend, lancinant.</p>
     <p><em>Dégâts causés : ${P.deg}. Pas assez pour faire passer la rage.</em></p>
     <div class="choices"><button class="btn primary" onclick="location.reload()">Réessayer</button></div>`);
-  try{ localStorage.removeItem(SAVE); }catch(e){}
 }
 
-/* ======================= ENTRÉES ======================= */
-document.addEventListener("keydown",e=>{
-  const k=e.key.toLowerCase();
-  if(["arrowup","w","z"].includes(k)){ e.preventDefault(); step(1); }
-  else if(["arrowdown","s"].includes(k)){ e.preventDefault(); step(-1); }
-  else if(["arrowleft","a","q"].includes(k)){ e.preventDefault(); turn(-1); }
-  else if(["arrowright","d"].includes(k)){ e.preventDefault(); turn(1); }
-  else if(k===" "||k==="enter"){ e.preventDefault(); interactFront(); }
-});
-document.querySelectorAll(".dpad button[data-k]").forEach(b=>{
-  b.addEventListener("click",ev=>{ ev.preventDefault();
-    const k=b.dataset.k;
-    if(k==="fwd") step(1); else if(k==="bk") step(-1);
-    else if(k==="tl") turn(-1); else if(k==="tr") turn(1);
-  });
-});
-$("btn-action").onclick=interactFront;
+/* ===================== ENTRÉES ===================== */
+addEventListener("keydown",e=>{ const k=e.key.toLowerCase();
+  if(["arrowup","arrowdown","arrowleft","arrowright","w","a","s","d","z","q"," "].includes(k)) e.preventDefault();
+  keys[k]=true; if(k===" "||k==="enter") doAction(); });
+addEventListener("keyup",e=>{ keys[e.key.toLowerCase()]=false; });
+
+function stageEl(){ return $("stage"); }
+document.addEventListener("click",e=>{ if(scr==="play" && e.target.closest("#stage") && !e.target.closest("#joy") && !e.target.closest(".fps-act") && !("ontouchstart"in window)){ const c=renderer&&renderer.domElement; if(c&&c.requestPointerLock) c.requestPointerLock(); } });
+addEventListener("mousemove",e=>{ if(renderer && document.pointerLockElement===renderer.domElement && scr==="play"){ P.yaw-=e.movementX*0.0026; P.pitch=Math.max(-1.2,Math.min(1.2,P.pitch-e.movementY*0.0026)); } });
+
+const joy=$("joy"),knob=$("joy-knob"); let joyId=null,jcx=0,jcy=0;
+joy.addEventListener("touchstart",e=>{ const t=e.changedTouches[0]; joyId=t.identifier; const r=joy.getBoundingClientRect(); jcx=r.left+r.width/2; jcy=r.top+r.height/2; e.preventDefault(); },{passive:false});
+joy.addEventListener("touchmove",e=>{ for(const t of e.changedTouches){ if(t.identifier!==joyId)continue; let dx=t.clientX-jcx,dy=t.clientY-jcy; const R=44,d=Math.hypot(dx,dy); if(d>R){dx=dx/d*R;dy=dy/d*R;} knob.style.transform=`translate(${dx}px,${dy}px)`; joyS=dx/R; joyF=-dy/R; } e.preventDefault(); },{passive:false});
+function joyEnd(e){ for(const t of e.changedTouches){ if(t.identifier===joyId){ joyId=null; joyF=joyS=0; knob.style.transform=""; } } }
+joy.addEventListener("touchend",joyEnd); joy.addEventListener("touchcancel",joyEnd);
+
+const stage=$("stage"); let lookId=null,lx=0,ly=0;
+stage.addEventListener("touchstart",e=>{ for(const t of e.changedTouches){ if(t.target.closest("#joy")||t.target.closest(".fps-act"))continue; if(lookId===null){ lookId=t.identifier; lx=t.clientX; ly=t.clientY; } } },{passive:false});
+stage.addEventListener("touchmove",e=>{ for(const t of e.changedTouches){ if(t.identifier!==lookId)continue; const dx=t.clientX-lx,dy=t.clientY-ly; lx=t.clientX; ly=t.clientY; if(scr==="play"){ P.yaw-=dx*0.005; P.pitch=Math.max(-1.1,Math.min(1.1,P.pitch-dy*0.004)); } } e.preventDefault(); },{passive:false});
+function lookEnd(e){ for(const t of e.changedTouches){ if(t.identifier===lookId) lookId=null; } }
+stage.addEventListener("touchend",lookEnd); stage.addEventListener("touchcancel",lookEnd);
+
+$("btn-action").onclick=doAction;
 $("btn-trans").onclick=transmute;
 $("btn-skills").onclick=()=>{ if(P&&P.pts>0) openSkills(); else toast("Aucun point de compétence pour l'instant."); };
 $("sk-close").onclick=()=>$("skills").hidden=true;
-
-/* menu */
-$("menu-btn").onclick=()=>{
-  if(!P){ return; }
-  $("menu-stats").innerHTML=`Niveau ${P.niv} · 💥 ${P.deg} dégâts · 💪 ${P.force} · 🧠 ${P.intel}`;
-  $("menu").hidden=false;
-};
+$("menu-btn").onclick=()=>{ if(!P)return; $("menu-stats").innerHTML=`Niveau ${P.niv} · 💥 ${P.deg} dégâts · 💪 ${P.force} · 🧠 ${P.intel}`; $("menu").hidden=false; };
 $("menu-resume").onclick=()=>$("menu").hidden=true;
 $("menu-restart").onclick=()=>{ try{localStorage.removeItem(SAVE);}catch(e){} location.reload(); };
 
-/* ======================= DÉMARRAGE ======================= */
+/* ===================== DÉMARRAGE ===================== */
+requestAnimationFrame(loop);
 (function boot(){
-  if(load()){
-    // reprise de partie
-    $("intro").hidden=true;
-    if(scr==="combat"){ scr="play"; } // on ne reprend pas en plein combat
-    enterPlay();
-    toast("Partie reprise. ⚙︎ pour recommencer.");
-  } else {
-    runIntro();
-  }
+  if(typeof THREE==="undefined"){ $("cine").hidden=true; $("loading").hidden=false; $("loading").innerHTML="<div>Impossible de charger la 3D (connexion ?). Recharge la page.</div>"; return; }
+  if(load() && scr!=="cine"){
+    $("cine").hidden=true;
+    $("loading").hidden=false;
+    setTimeout(()=>{ try{ buildWorld(); }catch(err){ $("loading").innerHTML="<div>Erreur 3D : "+err.message+"</div>"; return; } $("loading").hidden=true; if(scr==="combat") scr="play"; enterPlay(); toast("Partie reprise. ⚙︎ pour recommencer."); },30);
+  } else { scr="cine"; runCine(); }
 })();
 </script>
 </body>
