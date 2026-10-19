@@ -1,5 +1,16 @@
 const ARTICLES = [
   {
+    id: "choisir-ton-but",
+    titre: "Choisir ton but",
+    sousTitre: "",
+    cat: "Vivre",
+    tweet: "",
+    minutes: 1,
+    brouillon: true,
+    date: "2026-10-19",
+    corps: `<p>Énumérés argent sens découvre etc</p>`
+  },
+  {
     id: "le-prophete-le-one-guy-et-thanos",
     titre: "Le prophète le one guy et thanos",
     sousTitre: "Les grands méchants les grands sauveur",
