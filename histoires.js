@@ -1,5 +1,14 @@
 const HISTOIRES = [
   {
+    id: "etoiles",
+    titre: "Étoiles",
+    sousTitre: "",
+    minutes: 1,
+    brouillon: true,
+    date: "2026-10-19",
+    corps: `<p>Nuit noire, un homme regarde les étoiles. il essaie de réfléchir mais il n’y arrive pas. Quelque Chose l’en empêche. mais quoi ? Il boit une bière, non loin de lui, une rue passante. Sa vie peut aisément se résumer, comme elle peut vous être contée durant de longues heures. C’est un homme qui ne sait pas. Avec le temps il a compris. On croit toujours savoir mais quand on se retourne on se rend compte qu’avant on ne savait pas. Le seul moment ou l’on sait doit donc être réduit ou quelque instant précédent la mort. il ne sais pas. En fait non, on ne sait jamais vraiment. La compréhension du monde évolue sans cesse.</p>`
+  },
+  {
     id: "folie",
     titre: "Folie",
     sousTitre: "",
