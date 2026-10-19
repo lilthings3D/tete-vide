@@ -1,5 +1,20 @@
 const HISTOIRES = [
   {
+    id: "avignon-apocalypse",
+    titre: "Avignon apocalypse",
+    sousTitre: "",
+    minutes: 1,
+    brouillon: true,
+    date: "2026-10-19",
+    corps: `<p>tu raconte ta soiré de base avec  la tristerssse etc, tu prtomène ton chien hors des murs et tu vois les gens courir tu entre dans les muraille et organise la ré”sistance.</p>
+
+<p>Panique à bord</p>
+
+<p>Donc la quelqu’un a sonné chez moi et j’attendais personne donc je suis pas allé ouvrir mdr c’est quoi ce bourbier.</p>
+
+<p>j’entend ma voisine ken</p>`
+  },
+  {
     id: "road-rage",
     titre: "road rage",
     sousTitre: "",
