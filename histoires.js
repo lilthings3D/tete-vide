@@ -1,5 +1,14 @@
 const HISTOIRES = [
   {
+    id: "parano",
+    titre: "Parano",
+    sousTitre: "",
+    minutes: 1,
+    brouillon: true,
+    date: "2026-10-19",
+    corps: `<p>J'étais en train de promener Sandor et j’ai vu un scooter faire demi-tour juste devant moi. J’y ai pas prêté plus attention que ça, j’ai continué mon chemin. Puis j’ai vu un type encapuchonné devant un portail, me voir arriver et faire demi-tour pour rentrer dans sa résidence. Bizarre. Puis un troisième scooter qui arrive à mon niveau et qui fait demi-tour. <br>Bon ok il se passe quoi là ? Soit ils font des rondes pour surveiller les environs de la cité à proximité, soit ils cherche une cible à détrousser, soit c’est un putain de hasard, soit encore il me surveille moi. Et j’avoue que le fait qu’il me surveille moi pourrait être un début d’histoire un peu rigolo comparé au autre propositions, déjà ça voudrait dire que je suis en quelque sorte une menace, et que je n’ai pas conscience de l’être, donc soit c’est quelque choses en moi dont je n’ai pas connaissance, soit c’est dans mon passé et je l’ai oublié, mais si j’ai oublier être une grande menace, ce n’est pas arrivé par magie. Donc l’histoire part sur quelque chose en moi que je n’ai pas conscience d’avoir, comme le one punch man. Mais je ne m’en suis jamais servi, c’est un pouvoir que j’ai, qui mérite surveillance rapprochée et qui serait effectif la nuit du coup.</p>`
+  },
+  {
     id: "un-nouveau-jour-un-nouveau-lieu-un-nouveau-recit",
     titre: "Un nouveau jour, un nouveau lieu, un nouveau récit",
     sousTitre: "",
