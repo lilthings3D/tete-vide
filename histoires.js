@@ -1,5 +1,14 @@
 const HISTOIRES = [
   {
+    id: "defaite",
+    titre: "Défaite :",
+    sousTitre: "",
+    minutes: 1,
+    brouillon: true,
+    date: "2026-10-19",
+    corps: `<p>On raconte toujours les réussites, je veux raconter un mec qui ne s’arrête pas d'échouer et qui évolue avec ça et il finit par voir que tout ces échecs l’ont mené a voir différemment ce qu’est un échec, une façon de survivre a tout ses échecs.</p>`
+  },
+  {
     id: "reve-eveille",
     titre: "Rêve éveillé:",
     sousTitre: "",
