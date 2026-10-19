@@ -1,5 +1,14 @@
 const HISTOIRES = [
   {
+    id: "nul",
+    titre: "Nul",
+    sousTitre: "Nul",
+    minutes: 2,
+    brouillon: true,
+    date: "2026-10-19",
+    corps: `<p>C’est nul. Tout est nul. Je vais devoir stopper net cette histoire. Je vous coupe tout de suite. Un homme qui déclare ne plus être un croyant depuis qu’il est devenu ce qu’il nomme un sachant, non mais il se prend pour qui. Il va sans le moindre doute devenir insupportablement pédant dans moins de trois pages. Non vous ne pouvez pas commencer une histoire comme ça. Personne ne va avoir envie de lire les affabulations d’un homme qui se prend pour un dieu. <br>Heu en réalité il révèle simplement qu’il les a côtoyé, bafouille maladroitement Franc. <br>C’est bien pareil. Un homme qui côtoie les dieux, qui par la suite redescend vers les hommes. Hein ? C’est bien ce qu’il fait, puisqu’il vient nous conter son histoire. Il vient pour se montrer dans toute sa supériorité spirituelle, pour gonfler son propre ego. Je vois bien venir vôtre personnage, il va sans doute commencer par parler du mal qui ronge l’humanité, l’envie, la gourmandise, enfin tous les pêchés, puis nous rappeler que tout est écrit depuis des siècles et qu’on ferait mieux de relire les textes sacrés. Vous savez quoi ? J’ai pas besoin d’en savoir plus. Je vous l’achète. <br>Euh, mais vous venez de dire que…<br>Oui, oui, ça sera parfait. Cette histoire colle parfaitement dans l’air du temps, si elle culpabilise suffisamment les gens, ils vont se l’arracher quand pourra-t-on lancer les impressions ?<br>Comme je vous l’ai dit, il n’y a qu’un seul chapitre pour l’instant et je..<br>Très bien, revenez me voir quand il sera terminé, disons dans quatre semaines. Cela vous convient ?<br>Et bien à vrai dire je …<br>Alors c’est d’accord, je ne vous raccompagne pas, mais le coeur y est. Je vous laisse j’ai encore beaucoup à faire, à dans quatre semaines Monsieur .. heu ..<br>Rouillon.<br>Oui, monsieur Brouillon. <br>En fait c’est.<br>Clac !<br>Il m’a fermé la porte au nez ? Quel drôle de numéro, pensa Franc.</p>`
+  },
+  {
     id: "ia-deja-aux-commandes",
     titre: "IA déjà aux commandes",
     sousTitre: "IA déjà aux commandes",
