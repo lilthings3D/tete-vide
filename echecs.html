@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TRQZWVGP');</script>
+<!-- End Google Tag Manager -->
+<meta charset="UTF-8">
+<meta name="description" content="Jeu d'échecs gratuit dans le navigateur : joue contre l'ordinateur en choisissant son niveau Elo, ou à deux sur le même écran. Ton Elo évolue à chaque partie.">
+<link rel="canonical" href="https://tete-vide.fr/echecs.html">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" href="/vache.png">
+<link rel="apple-touch-icon" href="/vache.png">
+<meta name="theme-color" content="#FDFCF8">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Tête vide">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="Échecs — jeu en ligne gratuit">
+<meta property="og:description" content="Joue aux échecs contre l'ordinateur en choisissant son niveau Elo, ou à deux sur le même écran.">
+<meta property="og:url" content="https://tete-vide.fr/echecs.html">
+<meta property="og:image" content="https://tete-vide.fr/fond.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Échecs — jeu en ligne gratuit">
+<meta name="twitter:description" content="Joue aux échecs contre l'ordinateur en choisissant son niveau Elo, ou à deux sur le même écran.">
+<meta name="twitter:image" content="https://tete-vide.fr/fond.png">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"VideoGame","name":"Échecs","url":"https://tete-vide.fr/echecs.html","inLanguage":"fr","genre":"Jeu de société","applicationCategory":"Game","gamePlatform":"Navigateur web","image":"https://tete-vide.fr/fond.png","description":"Jeu d'échecs gratuit : contre l'ordinateur avec choix du niveau Elo, ou à deux sur le même écran.","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"}}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>Échecs — Tête vide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FDFCF8;--ink:#2e2218;--ink-soft:#5b4a39;
+    --orange:#D43030;--orange-deep:#B02020;--rule:#e0cfb0;--paper:#fbf6ec;
+    --sq-light:#f1e4cb;--sq-dark:#b88a5e;
+    --bs:clamp(280px,min(94vw,calc(100dvh - 360px)),560px);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  [hidden]{display:none!important;}
+  body{background:var(--cream);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;min-height:100dvh;}
+
+  header.site{padding:0 28px;border-bottom:1.5px solid var(--ink);}
+  .topbar{display:flex;justify-content:space-between;align-items:center;height:52px;}
+  .brand{font-family:'Newsreader',Georgia,serif;font-weight:600;font-size:1.05rem;text-decoration:none;color:var(--ink);}
+  .brand b{color:var(--orange-deep);}
+
+  #arena{display:flex;flex-direction:column;align-items:center;padding:14px 16px 40px;}
+  #game-title{font-family:'Newsreader',Georgia,serif;font-weight:300;font-style:italic;font-size:clamp(1.4rem,3vw,2rem);letter-spacing:-0.5px;padding:8px 0 10px;text-align:center;}
+  #game-title b{font-style:normal;font-weight:600;color:var(--orange-deep);}
+
+  /* boutons dans le style des autres jeux */
+  .btn{font-family:'Newsreader',Georgia,serif;font-size:0.88rem;letter-spacing:.3px;text-transform:uppercase;color:var(--orange-deep);border:1.5px solid var(--orange-deep);background:none;padding:10px 22px;cursor:pointer;transition:background .2s,color .2s;}
+  .btn:hover{background:var(--orange-deep);color:var(--cream);}
+  .btn.solid{background:var(--orange-deep);color:var(--cream);}
+  .btn.solid:hover{background:var(--ink);border-color:var(--ink);}
+  .btn.small{padding:7px 14px;font-size:0.76rem;}
+  .btn:disabled{opacity:.35;cursor:default;pointer-events:none;}
+
+  /* ===== ÉCRAN DE CHOIX ===== */
+  #setup{width:100%;max-width:520px;border:1px solid var(--rule);background:var(--paper);padding:26px 26px 28px;}
+  .field{margin-bottom:22px;}
+  .field > label,.lab{display:block;font-size:0.74rem;letter-spacing:1px;text-transform:uppercase;color:var(--ink-soft);margin-bottom:9px;}
+  .lab strong{color:var(--orange-deep);}
+  .seg{display:flex;flex-wrap:wrap;gap:0;border:1.5px solid var(--ink);}
+  .seg button{flex:1;min-width:0;font-family:'Newsreader',Georgia,serif;font-size:0.95rem;padding:11px 10px;border:none;background:none;color:var(--ink);cursor:pointer;border-right:1.5px solid var(--ink);}
+  .seg button:last-child{border-right:none;}
+  .seg button.on{background:var(--ink);color:var(--cream);}
+  #levels{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+  #levels button{font-family:'Newsreader',Georgia,serif;font-size:1.05rem;padding:10px 4px;border:1.5px solid var(--rule);background:var(--cream);color:var(--ink);cursor:pointer;transition:border-color .15s,background .15s;}
+  #levels button:hover{border-color:var(--orange-deep);}
+  #levels button.on{border-color:var(--orange-deep);background:var(--orange-deep);color:var(--cream);}
+  #lvl-desc{margin-top:10px;font-style:italic;font-family:'Newsreader',Georgia,serif;color:var(--ink-soft);font-size:0.98rem;min-height:1.4em;}
+  .me{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;padding:12px 14px;border:1px dashed var(--rule);margin-bottom:22px;font-size:0.92rem;}
+  .me strong{font-family:'Newsreader',Georgia,serif;font-size:1.5rem;color:var(--orange-deep);}
+  .me small{color:var(--ink-soft);font-size:0.76rem;line-height:1.4;}
+  .note{font-size:0.88rem;color:var(--ink-soft);line-height:1.6;margin-bottom:16px;}
+  .chk{display:flex;align-items:center;gap:10px;font-size:0.92rem;cursor:pointer;margin-bottom:20px;}
+  .chk input{width:18px;height:18px;accent-color:var(--orange-deep);}
+  .row-btns{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+
+  /* ===== PARTIE ===== */
+  #game{width:100%;display:flex;flex-direction:column;align-items:center;}
+  .pbar{width:var(--bs);display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:34px;padding:4px 2px;}
+  .pname{display:flex;align-items:center;gap:8px;font-family:'Newsreader',Georgia,serif;font-size:1rem;}
+  .pname i{width:9px;height:9px;border-radius:50%;background:var(--rule);display:inline-block;}
+  .pbar.active .pname i{background:var(--orange-deep);box-shadow:0 0 0 3px rgba(176,32,32,.18);}
+  .pname small{color:var(--ink-soft);font-family:-apple-system,sans-serif;font-size:0.74rem;}
+  .caps{display:flex;align-items:center;gap:2px;font-size:1.05rem;line-height:1;min-height:20px;}
+  .caps .cp{font-family:"Segoe UI Symbol","Apple Symbols","Noto Sans Symbols 2","DejaVu Sans",sans-serif;}
+  .caps .cp.w{color:#fdfcf8;-webkit-text-stroke:.8px #2e2218;paint-order:stroke fill;}
+  .caps .cp.b{color:#2e2218;}
+  .caps .adv{margin-left:6px;font-size:0.76rem;color:var(--ink-soft);font-family:-apple-system,sans-serif;}
+
+  #board-wrap{position:relative;width:var(--bs);height:var(--bs);}
+  #board{display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(8,1fr);width:100%;height:100%;border:2px solid var(--ink);touch-action:none;user-select:none;-webkit-user-select:none;}
+  .sq{position:relative;display:flex;align-items:center;justify-content:center;}
+  .sq.l{background:var(--sq-light);} .sq.d{background:var(--sq-dark);}
+  .sq.last::before,.sq.sel::before,.sq.chk::before,.sq.hint::before{content:"";position:absolute;inset:0;}
+  .sq.last::before{background:rgba(226,168,74,.45);}
+  .sq.sel::before{background:rgba(226,168,74,.75);}
+  .sq.hint::before{background:rgba(90,160,110,.55);}
+  .sq.chk::before{background:radial-gradient(circle,rgba(212,48,48,.9) 0%,rgba(212,48,48,.0) 72%);}
+  .sq.tgt::after{content:"";position:absolute;width:30%;height:30%;border-radius:50%;background:rgba(46,34,24,.3);z-index:3;}
+  .sq.cap::after{content:"";position:absolute;inset:6%;border-radius:50%;border:calc(var(--bs)/8*.075) solid rgba(46,34,24,.3);z-index:3;}
+  .sq .rk,.sq .fl{position:absolute;font-size:calc(var(--bs)/8*.17);font-weight:600;opacity:.75;z-index:1;pointer-events:none;}
+  .sq .rk{left:3px;top:2px;} .sq .fl{right:3px;bottom:1px;}
+  .sq.l .rk,.sq.l .fl{color:#8a5b3c;} .sq.d .rk,.sq.d .fl{color:#f1e4cb;}
+  .pc{position:relative;z-index:2;font-size:calc(var(--bs)/8*.84);line-height:1;font-family:"Segoe UI Symbol","Apple Symbols","Noto Sans Symbols 2","DejaVu Sans","Arial Unicode MS",sans-serif;cursor:grab;}
+  .pc.w{color:#fdfcf8;-webkit-text-stroke:calc(var(--bs)/8*.03) #2e2218;paint-order:stroke fill;text-shadow:0 2px 2px rgba(0,0,0,.18);}
+  .pc.b{color:#2a1f16;text-shadow:0 2px 2px rgba(0,0,0,.2);}
+  .pc.drag{opacity:.25;}
+  .ghost{position:fixed;z-index:200;pointer-events:none;transform:translate(-50%,-55%);font-family:"Segoe UI Symbol","Apple Symbols","Noto Sans Symbols 2","DejaVu Sans",sans-serif;line-height:1;filter:drop-shadow(0 6px 8px rgba(0,0,0,.35));}
+  .ghost.w{color:#fdfcf8;-webkit-text-stroke:2px #2e2218;paint-order:stroke fill;} .ghost.b{color:#2a1f16;}
+
+  #promo{position:absolute;inset:0;z-index:20;background:rgba(253,252,248,.9);display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;padding:10px;}
+  #promo button{width:calc(var(--bs)/5);height:calc(var(--bs)/5);border:1.5px solid var(--ink);background:var(--sq-light);cursor:pointer;font-size:calc(var(--bs)/5*.8);line-height:1;font-family:"Segoe UI Symbol","Apple Symbols","Noto Sans Symbols 2","DejaVu Sans",sans-serif;}
+  #promo button.w{color:#fdfcf8;-webkit-text-stroke:1.5px #2e2218;paint-order:stroke fill;} #promo button.b{color:#2a1f16;}
+  #promo button:hover{background:#e7c98f;}
+  #promo p{width:100%;text-align:center;font-family:'Newsreader',Georgia,serif;font-style:italic;font-size:1.05rem;}
+
+  #status{margin-top:22px;font-family:'Newsreader',Georgia,serif;font-style:italic;font-size:1.15rem;text-align:center;min-height:1.6em;}
+  #status.alert{color:var(--orange-deep);font-weight:500;font-style:normal;}
+  #controls{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:12px 0 4px;max-width:var(--bs);}
+  #moves{width:var(--bs);margin-top:12px;max-height:84px;overflow-y:auto;border-top:1px solid var(--rule);padding:8px 2px 0;font-size:0.82rem;color:var(--ink-soft);line-height:1.9;}
+  #moves b{color:var(--ink);font-weight:600;margin-right:2px;} #moves span{margin-right:10px;white-space:nowrap;}
+  #moves em{font-style:normal;color:var(--ink);background:rgba(226,168,74,.3);padding:0 3px;}
+
+  /* ===== FIN DE PARTIE ===== */
+  #end{position:fixed;inset:0;z-index:100;background:rgba(46,34,24,.55);display:flex;align-items:center;justify-content:center;padding:20px;}
+  #end .card{background:var(--cream);border:1.5px solid var(--ink);padding:30px 28px 26px;max-width:380px;width:100%;text-align:center;}
+  #end h2{font-family:'Newsreader',Georgia,serif;font-weight:400;font-style:italic;font-size:1.9rem;margin-bottom:8px;}
+  #end p{color:var(--ink-soft);line-height:1.6;margin-bottom:6px;}
+  #end .elo{font-family:'Newsreader',Georgia,serif;font-size:1.25rem;color:var(--ink);margin:14px 0 20px;}
+  #end .elo b{color:var(--orange-deep);}
+  #end .elo.up b{color:#2f7d4f;}
+  #end .row-btns{justify-content:center;}
+
+  @media(max-width:520px){
+    header.site{padding:0 18px;}
+    #setup{padding:20px 18px 22px;}
+    .btn.small{padding:7px 11px;}
+  }
+</style>
+</head>
+<body><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TRQZWVGP" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+<header class="site"><div class="topbar"><a class="brand" href="jeux.html">← Minis <b>jeux</b></a></div></header>
+
+<main id="arena">
+  <div id="game-title">Échecs <b>·</b></div>
+
+  <!-- ====== CHOIX DE LA PARTIE ====== -->
+  <section id="setup">
+    <div class="field">
+      <label>Mode de jeu</label>
+      <div class="seg" id="seg-mode">
+        <button data-mode="ai" class="on">Contre l'ordinateur</button>
+        <button data-mode="two">À deux</button>
+      </div>
+    </div>
+
+    <div id="opts-ai">
+      <div class="field">
+        <label>Tu joues</label>
+        <div class="seg" id="seg-color">
+          <button data-c="w" class="on">Les blancs</button>
+          <button data-c="b">Les noirs</button>
+          <button data-c="r">Au hasard</button>
+        </div>
+      </div>
+      <div class="field">
+        <span class="lab">Niveau de l'ordinateur : <strong id="lvl-elo"></strong></span>
+        <div id="levels"></div>
+        <div id="lvl-desc"></div>
+      </div>
+      <div class="me">Ton Elo <strong id="my-elo">1200</strong>
+        <small>Il monte quand tu gagnes, descend quand tu perds, selon le niveau de l'adversaire. Les Elo des niveaux sont des estimations.</small></div>
+    </div>
+
+    <div id="opts-two" hidden>
+      <p class="note">Deux joueurs sur le même écran, un contre un. Les blancs commencent. Le coup annulé, l'échec et la promotion sont gérés comme sur un vrai échiquier.</p>
+      <label class="chk"><input type="checkbox" id="auto-flip"> Retourner l'échiquier à chaque coup</label>
+    </div>
+
+    <div class="row-btns">
+      <button class="btn solid" id="btn-play">Jouer →</button>
+      <button class="btn" id="btn-resume" hidden>Reprendre la partie en cours</button>
+    </div>
+  </section>
+
+  <!-- ====== PARTIE ====== -->
+  <section id="game" hidden>
+    <div class="pbar" id="bar-top"><div class="pname"><i></i><span id="name-top"></span></div><div class="caps" id="caps-top"></div></div>
+    <div id="board-wrap">
+      <div id="board" aria-label="Échiquier"></div>
+      <div id="promo" hidden></div>
+    </div>
+    <div class="pbar" id="bar-bot"><div class="pname"><i></i><span id="name-bot"></span></div><div class="caps" id="caps-bot"></div></div>
+
+    <div id="status"></div>
+    <div id="controls">
+      <button class="btn small" id="btn-undo">Annuler</button>
+      <button class="btn small" id="btn-hint">Indice</button>
+      <button class="btn small" id="btn-flip">Retourner</button>
+      <button class="btn small" id="btn-resign">Abandonner</button>
+      <button class="btn small" id="btn-new">Nouvelle partie</button>
+    </div>
+    <div id="moves"></div>
+  </section>
+</main>
+
+<div id="end" hidden><div class="card">
+  <h2 id="end-title"></h2><p id="end-text"></p><div class="elo" id="end-elo" hidden></div>
+  <div class="row-btns"><button class="btn solid" id="end-again">Rejouer</button><button class="btn" id="end-setup">Changer de partie</button></div>
+</div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+<script>
+(function(){
+"use strict";
+const $=id=>document.getElementById(id);
+const SF_URL='https://cdnjs.cloudflare.com/ajax/libs/stockfish.js/10.0.2/stockfish.js';
+const GLYPH={k:'♚︎',q:'♛︎',r:'♜︎',b:'♝︎',n:'♞︎',p:'♟︎'};
+const VAL={p:1,n:3,b:3,r:5,q:9,k:0};
+const FILES='abcdefgh';
+
+/* Les Elo des niveaux sont des estimations : le moteur est réglé en force et en profondeur. */
+const LEVELS=[
+  {elo:500, name:"Premiers pas. Il joue vite et fait des cadeaux.",         skill:0,  depth:1,  ms:250,  blunder:.40},
+  {elo:800, name:"Débutant. Il voit les prises évidentes, pas plus.",        skill:0,  depth:1,  ms:300,  blunder:.15},
+  {elo:1100,name:"Joueur occasionnel. Quelques erreurs de temps en temps.", skill:2,  depth:2,  ms:400,  blunder:.05},
+  {elo:1400,name:"Intermédiaire. Il tient sa position et punit les oublis.", skill:5,  depth:4,  ms:600,  blunder:0},
+  {elo:1700,name:"Confirmé. Il calcule plusieurs coups à l'avance.",        skill:9,  depth:6,  ms:900,  blunder:0},
+  {elo:2000,name:"Expert. Difficile à battre sans préparation.",            skill:13, depth:9,  ms:1200, blunder:0},
+  {elo:2300,name:"Maître. Il exploite la moindre imprécision.",             skill:17, depth:12, ms:1600, blunder:0},
+  {elo:2600,name:"Grand maître. Très peu d'erreurs.",                       skill:20, depth:0,  ms:1500, blunder:0},
+  {elo:2900,name:"Surhumain. Pleine puissance du moteur.",                  skill:20, depth:0,  ms:3000, blunder:0}
+];
+
+/* ---------- état ---------- */
+let game=null, mode='ai', humanColor='w', lvlIdx=2, flipped=false, autoFlip=false;
+let sel=null, targets=[], lastMove=null, over=false, thinking=false, gameId=0, hintMove=null;
+let setupMode='ai', setupColor='w';
+let elo=loadElo();
+
+function loadElo(){ try{ const d=JSON.parse(localStorage.getItem('echecs-elo-v1')); if(d&&d.elo) return d; }catch(e){} return {elo:1200,games:0}; }
+function saveElo(){ try{ localStorage.setItem('echecs-elo-v1',JSON.stringify(elo)); }catch(e){} }
+
+/* ---------- moteur (Stockfish dans un Worker) ---------- */
+let engine=null, engState='idle', engQueue=[], pending=null;
+function startEngine(){
+  if(engine||engState==='failed') return;
+  engState='loading';
+  try{
+    const blob=new Blob(['importScripts("'+SF_URL+'");'],{type:'application/javascript'});
+    engine=new Worker(URL.createObjectURL(blob));
+  }catch(e){ failEngine(); return; }
+  engine.onerror=failEngine;
+  engine.onmessage=e=>{
+    const line=typeof e.data==='string'?e.data:String(e.data);
+    if(line==='uciok'){ engine.postMessage('isready'); }
+    else if(line==='readyok'){ engState='ready'; const q=engQueue; engQueue=[]; q.forEach(f=>f()); }
+    else if(line.indexOf('bestmove')===0 && pending){ const p=pending; pending=null; const t=line.split(' ')[1]; if(t&&t!=='(none)') p.resolve(t); else p.reject(); }
+  };
+  engine.postMessage('uci');
+  setTimeout(()=>{ if(engState!=='ready') failEngine(); },15000);
+}
+function failEngine(){
+  engState='failed';
+  if(pending){ const p=pending; pending=null; p.reject(); }
+  const q=engQueue; engQueue=[]; q.forEach(f=>f(true));
+}
+function engineBest(fen,skill,depth,ms){
+  return new Promise((resolve,reject)=>{
+    const run=failed=>{
+      if(failed||engState!=='ready'){ reject(); return; }
+      pending={resolve,reject};
+      engine.postMessage('setoption name Skill Level value '+skill);
+      engine.postMessage('position fen '+fen);
+      engine.postMessage('go '+(depth?('depth '+depth+' '):'')+'movetime '+ms);
+    };
+    if(engState==='ready') run(); else if(engState==='failed') reject(); else { startEngine(); engQueue.push(run); }
+  });
+}
+function engineStop(){ if(engine&&pending){ try{engine.postMessage('stop');}catch(e){} } }
+
+/* ---------- moteur de secours (si Stockfish ne charge pas) ---------- */
+const PV={p:100,n:320,b:330,r:500,q:900,k:0};
+function evalMat(g){ let s=0; for(const row of g.board()) for(const p of row) if(p) s+=(p.color==='w'?1:-1)*PV[p.type]; return s; }
+function negamax(g,d,a,b){
+  if(d===0) return (g.turn()==='w'?1:-1)*evalMat(g);
+  const ms=g.moves(); if(!ms.length) return g.in_checkmate()?-99999-d:0;
+  ms.sort((x,y)=>(y.indexOf('x')>-1)-(x.indexOf('x')>-1));
+  for(const m of ms){ g.move(m); const v=-negamax(g,d-1,-b,-a); g.undo(); if(v>=b) return b; if(v>a) a=v; }
+  return a;
+}
+function fallbackBest(g,depth){
+  const copy=new Chess(g.fen()); const ms=copy.moves({verbose:true}); ms.sort(()=>Math.random()-.5);
+  let best=null,bs=-1e9;
+  for(const m of ms){ copy.move(m.san); const v=-negamax(copy,depth-1,-1e9,1e9); copy.undo(); if(v>bs){bs=v;best=m;} }
+  return best?{from:best.from,to:best.to,promotion:best.promotion}:null;
+}
+function fallbackDepth(l){ return l.elo<1000?1:(l.elo<1700?2:3); }
+
+/* ---------- utilitaires ---------- */
+function uciToMove(u){ return {from:u.slice(0,2),to:u.slice(2,4),promotion:u.length>4?u[4]:undefined}; }
+function opp(c){ return c==='w'?'b':'w'; }
+function bottomColor(){ return flipped?'b':'w'; }
+function humanControls(color){ return mode==='two' || color===humanColor; }
+function canHumanMove(){ return !!game && !over && !thinking && humanControls(game.turn()); }
+function NAME(c){ return c==='w'?'Les blancs':'Les noirs'; }
+
+/* ---------- affichage ---------- */
+function kingSquare(color){
+  const b=game.board();
+  for(let r=0;r<8;r++)for(let c=0;c<8;c++){ const p=b[r][c]; if(p&&p.type==='k'&&p.color===color) return FILES[c]+(8-r); }
+  return null;
+}
+function render(){
+  const bd=$('board'); bd.innerHTML='';
+  const board=game.board();
+  const checkSq=game.in_check()?kingSquare(game.turn()):null;
+  const tset=new Set(targets.map(m=>m.to));
+  for(let r=0;r<8;r++)for(let c=0;c<8;c++){
+    const rr=flipped?7-r:r, cc=flipped?7-c:c;
+    const sq=FILES[cc]+(8-rr), p=board[rr][cc];
+    const el=document.createElement('div');
+    el.className='sq '+(((rr+cc)%2===0)?'l':'d');
+    el.dataset.sq=sq;
+    if(lastMove&&(sq===lastMove.from||sq===lastMove.to)) el.classList.add('last');
+    if(hintMove&&(sq===hintMove.from||sq===hintMove.to)) el.classList.add('hint');
+    if(sel===sq) el.classList.add('sel');
+    if(checkSq===sq) el.classList.add('chk');
+    if(tset.has(sq)) el.classList.add(p?'cap':'tgt');
+    if(c===0){ const s=document.createElement('span'); s.className='rk'; s.textContent=8-rr; el.appendChild(s); }
+    if(r===7){ const s=document.createElement('span'); s.className='fl'; s.textContent=FILES[cc]; el.appendChild(s); }
+    if(p){ const s=document.createElement('span'); s.className='pc '+p.color; s.textContent=GLYPH[p.type]; el.appendChild(s); }
+    bd.appendChild(el);
+  }
+  updateUI();
+}
+function capturedLists(){
+  const byW=[],byB=[];
+  for(const m of game.history({verbose:true})) if(m.captured){ (m.color==='w'?byW:byB).push(m.captured); }
+  const order={q:0,r:1,b:2,n:3,p:4}; byW.sort((a,b)=>order[a]-order[b]); byB.sort((a,b)=>order[a]-order[b]);
+  const sum=a=>a.reduce((s,t)=>s+VAL[t],0);
+  return {w:byW,b:byB,diff:sum(byW)-sum(byB)};
+}
+function capsHTML(list,takenColor,adv){
+  return list.map(t=>'<span class="cp '+takenColor+'">'+GLYPH[t]+'</span>').join('')+(adv>0?'<span class="adv">+'+adv+'</span>':'');
+}
+function sideName(color){
+  if(mode==='two') return NAME(color);
+  if(color===humanColor) return 'Toi <small>Elo '+elo.elo+'</small>';
+  return 'Ordinateur <small>Elo '+LEVELS[lvlIdx].elo+'</small>';
+}
+function updateUI(){
+  const bot=bottomColor(), top=opp(bot);
+  const cl=capturedLists();
+  $('name-top').innerHTML=sideName(top); $('name-bot').innerHTML=sideName(bot);
+  $('caps-top').innerHTML=capsHTML(top==='w'?cl.w:cl.b, opp(top), top==='w'?Math.max(0,cl.diff):Math.max(0,-cl.diff));
+  $('caps-bot').innerHTML=capsHTML(bot==='w'?cl.w:cl.b, opp(bot), bot==='w'?Math.max(0,cl.diff):Math.max(0,-cl.diff));
+  $('bar-top').classList.toggle('active',!over&&game.turn()===top);
+  $('bar-bot').classList.toggle('active',!over&&game.turn()===bot);
+
+  const st=$('status'); st.className='';
+  if(over){ /* le texte est posé par finish() */ }
+  else if(thinking){ st.textContent='L\'ordinateur réfléchit…'; }
+  else if(game.in_check()){ st.textContent='Échec ! '+NAME(game.turn())+' doivent répondre.'; st.className='alert'; }
+  else if(mode==='ai'){ st.textContent=game.turn()===humanColor?'À toi de jouer.':''; }
+  else { st.textContent=(game.turn()==='w'?'Aux blancs':'Aux noirs')+' de jouer.'; }
+
+  const hist=game.history();
+  let html='';
+  for(let i=0;i<hist.length;i+=2){
+    const n=i/2+1, a=hist[i], b=hist[i+1];
+    html+='<span><b>'+n+'.</b> '+(i===hist.length-1?'<em>'+a+'</em>':a)+(b?' '+(i+1===hist.length-1?'<em>'+b+'</em>':b):'')+'</span>';
+  }
+  const mv=$('moves'); mv.innerHTML=html; mv.scrollTop=mv.scrollHeight;
+  $('btn-undo').disabled=thinking||hist.length===0||(mode==='ai'&&hist.length===1&&game.turn()!==humanColor);
+  $('btn-hint').hidden=(mode!=='ai'); $('btn-hint').disabled=thinking||over||!canHumanMove();
+  $('btn-resign').disabled=over;
+}
+
+/* ---------- sélection, glisser, déplacer ---------- */
+let drag=null;
+function select(sq){
+  sel=sq; targets=game.moves({square:sq,verbose:true}); hintMove=null; render();
+}
+function clearSel(){ sel=null; targets=[]; }
+$('board').addEventListener('pointerdown',e=>{
+  if(!canHumanMove()) return;
+  const el=e.target.closest('.sq'); if(!el) return;
+  e.preventDefault();
+  const sq=el.dataset.sq, piece=game.get(sq);
+  if(sel && targets.some(m=>m.to===sq)){ tryMove(sel,sq); return; }
+  if(piece && piece.color===game.turn() && humanControls(piece.color)){
+    const was=(sel===sq);
+    select(sq);
+    const pcEl=$('board').querySelector('.sq[data-sq="'+sq+'"] .pc');
+    drag={sq,x:e.clientX,y:e.clientY,ghost:null,was,pcEl,id:e.pointerId};
+  } else { clearSel(); render(); }
+});
+window.addEventListener('pointermove',e=>{
+  if(!drag) return;
+  if(!drag.ghost){
+    if(Math.hypot(e.clientX-drag.x,e.clientY-drag.y)<7) return;
+    const p=game.get(drag.sq); if(!p) return;
+    const g=document.createElement('div'); g.className='ghost '+p.color; g.textContent=GLYPH[p.type];
+    g.style.fontSize=(parseFloat(getComputedStyle($('board')).width)/8*0.95)+'px';
+    document.body.appendChild(g); drag.ghost=g; if(drag.pcEl) drag.pcEl.classList.add('drag');
+  }
+  drag.ghost.style.left=e.clientX+'px'; drag.ghost.style.top=e.clientY+'px';
+});
+window.addEventListener('pointerup',e=>{
+  if(!drag) return;
+  const d=drag; drag=null;
+  if(d.ghost){
+    d.ghost.remove();
+    const under=document.elementFromPoint(e.clientX,e.clientY);
+    const el=under&&under.closest&&under.closest('.sq');
+    if(el && el.dataset.sq!==d.sq && targets.some(m=>m.to===el.dataset.sq)) tryMove(d.sq,el.dataset.sq);
+    else { render(); }
+  } else if(d.was){ clearSel(); render(); }
+});
+window.addEventListener('pointercancel',()=>{ if(drag){ if(drag.ghost) drag.ghost.remove(); drag=null; render(); } });
+
+function tryMove(from,to){
+  const cands=targets.filter(m=>m.to===to&&m.from===from);
+  if(!cands.length) return;
+  if(cands.some(m=>m.flags.indexOf('p')>-1)){ showPromo(from,to,cands[0].color); return; }
+  commit({from,to});
+}
+function showPromo(from,to,color){
+  const pr=$('promo'); pr.hidden=false;
+  pr.innerHTML='<p>Promouvoir en…</p>'+['q','r','b','n'].map(t=>'<button class="'+color+'" data-t="'+t+'" aria-label="'+t+'">'+GLYPH[t]+'</button>').join('');
+  pr.querySelectorAll('button').forEach(b=>b.onclick=()=>{ pr.hidden=true; commit({from,to,promotion:b.dataset.t}); });
+}
+function commit(mv){
+  const m=game.move(mv); if(!m) return;
+  clearSel(); hintMove=null; lastMove={from:m.from,to:m.to};
+  afterMove();
+}
+function afterMove(){
+  persist();
+  if(game.game_over()){ render(); finish(); return; }
+  if(mode==='two' && autoFlip) flipped=(game.turn()==='b');
+  render();
+  if(mode==='ai' && game.turn()!==humanColor) aiMove();
+}
+
+/* ---------- ordinateur ---------- */
+function aiMove(){
+  if(over) return;
+  const id=gameId, L=LEVELS[lvlIdx];
+  thinking=true; render();
+  const t0=Date.now();
+  const apply=mv=>{
+    if(id!==gameId||over) return;
+    const wait=Math.max(0,480-(Date.now()-t0));
+    setTimeout(()=>{
+      if(id!==gameId||over) return;
+      thinking=false;
+      const m=game.move(mv);
+      if(!m){ const any=game.moves({verbose:true})[0]; if(any) game.move({from:any.from,to:any.to,promotion:any.promotion||'q'}); }
+      const h=game.history({verbose:true}); const last=h[h.length-1];
+      if(last) lastMove={from:last.from,to:last.to};
+      afterMove();
+    },wait);
+  };
+  /* erreurs volontaires pour les niveaux les plus bas */
+  if(L.blunder && Math.random()<L.blunder){
+    const ms=game.moves({verbose:true}); const m=ms[Math.floor(Math.random()*ms.length)];
+    setTimeout(()=>apply({from:m.from,to:m.to,promotion:m.promotion}),250); return;
+  }
+  engineBest(game.fen(),L.skill,L.depth,L.ms).then(u=>apply(uciToMove(u))).catch(()=>{
+    setTimeout(()=>{ const mv=fallbackBest(game,fallbackDepth(L)); if(mv) apply(mv); else { thinking=false; render(); } },60);
+  });
+}
+function giveHint(){
+  if(!canHumanMove()) return;
+  const id=gameId; $('btn-hint').disabled=true;
+  const show=u=>{ if(id!==gameId) return; hintMove=u; render(); };
+  engineBest(game.fen(),20,0,900).then(u=>show(uciToMove(u))).catch(()=>{ const m=fallbackBest(game,3); if(m) show(m); });
+}
+
+/* ---------- fin de partie ---------- */
+function finish(reason){
+  if(over) return;
+  over=true; thinking=false; engineStop();
+  let title,text,score=null; // score du point de vue de l'humain
+  if(reason==='resign'){
+    const loser=(mode==='ai')?humanColor:game.turn();
+    if(mode==='ai'){ title='Tu abandonnes'; text='L\'ordinateur gagne la partie.'; score=0; }
+    else { title=NAME(loser)+' abandonnent'; text=NAME(opp(loser))+' gagnent la partie.'; }
+  } else if(game.in_checkmate()){
+    const winner=opp(game.turn());
+    title='Échec et mat';
+    if(mode==='ai'){ if(winner===humanColor){ text='Tu as gagné. Bien joué.'; score=1; } else { text='L\'ordinateur gagne cette fois.'; score=0; } }
+    else text=NAME(winner)+' gagnent la partie.';
+  } else {
+    title='Partie nulle'; score=.5;
+    if(game.in_stalemate()) text='Pat : le joueur au trait n\'a aucun coup possible.';
+    else if(game.insufficient_material()) text='Matériel insuffisant pour mater.';
+    else if(game.in_threefold_repetition()) text='La même position est apparue trois fois.';
+    else text='Règle des cinquante coups.';
+  }
+  $('status').textContent=title+'. '+text; $('status').className='alert';
+  updateUI();
+  $('end-title').textContent=title; $('end-text').textContent=text;
+  const eb=$('end-elo');
+  if(mode==='ai' && score!==null){
+    const opElo=LEVELS[lvlIdx].elo, exp=1/(1+Math.pow(10,(opElo-elo.elo)/400));
+    const K=elo.games<10?40:24, delta=Math.round(K*(score-exp)), before=elo.elo;
+    elo.elo=Math.max(100,elo.elo+delta); elo.games++; saveElo();
+    eb.hidden=false; eb.className='elo'+(delta>0?' up':'');
+    eb.innerHTML='Ton Elo : '+before+' → <b>'+elo.elo+'</b> ('+(delta>=0?'+':'')+delta+')';
+  } else eb.hidden=true;
+  clearSave();
+  setTimeout(()=>{ $('end').hidden=false; },reason==='resign'?0:700);
+}
+
+/* ---------- sauvegarde de la partie en cours ---------- */
+function persist(){
+  try{ localStorage.setItem('echecs-save-v1',JSON.stringify({mode,hc:humanColor,lvl:lvlIdx,pgn:game.pgn(),flipped,autoFlip})); }catch(e){}
+}
+function clearSave(){ try{ localStorage.removeItem('echecs-save-v1'); }catch(e){} }
+function readSave(){ try{ const d=JSON.parse(localStorage.getItem('echecs-save-v1')); if(d&&d.pgn!==undefined&&d.mode) return d; }catch(e){} return null; }
+
+/* ---------- démarrage d'une partie ---------- */
+function startGame(opts){
+  gameId++; engineStop();
+  game=new Chess(); mode=opts.mode; lvlIdx=opts.lvl; autoFlip=!!opts.autoFlip;
+  over=false; thinking=false; sel=null; targets=[]; lastMove=null; hintMove=null;
+  if(mode==='ai'){
+    humanColor=opts.color==='r'?(Math.random()<.5?'w':'b'):opts.color;
+    flipped=(humanColor==='b'); startEngine();
+    if(engine&&engState==='ready') engine.postMessage('ucinewgame');
+  } else { humanColor=null; flipped=false; }
+  if(opts.pgn){ game.load_pgn(opts.pgn); const h=game.history({verbose:true}); const l=h[h.length-1]; if(l) lastMove={from:l.from,to:l.to}; if(opts.flipped!==undefined) flipped=opts.flipped; if(opts.hc) humanColor=opts.hc; }
+  $('setup').hidden=true; $('game').hidden=false; $('end').hidden=true; $('promo').hidden=true;
+  $('game-title').innerHTML=(mode==='ai'?'Échecs contre l\'ordinateur':'Échecs à deux')+' <b>·</b>';
+  render();
+  if(game.game_over()){ finish(); return; }
+  if(mode==='ai' && game.turn()!==humanColor) aiMove();
+}
+function currentOpts(){ return {mode:mode,color:humanColor,lvl:lvlIdx,autoFlip:autoFlip}; }
+
+/* ---------- écran de choix ---------- */
+function buildSetup(){
+  const lv=$('levels'); lv.innerHTML='';
+  LEVELS.forEach((l,i)=>{ const b=document.createElement('button'); b.textContent=l.elo; b.dataset.i=i; if(i===lvlIdx) b.className='on'; b.onclick=()=>{ lvlIdx=i; paintLevel(); }; lv.appendChild(b); });
+  paintLevel(); $('my-elo').textContent=elo.elo;
+  const sv=readSave(); $('btn-resume').hidden=!sv;
+}
+function paintLevel(){
+  document.querySelectorAll('#levels button').forEach(b=>b.classList.toggle('on',+b.dataset.i===lvlIdx));
+  $('lvl-elo').textContent='Elo '+LEVELS[lvlIdx].elo; $('lvl-desc').textContent=LEVELS[lvlIdx].name;
+}
+function showSetup(){
+  gameId++; engineStop(); thinking=false;
+  $('game').hidden=true; $('end').hidden=true; $('setup').hidden=false;
+  $('game-title').innerHTML='Échecs <b>·</b>'; buildSetup();
+}
+document.querySelectorAll('#seg-mode button').forEach(b=>b.onclick=()=>{
+  setupMode=b.dataset.mode;
+  document.querySelectorAll('#seg-mode button').forEach(x=>x.classList.toggle('on',x===b));
+  $('opts-ai').hidden=setupMode!=='ai'; $('opts-two').hidden=setupMode!=='two';
+});
+document.querySelectorAll('#seg-color button').forEach(b=>b.onclick=()=>{
+  setupColor=b.dataset.c;
+  document.querySelectorAll('#seg-color button').forEach(x=>x.classList.toggle('on',x===b));
+});
+$('btn-play').onclick=()=>startGame({mode:setupMode,color:setupColor,lvl:lvlIdx,autoFlip:$('auto-flip').checked});
+$('btn-resume').onclick=()=>{ const s=readSave(); if(s) startGame({mode:s.mode,color:s.hc,lvl:s.lvl,autoFlip:s.autoFlip,pgn:s.pgn,flipped:s.flipped,hc:s.hc}); };
+
+/* ---------- boutons de la partie ---------- */
+$('btn-flip').onclick=()=>{ flipped=!flipped; render(); };
+$('btn-hint').onclick=giveHint;
+$('btn-undo').onclick=()=>{
+  if(thinking||!game.history().length) return;
+  gameId++; hintMove=null;
+  if(mode==='ai'){ game.undo(); if(game.turn()!==humanColor) game.undo(); } else game.undo();
+  over=false; $('end').hidden=true; clearSel();
+  const h=game.history({verbose:true}); const l=h[h.length-1]; lastMove=l?{from:l.from,to:l.to}:null;
+  if(mode==='two'&&autoFlip) flipped=(game.turn()==='b');
+  persist(); render();
+};
+$('btn-resign').onclick=()=>{ if(over) return; if(confirm('Abandonner la partie ?')) finish('resign'); };
+$('btn-new').onclick=()=>{ if(!over && game.history().length>0 && !confirm('Quitter la partie en cours ?')) return; clearSave(); showSetup(); };
+$('end-again').onclick=()=>{ startGame(currentOpts()); };
+$('end-setup').onclick=showSetup;
+
+/* ---------- init ---------- */
+buildSetup();
+})();
+</script>
+</body>
+</html>
