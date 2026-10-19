@@ -1,5 +1,16 @@
 const ARTICLES = [
   {
+    id: "je-fais-les-choses-trop-vite",
+    titre: "Je fais les choses trop vite",
+    sousTitre: "",
+    cat: "Vivre",
+    tweet: "",
+    minutes: 1,
+    brouillon: true,
+    date: "2026-10-19",
+    corps: `<p>Je fais les choses trop vite je prends le temps de rien</p>`
+  },
+  {
     id: "choisir-ton-but",
     titre: "Choisir ton but",
     sousTitre: "",
