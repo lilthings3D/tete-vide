@@ -1,5 +1,14 @@
 const HISTOIRES = [
   {
+    id: "kaleidoscope",
+    titre: "Kaleidoscope",
+    sousTitre: "",
+    minutes: 1,
+    brouillon: true,
+    date: "2026-10-19",
+    corps: `<p>Un homme qui déformé la vérité pour qu’elle sois plus amusante.</p>`
+  },
+  {
     id: "defaite",
     titre: "Défaite :",
     sousTitre: "",
