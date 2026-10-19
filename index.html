@@ -467,9 +467,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <div class="wrap">
     <section class="masthead">
-      <div class="kicker">Entre, installe-toi</div>
+      <div class="kicker">Je vide ma tête dans l'internet</div>
       <h1>Tête <span class="l2">vide</span></h1>
-      <p class="tagline">Salut. Ici je vide ma tête : des pensées en vrac, des doutes, deux-trois histoires. Pas d'expert, pas de ligne éditoriale — juste quelqu'un qui réfléchit un peu trop et préfère le faire à voix haute. Lis ce que tu veux, reste le temps que tu veux.</p>
+      <p class="tagline"> Idées en vrac posées ici pour voir si elles tiennent debout.</p>
     </section>
 
     <!-- NOUVEAUTÉS -->
@@ -503,7 +503,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="wrap">
       <div class="f-brand">Tête vide</div>
       <p>J'écris pour essayer de comprendre.<br>Quoi ? Je sais pas encore.<br>Reviens quand tu veux.</p>
-      <div class="sig">— A.</div>
+      <div class="sig">— A.B.</div>
       <nav class="f-nav"><a href="index.html">Réflexions</a><a href="histoires.html">Histoires</a><a href="jeux.html">Jeux</a><a href="plantes.html">Plantes</a><a href="lilthings3d.html">Impressions 3D</a><a href="apropos.html">À propos</a></nav>
     </div>
   </footer>
@@ -792,11 +792,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="a-cat">${a.cat}</div>
         <h1>${a.titre}</h1>
         <div class="a-sub">${a.sousTitre}</div>
-        <div class="a-meta"><span>Par A.</span>${fmtDate(a.date)?'<span class="d">✦</span><span>'+fmtDate(a.date)+'</span>':''}<span class="d">✦</span><span>${a.minutes} min</span></div>
+        <div class="a-meta"><span>Par A.B.</span>${fmtDate(a.date)?'<span class="d">✦</span><span>'+fmtDate(a.date)+'</span>':''}<span class="d">✦</span><span>${a.minutes} min</span></div>
       </div>
       <div class="art-rule"></div>
       <div class="art-body">${a.corps}</div>
-      <div class="art-foot"><div class="sig">A.</div></div>
+      <div class="art-foot"><div class="sig">A.B.</div></div>
 
       <section class="note-section">
         <h2>Est-ce que ça tient debout ?</h2>
@@ -862,6 +862,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </script>
 
 <!-- Vache-mascotte : elle récite les pensées de la maison -->
+<a id="zen-btn" href="zen.html" title="Un moment pour respirer" aria-label="Pause respiration">🧘 Zen</a>
+<style>
+#zen-btn{position:fixed;left:14px;bottom:16px;z-index:150;background:#2e2218;color:#FDFCF8;font-family:'Newsreader',Georgia,serif;font-size:0.92rem;padding:9px 16px;border-radius:999px;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.2);display:inline-flex;align-items:center;gap:6px;transition:transform .2s,background .2s;}
+#zen-btn:hover{transform:translateY(-2px);background:#8a3a22;}
+@media(max-width:600px){#zen-btn{left:10px;bottom:10px;font-size:0.82rem;padding:8px 13px;}}
+</style>
 <div id="cow-buddy" aria-label="La vache de la maison" title="Clique-moi">
   <div class="cow-bubble" id="cow-bubble"></div>
   <img src="vache.png" alt="Une vache" class="cow-img" draggable="false">

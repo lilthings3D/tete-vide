@@ -350,7 +350,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="wrap">
       <div class="f-brand">Histoires</div>
       <p>Écrire c'est inventer une histoire qu'on connait déjà.</p>
-      <div class="sig">— A.</div>
+      <div class="sig">— A.B.</div>
       <nav class="f-nav"><a href="index.html">Réflexions</a><a href="histoires.html">Histoires</a><a href="jeux.html">Jeux</a><a href="plantes.html">Plantes</a><a href="lilthings3d.html">Impressions 3D</a><a href="apropos.html">À propos</a></nav>
     </div>
   </footer>
@@ -493,14 +493,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <h1>${h.titre}</h1>
         <div class="s-sub-large">${h.sousTitre}</div>
         <div class="s-meta-large">
-          <span>Par A.</span><span class="d">◆</span><span>${h.minutes} min</span>
+          <span>Par A.B.</span><span class="d">◆</span><span>${h.minutes} min</span>
         </div>
       </div>
       <div class="story-rule"><span></span><span class="dot">◆</span><span></span></div>
       <div class="story-body">${h.corps}</div>
       <div class="story-foot">
         <div class="fin-mark"><hr><span>fin</span><hr></div>
-        <div class="sig">A.</div>
+        <div class="sig">A.B.</div>
         ${nextBtn}
       </div>
       <section class="note-section">
@@ -546,6 +546,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
+<a id="zen-btn" href="zen.html" title="Un moment pour respirer" aria-label="Pause respiration">🧘 Zen</a>
+<style>
+#zen-btn{position:fixed;left:14px;bottom:16px;z-index:150;background:#2e2218;color:#FDFCF8;font-family:'Newsreader',Georgia,serif;font-size:0.92rem;padding:9px 16px;border-radius:999px;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.2);display:inline-flex;align-items:center;gap:6px;transition:transform .2s,background .2s;}
+#zen-btn:hover{transform:translateY(-2px);background:#8a3a22;}
+@media(max-width:600px){#zen-btn{left:10px;bottom:10px;font-size:0.82rem;padding:8px 13px;}}
+</style>
 <div id="cow-buddy" aria-label="La vache de la maison" title="Clique-moi">
   <div class="cow-bubble" id="cow-bubble"></div>
   <img src="vache.png" alt="Une vache" class="cow-img" draggable="false">
