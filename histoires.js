@@ -1,5 +1,14 @@
 const HISTOIRES = [
   {
+    id: "il-faisait-nuit",
+    titre: "Il faisait nuit",
+    sousTitre: "",
+    minutes: 1,
+    brouillon: true,
+    date: "2026-10-19",
+    corps: `<p>Il faisait nuit, et il pleuvait. La pluie camouflé les bruits de la ville et fait ressortir une drôle d’odeur de trottoir mouillé. Entre deux immeubles, sous une lumière vacillante qui menaçait de s’éteindre, un homme faisait les cent pas, l’air terrifié. Un policier menait un interrogatoire, la concierge de l’immeuble avait entendu un coup de feu et était descendue dans le hall, puis avait fouillé le local poubelle, alerté par un second coup de feu. C’est là qu’elle a retrouvé le corps de Sophia, sans vie, gisant sur le sol, les mains liées dans le dos, le crâne fracturé. Franc avait rencontré Sophia 3 mois plus tôt, petite bourgeoise sans histoire, une femme ordinaire semblait-il. Née d’une famille riche, elle n’avait jamais manqué de rien, avait suivi des études de droit, était devenue avocate en droit fiscal. Elle n’en était qu’au début de sa carrière et pourtant,</p>`
+  },
+  {
     id: "pas-grand-chose",
     titre: "Pas grand chose",
     sousTitre: "",
