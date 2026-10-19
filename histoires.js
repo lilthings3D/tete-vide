@@ -1,5 +1,14 @@
 const HISTOIRES = [
   {
+    id: "la-nuit",
+    titre: "La nuit",
+    sousTitre: "",
+    minutes: 2,
+    brouillon: true,
+    date: "2026-10-19",
+    corps: `<p>La nuit venait de tomber dans la petite ville de Provost city. Franc, comme chaque soir, tira le rideau de son échoppe, alluma l’alarme, et se mit en route pour le « N’a qu’un œil », un bar du quartier dont il était, et ce n’était un secret pour personne, un véritable pilier. En chemin il devait traverser le grand boulevard des rêves brisé, puis traverser le parc du quartier et passer devant ce grand bâtiment sans fenêtre, qui avait poussé en 3 mois à peine dans un grand terrain vague. Personne ne savait ce que ce bâtiment cachait, personne du « N’a qu’un œil » du moins. Franc n’était pas vraiment du genre curieux, et à Provost city mieux valait se contenter de rouler sa bosse sans trop poser de question. Il passait devant chaque jour, rejoignait son bar, commandait un cognac et là, il refaisait le monde. Chacun des piliers avait son anecdote sur ce bâtiment. Marc pensait que c’était une espèce de local du gouvernement ou il faisait des expériences sur les gens, Louis lui était persuadé que c’était une usine militaire top secrète. Franc lui, il n’en avait aucune idée. Il aimait que sa petite ville soit calme, et il aurait préféré que sa ville le reste. Cependant, depuis l’élection, totalement truqué selon le plus grand nombre, de la grande prêtresse Victoria, tout allait de travers. Elle avait pris le pouvoir par la force et s’était autoproclamé prêtresse suprême du comté de Provost, ou toutes les villes s’appelait désormais Provost, de Provost city a Provost ville en passant par toutes les déclinaisons possibles. Elle avait proclamé l’indépendance du comté de Provost et avait construit un mur autour des plus grandes villes.</p>`
+  },
+  {
     id: "jack",
     titre: "Jack",
     sousTitre: "",
