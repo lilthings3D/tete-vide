@@ -928,17 +928,13 @@ const ARTICLES = [
   {
     id: "anticiper-confiance-futur",
     titre: "Anticiper tout le temps, c'est ne pas se faire confiance",
-    sousTitre: "Sur le lien entre contrôle et défiance envers soi-même",
+    sousTitre: "Crois en toi de demain",
     cat: "Penser",
-    tweet: "Quand tu ne te fais pas confiance, tu ne fais pas confiance non plus au toi du futur. Du coup tu anticipes tout, à haute précision — et c'est contre-productif. Sur le contrôle comme symptôme.",
-    minutes: 3,
-    corps: `<p>Quand tu te fais pas confiance, tu fais pas confiance non plus à ton toi du futur. Et ça t'oblige à tout anticiper, dans le moindre détail, avec une précision épuisante — ce qui est en fait contre-productif. Je me suis noté ça un jour, et je crois que ça explique une bonne partie de notre besoin maladif de tout contrôler.</p>
+    tweet: "Quand tu anticipes tout, tu ne fais pas confiance non plus au toi du futur, et c'est contre-productif.",
+    minutes: 1,
+    corps: `<p>Anticipation, prévisions, des mots qui donnent confiance. Je me sens en sécurité quand j’ai tout prévu. Je passe des heures à m’imaginer tous les scénari possibles, j’imagine tous dans les moindres détails. Qu’importe la météo, j’ai tout prévu, j’ai même des chaines si jamais la voiture s’embourbe dans la boue. Ok c’est peut être pas si mal, du moins ça serait bien si ça me bouffait pas la vie. Dès que je dois faire un truc qui sort un peu de l’ordinnaire, j’y gamberge pendant mille ans. Je fais quinze aller-retour entre la pendrie et le salon, je passe tout en revu. ça m’amuse de prendre mon couteau pour aler au resto si jamais ils ont pas de couteau qui coupent ? Peut-être. Je prends une serviette pour aller à l’hôtel 3 caleçon suplémentaire dans ma valise parceque je suis un gros stressé de la vie ? Sans doute. Je me fais croire que ça m’amuse, en fait ça me ronge. Mon rêve c’est dêtre capable de penser à rien d’autre que mon passeport et partir, juste comme ça.</p>
 
-<p>Le raisonnement est simple une fois posé. Si je suis sûr que mon moi de demain saura gérer, je peux laisser des trucs ouverts, improviser, décider le moment venu. Mais si je lui fais pas confiance, alors je dois tout verrouiller à l'avance, tout prévoir, parce que je crois pas que la version future de moi sera capable d'encaisser l'imprévu. La sur-planification, c'est un aveu : je me fais pas confiance à moi-même.</p>
-
-<p>Et c'est contre-productif pour une raison bête : on peut pas tout prévoir. Le réel dévie toujours du plan. Plus le plan est rigide et détaillé, plus il casse au premier imprévu, et plus tu te retrouves démuni — justement parce que t'as misé sur le contrôle au lieu de miser sur ta capacité à t'adapter. Le besoin de tout maîtriser te fragilise au lieu de te protéger.</p>
-
-<p>Y a un truc paradoxal et hyper libérateur là-dedans. Renforcer sa confiance en soi, c'est pas planifier mieux. C'est planifier moins, et apprendre à se reposer sur l'idée qu'on saura faire le moment venu. Faire confiance à ton toi futur, c'est lui laisser de la marge. Et cette marge, loin d'être un risque, c'est souvent ce qui te rend vraiment capable de répondre au réel tel qu'il arrive — pas tel que tu l'avais imaginé.</p>`,
+<p>Bien sur c’est n’importe quoi comme comme rêve. Je veux pas réelement ça. ou peut-^tre que oui ? Le faire, ne serais-ce qu’une seule fois, ça me permetrait de relativiser sur toutes ces merdes que j’emène avec moi partout et qui ne serve à rien d’autre qu’a me rassure quand je fais ma valise, en réalité, à m’emcobrer, l’esprit et le dos</p>`,
     brouillon: true
   }
 ];
