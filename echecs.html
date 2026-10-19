@@ -88,6 +88,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .pname{display:flex;align-items:center;gap:8px;font-family:'Newsreader',Georgia,serif;font-size:1rem;}
   .pname i{width:9px;height:9px;border-radius:50%;background:var(--rule);display:inline-block;}
   .pbar.active .pname i{background:var(--orange-deep);box-shadow:0 0 0 3px rgba(176,32,32,.18);}
+  .chk-tag{display:inline-block;background:var(--orange-deep);color:#fff;font-family:-apple-system,sans-serif;font-size:0.66rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:2px 8px;border-radius:999px;white-space:nowrap;}
+  .pname{white-space:nowrap;}
   .pname small{color:var(--ink-soft);font-family:-apple-system,sans-serif;font-size:0.74rem;}
   .caps{display:flex;align-items:center;gap:2px;font-size:1.05rem;line-height:1;min-height:20px;}
   .caps .cp{font-family:"Segoe UI Symbol","Apple Symbols","Noto Sans Symbols 2","DejaVu Sans",sans-serif;}
@@ -99,11 +101,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   #board{display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(8,1fr);width:100%;height:100%;border:2px solid var(--ink);touch-action:none;user-select:none;-webkit-user-select:none;}
   .sq{position:relative;display:flex;align-items:center;justify-content:center;}
   .sq.l{background:var(--sq-light);} .sq.d{background:var(--sq-dark);}
-  .sq.last::before,.sq.sel::before,.sq.chk::before,.sq.hint::before{content:"";position:absolute;inset:0;}
+  .sq.last::before,.sq.sel::before,.sq.hint::before{content:"";position:absolute;inset:0;}
   .sq.last::before{background:rgba(226,168,74,.45);}
   .sq.sel::before{background:rgba(226,168,74,.75);}
   .sq.hint::before{background:rgba(90,160,110,.55);}
-  .sq.chk::before{background:radial-gradient(circle,rgba(212,48,48,.9) 0%,rgba(212,48,48,.0) 72%);}
   .sq.tgt::after{content:"";position:absolute;width:30%;height:30%;border-radius:50%;background:rgba(46,34,24,.3);z-index:3;}
   .sq.cap::after{content:"";position:absolute;inset:6%;border-radius:50%;border:calc(var(--bs)/8*.075) solid rgba(46,34,24,.3);z-index:3;}
   .sq .rk,.sq .fl{position:absolute;font-size:calc(var(--bs)/8*.17);font-weight:600;opacity:.75;z-index:1;pointer-events:none;}
@@ -317,15 +318,10 @@ function canHumanMove(){ return !!game && !over && !thinking && humanControls(ga
 function NAME(c){ return c==='w'?'Les blancs':'Les noirs'; }
 
 /* ---------- affichage ---------- */
-function kingSquare(color){
-  const b=game.board();
-  for(let r=0;r<8;r++)for(let c=0;c<8;c++){ const p=b[r][c]; if(p&&p.type==='k'&&p.color===color) return FILES[c]+(8-r); }
-  return null;
-}
 function render(){
+  document.querySelectorAll('.ghost').forEach(g=>g.remove());
   const bd=$('board'); bd.innerHTML='';
   const board=game.board();
-  const checkSq=game.in_check()?kingSquare(game.turn()):null;
   const tset=new Set(targets.map(m=>m.to));
   for(let r=0;r<8;r++)for(let c=0;c<8;c++){
     const rr=flipped?7-r:r, cc=flipped?7-c:c;
@@ -336,7 +332,6 @@ function render(){
     if(lastMove&&(sq===lastMove.from||sq===lastMove.to)) el.classList.add('last');
     if(hintMove&&(sq===hintMove.from||sq===hintMove.to)) el.classList.add('hint');
     if(sel===sq) el.classList.add('sel');
-    if(checkSq===sq) el.classList.add('chk');
     if(tset.has(sq)) el.classList.add(p?'cap':'tgt');
     if(c===0){ const s=document.createElement('span'); s.className='rk'; s.textContent=8-rr; el.appendChild(s); }
     if(r===7){ const s=document.createElement('span'); s.className='fl'; s.textContent=FILES[cc]; el.appendChild(s); }
@@ -387,7 +382,8 @@ function sideName(color){
 function updateUI(){
   const bot=bottomColor(), top=opp(bot);
   const cl=capturedLists();
-  $('name-top').innerHTML=sideName(top); $('name-bot').innerHTML=sideName(bot);
+  const tagIf=c=>(!over&&game.in_check()&&game.turn()===c)?' <span class="chk-tag">Échec</span>':'';
+  $('name-top').innerHTML=sideName(top)+tagIf(top); $('name-bot').innerHTML=sideName(bot)+tagIf(bot);
   $('caps-top').innerHTML=capsHTML(top==='w'?cl.w:cl.b, opp(top), top==='w'?Math.max(0,cl.diff):Math.max(0,-cl.diff));
   $('caps-bot').innerHTML=capsHTML(bot==='w'?cl.w:cl.b, opp(bot), bot==='w'?Math.max(0,cl.diff):Math.max(0,-cl.diff));
   $('bar-top').classList.toggle('active',!over&&game.turn()===top);
@@ -415,9 +411,18 @@ function updateUI(){
 /* ---------- sélection, glisser, déplacer ---------- */
 let drag=null;
 function select(sq){
-  sel=sq; targets=game.moves({square:sq,verbose:true}); hintMove=null; render();
+  sel=sq; targets=game.moves({square:sq,verbose:true}); hintMove=null; paintSel();
 }
 function clearSel(){ sel=null; targets=[]; }
+/* met à jour les surbrillances SANS reconstruire l'échiquier (sinon la pièce tenue par le doigt disparaît du DOM) */
+function paintSel(){
+  const tset=new Set(targets.map(m=>m.to));
+  $('board').querySelectorAll('.sq').forEach(el=>{
+    const sq=el.dataset.sq;
+    el.classList.toggle('sel',sel===sq); el.classList.remove('tgt','cap','hint');
+    if(tset.has(sq)) el.classList.add(el.querySelector('.pc')?'cap':'tgt');
+  });
+}
 $('board').addEventListener('pointerdown',e=>{
   if(!canHumanMove()) return;
   const el=e.target.closest('.sq'); if(!el) return;
@@ -428,8 +433,9 @@ $('board').addEventListener('pointerdown',e=>{
     const was=(sel===sq);
     select(sq);
     const pcEl=$('board').querySelector('.sq[data-sq="'+sq+'"] .pc');
+    try{ $('board').setPointerCapture(e.pointerId); }catch(err){}
     drag={sq,x:e.clientX,y:e.clientY,ghost:null,was,pcEl,id:e.pointerId};
-  } else { clearSel(); render(); }
+  } else { clearSel(); paintSel(); }
 });
 window.addEventListener('pointermove',e=>{
   if(!drag) return;
@@ -451,9 +457,10 @@ window.addEventListener('pointerup',e=>{
     const el=under&&under.closest&&under.closest('.sq');
     if(el && el.dataset.sq!==d.sq && targets.some(m=>m.to===el.dataset.sq)) tryMove(d.sq,el.dataset.sq,true);
     else { render(); }
-  } else if(d.was){ clearSel(); render(); }
+  } else if(d.was){ clearSel(); paintSel(); }
 });
 window.addEventListener('pointercancel',()=>{ if(drag){ if(drag.ghost) drag.ghost.remove(); drag=null; render(); } });
+$('board').addEventListener('lostpointercapture',()=>{ if(drag&&drag.ghost){ drag.ghost.remove(); drag=null; render(); } });
 
 function tryMove(from,to,noAnim){
   const cands=targets.filter(m=>m.to===to&&m.from===from);
