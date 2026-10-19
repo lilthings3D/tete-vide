@@ -1,5 +1,14 @@
 const HISTOIRES = [
   {
+    id: "pas-grand-chose",
+    titre: "Pas grand chose",
+    sousTitre: "",
+    minutes: 2,
+    brouillon: true,
+    date: "2026-10-19",
+    corps: `<p>Pas grand-chose a raconter aujourd’hui, se dit-il. Michel n’était pas très bavard en générale, mais ce jours là il n’avait pas lâché le moindre mots, pas même un regard ou un sourire. Comme si il savait. C’était un vieillard grabataire déconnecté de la réalité depuis plus de 10 ans, il ne recevait jamais de visite, il n’avait pas de coup de fil, en fait on ne savait même pas si il avait encore de la famille. Enfin jusqu’à aujourd’hui. Nous venions de recevoir un appel de la morgue afin d’identifier un cadavre, un proche de Michel semblait-il, sa fille en fait. elle venait de mourir dans un terrible accident de voiture, elle était sur le western bridge quand c’est arrivé, le pilonne centrale avait cédé sous le poids des années et avait emporté avec lui prés de 150 véhicule et pas moins de 200 personnes. Quelque rare survivant, mais le plus bizarre, c’est que cela venait de se produire, aucune information n’était parvenue a michel, il n’y avait pas de télévision a la pension des mimosa, pas de journaux, pas de téléphone ou d’internet. Michel avait longtemps prétendu qu’il était un mystique, il se disait voyant, il voyait tout. Plus précisément il resentait les choses, comme dans ce vieux film des années 70 qui a étati remasterisé des 10aines de fois sur une guerre de éroiles. Il ressentait le monde qui l’entourait. Il avait effacé son sourire quasiment en simultané avec l’accident. Plusieur choses étrange se produisait quand michel étati dans les environ, des objet qui disparaissent, des personne qui exécutes ses 4 volontés,. Il avait une aura qui se resentait, presque palpable.</p>`
+  },
+  {
     id: "la-nuit",
     titre: "La nuit",
     sousTitre: "",
