@@ -1,5 +1,22 @@
 const HISTOIRES = [
   {
+    id: "arbitre",
+    titre: "Arbitre",
+    sousTitre: "Arbitre",
+    minutes: 4,
+    brouillon: true,
+    date: "2026-10-19",
+    corps: `<p>Si je suis arbitre, alors j’ai un sifflet, si je suis peintre j’ai un pinceau, si je suis maçon j’ai une truelle, si je suis un sifflet, je ne suis pas forcément un arbitre, et inversement, si j’ai un pinceau, je ne suis pas forcément raciste. C’est ce genre de truc que j’ai appris à l’école, quand la maîtresse dit, tu sais john, le fait que tu sois unijambiste peut t’empêcher de jouer à la marelle, mais ça ne peut pas t’empêcher de connaître le prétérit, ou un truc comme ça. Je dois dire que je ne m’en souviens pas très bien, après 73 années de beuveries mémorables, qui ont toutes été oubliées d’ailleurs, de drogues illégal ou médicamenteuse, les quelques connexions neuronales qu’il me reste, ou j’en était déjà ? A oui, donc 6 oeufs, de la chair à saucisse et, attendez vous n'êtes pas le mécanicien ? Mais où suis-je ?</p>
+
+<p>Tu es à l’hôpital, tu as fait une chute à vélo. Tu ne t’en souviens pas mais, je viens ici chaque jour pour te raconter comment ça s’est passé. Tu étais en route pour le marché aux légumes du mercredi sur la grand’place, tu as suivi un petit sentier que tu ne connaissais pas et qui semblait couper à travers la colline. Tu as emprunté ce sentier, et, arrivé en haut de la colline, tu as aperçu au loin la place du village qui semblait minuscule. Tu as continué ton chemin tout droit, sans voir le précipice, tu es arrivé sur la place du marché dans un fracas assourdissant. Tu es tombé à quelques centimètres à peine du stand de choux. Quand on t’a ramassé, tu ne connaissais même plus ton prénom. Tu prétendais avoir vécu au VIème siècle et tu n’en démordais pas. <br>Oh oui je me souviens maintenant, j’ai combattu contre les Wisigoth sur les plaines de Lugdunum ! J’étais encerclé de toutes parts par des légions de barbares, et nous combattions pour la liberté !<br>Maman, Lyon à cette époque faisait partie du royaume burgonde.<br>Et grâce à qui selon toi ?<br>Bon je repasserais demain maman, repose toi.</p>
+
+<p>Dans les couloirs, l’ambiance était lugubre, durant son court trajet entre la chambre 417 et le bureau des internes, les 29 pas qu’il y avait à faire semblaient toujours durer une éternité. Toc toc.<br>Oh ! Bonjour Madame Poinçon. Je vous en prie, entrez..<br>Non merci, je n’en ai que pour une minute. Écoutez docteur, son état ne semble pas s’améliorer. Aucune des thérapies que vous avez essayées n’a fonctionné. <br>Je sais ce que vous allez me dire et je vous arrête tout de suite.<br>Je pense qu’il est plus que temps d’essayer ma méthode.<br>L’hôpital n’acceptera jamais une chose pareille, je vous l’ai déjà dit.<br>J’y ai réfléchi, écoutez, vous n'êtes pas obligé d’être garant de quoi que ce soit. Vous n’avez qu'à signer une autorisation de sortie hebdomadaire, et je me charge du reste. Vous n’aurez qu'à trouver une excuse pour suspendre ses autres traitements pendant la durée de cet essai clinique.<br>S’il vous plaît ne parlez pas d’essai clinique. Je vois vôtre détresse, les gens sont prêt a faire n’importe quoi pour ceux qui leurs sont chère, et surtout à croire n’importe quoi. <br>Je vous en prie, laissez moi une chance. <br>Je vous laisse 3 mois. J’arrête son traitement dès demain, ils ne seront plus efficaces sous 15 jours, puis vous aurez exactement 75 jours pour vous occuper d’elle “à votre façon”. Passé ces délais, je serai dans l’obligation de la remettre sous médication.<br>Je ne sais pas comment vous remercier docteur je…<br>Nous n’avons jamais eu cette conversation, je vous souhaite une bonne fin de journée madame Poinçon.<br>Au revoir docteur.</p>
+
+<p>Elle quitta l’hôpital, se rendit à sa voiture, et, sans perdre une minute, elle sortit son portable pour composer le numéro de son dernier espoir : Monsieur Blafard. <br>Allo … Oui… Bonjour, c’est Louïse … oui Louïse Poinçon. J’ai l’accord du médecin, Nous pourrons commencer dans une quinzaine de jours… Très bien je vous envois tout ça… Parfait, je viendrais directement avec elle à vôtre cabinet… Oui, au revoir.</p>
+
+<p>Enfin, sa lueur d’espoir. Il ne restait plus qu’à croiser les doigts, à partir de maintenant c’était entre les mains de Monsieur Blafard, et de Dieu. Elle n’était pas croyante mais elle pensa qu’un peu d’aide supplémentaire ne serait pas de trop.</p>`
+  },
+  {
     id: "nul",
     titre: "Nul",
     sousTitre: "Nul",
