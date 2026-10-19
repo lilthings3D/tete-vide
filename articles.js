@@ -931,10 +931,17 @@ const ARTICLES = [
     sousTitre: "Crois en toi de demain",
     cat: "Penser",
     tweet: "Quand tu anticipes tout, tu ne fais pas confiance non plus au toi du futur, et c'est contre-productif.",
-    minutes: 1,
-    corps: `<p>Anticipation, prévisions, des mots qui donnent confiance. Je me sens en sécurité quand j’ai tout prévu. Je passe des heures à m’imaginer tous les scénari possibles, j’imagine tous dans les moindres détails. Qu’importe la météo, j’ai tout prévu, j’ai même des chaines si jamais la voiture s’embourbe dans la boue. Ok c’est peut être pas si mal, du moins ça serait bien si ça me bouffait pas la vie. Dès que je dois faire un truc qui sort un peu de l’ordinnaire, j’y gamberge pendant mille ans. Je fais quinze aller-retour entre la pendrie et le salon, je passe tout en revu. ça m’amuse de prendre mon couteau pour aler au resto si jamais ils ont pas de couteau qui coupent ? Peut-être. Je prends une serviette pour aller à l’hôtel 3 caleçon suplémentaire dans ma valise parceque je suis un gros stressé de la vie ? Sans doute. Je me fais croire que ça m’amuse, en fait ça me ronge. Mon rêve c’est dêtre capable de penser à rien d’autre que mon passeport et partir, juste comme ça.</p>
+    minutes: 2,
+    corps: `<p>Anticipation, prévisions : des mots qui donnent confiance. Je me sens en sécurité quand j’ai tout prévu. Je passe des heures à m’imaginer tous les scénarios possibles, j’imagine tout dans les moindres détails. Qu’importe la météo, j’ai tout prévu, j’ai même des chaînes si jamais la voiture s’embourbe dans la boue.</p>
 
-<p>Bien sur c’est n’importe quoi comme comme rêve. Je veux pas réelement ça. ou peut-^tre que oui ? Le faire, ne serais-ce qu’une seule fois, ça me permetrait de relativiser sur toutes ces merdes que j’emène avec moi partout et qui ne serve à rien d’autre qu’a me rassure quand je fais ma valise, en réalité, à m’emcobrer, l’esprit et le dos</p>`,
-    brouillon: true
+<p>OK, ce n’est peut-être pas si mal. Du moins, ça le serait si ça ne me bouffait pas la vie. Dès que je dois faire un truc qui sort un peu de l’ordinaire, j’y gamberge pendant mille ans. Je fais quinze allers-retours entre la penderie et le salon, je passe tout en revue. Ça m’amuse de prendre mon couteau pour aller au resto, si jamais ils n’ont pas de couteau qui coupe ? Peut-être. Je prends une serviette pour aller à l’hôtel et trois caleçons supplémentaires dans ma valise parce que je suis un gros stressé de la vie ? Sans doute. Je me fais croire que ça m’amuse, en fait ça me ronge. Surtout que, quand il arrive un imprévu, en réalité, il y a toujours une solution, toujours un commerce à proximité, toujours des gens pour nous tendre la main. Je ne pars jamais en trek dans le désert, il y a toujours de la civilisation aux alentours. On trouve toujours une solution, et c’est aussi ça qui me gave. Quand je stresse et que je tourne en rond à tout prévoir, on dirait que je ne me fais pas confiance. Je ne fais pas confiance au moi du futur qui sera dans cette situation merdique, comme si je n’allais pas être capable de m’en sortir, alors que le moi de maintenant, hyper stressé, lui, il sait, genre ? Fais-toi confiance, stp, tu es capable de tout gérer, libère-toi de tout ce stress et de ces merdes. Signé : toi du futur.</p>
+
+<p>Mon rêve, c’est d’être capable de ne penser à rien d’autre qu’à mon passeport et de partir, juste comme ça.</p>
+
+<p>Bien sûr que c’est n’importe quoi comme rêve. Je ne veux pas réellement ça. Je voudrais juste me libérer de tout mon stress. De tous ces artefacts que j’emmène partout avec moi et qui ne servent à rien d’autre qu’à me rassurer, et qui, en réalité, m’encombrent l’esprit et le dos.</p>
+
+<p>Peut-être que je devrais le faire, partir sans rien, ça me ferait relativiser. En vous souhaitant de vous libérer de la petite voix qui stresse, et de partir l’esprit tranquille et le sac léger.</p>`,
+    brouillon: true,
+    date: "2026-10-19"
   }
 ];
