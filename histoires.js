@@ -1,5 +1,14 @@
 const HISTOIRES = [
   {
+    id: "stupide",
+    titre: "Stupide",
+    sousTitre: "",
+    minutes: 1,
+    brouillon: true,
+    date: "2026-10-19",
+    corps: `<p>Et si j’étais un énorme idiot et que tout le monde c’était donné le mot pour me faire croire que je suis quelqu’un d’inteligent.</p>`
+  },
+  {
     id: "kaleidoscope",
     titre: "Kaleidoscope",
     sousTitre: "",
