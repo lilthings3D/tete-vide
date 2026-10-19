@@ -1,5 +1,76 @@
 const HISTOIRES = [
   {
+    id: "inserer-un-titre",
+    titre: "Insérer un titre",
+    sousTitre: "",
+    minutes: 12,
+    brouillon: true,
+    date: "2026-10-19",
+    corps: `<p>L’amour,  l’amitié etc</p>
+
+<p>Ton histoire de boule entourée de tous les concepts</p>
+
+<p>ecrire une histoire sur ça ( mais avant le texte)</p>
+
+<p>L’alcool</p>
+
+<p>Histoire de Francesca pizzorno</p>
+
+<p>Élucubrations sur l’alcool et la société</p>
+
+<p>L’ennui<br>L’intelligence <br>Ton pire ennemi dans la vie c’est l’ennui et pour lutter contre l’ennui tu auras besoin d’un cerveau qui fonctionne d’un corps en bonne santé et d’un peu d’argent de côté<br>La fidélité</p>
+
+<p>L’école</p>
+
+<p>Histoire</p>
+
+<p>élucubrations</p>
+
+<p>Les assurances</p>
+
+<p>Préface : <br>Pourquoi ce recueil <br>Chapitre 1 : <br>La scie circulaire<br>Le ciel nocturne était dégagé, la demi-lune éclairait légèrement le sous-bois. La nuit était calme, on entendait les grillons, quelques hululements de hiboux, et un léger vrombissement. Un tout petit bruit qui semblait électrique, oui c’était bien un petit moteur électrique. Encore quelques secondes et l’on verrait apparaître à travers les fougères une scie circulaire. Elle semblait animée, elle connaissait sa route. Elle avait tracé tout droit depuis l’atelier de menuiserie Brecan et fils des mois plus tôt, et la voici bientôt de retour à son point départ.<br>Le père Brecan, un vieux monsieur habitué du travail manuel, le genre touche à tout, travaillait sur un projet de scie circulaire révolutionnaire. Il avait passé sa vie à perdre un temps considérable à la découpe de plaque de bois pour ses projets de menuiserie. Il n’avait qu’une idée en tête, c'était d’automatiser le processus. Il y était presque, il avait intégré à sa scie circulaire un intelligence artificielle, de telle sorte à ce qu’elle sache exactement ce qu’elle avait à faire. Il suffisait de dire à haute et intelligible voix ce qu’on voulait qu’elle coupe et elle s’y attelait. Elle n’était pas tout à fait au point mais elle comprenait déjà pas mal de choses. Ce soir là, le père Brecan y était presque, il le savait, il avait passé la journé à tester les fonctionnalitées de sa scie sur différents matériaux, mais là il se faisait tard, le fils Brecan était couché depuis des heures, et il tombé littéralement de fatigue, ses yeux commençait à se fermer doucement. Il posa ses outils,  commença à quitter son atelier, et le doigt sur l’interrupteur se retourna vers sa scie et lâcha nonchalamment : <br>- La terre va pas s’arrêter de tourner<br>Puis éteignit la lumière et quitta l’atelier. Au fond de l’atelier, une LED rougeâtre s’alluma. Il n’en fallait pas plus à la scie circulaire révolutionnaire pour se mettre au travail, la terre, ne pas s’arrêter. voilà ses instructions, elle partit tout droit et entama son périple.<br>Des mois plus tard, nous revoilà dans les bois. Elle avait presque fait un tour complet de la planète, elle pouvait résister à tout, à l’eau, aux chocs, elle pouvait se charger via des panneaux solaires, elle avait des dents en diamant capable de couper presque n’importe quoi indéfiniment, Monsieur Brecan avait tout prévu. Encore quelques kilomètres et elle aurait bouclé son tour de la terre. <br>	Le réveil sonna, après des mois de recherche, Brecan avait perdu tout espoir de retrouver sa scie. Il prit son café sur son balcon avant de descendre à son atelier, quand quelque chose au loin le surprit. Il y avait au beau milieu de sa forêt comme une sorte de petit objet électronique qui semblait se mouvoir seul, il but une gorgée de plus de son café avant de réaliser ce qui se trouvait en face de lui. C’était bien elle, après des mois sans la moindre trace la voilà qui revenait à son propriétaire. Depuis des mois qu’elle avait disparu, il avait repassé en boucle sa journée, ses faits et gestes, tout ce qu’il avait pu dire ou faire ce jour-là, la dernière fois qu’il avait vu sa scie. Il avait eu des mois pour réfléchir, mais c’est seulement là, devant elle, qu’il comprit la portée de ses mots. La terre, ne pas s’arrêter. Il fit un rapide calcul, la vitesse de coupe et la durée correspondaient, elle avait bien fait un tour de la terre en découpant sans relâche. Il fut soudain frappé de stupeur. Si elle était là c’est qu’elle avait rempli son objectif. Elle avait coupé la terre en deux. Qu’allait t’il se passer maintenant ? Est-ce que la terre allait être démantelée, coupée en deux, puis dériver dans l’espace comme les deux parties d’une vulgaire pomme ? Le temps n’était plus à la réflexion, que devait il faire ? Elle n’était plus qu'à quelques mettre de son objectif, et lui n’avait pas le temps de descendre pour l’arrêter. Il fut pris de panique, courut dans toutes les directions, avant de descendre pour tenter de l’arrêter. A peine fut il arrivé devant la porte qu’il vit la scie terminer tranquillement sa besogne et regagner son socle. Monsieur Brecan était comme figé, son fils qui venait de se réveiller ne comprenait pas à quoi il était en train d’assister. Il vit son père, pétrifié, devant la porte d’entrée, une tasse de café dans la main droite, qui gouttait sur le porche. Il était trop tard. Le vieil homme se rendit à l'évidence. Bientôt il commencerait à sentir le sol trembler, puis se dérober sous ses pieds, il se retourna vers son fils, les yeux emplis de larmes, le regard terrifié, avant de s’effondrer sur le sol. Il resta là immobile, quelques secondes, avant de réaliser qu’il ne se passait rien. Pas la moindre secousse, par le moindre soubresaut. Il se redressa, quelques minutes passèrent, mais toujours pas le moindre tremblement. Il se leva, partit en direction de la fente laissée par la scie avant de réaliser une chose. La scie ne coupait pas plus profond qu’une 20aine de centimètre, autrement dit pas de quoi faire trembler l’astre monde. Il se dit une seule chose : <br>Ce n’était pas si grave.</p>
+
+<p>Chapitre 2 :</p>
+
+<p>Il y’a une voix, dans notre tête à tous, qui nous pousses à consommer et à avancer. Le progrés c’est la caractèristeque de notre cerevo quand ya pb il faut solution c’est pour ça qu’on est la</p>
+
+<p>La surconsommation c’est un problème mais ou est la solution ?</p>
+
+<p>Chapitre 3</p>
+
+<p>Le monde à accélérer fort :</p>
+
+<p>Jason avait le sentiment, depuis plusieurs semaines, que le monde s’accélérait. Il travaillait à la poste, il savait bien ce qui se disait sur les services postaux, qu’ils étaient incompétent, très lent, mais il n’en avait jamais tenu rigueur, et avait accomplit ses tâches avec une vitesse tout à fait raisonable, qui lui valait même parfois le titre d’enplyé du mois. Mais depuis quelque temps, devant son guichet, la queue avait tendance à s’allonger, chaque jour un peu plus, si bien que bientôt, les clients allaient finir par attendre dehors. Il voyait bien que quelque chose d’anormal se passait, quand n’importe qui d’autre était au guichet, personne n’avait une si longue attente, pas même la vieille Germaine, réputée pour sa langueur extrême. Personne n’osait venir lui en parler, pour le moment, mais il savait que quelqu’un finirait par venir lui faire la remarque. Il ne savait pas exactement quand ça avait commencé. Il soupçonnait déjà quelque chose devant son vieux micro-onde. La minute d’attente a faire chauffer son eau paraissait toujours interminable avant, mais plus maintenant. Depuis peu, il n’avait  même plus le temps de sortir un sachet de thé du tiroir que déjà le micro-onde sonnait. Une minute ? Déjà ? Perdait-il la tête ?Depuis peu, il n’arrivait plus à regarder la télévision, les gens parlaient bien trop vite. Il avait trouvé comme unique solution de passer les replay au ralenti afin de pouvoir suivre au moins son émission préférée. Il avait vu toute sorte de médecin, leurs expliquant qu’il n’arrivait plus à suivre le rythme, que c’était probablement un problème nerveux, ou d’oreille interne, enfin personne ne savait vraiment. Mais après toutes les cures de vitamine possibles et imaginables, toutes les imageries cérébrales, et pas le moindre résultat, il fallait se rendre à l’évidence. Jason ralentissait.</p>
+
+<p>Chapitre 4 :</p>
+
+<p>Comment faire le bien concept de bien et de mal.</p>
+
+<p>Une histoire</p>
+
+<p>Chapitre 5 :</p>
+
+<p>Le libre arbitre, vraiment ?<br>Si je suis arbitre, alors j’ai un sifflet, si je suis peintre j’ai un pinceau, si je suis maçon j’ai une truelle, si je suis un sifflet, je ne suis pas forcément un arbitre, et inversement, si j’ai un pinceau, je ne suis pas forcément raciste. C’est ce genre de truc que j’ai appris à l’école, quand la maîtresse dit, tu sais john, le fait que tu sois unijambiste peut t’empêcher de jouer à la marelle, mais ça ne peut pas t’empêcher de connaître le prétérit, ou un truc comme ça. Je dois dire que je ne m’en souviens pas très bien, après 73 années de beuveries mémorables, qui ont toutes été oubliées d’ailleurs, de drogues illégal ou médicamenteuse, les quelques connexions neuronales qu’il me reste, ou j’en était déjà ? A oui, donc 6 oeufs, de la chair à saucisse et, attendez vous n'êtes pas le mécanicien ? Mais où suis-je ?</p>
+
+<p>Tu es à l’hôpital, tu as fait une chute à vélo. Tu ne t’en souviens pas mais, je viens ici chaque jour pour te raconter comment ça s’est passé. Tu étais en route pour le marché aux légumes du mercredi sur la grand’place, tu as suivi un petit sentier que tu ne connaissais pas et qui semblait couper à travers la colline. Tu as emprunté ce sentier, et, arrivé en haut de la colline, tu as aperçu au loin la place du village qui semblait minuscule. Tu as continué ton chemin tout droit, sans voir le précipice, tu es arrivé sur la place du marché dans un fracas assourdissant. Tu es tombé à quelques centimètres à peine du stand de choux. Quand on t’a ramassé, tu ne connaissais même plus ton prénom. Tu prétendais avoir vécu au VIème siècle et tu n’en démordais pas. <br>Oh oui je me souviens maintenant, j’ai combattu contre les Wisigoth sur les plaines de Lugdunum ! J’étais encerclé de toutes parts par des légions de barbares, et nous combattions pour la liberté !<br>Maman, Lyon à cette époque faisait partie du royaume burgonde.<br>Et grâce à qui selon toi ?<br>Bon je repasserais demain maman, repose toi.</p>
+
+<p>Dans les couloirs, l’ambiance était lugubre, durant son court trajet entre la chambre 417 et le bureau des internes, les 29 pas qu’il y avait à faire semblaient toujours durer une éternité. Toc toc.<br>Oh ! Bonjour Madame Poinçon. Je vous en prie, entrez..<br>Non merci, je n’en ai que pour une minute. Écoutez docteur, son état ne semble pas s’améliorer. Aucune des thérapies que vous avez essayées n’a fonctionné. <br>Je sais ce que vous allez me dire et je vous arrête tout de suite.<br>Je pense qu’il est plus que temps d’essayer ma méthode.<br>L’hôpital n’acceptera jamais une chose pareille, je vous l’ai déjà dit.<br>J’y ai réfléchi, écoutez, vous n'êtes pas obligé d’être garant de quoi que ce soit. Vous n’avez qu'à signer une autorisation de sortie hebdomadaire, et je me charge du reste. Vous n’aurez qu'à trouver une excuse pour suspendre ses autres traitements pendant la durée de cet essai clinique.<br>S’il vous plaît ne parlez pas d’essai clinique. Je vois vôtre détresse, les gens sont prêt a faire n’importe quoi pour ceux qui leurs sont chère, et surtout à croire n’importe quoi. <br>Je vous en prie, laissez moi une chance. <br>Je vous laisse 3 mois. J’arrête son traitement dès demain, ils ne seront plus efficaces sous 15 jours, puis vous aurez exactement 75 jours pour vous occuper d’elle “à votre façon”. Passé ces délais, je serai dans l’obligation de la remettre sous médication.<br>Je ne sais pas comment vous remercier docteur je…<br>Nous n’avons jamais eu cette conversation, je vous souhaite une bonne fin de journée madame Poinçon.<br>Au revoir docteur.</p>
+
+<p>Elle quitta l’hôpital, se rendit à sa voiture, et, sans perdre une minute, elle sortit son portable pour composer le numéro de son dernier espoir : Monsieur Blafard. <br>Allo … Oui… Bonjour, c’est Louïse … oui Louïse Poinçon. J’ai l’accord du médecin, Nous pourrons commencer dans une quinzaine de jours… Très bien je vous envois tout ça… Parfait, je viendrais directement avec elle à vôtre cabinet… Oui, au revoir.</p>
+
+<p>Enfin, sa lueur d’espoir. Il ne restait plus qu’à croiser les doigts, à partir de maintenant c’était entre les mains de Monsieur Blafard, et de Dieu. Elle n’était pas croyante mais elle pensa qu’un peu d’aide supplémentaire ne serait pas de trop.</p>
+
+<p>Chapitre 6 :</p>
+
+<p>Essayer de devenir meilleur ça veut dire quoi ?</p>
+
+<p>Chapitre 7 :</p>
+
+<p>J’assiste à la fin de lhumanité ? enfant qui pense a l’avenir avec les robots qui vont tout remplacer sauf certain job.</p>
+
+<p>Vision de la dernière flamme qui s'éteint sur terre car plus d’oxygène.</p>`
+  },
+  {
     id: "c-est-maintenant",
     titre: "C'est maintenant",
     sousTitre: "",
