@@ -113,6 +113,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .pc.w{color:#fdfcf8;-webkit-text-stroke:calc(var(--bs)/8*.03) #2e2218;paint-order:stroke fill;text-shadow:0 2px 2px rgba(0,0,0,.18);}
   .pc.b{color:#2a1f16;text-shadow:0 2px 2px rgba(0,0,0,.2);}
   .pc.drag{opacity:.25;}
+  .pc.sliding{z-index:8;pointer-events:none;}
   .ghost{position:fixed;z-index:200;pointer-events:none;transform:translate(-50%,-55%);font-family:"Segoe UI Symbol","Apple Symbols","Noto Sans Symbols 2","DejaVu Sans",sans-serif;line-height:1;filter:drop-shadow(0 6px 8px rgba(0,0,0,.35));}
   .ghost.w{color:#fdfcf8;-webkit-text-stroke:2px #2e2218;paint-order:stroke fill;} .ghost.b{color:#2a1f16;}
 
@@ -122,7 +123,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   #promo button:hover{background:#e7c98f;}
   #promo p{width:100%;text-align:center;font-family:'Newsreader',Georgia,serif;font-style:italic;font-size:1.05rem;}
 
-  #status{margin-top:22px;font-family:'Newsreader',Georgia,serif;font-style:italic;font-size:1.15rem;text-align:center;min-height:1.6em;}
+  #status{margin-top:18px;font-family:'Newsreader',Georgia,serif;font-style:italic;font-size:1.15rem;text-align:center;height:3em;line-height:1.5;display:flex;align-items:center;justify-content:center;overflow:hidden;width:var(--bs);}
   #status.alert{color:var(--orange-deep);font-weight:500;font-style:normal;}
   #controls{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:12px 0 4px;max-width:var(--bs);}
   #moves{width:var(--bs);margin-top:12px;max-height:84px;overflow-y:auto;border-top:1px solid var(--rule);padding:8px 2px 0;font-size:0.82rem;color:var(--ink-soft);line-height:1.9;}
@@ -244,6 +245,7 @@ const LEVELS=[
 /* ---------- état ---------- */
 let game=null, mode='ai', humanColor='w', lvlIdx=2, flipped=false, autoFlip=false;
 let sel=null, targets=[], lastMove=null, over=false, thinking=false, gameId=0, hintMove=null;
+let pendingAnim=null; // coups à animer au prochain rendu : [{from,to}], durée en ms
 let setupMode='ai', setupColor='w';
 let elo=loadElo();
 
@@ -341,7 +343,31 @@ function render(){
     if(p){ const s=document.createElement('span'); s.className='pc '+p.color; s.textContent=GLYPH[p.type]; el.appendChild(s); }
     bd.appendChild(el);
   }
+  runAnim(bd);
   updateUI();
+}
+function runAnim(bd){
+  const a=pendingAnim; pendingAnim=null;
+  if(!a||!a.moves) return;
+  a.moves.forEach(mv=>{
+    const dst=bd.querySelector('.sq[data-sq="'+mv.to+'"]'), src=bd.querySelector('.sq[data-sq="'+mv.from+'"]');
+    const pc=dst&&dst.querySelector('.pc'); if(!pc||!src) return;
+    const r1=src.getBoundingClientRect(), r2=dst.getBoundingClientRect();
+    pc.classList.add('sliding');
+    pc.style.transition='none';
+    pc.style.transform='translate('+(r1.left-r2.left)+'px,'+(r1.top-r2.top)+'px)';
+    void pc.offsetWidth;
+    pc.style.transition='transform '+a.ms+'ms cubic-bezier(.45,.05,.3,1)';
+    pc.style.transform='translate(0,0)';
+    setTimeout(()=>{ pc.classList.remove('sliding'); pc.style.transition=''; pc.style.transform=''; },a.ms+40);
+  });
+}
+/* liste des déplacements visibles d'un coup (le roque déplace aussi la tour) */
+function movesToAnimate(m){
+  const list=[{from:m.from,to:m.to}];
+  if(m.flags&&m.flags.indexOf('k')>-1){ const r=m.color==='w'?'1':'8'; list.push({from:'h'+r,to:'f'+r}); }
+  if(m.flags&&m.flags.indexOf('q')>-1){ const r=m.color==='w'?'1':'8'; list.push({from:'a'+r,to:'d'+r}); }
+  return list;
 }
 function capturedLists(){
   const byW=[],byB=[];
@@ -370,7 +396,7 @@ function updateUI(){
   const st=$('status'); st.className='';
   if(over){ /* le texte est posé par finish() */ }
   else if(thinking){ st.textContent='L\'ordinateur réfléchit…'; }
-  else if(game.in_check()){ st.textContent='Échec ! '+NAME(game.turn())+' doivent répondre.'; st.className='alert'; }
+  else if(game.in_check()){ st.textContent='Échec !'; st.className='alert'; }
   else if(mode==='ai'){ st.textContent=game.turn()===humanColor?'À toi de jouer.':''; }
   else { st.textContent=(game.turn()==='w'?'Aux blancs':'Aux noirs')+' de jouer.'; }
 
@@ -423,26 +449,28 @@ window.addEventListener('pointerup',e=>{
     d.ghost.remove();
     const under=document.elementFromPoint(e.clientX,e.clientY);
     const el=under&&under.closest&&under.closest('.sq');
-    if(el && el.dataset.sq!==d.sq && targets.some(m=>m.to===el.dataset.sq)) tryMove(d.sq,el.dataset.sq);
+    if(el && el.dataset.sq!==d.sq && targets.some(m=>m.to===el.dataset.sq)) tryMove(d.sq,el.dataset.sq,true);
     else { render(); }
   } else if(d.was){ clearSel(); render(); }
 });
 window.addEventListener('pointercancel',()=>{ if(drag){ if(drag.ghost) drag.ghost.remove(); drag=null; render(); } });
 
-function tryMove(from,to){
+function tryMove(from,to,noAnim){
   const cands=targets.filter(m=>m.to===to&&m.from===from);
   if(!cands.length) return;
-  if(cands.some(m=>m.flags.indexOf('p')>-1)){ showPromo(from,to,cands[0].color); return; }
-  commit({from,to});
+  if(cands.some(m=>m.flags.indexOf('p')>-1)){ showPromo(from,to,cands[0].color,noAnim); return; }
+  commit({from,to},noAnim);
 }
-function showPromo(from,to,color){
+function showPromo(from,to,color,noAnim){
   const pr=$('promo'); pr.hidden=false;
   pr.innerHTML='<p>Promouvoir en…</p>'+['q','r','b','n'].map(t=>'<button class="'+color+'" data-t="'+t+'" aria-label="'+t+'">'+GLYPH[t]+'</button>').join('');
-  pr.querySelectorAll('button').forEach(b=>b.onclick=()=>{ pr.hidden=true; commit({from,to,promotion:b.dataset.t}); });
+  pr.querySelectorAll('button').forEach(b=>b.onclick=()=>{ pr.hidden=true; commit({from,to,promotion:b.dataset.t},noAnim); });
 }
-function commit(mv){
+function commit(mv,noAnim){
   const m=game.move(mv); if(!m) return;
   clearSel(); hintMove=null; lastMove={from:m.from,to:m.to};
+  let list=movesToAnimate(m); if(noAnim) list=list.slice(1);
+  pendingAnim=list.length?{moves:list,ms:320}:null;
   afterMove();
 }
 function afterMove(){
@@ -457,7 +485,7 @@ function afterMove(){
 function aiMove(){
   if(over) return;
   const id=gameId, L=LEVELS[lvlIdx];
-  thinking=true; render();
+  thinking=true; updateUI();
   const t0=Date.now();
   const apply=mv=>{
     if(id!==gameId||over) return;
@@ -468,7 +496,7 @@ function aiMove(){
       const m=game.move(mv);
       if(!m){ const any=game.moves({verbose:true})[0]; if(any) game.move({from:any.from,to:any.to,promotion:any.promotion||'q'}); }
       const h=game.history({verbose:true}); const last=h[h.length-1];
-      if(last) lastMove={from:last.from,to:last.to};
+      if(last){ lastMove={from:last.from,to:last.to}; pendingAnim={moves:movesToAnimate(last),ms:420}; }
       afterMove();
     },wait);
   };
