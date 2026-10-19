@@ -1,5 +1,14 @@
 const HISTOIRES = [
   {
+    id: "un-nouveau-jour-un-nouveau-lieu-un-nouveau-recit",
+    titre: "Un nouveau jour, un nouveau lieu, un nouveau récit",
+    sousTitre: "",
+    minutes: 1,
+    brouillon: true,
+    date: "2026-10-19",
+    corps: `<p>Pauvre meilleur condition physique que riche car déplacement a pied travail souvent manuelle<br> <br>Riche inventé tabac et mal bouffe et drogue avec illégalité pour zéro soupçon<br> <br>Invente réseaux pour écrasé leur confiance <br> <br>Solution court terme car long terme selection résistant Donc tabac mauvais mal bouffe mauvais Et promotion travail manuel pour les riches <br> <br>Une résistance se met en place Un homme résiste a tout ça <br> <br>Premier surhumain  <br> <br>Dans un monde ou l’argent domine.</p>`
+  },
+  {
     id: "etoiles",
     titre: "Étoiles",
     sousTitre: "",
