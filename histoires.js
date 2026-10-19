@@ -1,5 +1,14 @@
 const HISTOIRES = [
   {
+    id: "ia-deja-aux-commandes",
+    titre: "IA déjà aux commandes",
+    sousTitre: "IA déjà aux commandes",
+    minutes: 1,
+    brouillon: true,
+    date: "2026-10-19",
+    corps: `<p>IA déjà aux commandes</p>`
+  },
+  {
     id: "essayons-de-voir-plus-petit",
     titre: "Essayons de voir plus petit",
     sousTitre: "Mise en perpsective",
