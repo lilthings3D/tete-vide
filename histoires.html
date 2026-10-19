@@ -367,7 +367,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<script src="histoires.js"></script>
+<script>/* contourne le cache de 10 min : un texte publié apparaît en moins de ~2 min */
+document.write('<script src="histoires.js?v='+Math.floor(Date.now()/60000)+'"><\/script>');</script>
 <script>
   const months=["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
   const now=new Date();
