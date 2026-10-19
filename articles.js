@@ -929,7 +929,7 @@ const ARTICLES = [
     id: "anticiper-confiance-futur",
     titre: "Anticiper tout le temps, c'est ne pas se faire confiance.",
     sousTitre: "Crois en toi de demain",
-    cat: "Penser",
+    cat: "Soi",
     tweet: "Quand tu anticipes tout, tu ne fais pas confiance non plus au toi du futur, et c'est contre-productif.",
     minutes: 2,
     corps: `<p>Anticipation, prévisions : des mots qui donnent confiance. Je me sens en sécurité quand j’ai tout prévu. Je passe des heures à m’imaginer tous les scénarios possibles, j’imagine tout dans les moindres détails. Qu’importe la météo, j’ai tout prévu, j’ai même des chaînes si jamais la voiture s’embourbe dans la boue.</p>
