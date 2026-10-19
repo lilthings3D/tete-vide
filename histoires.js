@@ -1,5 +1,20 @@
 const HISTOIRES = [
   {
+    id: "road-rage",
+    titre: "road rage",
+    sousTitre: "",
+    minutes: 1,
+    brouillon: true,
+    date: "2026-10-19",
+    corps: `<p>Un mec qui suit un autre pen dant un road rage mais qui arrivé devant le travail du type il baisse sa vitre et dit “tu fais moins le malin la” sauf qu’il ne dessent pas de sa voiture et l’autre mec lui fait signe qu’il est maboule et se gare devant son boulot pendant que l’agressif fait demi tour et part.</p>
+
+<p>à partir de la plsr posible, soit le mec se prend pour un giga coq et bombe le torse,</p>
+
+<p>soit il se regarde dans le retreo et se trouve vraiùent minable il décidde de changer de vie, devien boudhiste et monte une asso anti blaireau</p>
+
+<p>soit il est rongé par la haine et decide de venir se venger</p>`
+  },
+  {
     id: "il-etait-deux-fois",
     titre: "Il était deux fois",
     sousTitre: "",
