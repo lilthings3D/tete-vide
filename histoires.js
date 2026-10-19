@@ -1,5 +1,16 @@
 const HISTOIRES = [
   {
+    id: "folie",
+    titre: "Folie",
+    sousTitre: "",
+    minutes: 1,
+    brouillon: true,
+    date: "2026-10-19",
+    corps: `<p>un homme surexcité en camisole de force, il essaie de hurler mais ses cris sont étouffés. Il a un tissu dans la bouche qui l’étouffe.</p>
+
+<p>Autre scène, il est attaché au-dessus d’un feu, toujours impossible de parler, puis tout tremble, une vibration, un bruit, il se précise, c’est un réveil. tout est flou, l’homme se réveille. il a déjà tout oublié.</p>`
+  },
+  {
     id: "ame-partage",
     titre: "âme partagé",
     sousTitre: "âme partagé",
