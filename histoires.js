@@ -1,5 +1,14 @@
 const HISTOIRES = [
   {
+    id: "il-etait-deux-fois",
+    titre: "Il était deux fois",
+    sousTitre: "",
+    minutes: 1,
+    brouillon: true,
+    date: "2026-10-19",
+    corps: `<p>Il s’avère que je suis encore saoul de la veille, je ne parviens pas à concentrer mes idées. L’exercice consistant à écrire tous les jours pendant 40 jours me force à continuer aujourd’hui encore à écrire quelques lignes, cependant je ne pense pas que ce qui va suivre soit digne d’intérêt. Alors oui ici une idée peut émerger,  elle peut être retravailler plus tard. Je ne suis pas certain que je vais y parvenir mais j’aimerais au terme de ces 40 jours avoir au moins 10 histoires à publier sur wat pad. Je ne sais rien de comment on raconte ni on publie une histoire mais peut être qu’elles trouveront preneur qui sait. Aujourd’hui ce n’est pas un échec, c’est une leçon que je prends en pleine poire. L’alcool n’est pas mon ami. J’aimerais finalement le terrasser. Et pourquoi pas raconter mon combat contre l’alcool comme si notre ennemi venait nous empoisonné dans nos demeure en se faisant passer pour un ami. Quelqu’un qui découvrirait la supercherie et l’ampleur de toute cette opération et qui essayerais de lutter, voir d’exterminer l’alcool.</p>`
+  },
+  {
     id: "pas-dans-ma-peau",
     titre: "Pas dans ma peau",
     sousTitre: "",
