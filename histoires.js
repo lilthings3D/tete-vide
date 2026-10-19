@@ -4,6 +4,7 @@ const HISTOIRES = [
     titre: "La scie circulaire",
     sousTitre: "Elle avait des instructions très claires",
     minutes: 5,
+    date: "2026-06-23",
     corps: `<p>Le ciel nocturne était dégagé, la demi-lune éclairait légèrement le sous-bois. La nuit était calme, on entendait les grillons, quelques hululements de hiboux, et un léger vrombissement. Un tout petit bruit qui semblait électrique, oui c'était bien un petit moteur électrique. Encore quelques secondes et l'on verrait apparaître à travers les fougères une scie circulaire. Elle semblait animée, elle connaissait sa route. Elle avait tracé tout droit depuis l'atelier de menuiserie Brecan et fils des mois plus tôt, et la voici bientôt de retour à son point de départ.</p>
 
 <p>Le père Brecan, un vieux monsieur habitué du travail manuel, le genre touche-à-tout, travaillait sur un projet de scie circulaire révolutionnaire. Il avait passé sa vie à perdre un temps considérable à la découpe de plaque de bois pour ses projets de menuiserie. Il n'avait qu'une idée en tête, c'était d'automatiser le processus. Il y était presque, il avait intégré à sa scie circulaire une intelligence artificielle, de telle sorte à ce qu'elle sache exactement ce qu'elle avait à faire. Il suffisait de dire à haute et intelligible voix ce qu'on voulait qu'elle coupe et elle s'y attelait.</p>
@@ -31,6 +32,7 @@ const HISTOIRES = [
     titre: "Entrez",
     sousTitre: "Une baignoire, une vache, et une amende",
     minutes: 4,
+    date: "2026-06-23",
     corps: `<p><em>Sur la scène, un décor de salon type jeune étudiant, fait de bric et de broc. Un canapé au centre face au public.</em></p>
 
 <p><strong>Max</strong> : <em>(entre dans la pièce un peu dépité, traîne les pieds et s'installe sur le canapé)</em></p>
@@ -140,6 +142,7 @@ const HISTOIRES = [
     titre: "La pluie",
     sousTitre: "Chaque goutte a sa place",
     minutes: 5,
+    date: "2026-06-23",
     corps: `<p>Quand la pluie tombe, elle s'écrase au sol. Chaque goutte mouille une toute petite surface, et si elle est seule elle sèche immédiatement. Mais quand elles sont nombreuses, ces petites gouttes peuvent faire déborder des rivières, ensevelir des villages, et détruire des vies. Une fourmi toute seule n'a pas une grande espérance de vie, mais dans une fourmilière elle est forte, elle a un impact.</p>
 
 <p>Chaque personne, chaque chose, a une place qui lui est définie, un rôle à jouer dans cette grande aventure. Chacun a sa place, il lui faut la trouver puis l'accepter ou non. Toute action ou inaction a une conséquence, un but, un rôle. J'aime à penser que nous formons un tout, que rien de tout ça n'est vain.</p>
@@ -159,6 +162,7 @@ const HISTOIRES = [
     titre: "La couette",
     sousTitre: "Une heure de liberté, bien planquée sous ses bras",
     minutes: 4,
+    date: "2026-06-23",
     corps: `<p>Le soleil commençait doucement à se lever, ses rayons filtraient à travers le volet roulant. Mes yeux commençaient à se décoller doucement, suffisamment pour que je puisse apercevoir l'heure de mon réveil.</p>
 
 <p>7h29.</p>
@@ -190,6 +194,7 @@ const HISTOIRES = [
     titre: "Marina et le sac à vent",
     sousTitre: "Une vieille légende marine, et j'étais là",
     minutes: 5,
+    date: "2026-06-23",
     corps: `<p>Une année durant, la tempête avait fait rage, elle avait tout détruit sur son passage en arrivant sans prévenir. Les habitants n'étaient pas préparés à ce type d'intempéries. Sur notre île, il faisait pratiquement toujours beau temps, quelques rares nuages pointaient le bout de leurs nez à l'occasion, mais pas de quoi inquiéter qui que ce soit.</p>
 
 <p>Mais un jour, lors d'une saison habituellement très ensoleillée, il se mit à pleuvoir. D'abord gentiment, très fine et légère, puis lourde et violente. Et cette pluie ne s'arrêta pas le soir venu, ni même le lendemain, elle dura encore et encore. Les semaines passèrent, puis les mois, et la pluie continua, incessante, infatigable. Les habitants de l'île, qui commençaient doucement à s'y habituer, avaient appris à prendre cette pluie avec philosophie. Tout le monde vivait comme si cette pluie faisait désormais partie du paysage et que cela durerait encore pendant des lunes.</p>
@@ -213,6 +218,7 @@ const HISTOIRES = [
     titre: "Michel",
     sousTitre: "Un quartier, six solitudes",
     minutes: 4,
+    date: "2026-06-23",
     corps: `<p>Michel aimait beaucoup ses voisins, les Millers, du moins la majorité de l'année. Il les aimait beaucoup de septembre à avril très précisément, mais pendant la saison estivale, il les haïssait. L'été chez les Millers était parfait : un gazon impeccable, une piscine d'un bleu profond, des barbecues entre amis avec des rires aux éclats. Une vie parfaite, juste là, sous son nez. Comment pouvaient-ils lui faire ça ? Lui qui avait toujours été poli avec eux.</p>
 
 <p>Et voilà que tous les étés ils dégueulaient leur bonheur sur ce pauvre Michel, lui qui était seul, dans une toute petite maison. Il n'avait pas d'enfants, pas de femme, presque plus de liens avec sa famille, pas vraiment d'amis non plus. Il avait passé sa vie à garder la tête dans son travail sans jamais en sortir, un vrai rat de laboratoire. Si bien que depuis qu'il était à la retraite, il ne savait guère comment occuper ses journées. La seule activité qu'il avait trouvée, c'était le jardinage. Il avait sans doute le plus beau jardin de tout le quartier, ce qui rendait Madame Louvier particulièrement jalouse.</p>
@@ -230,6 +236,7 @@ const HISTOIRES = [
     titre: "Claustro",
     sousTitre: "Dans cinq heures, il faudra gagner",
     minutes: 4,
+    date: "2026-06-23",
     corps: `<p>Enfermé dans une minuscule pièce sombre, avec une seule ouverture, une toute petite fenêtre d'à peine quinze centimètres de large, perchée à trois mètres du sol. Je n'avais rien à disposition et donc très peu de moyens de divertir mon esprit afin de ne pas sombrer dans la folie. Il fallait pourtant que je parvienne à garder la tête froide, à être en pleine possession de mes moyens et être fin prêt le moment venu.</p>
 
 <p>J'avais, au fil des jours qui n'en finissaient pas, pris le temps d'élaborer un palais mental, avec près d'une centaine de pièces. J'avais rangé à l'intérieur, à des emplacements bien précis, chacune des connaissances que j'avais emmagasinées et qui me semblaient utiles : quelques notions en sciences, des connaissances en agriculture, des souvenirs d'arts martiaux, tout ce qui pourrait servir à quelqu'un dans ma situation.</p>
@@ -247,6 +254,7 @@ const HISTOIRES = [
     titre: "Accélération",
     sousTitre: "Jason ralentissait",
     minutes: 3,
+    date: "2026-06-23",
     corps: `<p>Jason avait le sentiment, depuis plusieurs semaines, que le monde s'accélérait. Il travaillait à la poste, il savait bien ce qui se disait sur les services postaux, qu'ils étaient incompétents, très lents, mais il n'en avait jamais tenu rigueur, et avait accompli ses tâches avec une vitesse tout à fait raisonnable, qui lui valait même parfois le titre d'employé du mois.</p>
 
 <p>Mais depuis quelque temps, devant son guichet, la queue avait tendance à s'allonger, chaque jour un peu plus, si bien que bientôt les clients allaient finir par attendre dehors. Il voyait bien que quelque chose d'anormal se passait : quand n'importe qui d'autre était au guichet, personne n'avait une si longue attente, pas même la vieille Germaine, réputée pour sa langueur extrême. Personne n'osait venir lui en parler, pour le moment, mais il savait que quelqu'un finirait par venir lui faire la remarque.</p>
@@ -262,6 +270,7 @@ const HISTOIRES = [
     titre: "La déposition",
     sousTitre: "Un break noir, une mallette, et un inspecteur froid",
     minutes: 5,
+    date: "2026-06-23",
     corps: `<p>Il faisait nuit, et il pleuvait. Un homme encapuchonné se tenait là, debout dans la pénombre. Il tenait dans sa main droite un objet long et fin que je n'ai pas pu identifier, et dans sa main gauche une mallette. Une voiture s'arrêta à sa hauteur, un break noir avec les vitres légèrement teintées. Il monta à l'arrière du véhicule, referma la porte, retira sa capuche avant que la voiture ne redémarre. J'ai simplement eu le temps de voir que c'était un homme chauve, la quarantaine, et à l'avant un homme brun et une femme aux cheveux noirs. Nous sommes restés dans le bar d'en face avec mon épouse encore une bonne demi-heure avant de rentrer chez nous. C'est tout ce dont je me souviens, inspecteur.</p>
 
 <p>Il finissait de remplir la déposition sur un vieil ordinateur qui fonctionnait miraculeusement. Il faut dire que dans ce petit village, le budget consacré à la police ne permettait pas de se payer mieux. Il leva finalement les yeux de son écran.</p>
@@ -293,6 +302,7 @@ const HISTOIRES = [
     titre: "Je suis fatigué",
     sousTitre: "Essayons de voir plus petit",
     minutes: 7,
+    date: "2026-06-23",
     corps: `<p>Aujourd'hui je suis fatigué. Je n'ai pas fait particulièrement d'effort, je n'ai pas manqué de sommeil la nuit précédente, j'ai mangé à ma faim, je n'ai manqué de rien, mais pourtant, je suis fatigué. Mon corps est faible, me lever de mon lit me semble être une épreuve des jeux olympiques. Je sais que c'est dans ma tête, qu'en vérité je ne suis pas épuisé physiquement, mais bien mentalement.</p>
 
 <p>C'est le début de la guérison qu'ils disent. Il paraît que j'ai une espèce de maladie mentale ou quelque chose du genre. Ce serait comme un ver dans mon cerveau, plutôt un bug, un virus, qui se nourrit de tout ce qui est bon, censé, et vertueux, et ne laisse que ce qui est vain et immoral. C'est le Dr. Klariss qui m'a expliqué ça. Il faisait tout pour cacher son excitation, rester professionnel et neutre, mais je l'ai entendu dans les couloirs : <em>« Une révolution pour le domaine de la psychiatrie, de la médecine, de la biologie, de la science. C'est un grand pas pour l'humanité. »</em></p>

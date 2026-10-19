@@ -1071,11 +1071,112 @@ const DIAGNOSTICS=[
   </div>
 </div>
 
-<a id="zen-btn" href="zen.html" title="Un moment pour respirer" aria-label="Pause respiration">🧘 Zen</a>
+<div id="amande-buddy" role="button" aria-label="Amande, la mascotte du jardin" title="Clique-moi, j'ai un conseil">
+  <div class="am-bubble" id="am-bubble"></div>
+  <svg class="am-svg" viewBox="0 0 90 124" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="amShell" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#ecd0a4"/><stop offset="100%" stop-color="#c99a63"/></linearGradient>
+      <linearGradient id="amLeaf" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#8fcf7a"/><stop offset="100%" stop-color="#4f9a4a"/></linearGradient>
+    </defs>
+    <ellipse cx="45" cy="118" rx="22" ry="4.5" fill="rgba(0,0,0,.14)"/>
+    <!-- pousse -->
+    <path d="M45,20 C45,12 45,8 46,4" fill="none" stroke="#4f8a46" stroke-width="3" stroke-linecap="round"/>
+    <path d="M46,8 C58,0 68,6 66,16 C56,18 49,14 46,8Z" fill="url(#amLeaf)" stroke="#3f7a3a" stroke-width="2.2" stroke-linejoin="round"/>
+    <path d="M45,12 C34,4 24,10 26,19 C35,21 42,18 45,12Z" fill="url(#amLeaf)" stroke="#3f7a3a" stroke-width="2.2" stroke-linejoin="round"/>
+    <!-- coque d'amande -->
+    <path d="M45,18 C70,38 80,78 45,114 C10,78 20,38 45,18Z" fill="url(#amShell)" stroke="#6b4a2b" stroke-width="3.4" stroke-linejoin="round"/>
+    <!-- reflet + sillons -->
+    <path d="M32,40 C28,54 28,66 32,78" fill="none" stroke="#fff5e0" stroke-width="3" stroke-linecap="round" opacity=".55"/>
+    <path d="M45,24 C47,44 47,66 45,100" fill="none" stroke="#b88550" stroke-width="1.8" stroke-linecap="round" opacity=".45"/>
+    <path d="M58,36 C64,52 63,70 56,88" fill="none" stroke="#b88550" stroke-width="1.8" stroke-linecap="round" opacity=".4"/>
+    <!-- visage -->
+    <circle cx="35" cy="62" r="3.6" fill="#2a1d12"/><circle cx="55" cy="62" r="3.6" fill="#2a1d12"/>
+    <circle cx="36.2" cy="60.8" r="1.2" fill="#fff"/><circle cx="56.2" cy="60.8" r="1.2" fill="#fff"/>
+    <ellipse cx="28" cy="71" rx="5.5" ry="3.4" fill="#f08a8a" opacity=".6"/>
+    <ellipse cx="62" cy="71" rx="5.5" ry="3.4" fill="#f08a8a" opacity=".6"/>
+    <path d="M38,72 Q45,80 52,72" fill="none" stroke="#2a1d12" stroke-width="2.8" stroke-linecap="round"/>
+  </svg>
+</div>
 <style>
-#zen-btn{position:fixed;left:14px;bottom:16px;z-index:150;background:#2e2218;color:#FDFCF8;font-family:'Newsreader',Georgia,serif;font-size:0.92rem;padding:9px 16px;border-radius:999px;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.2);display:inline-flex;align-items:center;gap:6px;transition:transform .2s,background .2s;}
-#zen-btn:hover{transform:translateY(-2px);background:#8a3a22;}
-@media(max-width:600px){#zen-btn{left:10px;bottom:10px;font-size:0.82rem;padding:8px 13px;}}
+#amande-buddy{position:fixed;right:16px;bottom:14px;z-index:150;width:70px;cursor:pointer;user-select:none;-webkit-user-select:none;transition:opacity .25s ease;}
+#amande-buddy.dodge{opacity:.18;pointer-events:none;}
+#amande-buddy .am-svg{width:100%;display:block;overflow:visible;filter:drop-shadow(0 4px 8px rgba(0,0,0,.18));transform-origin:50% 100%;animation:am-idle 4.2s ease-in-out infinite;}
+#amande-buddy:hover .am-svg{animation-play-state:paused;transform:rotate(-5deg) translateY(-2px);}
+#amande-buddy.hop .am-svg{animation:am-hop .5s ease;}
+@keyframes am-idle{0%,100%{transform:rotate(-2.5deg)}50%{transform:rotate(2.5deg)}}
+@keyframes am-hop{0%,100%{transform:none}40%{transform:translateY(-14px) rotate(6deg)}}
+.am-bubble{position:absolute;bottom:100%;right:0;margin-bottom:10px;min-width:190px;max-width:260px;width:max-content;background:#fff;border:1.5px solid #2e2218;border-radius:16px;padding:10px 15px;font-family:'Caveat',cursive;font-size:1.25rem;line-height:1.1;color:#2e2218;text-align:left;opacity:0;transform:translateY(8px) scale(.96);transform-origin:bottom right;transition:opacity .3s ease,transform .3s ease;pointer-events:none;box-shadow:0 6px 18px rgba(0,0,0,.12);}
+.am-bubble.show{opacity:1;transform:none;}
+.am-bubble .am-tag{display:block;font-family:'Newsreader',Georgia,serif;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:#3A6B35;margin-bottom:3px;font-weight:600;}
+.am-bubble::after{content:"";position:absolute;top:100%;right:26px;border:9px solid transparent;border-top-color:#2e2218;}
+.am-bubble::before{content:"";position:absolute;top:100%;right:27px;border:8px solid transparent;border-top-color:#fff;margin-top:-1px;z-index:1;}
+@media(max-width:600px){#amande-buddy{width:54px;right:8px;bottom:8px;}.am-bubble{font-size:1.08rem;min-width:150px;}}
+@media(prefers-reduced-motion:reduce){#amande-buddy .am-svg{animation:none}}
+</style>
+<script>
+(function(){
+  const el=document.getElementById('amande-buddy'), bubble=document.getElementById('am-bubble');
+  if(!el) return;
+  const MOIS={
+    0:"En janvier, on ne fait presque rien : on protège du gel et on prépare le potager de l'année.",
+    1:"Février : bon moment pour tailler les arbres fruitiers et lancer les premiers semis au chaud.",
+    2:"Mars : sème carottes, radis et petits pois dès que le sol commence à se réchauffer.",
+    3:"Avril : plante les pommes de terre, mais attends les saints de glace pour sortir les tomates.",
+    4:"Mai : après les saints de glace (mi-mai), tu peux repiquer tomates, courgettes et haricots.",
+    5:"Juin : arrose le matin ou le soir, et paille le sol pour garder la fraîcheur.",
+    6:"Juillet : arrose au pied, rarement mais en profondeur, plutôt que souvent et un peu.",
+    7:"Août : prépare les semis d'automne (radis, épinards) et laisse monter quelques graines.",
+    8:"Septembre : sème la mâche et les épinards, et plante tes fraisiers.",
+    9:"Octobre : plante l'ail et les arbres fruitiers, et ramasse les feuilles mortes pour pailler.",
+    10:"Novembre : plante arbres et arbustes à racines nues, et protège les plantes frileuses.",
+    11:"Décembre : laisse carottes et poireaux en terre, et couvre les plantes fragiles d'un voile."
+  };
+  const GENERAUX=[
+    "Un sol nu, c'est un sol qui souffre : couvre-le avec un paillage.",
+    "Arrose au pied, pas sur les feuilles : ça limite les maladies.",
+    "Les orties, c'est de l'engrais gratuit : essaie un purin d'ortie.",
+    "Ne chasse pas les coccinelles : elles mangent les pucerons.",
+    "Carottes et poireaux s'entraident : chacun éloigne les mouches de l'autre.",
+    "Le basilic près des tomates, c'est l'association classique. Elle marche.",
+    "Les vers de terre sont tes meilleurs jardiniers. Ne retourne pas tout ton sol.",
+    "Un peu de compost vaut mieux que beaucoup d'engrais.",
+    "Plante quelques fleurs au potager : elles attirent les pollinisateurs.",
+    "Les capucines attirent les pucerons loin de tes légumes.",
+    "Trop d'eau tue plus de plantes que le manque d'eau.",
+    "Une plante d'intérieur qui jaunit ? Vérifie d'abord l'arrosage.",
+    "Récolte le matin : c'est là que les légumes sont les plus frais.",
+    "Garde des graines de tes plus beaux légumes pour l'an prochain.",
+    "Mets la menthe en pot : planté en terre, elle envahit tout.",
+    "Les mauvaises herbes racontent ton sol : l'ortie aime les terres riches en azote.",
+    "Observe avant d'agir : souvent, la plante va mieux que tu crois."
+  ];
+  let timer, lastIdx=-1, first=true;
+  function say(txt,tag){
+    bubble.innerHTML='<span class="am-tag">'+tag+'</span>'+txt;
+    bubble.classList.add('show'); clearTimeout(timer);
+    timer=setTimeout(()=>bubble.classList.remove('show'),7500);
+  }
+  function conseil(){
+    const m=new Date().getMonth();
+    if(first){ first=false; say(MOIS[m],'Conseil du mois'); return; }
+    let i; do{ i=Math.floor(Math.random()*(GENERAUX.length+1)); }while(i===lastIdx);
+    lastIdx=i;
+    if(i===GENERAUX.length) say(MOIS[m],'Conseil du mois'); else say(GENERAUX[i],'Conseil d\'Amande');
+  }
+  el.addEventListener('click',()=>{ el.classList.remove('hop'); void el.offsetWidth; el.classList.add('hop'); conseil(); });
+  setTimeout(conseil,2800);
+  setInterval(()=>{ if(!document.hidden) conseil(); },16000);
+  let st; window.addEventListener('scroll',()=>{ el.classList.add('dodge'); clearTimeout(st); st=setTimeout(()=>el.classList.remove('dodge'),450); },{passive:true});
+})();
+</script>
+<a id="zen-btn" href="zen.html" title="Un moment pour respirer" aria-label="Pause respiration"><span class="zi">🧘</span> Zen</a>
+<style>
+#zen-btn{position:fixed;left:14px;bottom:16px;z-index:150;display:inline-flex;align-items:center;gap:8px;padding:11px 20px 11px 15px;border-radius:999px;background:linear-gradient(135deg,#86bfae 0%,#5b9c9a 55%,#6f93bd 100%);color:#fff;font-family:'Newsreader',Georgia,serif;font-size:1rem;font-weight:600;letter-spacing:.3px;text-decoration:none;text-shadow:0 1px 2px rgba(30,70,80,.35);border:1.5px solid rgba(255,255,255,.6);box-shadow:0 6px 20px rgba(70,130,130,.45),inset 0 1px 0 rgba(255,255,255,.45);animation:zen-breathe 6s ease-in-out infinite;transition:filter .2s;}
+#zen-btn .zi{font-size:1.3rem;line-height:1;filter:drop-shadow(0 1px 2px rgba(30,70,80,.3));}
+#zen-btn:hover{animation-play-state:paused;transform:scale(1.07);filter:brightness(1.07);}
+@keyframes zen-breathe{0%,100%{transform:scale(1);box-shadow:0 6px 20px rgba(70,130,130,.4),0 0 0 0 rgba(134,191,174,0),inset 0 1px 0 rgba(255,255,255,.45)}50%{transform:scale(1.05);box-shadow:0 9px 26px rgba(70,130,130,.5),0 0 0 10px rgba(134,191,174,.2),inset 0 1px 0 rgba(255,255,255,.45)}}
+@media(prefers-reduced-motion:reduce){#zen-btn{animation:none}}
+@media(max-width:600px){#zen-btn{left:10px;bottom:10px;font-size:0.92rem;padding:9px 16px 9px 12px;}#zen-btn .zi{font-size:1.15rem;}}
 </style>
 </body>
 </html>
