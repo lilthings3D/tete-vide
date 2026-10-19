@@ -50,6 +50,8 @@
   .msg.err{background:#fbeae7;color:var(--danger);}
   .msg.ok{background:#e7f3ec;color:var(--ok);}
   .hint{font-size:0.78rem;color:var(--ink-soft);margin:6px 2px 0;line-height:1.4;}
+  .remember{display:flex;align-items:center;gap:10px;font-size:0.86rem;color:var(--ink-soft);margin:0 0 16px;cursor:pointer;line-height:1.3;}
+  .remember input{width:20px;height:20px;padding:0;border-radius:4px;accent-color:var(--orange);flex:none;}
   .hint a{color:var(--orange-deep);}
 
   /* ---- APP ---- */
@@ -164,6 +166,7 @@
       <label>Confirme le mot de passe</label>
       <input type="password" id="su-pass2" placeholder="encore une fois" autocomplete="new-password">
     </div>
+    <label class="remember"><input type="checkbox" id="su-remember" checked> Rester connecté sur ce téléphone (30 jours)</label>
     <button class="btn-primary" id="su-go">Connecter l'atelier</button>
     <div class="msg err" id="su-msg"></div>
   </div>
@@ -179,6 +182,7 @@
       <label>Mot de passe</label>
       <input type="password" id="un-pass" placeholder="ton mot de passe" autocomplete="current-password" autofocus>
     </div>
+    <label class="remember"><input type="checkbox" id="un-remember" checked> Rester connecté sur ce téléphone (30 jours)</label>
     <button class="btn-primary" id="un-go">Ouvrir</button>
     <div class="msg err" id="un-msg"></div>
     <button class="link-btn" id="un-reset">Oublier ce téléphone / changer de jeton</button>
@@ -190,7 +194,7 @@
   <div class="topbar">
     <div class="topbar-in">
       <div class="brand">Atelier · Tête <b>vide</b></div>
-      <button class="icon-btn" id="app-lock" title="Verrouiller">🔒</button>
+      <button class="icon-btn" id="app-lock" title="Verrouiller : le mot de passe sera redemandé">🔒</button>
     </div>
   </div>
 
@@ -309,13 +313,25 @@ async function encryptToken(token,pass){
   const iv=crypto.getRandomValues(new Uint8Array(12));
   const key=await deriveKey(pass,salt);
   const ct=await crypto.subtle.encrypt({name:"AES-GCM",iv},key,new TextEncoder().encode(token));
-  return {salt:bytesToB64(salt),iv:bytesToB64(iv),ct:bytesToB64(new Uint8Array(ct))};
+  return {vault:{salt:bytesToB64(salt),iv:bytesToB64(iv),ct:bytesToB64(new Uint8Array(ct))},key};
 }
-async function decryptToken(v,pass){
-  const key=await deriveKey(pass,b64ToBytes(v.salt));
+async function decryptWith(v,key){
   const pt=await crypto.subtle.decrypt({name:"AES-GCM",iv:b64ToBytes(v.iv)},key,b64ToBytes(v.ct));
   return new TextDecoder().decode(pt);
 }
+async function decryptToken(v,pass){
+  const key=await deriveKey(pass,b64ToBytes(v.salt));
+  return {token:await decryptWith(v,key),key};
+}
+
+/* « Rester connecté » : on garde la clé de déchiffrement (non exportable) dans IndexedDB,
+   jamais le mot de passe ni le jeton en clair. Elle expire au bout de 30 jours d'inactivité. */
+const KEEP_DAYS=30;
+function kvOpen(){ return new Promise((res,rej)=>{ const r=indexedDB.open("atelier-keys",1); r.onupgradeneeded=()=>r.result.createObjectStore("k"); r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); }); }
+async function kvSet(val){ const db=await kvOpen(); return new Promise((res,rej)=>{ const tx=db.transaction("k","readwrite"); tx.objectStore("k").put(val,"key"); tx.oncomplete=()=>res(); tx.onerror=()=>rej(tx.error); }); }
+async function kvGet(){ const db=await kvOpen(); return new Promise((res,rej)=>{ const q=db.transaction("k").objectStore("k").get("key"); q.onsuccess=()=>res(q.result||null); q.onerror=()=>rej(q.error); }); }
+async function kvClear(){ try{ const db=await kvOpen(); await new Promise(res=>{ const tx=db.transaction("k","readwrite"); tx.objectStore("k").delete("key"); tx.oncomplete=res; tx.onerror=res; }); }catch(e){} }
+async function remember(key,on){ if(!on){ await kvClear(); return; } try{ await kvSet({key,ts:Date.now()}); }catch(e){} }
 function loadVault(){ try{ return JSON.parse(localStorage.getItem(VAULT_KEY)); }catch(e){ return null; } }
 function saveVault(v){ localStorage.setItem(VAULT_KEY,JSON.stringify(v)); }
 
@@ -392,9 +408,20 @@ function show(el){ ["gate-setup","gate-unlock","app"].forEach(x=>$(x).hidden=tru
 function toast(msg,ms=2200){ const t=$("toast"); t.innerHTML=msg; t.classList.add("show"); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove("show"),ms); }
 
 /* ---------- init ---------- */
-window.addEventListener("DOMContentLoaded",()=>{
+window.addEventListener("DOMContentLoaded",async()=>{
   if(!("crypto"in window&&crypto.subtle)){ alert("Ce navigateur ne supporte pas le chiffrement nécessaire. Utilise Safari ou Chrome récent."); return; }
-  show(loadVault()?$("gate-unlock"):$("gate-setup"));
+  const v=loadVault();
+  if(!v){ show($("gate-setup")); return; }
+  /* reconnexion automatique si on a choisi « rester connecté » */
+  try{
+    const k=await kvGet();
+    if(k && k.key && Date.now()-k.ts < KEEP_DAYS*86400000){
+      TOKEN=await decryptWith(v,k.key);
+      kvSet({key:k.key,ts:Date.now()}).catch(()=>{});   // l'expiration glisse tant qu'on s'en sert
+      await bootApp(); return;
+    }
+  }catch(e){ TOKEN=null; await kvClear(); }
+  show($("gate-unlock"));
   $("un-pass")&&$("un-pass").focus();
 });
 
@@ -410,8 +437,9 @@ $("su-go").addEventListener("click",async()=>{
   TOKEN=token;
   try{
     await gh(`/contents/articles.js?ref=${BRANCH}`); // test d'accès
-    const vault=await encryptToken(token,p1);
-    saveVault(vault);
+    const enc=await encryptToken(token,p1);
+    saveVault(enc.vault);
+    await remember(enc.key,$("su-remember").checked);
     await bootApp();
   }catch(e){
     TOKEN=null; $("su-go").disabled=false; $("su-go").textContent="Connecter l'atelier";
@@ -427,7 +455,9 @@ async function unlock(){
   if(!pass) return;
   $("un-go").disabled=true; $("un-go").innerHTML='<span class="spin"></span>Ouverture…';
   try{
-    TOKEN=await decryptToken(loadVault(),pass);
+    const r=await decryptToken(loadVault(),pass);
+    TOKEN=r.token;
+    await remember(r.key,$("un-remember").checked);
     await bootApp();
   }catch(e){
     TOKEN=null; $("un-go").disabled=false; $("un-go").textContent="Ouvrir";
@@ -437,10 +467,10 @@ async function unlock(){
 }
 $("un-reset").addEventListener("click",()=>{
   if(confirm("Oublier le jeton enregistré sur ce téléphone ? Tu devras le recoller.")){
-    localStorage.removeItem(VAULT_KEY); location.reload();
+    localStorage.removeItem(VAULT_KEY); kvClear().then(()=>location.reload());
   }
 });
-$("app-lock").addEventListener("click",()=>{ TOKEN=null; location.reload(); });
+$("app-lock").addEventListener("click",async()=>{ await kvClear(); TOKEN=null; location.reload(); });
 
 /* ---------- BOOT APP ---------- */
 async function bootApp(){
@@ -450,7 +480,10 @@ async function bootApp(){
     await Promise.all([loadCollection("articles"),loadCollection("histoires")]);
     renderCounts(); renderList();
   }catch(e){
-    $("list").innerHTML='<p class="empty">Erreur de chargement : '+e.message+"</p>";
+    if(/^401/.test(e.message)){   // jeton révoqué ou expiré : on repart de zéro
+      await kvClear(); localStorage.removeItem(VAULT_KEY); TOKEN=null; show($("gate-setup"));
+      const m=$("su-msg"); m.textContent="Ton jeton GitHub n'est plus valide. Crée-en un nouveau et recolle-le ici."; m.classList.add("show");
+    } else $("list").innerHTML='<p class="empty">Erreur de chargement : '+e.message+"</p>";
   }
 }
 function renderCounts(){
@@ -521,6 +554,7 @@ function openEditor(item){
   $("f-tweet").value=item?.tweet||"";
   $("f-corps").value=item?htmlToPlain(item.corps):"";
   setDraft(item?!!item.brouillon:true);
+  resetButtons();
   updateCounter();
   $("editor").hidden=false;
   document.body.style.overflow="hidden";
@@ -615,55 +649,77 @@ function applyFix(i,value){
 
 /* ---------- SAUVEGARDE (commit) ---------- */
 $("ed-save").addEventListener("click",save);
+let SAVING=false;
+function resetButtons(){
+  const s=$("ed-save"); s.disabled=false; s.textContent=DRAFT?"Enregistrer le brouillon":"Publier";
+  const d=$("ed-delete"); d.disabled=false; d.textContent="Supprimer";
+}
 async function save(){
+  if(SAVING) return;
   const titre=$("f-titre").value.trim();
   if(!titre){ toast("Il faut au moins un titre."); return; }
-  const c=COLLECTIONS[CUR];
+  const key=CUR, c=COLLECTIONS[key];
   const corpsHtml=plainToHtml($("f-corps").value);
   if(!corpsHtml){ toast("Le texte est vide."); return; }
-  const btn=$("ed-save"); btn.disabled=true; const lbl=btn.textContent;
-  btn.innerHTML='<span class="spin"></span>Publication…';
-  try{
-    let obj;
-    if(EDITING){
-      obj=EDITING;
-      obj.titre=titre; obj.sousTitre=$("f-sous").value.trim();
-      obj.corps=corpsHtml; obj.minutes=readMinutes($("f-corps").value); obj.brouillon=DRAFT;
-      if(c.hasCat){ obj.cat=$("f-cat").value; obj.tweet=$("f-tweet").value.trim(); }
-      if(!obj.date) obj.date=new Date().toISOString().slice(0,10); // date de 1re publication
+  const editId=EDITING?EDITING.id:null;
+  const F={sousTitre:$("f-sous").value.trim(), corps:corpsHtml, minutes:readMinutes($("f-corps").value), brouillon:DRAFT, cat:$("f-cat").value, tweet:$("f-tweet").value.trim()};
+  const today=new Date().toISOString().slice(0,10);
+  let newId=null;
+  const apply=()=>{
+    if(editId){
+      const obj=c.items.find(x=>x.id===editId);
+      if(!obj) throw new Error("ce texte n'existe plus sur le site");
+      obj.titre=titre; obj.sousTitre=F.sousTitre; obj.corps=F.corps; obj.minutes=F.minutes; obj.brouillon=F.brouillon;
+      if(c.hasCat){ obj.cat=F.cat; obj.tweet=F.tweet; }
+      if(!obj.date) obj.date=today;                 // date de 1re publication
     } else {
-      obj={ id:uniqueId(slugify(titre),c.items), titre, sousTitre:$("f-sous").value.trim() };
-      if(c.hasCat){ obj.cat=$("f-cat").value; obj.tweet=$("f-tweet").value.trim(); }
-      obj.minutes=readMinutes($("f-corps").value); obj.brouillon=DRAFT;
-      obj.date=new Date().toISOString().slice(0,10); obj.corps=corpsHtml;
+      if(!newId) newId=uniqueId(slugify(titre),c.items);
+      const obj={id:newId,titre,sousTitre:F.sousTitre};
+      if(c.hasCat){ obj.cat=F.cat; obj.tweet=F.tweet; }
+      obj.minutes=F.minutes; obj.brouillon=F.brouillon; obj.date=today; obj.corps=F.corps;
       c.items.unshift(obj);
     }
-    const verb=DRAFT?"brouillon":"publication";
-    await commitCollection(CUR,`Atelier: ${EDITING?"maj":"nouvelle"} ${c.label} « ${titre} » (${verb})`);
+  };
+  const msg=`Atelier: ${editId?"maj":"nouvelle"} ${c.label} « ${titre} » (${DRAFT?"brouillon":"publication"})`;
+  SAVING=true; const btn=$("ed-save"); btn.disabled=true; btn.innerHTML='<span class="spin"></span>Publication…';
+  try{
+    apply();
+    try{ await commitCollection(key,msg); }
+    catch(e){
+      if(!String(e.message).startsWith("409")) throw e;
+      /* le site a changé depuis qu'on l'a chargé : on recharge la dernière version et on réapplique */
+      await loadCollection(key); apply(); await commitCollection(key,msg);
+    }
     renderCounts(); renderList(); closeEditor();
     toast(DRAFT?"Brouillon enregistré ✓":"Publié ✓ · en ligne dans ~1-2 min");
   }catch(e){
-    btn.disabled=false; btn.textContent=lbl;
-    if(String(e.message).startsWith("409")){ toast("Le site a changé entre-temps. Recharge l'atelier."); }
-    else toast("Échec : "+e.message,3500);
-  }
+    toast("Échec : "+e.message,3500);               // l'éditeur reste ouvert, rien n'est perdu
+    try{ await loadCollection(key); renderCounts(); renderList(); }catch(_){}
+  }finally{ SAVING=false; resetButtons(); }
 }
 
 /* ---------- SUPPRESSION ---------- */
 $("ed-delete").addEventListener("click",async()=>{
-  if(!EDITING) return;
-  if(!confirm(`Supprimer définitivement « ${EDITING.titre} » ?`)) return;
-  const c=COLLECTIONS[CUR], btn=$("ed-delete");
-  btn.disabled=true; btn.innerHTML='<span class="spin"></span>';
+  if(!EDITING||SAVING) return;
+  const id=EDITING.id, titre=EDITING.titre;
+  if(!confirm(`Supprimer définitivement « ${titre} » ?`)) return;
+  const key=CUR, c=COLLECTIONS[key], btn=$("ed-delete");
+  const msg=`Atelier: suppression « ${titre} »`;
+  const apply=()=>{ c.items=c.items.filter(it=>it.id!==id); };
+  SAVING=true; btn.disabled=true; btn.innerHTML='<span class="spin"></span>';
   try{
-    c.items=c.items.filter(it=>it!==EDITING);
-    await commitCollection(CUR,`Atelier: suppression « ${EDITING.titre} »`);
+    apply();
+    try{ await commitCollection(key,msg); }
+    catch(e){
+      if(!String(e.message).startsWith("409")) throw e;
+      await loadCollection(key); apply(); await commitCollection(key,msg);
+    }
     renderCounts(); renderList(); closeEditor();
     toast("Supprimé ✓");
   }catch(e){
-    btn.disabled=false; btn.textContent="Supprimer";
     toast("Échec : "+e.message,3500);
-  }
+    try{ await loadCollection(key); renderCounts(); renderList(); }catch(_){}
+  }finally{ SAVING=false; resetButtons(); }
 });
 </script>
 </body>
