@@ -1,5 +1,14 @@
 const HISTOIRES = [
   {
+    id: "jack",
+    titre: "Jack",
+    sousTitre: "",
+    minutes: 2,
+    brouillon: true,
+    date: "2026-10-19",
+    corps: `<p>Jack, ça sonne bien Jack. Ça fait nom de personnage principal. En plus il passe partout, il fait sournois sympa violent rigolo. <br> <br>Jack était un vrai fils de pute, il n’avait aucune race, il voulait juste en découdre. Quand il commençait à péter un câble il pouvait parfaitement descendre dans la rue pour fumer des gens au hasard. Il aimait les armes, en tout genre. Il aimait beaucoup les armes à feu, avec une préférence pour les Beretta, sans raison particulière, il aimait bien la marque, elle sonnait bien. Mais son arme préférée c’était l’arc, il trouvait ça d’une violence inouïe. Quand la flèche fendait l’air sans un bruit, puis traversait un crâne dans un craquement d’os, avec la vélocité donner par la force de son propre bras. Ça le réjouissait. Il aimait ça. Il pouvait tuer à l’arc pour presque n’importe quoi. Un regard de travers ? Flèche dans le genou. On ne lui tient pas la porte ? Flèche dans le bras. On lui coupe la parole ? Flèche gorge. On lui fait perdre son temps ? flèche tête. Il n’avait pas beaucoup de patience. Aucune en fait. Il n’avait aucun sang-froid. En fait il avait un trouble du refroidissement sanguin. Les médecins qui l’avaient suivi toute son enfance n’avait jamais vu ça. Personne ne savait ce que c’était. Il pensait que ça pouvait venir de l’hypothalamus, ou de la rate, ou d’autre mots compliqué et barbant, mais en vérité personne ne savait. Un prêtre avait dit un jour qu’il était possédé par un démon, Abaddon ou Asmodée, rien que ça. Mais avant d’ajouter des noms a sa liste, il avait pris une flèche dans l’œil. Oups. Et maintenant il gisait là, dans son sang, au beau milieu de sa chapelle, avec une flèche en travers de la tête. Jack n’était pas croyant, mais il savait respectait les croyances des autres, et il respectait le sacré. Il ôta la flèche de la tête du prêtre, le coucha sur le dos, fit une brève prière, et quitta la chapelle. <br>Jack n’avait pas toujours été comme ça. Enfant il débordait d’énergie, il avait des idées foisonnantes, toujours à vouloir aider les autres. Puis l’éducation nationale, sa mère, ses fréquentations, tout le monde a voulu le formater. Chacun arrivait avec son moule et souhaitait le faire rentrer dedans. Il s’était longtemps satisfait de cette condition, comme tout un chacun, il avait besoin de vivre en communauté, d’avoir des rapports avec les autres, et pour ça il lui fallait respecter les règles de bienséance, enfin du moins c’est ce qu’il croyait.</p>`
+  },
+  {
     id: "parano",
     titre: "Parano",
     sousTitre: "",
