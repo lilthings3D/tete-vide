@@ -1,5 +1,16 @@
 const HISTOIRES = [
   {
+    id: "essayons-de-voir-plus-petit",
+    titre: "Essayons de voir plus petit",
+    sousTitre: "Mise en perpective",
+    minutes: 1,
+    brouillon: true,
+    date: "2026-10-19",
+    corps: `<p>1- L’univers ?<br>2- L’amas de la Vierge ?<br>3- La Voie lactée ?<br>4- Le système solaire ?<br>5- Le monde entier ?<br>6- Le monde vivant ?<br>7- L’Homo sapiens ?<br>8- Les Européens ?<br>9- Les français ?<br>10- Les marseillais ?<br>11- Ma famille et mes amis ?<br>12- Ceux qui habitent à la même adresse que moi ?<br>13- Ceux du second ?<br>14- Celui de la chambre du fond ? Moi, quoi.<br>15- Les organes ?<br>16- Les cellules ?<br>17- Les molécules ? <br>18- Les atomes ?<br>19- Les nucléons ?<br>20- Les protons ?<br>21- Le quark ?<br>22- Les préons ?</p>
+
+<p>Attendez une minute, on va remonter un petit peu. Tout ce qui me chagrine, qui influe sur mon morale, ma vie, mes choix se situent pour l'écrasante majorité entre le niveau 11 et le niveau 14, ça peut descendre jusqu’au niveau 15 voir 16 en cas de maladie, et remonter au niveau 7 en cas de guerre et niveau 6 en cas de prise de conscience passagère autour du changement climatique et de la biodiversité. En gros je me fais du souci pour pas grand chose. <br>C’était une petite remise en perspective de tout ça, maintenant tu peux retourner vaquer à tes occupations.</p>`
+  },
+  {
     id: "la-scie-circulaire",
     titre: "La scie circulaire",
     sousTitre: "Elle avait des instructions très claires",
