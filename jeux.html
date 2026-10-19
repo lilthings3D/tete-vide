@@ -44,7 +44,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   
   .wrap{max-width:1180px;margin:0 auto;padding:0 28px;position:relative;z-index:2;}
 
-  header.site{padding:30px 0 0;}
+  header.site{padding:16px 0 0;}
   .topbar{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1.5px solid var(--ink);padding-bottom:12px;}
   .brand{font-family:'Newsreader',Georgia,serif;font-weight:600;font-size:1.15rem;letter-spacing:0.5px;text-decoration:none;color:var(--ink);}
   .brand b{color:var(--orange-deep);}
@@ -74,9 +74,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   @media(max-width:780px){.sitenav-link{padding:0 8px 4px;font-size:0.8rem;}}
   @media(max-width:600px){.wrap{padding:0 20px;}.date-long{display:none;}.date-short{display:inline;}header.site{padding:10px 0 0;}.brand{font-size:0.92rem;}.topbar{padding-bottom:8px;}.topbar{flex-wrap:wrap;}.brand{order:1;}.topdate{order:2;margin-left:auto;}.sitenav{order:3;width:100%;border-top:1px solid var(--rule);padding-top:8px;margin-top:6px;justify-content:center;flex-wrap:wrap;gap:4px;}.sitenav-link{font-size:0.7rem;padding:5px 11px;border:1px solid var(--rule);border-bottom:1px solid var(--rule);}.sitenav-link.current{background:var(--ink);color:var(--cream);border-color:var(--ink);}}
 
-  .masthead{text-align:center;padding:60px 0 30px;border-bottom:1px solid var(--ink);}
+  .masthead{text-align:center;padding:18px 0 16px;border-bottom:1px solid var(--ink);}
+  @media(max-width:600px){.masthead{padding:30px 0 14px;}}
   .masthead .kicker{font-family:'Caveat',cursive;font-size:1.4rem;color:var(--ink-soft);transform:rotate(-2deg);margin-bottom:6px;}
-  .masthead h1{font-family:'Newsreader',Georgia,serif;font-weight:600;font-size:clamp(2.8rem,7vw,5rem);line-height:0.95;letter-spacing:-1px;}
+  .masthead h1{font-family:'Newsreader',Georgia,serif;font-weight:600;font-size:clamp(2.6rem,8vw,5.4rem);line-height:0.95;letter-spacing:-1px;}
   .masthead h1 b{font-style:normal;font-weight:600;color:var(--orange-deep);}
   .masthead .tagline{max-width:480px;margin:18px auto 0;font-size:1rem;color:var(--ink-soft);}
 
@@ -87,7 +88,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   .game-card{
     display:flex;flex-direction:column;
-    padding:36px 32px 28px;
+    padding:28px 28px 28px;
     border:1px solid var(--rule);
     cursor:pointer;transition:background .18s,border-color .18s;
     text-decoration:none;color:inherit;
@@ -95,6 +96,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     animation:rise .55s cubic-bezier(.2,.7,.3,1) forwards;
   }
   .game-card:hover{background:var(--paper);border-color:var(--rule-strong);}
+  .g-thumb{aspect-ratio:16/10;overflow:hidden;border:1px solid var(--rule);background:#1a1208;margin-bottom:22px;}
+  .g-thumb img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .5s ease;}
+  .game-card:hover .g-thumb img{transform:scale(1.045);}
   @keyframes rise{to{opacity:1;transform:none;}}
 
   .g-tag{
@@ -179,11 +183,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <section class="masthead">
     <div class="kicker">Cousu main</div>
     <h1>Minis <b>jeux</b></h1>
-    <p class="tagline">Pas de micro-transactions. Pas de tutoriel de 40 minutes.</p>
+    <p class="tagline">Quelques petits jeux pour passer le temps.</p>
   </section>
 
   <div class="games-grid">
     <a class="game-card" href="snake.html" style="animation-delay:.05s">
+      <div class="g-thumb"><img src="img/jeux/snake.jpg" alt="Aperçu du jeu Snake" width="640" height="400" loading="lazy"></div>
       <div class="g-tag">Classique</div>
       <h2 class="g-title">Snake</h2>
       <div class="g-sub">1976. Tu manges, tu grandis, tu meurs.</div>
@@ -191,6 +196,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <span class="g-play">Jouer →</span>
     </a>
     <a class="game-card" href="open-space-apocalypse.html" style="animation-delay:.12s">
+      <div class="g-thumb"><img src="img/jeux/open-space-apocalypse.jpg" alt="Aperçu du jeu Open Space Apocalypse II" width="640" height="400" loading="lazy"></div>
       <div class="g-tag">Shooter</div>
       <h2 class="g-title">Open Space Apocalypse II</h2>
       <div class="g-sub">La revanche de la cafétéria</div>
@@ -198,13 +204,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <span class="g-play">Jouer →</span>
     </a>
     <a class="game-card" href="pong.html" style="animation-delay:.19s">
+      <div class="g-thumb"><img src="img/jeux/pong.jpg" alt="Aperçu du jeu Pong" width="640" height="400" loading="lazy"></div>
       <div class="g-tag">Classique</div>
       <h2 class="g-title">Pong</h2>
       <div class="g-sub">1974. Toujours aussi efficace.</div>
-      <p class="g-desc">Solo contre une IA ou deux joueurs sur le même clavier. Premier à 7 points. Pas de skin. Pas de battle pass. Juste une balle et deux raquettes.</p>
+      <p class="g-desc">Solo contre l'ordinateur ou à deux sur le même clavier. Le premier à 7 points gagne. Une balle, deux raquettes, c'est tout ce qu'il y a.</p>
       <span class="g-play">Jouer →</span>
     </a>
     <a class="game-card" href="vaches.html" style="animation-delay:.26s">
+      <div class="g-thumb"><img src="img/jeux/vaches.jpg" alt="Aperçu du jeu Vaches" width="640" height="400" loading="lazy"></div>
       <div class="g-tag">Incrémental</div>
       <h2 class="g-title">Vaches</h2>
       <div class="g-sub">Clique. Achète. Recommence.</div>
@@ -212,6 +220,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <span class="g-play">Jouer →</span>
     </a>
     <a class="game-card" href="chasse.html" style="animation-delay:.28s">
+      <div class="g-thumb"><img src="img/jeux/chasse.jpg" alt="Aperçu du jeu Chasse à la main" width="640" height="400" loading="lazy"></div>
       <div class="g-tag">Webcam</div>
       <h2 class="g-title">Chasse à la main</h2>
       <div class="g-sub">Vise avec ton doigt.</div>
@@ -219,6 +228,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <span class="g-play">Jouer →</span>
     </a>
     <a class="game-card" href="mots-croises.html" style="animation-delay:.33s">
+      <div class="g-thumb"><img src="img/jeux/mots-croises.jpg" alt="Aperçu du jeu Mots croisés" width="640" height="400" loading="lazy"></div>
       <div class="g-tag">Réflexion</div>
       <h2 class="g-title">Mots croisés</h2>
       <div class="g-sub">Une grille unique à chaque génération.</div>
@@ -226,6 +236,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <span class="g-play">Jouer →</span>
     </a>
     <a class="game-card" href="casse-brique.html" style="animation-delay:.40s">
+      <div class="g-thumb"><img src="img/jeux/casse-brique.jpg" alt="Aperçu du jeu Casse-brique" width="640" height="400" loading="lazy"></div>
       <div class="g-tag">Classique</div>
       <h2 class="g-title">Casse-brique</h2>
       <div class="g-sub">Une balle, une raquette, des regrets.</div>
@@ -233,6 +244,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <span class="g-play">Jouer →</span>
     </a>
     <a class="game-card" href="space-impact.html" style="animation-delay:.47s">
+      <div class="g-thumb"><img src="img/jeux/space-impact.jpg" alt="Aperçu du jeu Space Impact" width="640" height="400" loading="lazy"></div>
       <div class="g-tag">Shooter</div>
       <h2 class="g-title">Space Impact</h2>
       <div class="g-sub">Le classique Nokia, en plus large.</div>
@@ -240,6 +252,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <span class="g-play">Jouer →</span>
     </a>
     <a class="game-card" href="space-invaders.html" style="animation-delay:.54s">
+      <div class="g-thumb"><img src="img/jeux/space-invaders.jpg" alt="Aperçu du jeu Space Invaders" width="640" height="400" loading="lazy"></div>
       <div class="g-tag">Shooter</div>
       <h2 class="g-title">Space Invaders</h2>
       <div class="g-sub">1978. L'original. La grille qui descend.</div>
@@ -247,6 +260,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <span class="g-play">Jouer →</span>
     </a>
     <a class="game-card" href="moto.html" style="animation-delay:.61s">
+      <div class="g-thumb"><img src="img/jeux/moto.jpg" alt="Aperçu du jeu Moto Backflip" width="640" height="400" loading="lazy"></div>
       <div class="g-tag">Arcade</div>
       <h2 class="g-title">Moto Backflip</h2>
       <div class="g-sub">Un tracé différent à chaque course.</div>
@@ -313,14 +327,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
-<a id="zen-btn" href="zen.html" title="Un moment pour respirer" aria-label="Pause respiration"><span class="zi">🧘</span> Zen</a>
+<a id="zen-btn" href="zen.html" title="Un moment pour respirer" aria-label="Pause respiration"><svg class="zi" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.6C9.4 7 9.4 12 12 16.4 14.6 12 14.6 7 12 3.6Z"/><path d="M12 16.4C8.2 16.4 4.6 13.6 3.4 9.4 7.2 9.2 10.4 11.4 12 16.4Z"/><path d="M12 16.4C15.8 16.4 19.4 13.6 20.6 9.4 16.8 9.2 13.6 11.4 12 16.4Z"/><path d="M6.5 19.6H17.5"/></svg><span>Zen</span></a>
 <style>
-#zen-btn{position:fixed;left:14px;bottom:16px;z-index:150;display:inline-flex;align-items:center;gap:8px;padding:11px 20px 11px 15px;border-radius:999px;background:linear-gradient(135deg,#86bfae 0%,#5b9c9a 55%,#6f93bd 100%);color:#fff;font-family:'Newsreader',Georgia,serif;font-size:1rem;font-weight:600;letter-spacing:.3px;text-decoration:none;text-shadow:0 1px 2px rgba(30,70,80,.35);border:1.5px solid rgba(255,255,255,.6);box-shadow:0 6px 20px rgba(70,130,130,.45),inset 0 1px 0 rgba(255,255,255,.45);animation:zen-breathe 6s ease-in-out infinite;transition:filter .2s;}
-#zen-btn .zi{font-size:1.3rem;line-height:1;filter:drop-shadow(0 1px 2px rgba(30,70,80,.3));}
-#zen-btn:hover{animation-play-state:paused;transform:scale(1.07);filter:brightness(1.07);}
-@keyframes zen-breathe{0%,100%{transform:scale(1);box-shadow:0 6px 20px rgba(70,130,130,.4),0 0 0 0 rgba(134,191,174,0),inset 0 1px 0 rgba(255,255,255,.45)}50%{transform:scale(1.05);box-shadow:0 9px 26px rgba(70,130,130,.5),0 0 0 10px rgba(134,191,174,.2),inset 0 1px 0 rgba(255,255,255,.45)}}
-@media(prefers-reduced-motion:reduce){#zen-btn{animation:none}}
-@media(max-width:600px){#zen-btn{left:10px;bottom:10px;font-size:0.92rem;padding:9px 16px 9px 12px;}#zen-btn .zi{font-size:1.15rem;}}
+#zen-btn{position:fixed;left:14px;bottom:16px;z-index:150;display:inline-flex;align-items:center;gap:8px;padding:10px 19px 10px 14px;border-radius:999px;background:linear-gradient(165deg,#4b7f72 0%,#33635a 100%);color:#f7f2e7;font-family:'Newsreader',Georgia,serif;font-size:1rem;font-weight:600;letter-spacing:.5px;text-decoration:none;border:1px solid rgba(255,255,255,.2);box-shadow:0 8px 22px rgba(36,66,60,.32),inset 0 1px 0 rgba(255,255,255,.22);transition:transform .2s,box-shadow .2s;}
+#zen-btn::after{content:"";position:absolute;inset:-5px;border-radius:inherit;border:1.5px solid rgba(75,127,114,.55);opacity:0;pointer-events:none;animation:zen-ring 5.5s ease-in-out infinite;}
+#zen-btn .zi{width:22px;height:22px;fill:rgba(255,255,255,.2);stroke:#f7f2e7;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;flex:none;}
+#zen-btn:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(36,66,60,.4),inset 0 1px 0 rgba(255,255,255,.25);}
+@keyframes zen-ring{0%,100%{transform:scale(1);opacity:0}50%{transform:scale(1.1,1.28);opacity:.7}}
+@media(prefers-reduced-motion:reduce){#zen-btn::after{animation:none}}
+@media(max-width:600px){#zen-btn{left:10px;bottom:10px;font-size:.92rem;padding:9px 16px 9px 12px;}#zen-btn .zi{width:20px;height:20px;}}
 </style>
 <div id="cow-buddy" aria-label="La vache de la maison" title="Clique-moi">
   <div class="cow-bubble" id="cow-bubble"></div>
