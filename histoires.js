@@ -1,5 +1,14 @@
 const HISTOIRES = [
   {
+    id: "ben",
+    titre: "Ben",
+    sousTitre: "Ben",
+    minutes: 1,
+    brouillon: true,
+    date: "2026-10-19",
+    corps: `<p>Ben est un mec imaginaire qui vit dans l’imaginaire Collectif d’une bande de potes.<br>Il est témoin de tout et donne son avis de l’extérieur. Il est sage est bienveillant.</p>`
+  },
+  {
     id: "arbitre",
     titre: "Arbitre",
     sousTitre: "Arbitre",
