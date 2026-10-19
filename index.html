@@ -219,6 +219,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     display:grid;grid-template-columns:repeat(3,1fr);gap:0;padding-bottom:70px;
     border-top:1.5px solid var(--ink);
   }
+  .f-ill{display:block;width:100%;max-width:380px;aspect-ratio:16/10;object-fit:cover;border:1px solid var(--rule);margin:0 0 22px;}
+  .c-ill{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;border:1px solid var(--rule);margin:0 0 18px;}
+  .art-ill{margin:0 auto 34px;max-width:620px;}
+  .art-ill img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;border:1px solid var(--rule);}
   .card{
     cursor:pointer;position:relative;padding:26px 26px 30px;
     border-bottom:1px solid var(--rule);
@@ -610,6 +614,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const f = document.getElementById("feature");
     f.innerHTML = `
       <div class="f-side">
+        <img class="f-ill" src="img/textes/${a.id}.svg" alt="" loading="lazy" onerror="this.remove()">
         <div class="f-cat">${isNouveau(a.date)?'<span class="badge-new">✦ Nouveau</span> · ':''}${a.cat}${fmtDate(a.date)?' · '+fmtDate(a.date):''}</div>
         <h2 class="f-title">${a.titre}</h2>
         <div class="f-sub">${a.sousTitre}</div>
@@ -644,6 +649,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       c.className="card";
       c.style.animationDelay=(i*0.04)+"s";
       c.innerHTML=`
+        <img class="c-ill" src="img/textes/${a.id}.svg" alt="" loading="lazy" onerror="this.remove()">
         <div class="c-cat">${isNouveau(a.date)?'<span class="badge-new">✦ Nouveau</span> · ':''}${a.cat}${fmtDate(a.date)?' · '+fmtDate(a.date):''}</div>
         <h2 class="c-title">${a.titre}</h2>
         <div class="c-sub">${a.sousTitre}</div>
@@ -795,6 +801,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="a-meta"><span>Par A.B.</span>${fmtDate(a.date)?'<span class="d">✦</span><span>'+fmtDate(a.date)+'</span>':''}<span class="d">✦</span><span>${a.minutes} min</span></div>
       </div>
       <div class="art-rule"></div>
+      <figure class="art-ill"><img src="img/textes/${a.id}.svg" alt="Illustration : ${a.titre.replace(/"/g,'&quot;')}" onerror="this.parentNode.remove()"></figure>
       <div class="art-body">${a.corps}</div>
       <div class="art-foot"><div class="sig">A.B.</div></div>
 
