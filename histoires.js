@@ -1,5 +1,14 @@
 const HISTOIRES = [
   {
+    id: "sommeil",
+    titre: "Sommeil",
+    sousTitre: "",
+    minutes: 1,
+    brouillon: true,
+    date: "2026-10-19",
+    corps: `<p>La nuit n’est pas tombée depuis près de 6 mois et il plane dans l’air une odeur nauséabonde. Tout le monde est déréglé, personne ne mange ni ne dort à la même heure. Au début le monde était totalement déboussolé, mais rapidement nous nous sommes adapté, aujourd’hui chacun a ses petites habitudes, on continue d’utiliser les journées de 24h même si ça ne veut plus rien dire pour nous. En fait il semble que le corps humain soit adapté parfaitement à des journées de 32h. On a toujours besoin de nos 8 heures de sommeil en moyenne, mais on peut rester éveillé bien plus longtemps qu’avant.</p>`
+  },
+  {
     id: "il-faisait-nuit",
     titre: "Il faisait nuit",
     sousTitre: "",
