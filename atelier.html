@@ -15,7 +15,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600;6..72,700&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --cream:#FBF7F0; --paper:#fff; --ink:#2e2218; --ink-soft:#5b4a39;
+    --cream:#FDFCF8; --paper:#fff; --ink:#2e2218; --ink-soft:#5b4a39;
     --orange:#a2472b; --orange-deep:#8a3a22; --orange-bright:#b85a35;
     --rule:#e0cfb0; --rule-strong:#c9b189; --ok:#2f7d4f; --danger:#b23b2e;
     --bg-soft:#f4ecdd;
@@ -630,10 +630,12 @@ async function save(){
       obj.titre=titre; obj.sousTitre=$("f-sous").value.trim();
       obj.corps=corpsHtml; obj.minutes=readMinutes($("f-corps").value); obj.brouillon=DRAFT;
       if(c.hasCat){ obj.cat=$("f-cat").value; obj.tweet=$("f-tweet").value.trim(); }
+      if(!obj.date) obj.date=new Date().toISOString().slice(0,10); // date de 1re publication
     } else {
       obj={ id:uniqueId(slugify(titre),c.items), titre, sousTitre:$("f-sous").value.trim() };
       if(c.hasCat){ obj.cat=$("f-cat").value; obj.tweet=$("f-tweet").value.trim(); }
-      obj.minutes=readMinutes($("f-corps").value); obj.brouillon=DRAFT; obj.corps=corpsHtml;
+      obj.minutes=readMinutes($("f-corps").value); obj.brouillon=DRAFT;
+      obj.date=new Date().toISOString().slice(0,10); obj.corps=corpsHtml;
       c.items.unshift(obj);
     }
     const verb=DRAFT?"brouillon":"publication";

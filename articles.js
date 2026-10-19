@@ -17,6 +17,7 @@ const ARTICLES = [
     tweet: "L'ignorance est le chemin vers le côté obscur : l'ignorance mène à la peur, la peur mène à la colère, la colère mène à la haine, la haine… mène à la souffrance.",
     minutes: 2,
     brouillon: false,
+    date: "2026-10-17",
     corps: `<p>« La peur est le chemin vers le côté obscur : la peur mène à la colère, la colère mène à la haine, la haine… mène à la souffrance. »</p>
 
 <p>Cependant, on peut ajouter une autre itération. Il ne t’est jamais arrivé de détester une personne, puis d’apprendre à la connaître et qu’elle devienne l’un de tes plus proches amis ? Ou de refuser catégoriquement une activité, avant d’accepter finalement cette randonnée et de t’apercevoir que ce n'était pas si mal ? Que ça valait le coup de marcher un peu pour voir ce panorama ? Pour aimer, il faut connaître. Notre arme contre la haine, c’est la connaissance.</p>
@@ -179,6 +180,7 @@ const ARTICLES = [
     tweet: "« Je suis tout seul sur un chemin qui ne va nulle part. » Parfois c'est le constat le plus lucide qu'on puisse faire. Reste à savoir ce qu'on en fait.",
     minutes: 2,
     brouillon: false,
+    date: "2026-07-20",
     corps: `<p>Je ne sais pas si je ne comprends rien ou s'il n'y a rien à comprendre. Chaque fois que je creuse une idée, elle me mène à la conclusion que ce n'est pas ça qui est important. J'essaie de trouver un sens à tout ça, cette course folle sans destination. L'humanité, est-ce ça qui est important ? Conserver la conscience coûte que coûte ? Ou bien protéger le vivant dans sa globalité ? La valeur, le dieu qu'il nous faudrait suivre, devrait se baser sur un combat universel, mais lequel ?</p>
     
     <p>Sans réponse pour le moment, on avance à l'aveugle. On place notre foi dans nos dirigeants, nos croyances. On s'invente des buts, des projets pour avancer, mais on ne sait même pas où l'on va !</p>
@@ -476,6 +478,7 @@ const ARTICLES = [
     cat: "Soi",
     tweet: "Et si la confiance en soi qu'on admire chez les autres n'était que le confort de ne jamais quitter ce qu'on maîtrise déjà ?",
     minutes: 2,
+    date: "2026-06-03",
     corps: `<p>Imagine que tu es au bar, tu regardes un match de foot tranquillement, et les types à côté de toi ont une conversation super poussée sur la technique et la tactique de chaque équipe. Ils connaissent le nom des joueurs, et presque leur régime alimentaire. Toi, tu es juste venu boire une bière, mais une petite voix dans ta tête commence à s'éveiller : tu n'es pas au niveau, tu n'es peut-être même pas légitime pour regarder un match de foot, et tu devrais sans doute rentrer chez toi et regarder des vidéos YouTube pour comprendre les tactiques et apprendre le nom des joueurs par cœur — le minimum pour avoir le droit d'apprécier un match. Alors qu'on s'en fiche complètement. Ces mecs-là ne connaissent sans doute rien à ton domaine à toi, et c'est pas un jugement : on a une capacité limitée, cérébrale et temporelle, on ne peut pas tout connaître. Mais toi, sur le moment, tu t'imagines que tu n'es pas à la hauteur.</p>
 
 <p>Ils sont dans leur zone de confort, tu ressens leur aura, elle leur donne un aspect de maîtrise totale de leur environnement, qu'ils doivent sûrement maîtriser…Ils sont dans leur zone de confort, tu ressens leur aura, elle leur donne un aspect de maîtrise totale de leur environnement, qu'ils doivent sûrement maîtriser des vérités que tu ignores, et dans un sens c'est vrai. Mais ça ne fait pas d'eux des êtres supérieurs à toi. C'est juste des gars que tu as croisés dans leur domaine d'expertise.</p>
@@ -492,6 +495,7 @@ const ARTICLES = [
     cat: "Vivre",
     tweet: "On peut te donner le meilleur conseil de la terre : tant que la décision ne vient pas de toi, elle ne tient pas. Petite théorie sur pourquoi les conseils des autres glissent sur nous.",
     minutes: 2,
+    date: "2026-06-03",
     corps: `<p>Tu peux écouter tous les conseils du monde, il faut quand même que ça vienne de toi. Un conseil reste toujours un objet posé à l'extérieur de toi. Quelqu'un te tend une clé, mais la serrure, elle est au-dedans, et lui n'y a pas accès. Il a beau te tendre la bonne clé, c'est toi qui dois la prendre et la tourner. Tant que tu ne l'as pas fait toi-même, le conseil reste à côté, parfaitement juste et parfaitement inutile.</p>
 
 <p>Dans Inception le film tourne un peu autour de ça. Les personnages ne cherchent pas à voler une idée, ça c'est facile, mais à en <em>implanter</em> une dans la tête de quelqu'un. Et c'est présenté comme la chose la plus difficile au monde, presque impossible. Parce qu'un cerveau repère toujours l'idée étrangère. Pour qu'elle prenne, il faut que la personne croie l'avoir trouvée elle-même. Il faut planter une graine si profond qu'au réveil, elle se dit « c'est mon idée ». Sinon elle la rejette.</p>
@@ -510,6 +514,7 @@ const ARTICLES = [
     cat: "Soi",
     tweet: "« J'essaie plus d'être moi, j'essaie d'être quelqu'un. » La phrase qui résume comment on se perd : en visant une image au lieu d'une personne.",
     minutes: 2,
+    date: "2026-06-03",
     corps: `<p>J'essaie pas d'être moi, j'essaie d'être quelqu'un, c'est mon erreur, je me suis perdu. Je me suis noté cette phrase un soir, et plus j'y repense, plus je trouve qu'elle décrit un piège dans lequel des tas de gens tombent sans même s'en rendre compte. Moi le premier.</p>
 
 <p>Parce qu'il y a une différence entre les deux, et on la voit pas. Être quelqu'un, c'est courir après une image : passer pour intelligent, pour engagé, pour spécial. C'est se construire de dehors, en fonction de ce qu'on imagine que les autres pensent de nous. Être soi, c'est exactement l'inverse : partir du dedans, de ce qu'on ressent vraiment, de ce qui compte pour nous, sans d'abord se demander quel effet ça va faire.</p>
@@ -528,6 +533,7 @@ const ARTICLES = [
     cat: "Vivre",
     tweet: "Une vis rouillée, sur une échelle, à six mètres du sol. D'habitude tu ne la regardes même pas. À cet instant précis, c'est l'objet le plus important de ta vie.",
     minutes: 2,
+    date: "2026-06-06",
     corps: `<p>Petit exercice de pensée. Tu es en haut d'une échelle bancale, à six mètres du sol, en train d'essayer de fixer un panneau. Tu poses une belle vis toute neuve au bout de ta visseuse en tenant le panneau à bout de bras, quand soudain ta belle vis tombe. C'était la dernière. Ton monde s'écroule. Tu es ici en équilibre et tu n'as pas de solution, tu dois redescendre, rejouer ce p'tit jeu d'équilibriste qui a mis ta vie en danger déjà une fois. Pas le choix, tu vas devoir redescendre, récupérer une nouvelle vis, puis remonter cette échelle brinquebalante. Le vent souffle, l'échelle tremble. Tu fais l'inventaire désespéré de tes poches vides. Une, puis deux, puis, oh, tu sens quelque chose. Serait-ce ?.. Oui ! C'est bien ça ! Une vis ! Tu glisses ta main dans la poche et... c'est une vieille vis, toute rouillée, un peu tordue, mais dans cette situation c'est ton bien le plus précieux.</p>
 <p>L'importance d'une chose n'a rien à voir avec la chose elle-même. La vis n'a pas changé. C'est le contexte qui donne son importance aux choses. Je pense que c'est vrai pour presque tout. Les choses ne valent pas en elles-mêmes ; elles valent par rapport à un contexte. Un verre d'eau ne vaut rien jusqu'au moment où tu meurs de soif. Une personne ne te manque pas jusqu'au jour où elle n'est plus là. Peut-être devrions-nous chercher la vraie valeur d'une chose — quoi que ça veuille dire — plutôt que ce que ça peut t'apporter, que ce soit plus de confort ou plus de prestige. Mieux vaudrait-il voir le potentiel en chaque chose ? Peut-être que la sagesse serait de regarder la vis rouillée avant d'être à trois mètres du sol. De donner aux choses leur juste valeur pendant qu'on a encore les deux pieds par terre.</p>`,
     brouillon: false
@@ -539,6 +545,7 @@ const ARTICLES = [
     cat: "Vivre",
     tweet: "Je sors de chez ma grand-mère. Elle dit qu'elle ne vit plus vraiment, qu'elle en a assez. Et je me retrouve sans réponse : à quoi ça sert, au juste, de vivre vieux ?",
     minutes: 2,
+    date: "2026-06-06",
     corps: `<p>Je sors de chez ma grand-mère, elle vient de me dire qu'elle est fatiguée de vivre, même pas en dépression, elle en a juste assez. Elle perd peu à peu ses mots, elle a perdu toutes les personnes qu'elle connaissait, ne peut plus rien faire, même regarder la télé c'est une épreuve. Elle n'arrive presque plus à marcher ni à réfléchir. Elle en a marre, et logiquement je me demande : pourquoi vivre si vieux ?</p>
     
 <p>L'idée générale veut que la vie soit précieuse, qu'il faut la préserver, l'allonger, la défendre coûte que coûte. On ne discute même plus à ce sujet, ne pas tuer c'est la norme. Mais quand la personne concernée, elle, te dit qu'elle ne vit plus — qu'est-ce qu'on préserve, exactement ? La durée ? Le nombre d'années ? J'ai du mal à comprendre à quel moment c'est la quantité de vie qu'on protège, et à quel moment c'est autre chose.</p>
@@ -555,6 +562,7 @@ const ARTICLES = [
     cat: "Émotions",
     tweet: "Et si la colère n'était jamais la vraie émotion, mais toujours la couverture d'une peur ? Une grille de lecture qui change la façon de se regarder s'énerver.",
     minutes: 2,
+    date: "2026-06-03",
     corps: `<p>Quand tu es en colère, c'est que tu as peur. Au début c'était juste une intuition, mais plus j'avance plus j'ai l'impression de tenir un truc. À chaque fois que je m'énerve, si je creuse un peu, il y a une peur cachée juste en dessous.</p>
 
 <p>C'est utile la colère, elle fait rapidement comprendre à ton interlocuteur qu'il dépasse les bornes. Tu es face à un employé de la poste, ça fait 3 jours que tu sais que tu dois venir ici, et que tu rumines sur les employés qui sont ultra lents, qui le font exprès, et tu es arrivé ici prêt à exploser ; il met sa vie pour faire trois conneries, tu commences à bouillir, il commence à discuter avec son voisin alors que la queue s'allonge ? Cette fois c'est trop ! Mais il se passe quoi à l'intérieur ?</p>

@@ -14,7 +14,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="icon" type="image/png" href="/vache.png">
 <link rel="apple-touch-icon" href="/vache.png">
-<meta name="theme-color" content="#FBF7F0">
+<meta name="theme-color" content="#FDFCF8">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Tête vide">
 <meta property="og:locale" content="fr_FR">
@@ -34,7 +34,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600;6..72,700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --cream:#FBF7F0;--ink:#2e2218;--ink-soft:#5b4a39;
+    --cream:#FDFCF8;--ink:#2e2218;--ink-soft:#5b4a39;
     --orange:#D43030;--orange-deep:#B02020;
     --rule:#e0cfb0;
   }
@@ -628,7 +628,7 @@ function drawMoto(x, y, angle, wheelRot, ghost){
   const metal = ghost ? C.ghost : '#e8d8c4';
   const tire  = ghost ? C.ghost : '#241826';
   const rider = ghost ? C.ghost : '#241a2e';
-  const helmet= ghost ? C.ghost : '#FBF7F0';
+  const helmet= ghost ? C.ghost : '#FDFCF8';
   if (ghost) ctx.globalAlpha = 0.4;
 
   for (const wx of [-17, 17]){
@@ -697,7 +697,7 @@ function keycap(cx, cy, label, desc){
   ctx.beginPath();
   ctx.roundRect(cx, cy-14, w, 26, 6);
   ctx.fill(); ctx.stroke();
-  ctx.fillStyle='#FBF7F0'; ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.fillStyle='#FDFCF8'; ctx.textAlign='center'; ctx.textBaseline='middle';
   ctx.fillText(label, cx+w/2, cy);
   ctx.fillStyle='rgba(251,247,240,0.75)'; ctx.textAlign='left';
   ctx.font='12px monospace';

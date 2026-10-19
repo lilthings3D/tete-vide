@@ -14,7 +14,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="icon" type="image/png" href="/vache.png">
 <link rel="apple-touch-icon" href="/vache.png">
-<meta name="theme-color" content="#FBF7F0">
+<meta name="theme-color" content="#FDFCF8">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Tête vide">
 <meta property="og:locale" content="fr_FR">
@@ -34,7 +34,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600;6..72,700&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --cream: #FBF7F0;
+    --cream: #FDFCF8;
     --cream-deep: #f0e4cf;
     --paper: #fbf6ec;
     --ink: #2e2218;
@@ -61,7 +61,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .wrap{max-width:1180px;margin:0 auto;padding:0 28px;position:relative;z-index:2;}
 
   /* ============ HEADER ============ */
-  header.site{padding:30px 0 0;}
+  header.site{padding:16px 0 0;}
   .topbar{
     display:flex;justify-content:space-between;align-items:baseline;
     border-bottom:1.5px solid var(--ink);padding-bottom:12px;
@@ -129,8 +129,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   /* ============ MASTHEAD ============ */
   .masthead{
-    text-align:center;padding:40px 0 18px;border-bottom:1px solid var(--ink);
+    text-align:center;padding:18px 0 16px;border-bottom:1px solid var(--ink);
   }
+  .badge-new{display:inline-block;background:var(--orange);color:#fff;font-family:-apple-system,sans-serif;font-size:0.6rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:2px 7px;border-radius:999px;vertical-align:1px;}
   .masthead .kicker{
     font-family:'Caveat',cursive;font-size:1.4rem;color:var(--ink-soft);
     transform:rotate(-2deg);margin-bottom:6px;
@@ -469,15 +470,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="kicker">Entre, installe-toi</div>
       <h1>Tête <span class="l2">vide</span></h1>
       <p class="tagline">Salut. Ici je vide ma tête : des pensées en vrac, des doutes, deux-trois histoires. Pas d'expert, pas de ligne éditoriale — juste quelqu'un qui réfléchit un peu trop et préfère le faire à voix haute. Lis ce que tu veux, reste le temps que tu veux.</p>
-      <div class="intro-links">
-        <button id="btn-hasard" type="button">🎲 Surprends-moi, au hasard →</button>
-        <a href="apropos.html">Qui écrit tout ça ?</a>
-      </div>
     </section>
 
-    <!-- LA UNE -->
+    <!-- NOUVEAUTÉS -->
     <section class="feature-zone" id="feature-zone">
-      <div class="sec-label">Si tu veux un point de départ</div>
+      <div class="sec-label">Nouveautés</div>
       <article class="feature" id="feature"></article>
     </section>
 
@@ -583,10 +580,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   document.addEventListener("keydown", e=>{ if(e.key==="Escape") document.getElementById("almanach-overlay").classList.remove("open"); });
 
   // on retire les brouillons de tout ce qui est visible aux lecteurs
-  const ARTICLES_PUBLIES = ARTICLES.filter(a => !a.brouillon);
+  const ARTICLES_PUBLIES = ARTICLES.filter(a => !a.brouillon)
+    .sort((a,b)=> (b.date||"").localeCompare(a.date||""));  // plus récent d'abord
 
-  // une aléatoire, tirée une fois par chargement de page
-  const featuredId = ARTICLES_PUBLIES[Math.floor(Math.random()*ARTICLES_PUBLIES.length)].id;
+  const MOIS_FR = ["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
+  function fmtDate(iso){
+    if(!iso) return "";
+    const [y,m,d] = iso.split("-").map(Number);
+    if(!y||!m||!d) return "";
+    return d + " " + MOIS_FR[m-1] + " " + y;
+  }
+  function isNouveau(iso){
+    if(!iso) return false;
+    const t = Date.parse(iso+"T00:00:00");
+    return !isNaN(t) && (Date.now() - t) < 45*24*3600*1000;  // < 45 jours
+  }
+
+  // la « case Nouveautés » met en avant le texte le plus récent
+  const featuredId = ARTICLES_PUBLIES[0] && ARTICLES_PUBLIES[0].id;
 
   function excerptOf(a, len){
     const m = a.corps.match(/<p>(.*?)<\/p>/);
@@ -599,10 +610,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     const f = document.getElementById("feature");
     f.innerHTML = `
       <div class="f-side">
-        <div class="f-cat">${a.cat}</div>
+        <div class="f-cat">${isNouveau(a.date)?'<span class="badge-new">✦ Nouveau</span> · ':''}${a.cat}</div>
         <h2 class="f-title">${a.titre}</h2>
         <div class="f-sub">${a.sousTitre}</div>
-        <div class="f-meta"><span>${a.minutes} min de lecture</span><span class="arrow">→</span></div>
+        <div class="f-meta"><span>${fmtDate(a.date)?fmtDate(a.date)+' · ':''}${a.minutes} min de lecture</span><span class="arrow">→</span></div>
       </div>
       <div class="f-excerpt">${excerptOf(a,340)}</div>
     `;
@@ -633,11 +644,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       c.className="card";
       c.style.animationDelay=(i*0.04)+"s";
       c.innerHTML=`
-        <div class="c-cat">${a.cat}</div>
+        <div class="c-cat">${isNouveau(a.date)?'<span class="badge-new">✦ Nouveau</span> · ':''}${a.cat}</div>
         <h2 class="c-title">${a.titre}</h2>
         <div class="c-sub">${a.sousTitre}</div>
         <div class="c-excerpt">${excerptOf(a,150)}</div>
-        <div class="c-meta"><span>${a.minutes} min</span><span class="arrow">→</span></div>`;
+        <div class="c-meta"><span>${fmtDate(a.date)?fmtDate(a.date)+' · ':''}${a.minutes} min</span><span class="arrow">→</span></div>`;
       c.onclick=()=>openArticle(a.id);
       g.appendChild(c);
     });
@@ -781,7 +792,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="a-cat">${a.cat}</div>
         <h1>${a.titre}</h1>
         <div class="a-sub">${a.sousTitre}</div>
-        <div class="a-meta"><span>Par A.</span><span class="d">✦</span><span>${a.minutes} min</span></div>
+        <div class="a-meta"><span>Par A.</span>${fmtDate(a.date)?'<span class="d">✦</span><span>'+fmtDate(a.date)+'</span>':''}<span class="d">✦</span><span>${a.minutes} min</span></div>
       </div>
       <div class="art-rule"></div>
       <div class="art-body">${a.corps}</div>
@@ -846,8 +857,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   renderFeature();
   renderFilters();
   renderGrid();
-  const btnHasard=document.getElementById("btn-hasard");
-  if(btnHasard) btnHasard.onclick=()=>{ const a=ARTICLES_PUBLIES[Math.floor(Math.random()*ARTICLES_PUBLIES.length)]; if(a) openArticle(a.id); };
   const initialHash=location.hash.replace("#","");
   if(initialHash && ARTICLES.find(a=>a.id===initialHash)){openArticle(initialHash);}
 </script>
