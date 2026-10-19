@@ -147,8 +147,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     pointer-events:none;
   }
   .masthead .tagline{
-    max-width:540px;margin:16px auto 4px;font-size:1.05rem;color:var(--ink-soft);
+    max-width:560px;margin:16px auto 4px;font-size:1.05rem;color:var(--ink-soft);line-height:1.65;
   }
+  .intro-links{display:flex;gap:10px 22px;justify-content:center;flex-wrap:wrap;align-items:center;margin-top:22px;}
+  .intro-links button,.intro-links a{font-family:'Newsreader',Georgia,serif;font-size:0.98rem;color:var(--orange-deep);background:none;border:none;cursor:pointer;text-decoration:none;border-bottom:1px solid var(--rule-strong);padding:0 0 2px;transition:border-color .2s,color .2s;}
+  .intro-links button:hover,.intro-links a:hover{border-color:var(--orange-deep);}
 
   /* ============ SECTION LABEL ============ */
   .sec-label{
@@ -463,18 +466,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <div class="wrap">
     <section class="masthead">
-      <div class="kicker">Je vide ma tête dans l'internet</div>
+      <div class="kicker">Entre, installe-toi</div>
       <h1>Tête <span class="l2">vide</span></h1>
-      <p class="tagline"> Idées en vrac posées ici pour voir si elles tiennent debout.</p>
+      <p class="tagline">Salut. Ici je vide ma tête : des pensées en vrac, des doutes, deux-trois histoires. Pas d'expert, pas de ligne éditoriale — juste quelqu'un qui réfléchit un peu trop et préfère le faire à voix haute. Lis ce que tu veux, reste le temps que tu veux.</p>
+      <div class="intro-links">
+        <button id="btn-hasard" type="button">🎲 Surprends-moi, au hasard →</button>
+        <a href="apropos.html">Qui écrit tout ça ?</a>
+      </div>
     </section>
 
     <!-- LA UNE -->
     <section class="feature-zone" id="feature-zone">
-      <div class="sec-label">À la une</div>
+      <div class="sec-label">Si tu veux un point de départ</div>
       <article class="feature" id="feature"></article>
     </section>
 
-    <div class="sec-label">Toutes les réflexions</div>
+    <div class="sec-label">Tout ce que j'ai posé ici</div>
     <div class="filters" id="filters"></div>
     <main class="grid" id="grid" style="margin-top:26px;"></main>
 
@@ -839,6 +846,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   renderFeature();
   renderFilters();
   renderGrid();
+  const btnHasard=document.getElementById("btn-hasard");
+  if(btnHasard) btnHasard.onclick=()=>{ const a=ARTICLES_PUBLIES[Math.floor(Math.random()*ARTICLES_PUBLIES.length)]; if(a) openArticle(a.id); };
   const initialHash=location.hash.replace("#","");
   if(initialHash && ARTICLES.find(a=>a.id===initialHash)){openArticle(initialHash);}
 </script>
