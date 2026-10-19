@@ -1,5 +1,14 @@
 const HISTOIRES = [
   {
+    id: "reve-eveille",
+    titre: "Rêve éveillé:",
+    sousTitre: "",
+    minutes: 1,
+    brouillon: true,
+    date: "2026-10-19",
+    corps: `<p>Un mec perché qui fais des rêves prémonitoire et qui est jamais vraiment connecté à la réalité</p>`
+  },
+  {
     id: "sommeil",
     titre: "Sommeil",
     sousTitre: "",
