@@ -927,7 +927,7 @@ const ARTICLES = [
   },
   {
     id: "anticiper-confiance-futur",
-    titre: "Anticiper tout le temps, c'est ne pas se faire confiance",
+    titre: "Anticiper tout le temps, c'est ne pas se faire confiance.",
     sousTitre: "Crois en toi de demain",
     cat: "Penser",
     tweet: "Quand tu anticipes tout, tu ne fais pas confiance non plus au toi du futur, et c'est contre-productif.",
@@ -941,7 +941,7 @@ const ARTICLES = [
 <p>Bien sûr que c’est n’importe quoi comme rêve. Je ne veux pas réellement ça. Je voudrais juste me libérer de tout mon stress. De tous ces artefacts que j’emmène partout avec moi et qui ne servent à rien d’autre qu’à me rassurer, et qui, en réalité, m’encombrent l’esprit et le dos.</p>
 
 <p>Peut-être que je devrais le faire, partir sans rien, ça me ferait relativiser. En vous souhaitant de vous libérer de la petite voix qui stresse, et de partir l’esprit tranquille et le sac léger.</p>`,
-    brouillon: true,
+    brouillon: false,
     date: "2026-10-19"
   }
 ];
