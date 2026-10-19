@@ -1,5 +1,14 @@
 const HISTOIRES = [
   {
+    id: "pas-dans-ma-peau",
+    titre: "Pas dans ma peau",
+    sousTitre: "",
+    minutes: 1,
+    brouillon: true,
+    date: "2026-10-19",
+    corps: `<p>Un mec qui ressent pas ses émotions mais seulement celle des autres</p>`
+  },
+  {
     id: "stupide",
     titre: "Stupide",
     sousTitre: "",
