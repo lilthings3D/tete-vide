@@ -1,5 +1,16 @@
 const ARTICLES = [
   {
+    id: "prendre-du-recul",
+    titre: "Prendre du recul",
+    sousTitre: "",
+    cat: "Vivre",
+    tweet: "",
+    minutes: 1,
+    brouillon: true,
+    date: "2026-10-30",
+    corps: `<p>Conseil pour prendre du recul sur une situation salle des télé matrix</p>`
+  },
+  {
     id: "je-fais-les-choses-trop-vite",
     titre: "Je fais les choses trop vite",
     sousTitre: "",
