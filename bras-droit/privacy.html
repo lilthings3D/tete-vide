@@ -13,29 +13,29 @@
 </head>
 <body>
 <h1>Bras Droit – Politique de confidentialité</h1>
-<p class="muted">Dernière mise à jour : 31 octobre 2026</p>
+<p class="muted">Dernière mise à jour : 1er novembre 2026</p>
 
-<p>Bras Droit est un assistant personnel Android qui aide son utilisateur à répondre à ses messages, à remplir son agenda et à suivre ses tâches. Cette page explique quelles données l’application utilise et ce qu’elle en fait.</p>
+<p>Bras Droit est un assistant personnel Android qui repère les activités (sorties, matchs, rendez-vous…) dans les conversations de son utilisateur et lui propose de les ajouter à son agenda. Cette page explique quelles données l’application utilise et ce qu’elle en fait.</p>
 
 <h2>Données lues par l’application</h2>
 <ul>
   <li><strong>Notifications des messageries</strong> (WhatsApp, SMS, Messenger, Instagram, Telegram, Signal, Snapchat, Discord), uniquement si l’utilisateur active l’accès aux notifications. L’application en extrait le nom de la conversation, l’expéditeur, le texte et l’heure des messages.</li>
-  <li><strong>Agenda du téléphone</strong>, uniquement si l’utilisateur l’autorise : pour vérifier ses disponibilités et ajouter les événements qu’il valide.</li>
-  <li><strong>Informations saisies par l’utilisateur</strong> : sa description (« Qui es-tu ? »), ses tâches, sa clé API (Google Gemini ou Anthropic Claude).</li>
+  <li><strong>Agenda du téléphone</strong>, uniquement si l’utilisateur l’autorise : pour éviter de proposer ce qui y est déjà, ajouter les activités qu’il valide d’un appui, et mettre à jour ou retirer ces activités si elles changent ou sont annulées.</li>
+  <li><strong>Informations saisies par l’utilisateur</strong> : sa description (« Qui es-tu ? ») et sa clé API (Google Gemini ou Anthropic Claude).</li>
 </ul>
 
 <h2>Où sont stockées les données</h2>
-<p>Toutes les données (messages captés, mémoire, fiches contacts, tâches, réglages) sont stockées <strong>uniquement sur le téléphone</strong>. La clé API est stockée chiffrée. Il n’existe aucun serveur Bras Droit et aucun compte utilisateur.</p>
+<p>Toutes les données (messages captés, activités repérées, réglages) sont stockées <strong>uniquement sur le téléphone</strong>. La clé API est stockée chiffrée. Il n’existe aucun serveur Bras Droit et aucun compte utilisateur.</p>
 
 <h2>Données envoyées à un tiers</h2>
-<p>Pour proposer des réponses, l’application envoie au moteur d’IA choisi par l’utilisateur dans les réglages — <strong>Google Gemini</strong> (generativelanguage.googleapis.com) ou <strong>Claude d’Anthropic</strong> (api.anthropic.com) — avec la clé API de l’utilisateur : la conversation concernée, sa description, sa mémoire, ses tâches ouvertes et un aperçu de son agenda des 14 prochains jours. Cet envoi a lieu quand l’utilisateur ouvre une conversation, ou automatiquement à la réception d’un message s’il a activé les « Réponses préparées ». Le traitement est régi par la politique du fournisseur choisi : <a href="https://ai.google.dev/gemini-api/terms">conditions de l’API Gemini</a> (avec une clé gratuite, Google peut utiliser ces contenus pour améliorer ses produits, et des personnes peuvent les relire) ou <a href="https://www.anthropic.com/legal/privacy">politique d’Anthropic</a>.</p>
+<p>Pour repérer les activités, l’application envoie au moteur d’IA choisi par l’utilisateur dans les réglages — <strong>Google Gemini</strong> (generativelanguage.googleapis.com) ou <strong>Claude d’Anthropic</strong> (api.anthropic.com) — avec la clé API de l’utilisateur : les derniers messages de la conversation concernée, sa description, les activités déjà repérées dans cette conversation et un aperçu de son agenda des 14 prochains jours. Cet envoi a lieu automatiquement après de nouveaux messages qui semblent parler d’un projet (jour, heure, sortie…), ou quand l’utilisateur appuie sur « Analyser » ; la surveillance peut être désactivée dans les réglages. Le traitement est régi par la politique du fournisseur choisi : <a href="https://ai.google.dev/gemini-api/terms">conditions de l’API Gemini</a> (avec une clé gratuite, Google peut utiliser ces contenus pour améliorer ses produits, et des personnes peuvent les relire) ou <a href="https://www.anthropic.com/legal/privacy">politique d’Anthropic</a>.</p>
 <p>Aucune donnée n’est vendue, partagée à des fins publicitaires ou utilisée pour du suivi.</p>
 
 <h2>Envoi de messages</h2>
-<p>L’application n’envoie un message dans une messagerie que lorsque l’utilisateur appuie lui-même sur un bouton d’envoi.</p>
+<p>L’application n’envoie jamais de message dans les messageries : elle se contente de les lire.</p>
 
 <h2>Suppression</h2>
-<p>L’utilisateur peut effacer sa mémoire depuis l’écran « Ce que je sais de toi », et toutes les données en désinstallant l’application ou en effaçant ses données dans les paramètres Android.</p>
+<p>L’utilisateur peut effacer toutes les données en désinstallant l’application ou en effaçant ses données dans les paramètres Android.</p>
 
 <h2>Contact</h2>
 <p>Antoine Bertea – <a href="mailto:antoine.bertea2505@gmail.com">antoine.bertea2505@gmail.com</a></p>
